@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../models/filament.dart';
+import '../services/filament_catalog_service.dart';
 
 class AddFilamentPage extends StatefulWidget {
+
   final Filament? existingFilament;
   final Function(Filament) onSave;
 
@@ -17,83 +19,84 @@ class AddFilamentPage extends StatefulWidget {
 
 class _AddFilamentPageState extends State<AddFilamentPage> {
 
-  final TextEditingController brandSearchController = TextEditingController();
-  final TextEditingController materialSearchController = TextEditingController();
-  final TextEditingController variantSearchController = TextEditingController();
-
-  final List<String> brands = [
-    "Bambu Lab",
-    "Prusament",
-    "eSun",
-    "Sunlu",
-    "Soleyin"
-  ];
-
-  final List<String> materials = [
-    "PLA",
-    "PETG",
-    "ABS",
-    "TPU"
-  ];
-
-  final Map<String, List<String>> variantsByMaterial = {
-    "PLA": ["Basic","Silk","Matte","Tough"],
-    "PETG": ["Basic"],
-    "ABS": ["Basic"],
-    "TPU": ["Flex"]
-  };
-
-  final List<double> diameters = [1.75, 2.85, 3.0];
-
-  final Map<String, Map<String, int>> materialTemps = {
-    "PLA": {"nozzle": 200, "bed": 60},
-    "PETG": {"nozzle": 240, "bed": 80},
-    "ABS": {"nozzle": 250, "bed": 100},
-    "TPU": {"nozzle": 220, "bed": 50},
-  };
-
   String? selectedBrand;
   String? selectedMaterial;
   String? selectedVariant;
-  double? selectedDiameter;
+  String? selectedColor;
 
-  int? nozzleTemp;
-  int? bedTemp;
+  double selectedDiameter = 1.75;
+
+  int nozzleTemp = 200;
+  int bedTemp = 60;
 
   final totalWeightController = TextEditingController();
   final remainingWeightController = TextEditingController();
   final priceController = TextEditingController();
 
-  Color? selectedColor;
+  List<String> materials = [];
+  List<String> variants = [];
+  List<String> colors = [];
+
+  final diameters = [1.75, 2.85, 3.0];
 
   @override
   void initState() {
     super.initState();
 
     if (widget.existingFilament != null) {
+
       final f = widget.existingFilament!;
+
       selectedBrand = f.brand;
       selectedMaterial = f.material;
       selectedVariant = f.variant;
-      selectedDiameter = f.diameter;
+
+      totalWeightController.text = f.totalWeight.toString();
+      remainingWeightController.text = f.remainingWeight.toString();
+      priceController.text = f.price.toString();
+
       nozzleTemp = f.nozzleTemp;
       bedTemp = f.bedTemp;
-
-      totalWeightController.text = f.totalWeight.toStringAsFixed(0);
-      remainingWeightController.text = f.remainingWeight.toStringAsFixed(0);
-      priceController.text = f.price.toStringAsFixed(2);
-      selectedColor = f.color;
     }
   }
 
-  void _onMaterialChanged(String material) {
-    setState(() {
-      selectedMaterial = material;
-      selectedVariant = null;
+  void updateMaterials(String brand) {
 
-      nozzleTemp = materialTemps[material]!["nozzle"];
-      bedTemp = materialTemps[material]!["bed"];
-    });
+    materials = FilamentCatalogService.getMaterials(brand);
+
+    selectedMaterial = null;
+    selectedVariant = null;
+    selectedColor = null;
+
+    variants = [];
+    colors = [];
+
+    setState(() {});
+  }
+
+  void updateVariants(String material) {
+
+    variants = FilamentCatalogService.getVariants(
+        selectedBrand!, material);
+
+    selectedVariant = null;
+    selectedColor = null;
+
+    colors = [];
+
+    setState(() {});
+  }
+
+  void updateColors(String variant) {
+
+    colors = FilamentCatalogService.getColors(
+        selectedBrand!,
+        selectedMaterial!,
+        variant);
+
+    selectedColor = null;
+
+    setState(() {});
   }
 
   void saveFilament() {
@@ -101,9 +104,6 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     if (selectedBrand == null ||
         selectedMaterial == null ||
         selectedVariant == null ||
-        selectedDiameter == null ||
-        nozzleTemp == null ||
-        bedTemp == null ||
         selectedColor == null) {
       return;
     }
@@ -121,13 +121,13 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       brand: selectedBrand!,
       material: selectedMaterial!,
       variant: selectedVariant!,
-      diameter: selectedDiameter!,
+      diameter: selectedDiameter,
       totalWeight: totalWeight,
       remainingWeight: remainingWeight,
       price: price,
-      nozzleTemp: nozzleTemp!,
-      bedTemp: bedTemp!,
-      color: selectedColor!,
+      nozzleTemp: nozzleTemp,
+      bedTemp: bedTemp,
+      color: _generateColorFromName(selectedColor!),
     );
 
     widget.onSave(filament);
@@ -135,76 +135,79 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     Navigator.pop(context);
   }
 
-  Widget colorSpool(Color color) {
+  Color _generateColorFromName(String name) {
 
-    final isSelected = selectedColor == color;
+    final n = name.toLowerCase();
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedColor = color;
-        });
-      },
-      child: Container(
-        margin: const EdgeInsets.all(6),
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-          border: Border.all(
-            width: isSelected ? 3 : 1,
-            color: isSelected ? Colors.black : Colors.grey.shade300,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget temperatureSelector(
-      String label,
-      int? value,
-      Function(int) onChanged,
-      int step) {
-
-    if (value == null) {
-      return const Text("Material auswählen");
+    if (n.contains("black") || n.contains("schwarz")) {
+      return Colors.black;
     }
 
-    return Column(
-      children: [
-        Text(label),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+    if (n.contains("white") || n.contains("weiß")) {
+      return Colors.white;
+    }
 
-            IconButton(
-              icon: const Icon(Icons.remove),
-              onPressed: () => onChanged(value - step),
-            ),
+    if (n.contains("red") || n.contains("rot")) {
+      return Colors.red;
+    }
 
-            Text(
-              "$value °C",
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+    if (n.contains("blue") || n.contains("blau")) {
+      return Colors.blue;
+    }
 
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => onChanged(value + step),
-            ),
-          ],
-        ),
-      ],
-    );
+    if (n.contains("green") || n.contains("grün")) {
+      return Colors.green;
+    }
+
+    if (n.contains("gray") || n.contains("grey") || n.contains("grau")) {
+      return Colors.grey;
+    }
+
+    if (n.contains("orange")) {
+      return Colors.orange;
+    }
+
+    if (n.contains("purple") || n.contains("violet")) {
+      return Colors.purple;
+    }
+
+    if (n.contains("yellow") || n.contains("gelb")) {
+      return Colors.yellow;
+    }
+
+    if (n.contains("pink")) {
+      return Colors.pink;
+    }
+
+    if (n.contains("brown")) {
+      return Colors.brown;
+    }
+
+    if (n.contains("silver")) {
+      return Colors.grey.shade400;
+    }
+
+    if (n.contains("gold")) {
+      return Colors.amber;
+    }
+
+    // Fallback wenn Farbe nicht erkannt wird
+    final hash = name.hashCode;
+
+    final r = (hash & 0xFF0000) >> 16;
+    final g = (hash & 0x00FF00) >> 8;
+    final b = (hash & 0x0000FF);
+
+    return Color.fromARGB(255, r, g, b);
   }
 
   @override
   Widget build(BuildContext context) {
 
+    final brands = FilamentCatalogService.getBrands();
+
     return Scaffold(
+
       appBar: AppBar(
         title: const Text("Filament hinzufügen"),
       ),
@@ -223,9 +226,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             ))
                 .toList(),
             onChanged: (val) {
-              setState(() {
-                selectedBrand = val;
-              });
+
+              if (val == null) return;
+
+              selectedBrand = val;
+
+              updateMaterials(val);
             },
           ),
 
@@ -241,9 +247,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             ))
                 .toList(),
             onChanged: (val) {
-              if (val != null) {
-                _onMaterialChanged(val);
-              }
+
+              if (val == null) return;
+
+              selectedMaterial = val;
+
+              updateVariants(val);
             },
           ),
 
@@ -252,22 +261,41 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
           DropdownButtonFormField<String>(
             value: selectedVariant,
             hint: const Text("Variante"),
-            items: selectedMaterial == null
-                ? []
-                : variantsByMaterial[selectedMaterial]!
+            items: variants
                 .map((v) => DropdownMenuItem(
               value: v,
               child: Text(v),
             ))
                 .toList(),
             onChanged: (val) {
-              setState(() {
-                selectedVariant = val;
-              });
+
+              if (val == null) return;
+
+              selectedVariant = val;
+
+              updateColors(val);
             },
           ),
 
           const SizedBox(height:16),
+
+          DropdownButtonFormField<String>(
+            value: selectedColor,
+            hint: const Text("Farbe"),
+            items: colors
+                .map((c) => DropdownMenuItem(
+              value: c,
+              child: Text(c),
+            ))
+                .toList(),
+            onChanged: (val) {
+              setState(() {
+                selectedColor = val;
+              });
+            },
+          ),
+
+          const SizedBox(height:20),
 
           DropdownButtonFormField<double>(
             value: selectedDiameter,
@@ -280,29 +308,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 .toList(),
             onChanged: (val) {
               setState(() {
-                selectedDiameter = val;
+                selectedDiameter = val!;
               });
             },
-          ),
-
-          const SizedBox(height:30),
-
-          const Text(
-            "Farbe auswählen",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-
-          Wrap(
-            children: [
-              Colors.red,
-              Colors.blue,
-              Colors.green,
-              Colors.black,
-              Colors.white,
-              Colors.orange,
-              Colors.purple,
-              Colors.grey,
-            ].map(colorSpool).toList(),
           ),
 
           const SizedBox(height:30),
@@ -311,19 +319,72 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
 
-              temperatureSelector(
-                  "Nozzle",
-                  nozzleTemp,
-                      (v) => setState(() => nozzleTemp = v),
-                  1
+              Column(
+                children: [
+
+                  const Text("Nozzle"),
+
+                  Row(
+                    children: [
+
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: (){
+                          setState(() {
+                            nozzleTemp--;
+                          });
+                        },
+                      ),
+
+                      Text("$nozzleTemp °C"),
+
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: (){
+                          setState(() {
+                            nozzleTemp++;
+                          });
+                        },
+                      ),
+
+                    ],
+                  ),
+                ],
               ),
 
-              temperatureSelector(
-                  "Bed",
-                  bedTemp,
-                      (v) => setState(() => bedTemp = v),
-                  5
+              Column(
+                children: [
+
+                  const Text("Bed"),
+
+                  Row(
+                    children: [
+
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: (){
+                          setState(() {
+                            bedTemp -= 5;
+                          });
+                        },
+                      ),
+
+                      Text("$bedTemp °C"),
+
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: (){
+                          setState(() {
+                            bedTemp += 5;
+                          });
+                        },
+                      ),
+
+                    ],
+                  ),
+                ],
               ),
+
             ],
           ),
 

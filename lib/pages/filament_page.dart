@@ -16,6 +16,7 @@ class FilamentPage extends StatefulWidget {
 class _FilamentPageState extends State<FilamentPage> {
 
   final ScrollController _scrollController = ScrollController();
+
   final Map<String,bool> expandedBrands = {};
 
   Filament? editingFilament;
@@ -135,18 +136,53 @@ class _FilamentPageState extends State<FilamentPage> {
             ),
           ),
 
+          /// AUTOCOMPLETE SUCHFELD
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:16),
-            child: TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                hintText: "Filament suchen...",
-                prefixIcon: Icon(Icons.search),
-              ),
-              onChanged: (value){
-                setState(() {
-                  searchText = value;
+            child: Autocomplete<String>(
+              optionsBuilder: (TextEditingValue textEditingValue) {
+
+                if (textEditingValue.text.isEmpty) {
+                  return const Iterable<String>.empty();
+                }
+
+                final query = textEditingValue.text.toLowerCase();
+
+                final suggestions = filaments.map((f) =>
+                "${f.brand} ${f.material} ${f.variant}").toSet();
+
+                return suggestions.where((option) {
+                  return option.toLowerCase().contains(query);
                 });
+              },
+
+              onSelected: (selection) {
+
+                searchController.text = selection;
+
+                setState(() {
+                  searchText = selection;
+                });
+              },
+
+              fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+
+                searchController.text = controller.text;
+
+                return TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: "Filament suchen...",
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value){
+                    setState(() {
+                      searchText = value;
+                    });
+                  },
+                );
               },
             ),
           ),

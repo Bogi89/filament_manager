@@ -1,20 +1,12 @@
 [
-  {
-    "brand": "Soleyin",
-    "material": "PLA",
-    "variant": "Ultra",
-    "color": "Weiß"
-  },
-  {
-    "brand": "Soleyin",
-    "material": "PLA",
-    "variant": "Ultra",
-    "color": "Schwarz"
-  },
-  {
-    "brand": "Soleyin",
-    "material": "PLA",
-    "variant": "Ultra",
-    "color": "Ocean Blue"
-  }
+{"brand":"Soleyin","material":"PLA","variant":"Ultra","color":"Weiß"},
+{"brand":"Soleyin","material":"PLA","variant":"Ultra","color":"Schwarz"},
+{"brand":"Soleyin","material":"PLA","variant":"Ultra","color":"Ocean Blue"},
+{"brand":"Bambu Lab","material":"PLA","variant":"Basic","color":"Green"},
+{"brand":"Bambu Lab","material":"PLA","variant":"Basic","color":"Black"},
+{"brand":"Bambu Lab","material":"PLA","variant":"Basic","color":"White"},
+{"brand":"Prusament","material":"PLA","variant":"Galaxy","color":"Silver"},
+{"brand":"Sunlu","material":"PLA","variant":"Standard","color":"Red"},
+{"brand":"Sunlu","material":"PLA","variant":"Standard","color":"Blue"},
+{"brand":"Creality","material":"PLA","variant":"Hyper","color":"Gray"}
 ]

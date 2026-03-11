@@ -13,12 +13,20 @@ class FilamentCatalog {
   });
 
   factory FilamentCatalog.fromJson(Map<String, dynamic> json) {
-
     return FilamentCatalog(
       brand: json['brand'],
       material: json['material'],
       variant: json['variant'],
       color: json['color'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "brand": brand,
+      "material": material,
+      "variant": variant,
+      "color": color,
+    };
   }
 }
