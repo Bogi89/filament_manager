@@ -1,0 +1,16 @@
+{
+  "@@locale": "de",
+  "dashboard": "Dashboard",
+  "filament": "Filament",
+  "cost": "Kosten",
+  "history": "Historie",
+  "statistics": "Statistik",
+  "settings": "Einstellungen",
+  "design": "Design",
+  "language": "Sprache",
+  "light": "Hell",
+  "dark": "Dunkel",
+  "system": "System",
+  "german": "Deutsch",
+  "english": "Englisch"
+}
