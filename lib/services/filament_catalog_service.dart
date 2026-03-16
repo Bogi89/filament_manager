@@ -1,61 +1,81 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import '../models/filament_catalog.dart';
 
 class FilamentCatalogService {
 
-  static List<FilamentCatalog> catalog = [];
-
-  static final Map<String, Set<String>> brandMaterials = {};
-  static final Map<String, Set<String>> materialVariants = {};
-  static final Map<String, Set<String>> variantColors = {};
+  static List<Map<String, String>> _catalog = [];
+  static bool _loaded = false;
 
   static Future<void> loadCatalog() async {
 
-    final jsonString =
-        await rootBundle.loadString('assets/data/filament_catalog.json');
+    if (_loaded) return;
 
-    final List decoded = jsonDecode(jsonString);
+    final raw = await rootBundle.loadString(
+        "assets/data/filament_catalog.csv");
 
-    catalog =
-        decoded.map((e) => FilamentCatalog.fromJson(e)).toList();
+    final lines = const LineSplitter().convert(raw);
 
-    for (var f in catalog) {
+    for (int i = 1; i < lines.length; i++) {
 
-      brandMaterials.putIfAbsent(f.brand, () => {});
-      brandMaterials[f.brand]!.add(f.material);
+      final line = lines[i];
 
-      final matKey = "${f.brand}|${f.material}";
-      materialVariants.putIfAbsent(matKey, () => {});
-      materialVariants[matKey]!.add(f.variant);
+      List<String> parts;
 
-      final varKey = "${f.brand}|${f.material}|${f.variant}";
-      variantColors.putIfAbsent(varKey, () => {});
-      variantColors[varKey]!.add(f.color);
+      if (line.contains(";")) {
+        parts = line.split(";");
+      } else {
+        parts = line.split(",");
+      }
+
+      if (parts.length < 4) continue;
+
+      _catalog.add({
+        "brand": parts[0].trim(),
+        "material": parts[1].trim(),
+        "variant": parts[2].trim(),
+        "color": parts[3].trim(),
+      });
     }
+
+    _loaded = true;
   }
 
   static List<String> getBrands() {
 
-    final list = brandMaterials.keys.toList();
-    list.sort();
-    return list;
+    final brands =
+        _catalog.map((e) => e["brand"]!).toSet().toList();
+
+    brands.sort();
+
+    return brands;
   }
 
   static List<String> getMaterials(String brand) {
 
-    final list = brandMaterials[brand]?.toList() ?? [];
-    list.sort();
-    return list;
+    final materials = _catalog
+        .where((e) => e["brand"] == brand)
+        .map((e) => e["material"]!)
+        .toSet()
+        .toList();
+
+    materials.sort();
+
+    return materials;
   }
 
   static List<String> getVariants(String brand, String material) {
 
-    final key = "$brand|$material";
+    final variants = _catalog
+        .where((e) =>
+            e["brand"] == brand &&
+            e["material"] == material)
+        .map((e) => e["variant"]!)
+        .toSet()
+        .toList();
 
-    final list = materialVariants[key]?.toList() ?? [];
-    list.sort();
-    return list;
+    variants.sort();
+
+    return variants;
   }
 
   static List<String> getColors(
@@ -63,25 +83,17 @@ class FilamentCatalogService {
       String material,
       String variant) {
 
-    final key = "$brand|$material|$variant";
+    final colors = _catalog
+        .where((e) =>
+            e["brand"] == brand &&
+            e["material"] == material &&
+            e["variant"] == variant)
+        .map((e) => e["color"]!)
+        .toSet()
+        .toList();
 
-    final list = variantColors[key]?.toList() ?? [];
-    list.sort();
-    return list;
-  }
+    colors.sort();
 
-  static List<FilamentCatalog> search(String query) {
-
-    final q = query.toLowerCase();
-
-    return catalog.where((f) {
-
-      final text =
-          "${f.brand} ${f.material} ${f.variant} ${f.color}"
-              .toLowerCase();
-
-      return text.contains(q);
-
-    }).take(20).toList();
+    return colors;
   }
 }

@@ -4,7 +4,7 @@ import '../state/app_state.dart';
 import '../models/filament.dart';
 import 'add_filament_page.dart';
 import 'filament_detail_page.dart';
-import '../widgets/spool_widget.dart';
+import '../widgets/filament_spool_icon.dart';
 
 class FilamentPage extends StatefulWidget {
   const FilamentPage({super.key});
@@ -136,7 +136,6 @@ class _FilamentPageState extends State<FilamentPage> {
             ),
           ),
 
-          /// AUTOCOMPLETE SUCHFELD
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:16),
             child: Autocomplete<String>(
@@ -346,8 +345,8 @@ class _FilamentPageState extends State<FilamentPage> {
                                 child: Row(
                                   children: [
 
-                                    SpoolWidget(
-                                      material: f.material,
+                                    FilamentSpoolIcon(
+                                      filament: f,
                                     ),
 
                                     const SizedBox(width:16),
@@ -362,15 +361,19 @@ class _FilamentPageState extends State<FilamentPage> {
                                           Row(
                                             children: [
 
-                                              Container(
-                                                width:10,
-                                                height:10,
-                                                margin: const EdgeInsets.only(right:8),
-                                                decoration: BoxDecoration(
-                                                  color: f.color,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              ),
+                                              ...f.colors.take(3).map((color){
+
+                                                return Container(
+                                                  width:10,
+                                                  height:10,
+                                                  margin: const EdgeInsets.only(right:6),
+                                                  decoration: BoxDecoration(
+                                                    color: color,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                );
+
+                                              }).toList(),
 
                                               Expanded(
                                                 child: Text(

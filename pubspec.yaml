@@ -68,6 +68,9 @@ flutter:
   assets:
     - assets/data/
     - assets/images/
+    - assets/images/spool_base.png
+    - assets/images/filament_mask.png
+    - assets/images/filament_shading.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
