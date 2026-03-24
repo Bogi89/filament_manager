@@ -66,25 +66,10 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
   final Map<String,Map<String,int>> materialTemps = {
 
-    "PLA":{
-      "nozzle":200,
-      "bed":60
-    },
-
-    "PETG":{
-      "nozzle":240,
-      "bed":80
-    },
-
-    "ABS":{
-      "nozzle":250,
-      "bed":100
-    },
-
-    "TPU":{
-      "nozzle":220,
-      "bed":50
-    }
+    "PLA":{"nozzle":200,"bed":60},
+    "PETG":{"nozzle":240,"bed":80},
+    "ABS":{"nozzle":250,"bed":100},
+    "TPU":{"nozzle":220,"bed":50}
 
   };
 
@@ -106,10 +91,24 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
     final f = widget.filament;
 
-    selectedBrand = f.brand;
-    selectedMaterial = f.material;
+    /// 🔴 WICHTIG: Werte absichern
+
+    selectedBrand =
+        brands.contains(f.brand)
+            ? f.brand
+            : null;
+
+    selectedMaterial =
+        materials.contains(f.material)
+            ? f.material
+            : null;
+
+    selectedDiameter =
+        diameters.contains(f.diameter)
+            ? f.diameter
+            : null;
+
     selectedVariant = f.variant;
-    selectedDiameter = f.diameter;
 
     nozzleTemp = f.nozzleTemp;
     bedTemp = f.bedTemp;
@@ -117,15 +116,18 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     priceController.text = f.price.toString();
     weightController.text = f.remainingWeight.toString();
 
-    /// WICHTIG
-    /// Falls Variante nicht existiert → automatisch hinzufügen
+    /// Variante absichern
 
     if(selectedMaterial != null){
 
-      final list = variantsByMaterial[selectedMaterial]!;
+      final list =
+          variantsByMaterial[selectedMaterial]!;
 
-      if(!list.contains(selectedVariant)){
+      if(selectedVariant != null &&
+          !list.contains(selectedVariant)){
+
         list.add(selectedVariant!);
+
       }
 
     }
@@ -139,8 +141,11 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
       selectedMaterial = material;
       selectedVariant = null;
 
-      nozzleTemp = materialTemps[material]!["nozzle"];
-      bedTemp = materialTemps[material]!["bed"];
+      nozzleTemp =
+          materialTemps[material]!["nozzle"];
+
+      bedTemp =
+          materialTemps[material]!["bed"];
 
     });
 
@@ -162,25 +167,28 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
         Text(label),
 
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+          MainAxisAlignment.center,
           children: [
 
             IconButton(
               icon: const Icon(Icons.remove),
-              onPressed: ()=>onChanged(value-step),
+              onPressed:
+                  ()=>onChanged(value-step),
             ),
 
             Text(
               "$value °C",
               style: const TextStyle(
-                fontSize:18,
-                fontWeight: FontWeight.bold
+                  fontSize:18,
+                  fontWeight: FontWeight.bold
               ),
             ),
 
             IconButton(
               icon: const Icon(Icons.add),
-              onPressed: ()=>onChanged(value+step),
+              onPressed:
+                  ()=>onChanged(value+step),
             ),
 
           ],
@@ -195,19 +203,33 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
     final f = widget.filament;
 
-    f.brand = selectedBrand ?? f.brand;
-    f.material = selectedMaterial ?? f.material;
-    f.variant = selectedVariant ?? f.variant;
+    f.brand =
+        selectedBrand ?? f.brand;
 
-    f.diameter = selectedDiameter ?? f.diameter;
+    f.material =
+        selectedMaterial ?? f.material;
 
-    f.nozzleTemp = nozzleTemp ?? f.nozzleTemp;
-    f.bedTemp = bedTemp ?? f.bedTemp;
+    f.variant =
+        selectedVariant ?? f.variant;
 
-    f.price = double.tryParse(priceController.text) ?? f.price;
+    f.diameter =
+        selectedDiameter ?? f.diameter;
+
+    f.nozzleTemp =
+        nozzleTemp ?? f.nozzleTemp;
+
+    f.bedTemp =
+        bedTemp ?? f.bedTemp;
+
+    f.price =
+        double.tryParse(
+            priceController.text)
+            ?? f.price;
 
     f.remainingWeight =
-        double.tryParse(weightController.text) ?? f.remainingWeight;
+        double.tryParse(
+            weightController.text)
+            ?? f.remainingWeight;
 
     Navigator.pop(context);
 
@@ -221,12 +243,14 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     return Scaffold(
 
       appBar: AppBar(
-        title: const Text("Filament bearbeiten"),
+        title:
+        const Text("Filament bearbeiten"),
       ),
 
       body: ListView(
 
-        padding: const EdgeInsets.all(20),
+        padding:
+        const EdgeInsets.all(20),
 
         children: [
 
@@ -241,7 +265,8 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
               child: const Center(
                 child: CircleAvatar(
                   radius:25,
-                  backgroundColor: Colors.white,
+                  backgroundColor:
+                  Colors.white,
                 ),
               ),
             ),
@@ -250,43 +275,79 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
           const SizedBox(height:30),
 
           DropdownButtonFormField<String>(
-            value: selectedBrand,
-            decoration: const InputDecoration(labelText:"Hersteller"),
+
+            value:
+            brands.contains(selectedBrand)
+                ? selectedBrand
+                : null,
+
+            decoration:
+            const InputDecoration(
+                labelText:"Hersteller"),
+
             items: brands
                 .map((b)=>DropdownMenuItem(
               value:b,
               child: Text(b),
             ))
                 .toList(),
+
             onChanged:(val){
-              setState(()=>selectedBrand=val);
+              setState(
+                      ()=>selectedBrand=val);
             },
+
           ),
 
           const SizedBox(height:16),
 
           DropdownButtonFormField<String>(
-            value: selectedMaterial,
-            decoration: const InputDecoration(labelText:"Material"),
+
+            value:
+            materials.contains(selectedMaterial)
+                ? selectedMaterial
+                : null,
+
+            decoration:
+            const InputDecoration(
+                labelText:"Material"),
+
             items: materials
                 .map((m)=>DropdownMenuItem(
               value:m,
               child: Text(m),
             ))
                 .toList(),
+
             onChanged:(val){
+
               if(val!=null){
+
                 _onMaterialChanged(val);
+
               }
+
             },
+
           ),
 
           const SizedBox(height:16),
 
           DropdownButtonFormField<String>(
-            value: selectedVariant,
-            decoration: const InputDecoration(labelText:"Variante"),
-            items: selectedMaterial==null
+
+            value:
+            selectedMaterial!=null &&
+                variantsByMaterial[selectedMaterial]!
+                    .contains(selectedVariant)
+                ? selectedVariant
+                : null,
+
+            decoration:
+            const InputDecoration(
+                labelText:"Variante"),
+
+            items:
+            selectedMaterial==null
                 ? []
                 : variantsByMaterial[selectedMaterial]!
                 .map((v)=>DropdownMenuItem(
@@ -294,45 +355,62 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
               child: Text(v),
             ))
                 .toList(),
+
             onChanged:(val){
-              setState(()=>selectedVariant=val);
+              setState(
+                      ()=>selectedVariant=val);
             },
+
           ),
 
           const SizedBox(height:16),
 
           DropdownButtonFormField<double>(
-            value: selectedDiameter,
-            decoration: const InputDecoration(labelText:"Durchmesser"),
+
+            value:
+            diameters.contains(selectedDiameter)
+                ? selectedDiameter
+                : null,
+
+            decoration:
+            const InputDecoration(
+                labelText:"Durchmesser"),
+
             items: diameters
                 .map((d)=>DropdownMenuItem(
               value:d,
               child: Text("$d mm"),
             ))
                 .toList(),
+
             onChanged:(val){
-              setState(()=>selectedDiameter=val);
+              setState(
+                      ()=>selectedDiameter=val);
             },
+
           ),
 
           const SizedBox(height:30),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment:
+            MainAxisAlignment.spaceEvenly,
             children: [
 
               temperatureSelector(
-                "Nozzle",
-                nozzleTemp,
-                (v)=>setState(()=>nozzleTemp=v),
-                1
+                  "Nozzle",
+                  nozzleTemp,
+                      (v)=>setState(
+                          ()=>nozzleTemp=v),
+                  1
               ),
 
               temperatureSelector(
-                "Bed",
-                bedTemp,
-                (v)=>setState(()=>bedTemp=v),
-                5
+                  "Bed",
+                  bedTemp,
+                      (v)=>setState(
+                          ()=>bedTemp=v),
+                  5
               ),
 
             ],
@@ -342,18 +420,22 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
           TextField(
             controller: priceController,
-            keyboardType: TextInputType.number,
+            keyboardType:
+            TextInputType.number,
             decoration:
-                const InputDecoration(labelText:"Preis (€)"),
+            const InputDecoration(
+                labelText:"Preis (€)"),
           ),
 
           const SizedBox(height:16),
 
           TextField(
             controller: weightController,
-            keyboardType: TextInputType.number,
+            keyboardType:
+            TextInputType.number,
             decoration:
-                const InputDecoration(labelText:"Restgewicht (g)"),
+            const InputDecoration(
+                labelText:"Restgewicht (g)"),
           ),
 
           const SizedBox(height:30),
