@@ -54,18 +54,18 @@ Creality;PLA;Hyper;Perry Blue;#1E88E5
 Creality;PLA;Hyper;Erdbeerrot;#C53A30
 Creality;PLA;Hyper;Pfirsichpulver;#FFE5B4
 Creality;PLA;Hyper;Gold;#BD9400
-Creality;PETG;;Weiß;#FFFFFF
-Creality;PETG;;Schwarz;#000000
-Creality;PETG;;Transparent;#BEC4C2
-Creality;PETG;;Rot;#E53935
-Creality;PETG;;Blau;#1E88E5
-Creality;PETG;;Gelb;#FDD835
-Creality;PETG;;Lila;#8E24AA
-Creality;PETG;;Grün;#43A047
-Creality;PETG;;Rosa;#FF66CC
-Creality;PETG;;Transparent Blau;#06038D
-Creality;PETG;;Grau;#9E9E9E
-Creality;PETG;;Orange;#FB8C00
+Creality;PETG;Basic;Weiß;#FFFFFF
+Creality;PETG;Basic;Schwarz;#000000
+Creality;PETG;Basic;Transparent;#BEC4C2
+Creality;PETG;Basic;Rot;#E53935
+Creality;PETG;Basic;Blau;#1E88E5
+Creality;PETG;Basic;Gelb;#FDD835
+Creality;PETG;Basic;Lila;#8E24AA
+Creality;PETG;Basic;Grün;#43A047
+Creality;PETG;Basic;Rosa;#FF66CC
+Creality;PETG;Basic;Transparent Blau;#06038D
+Creality;PETG;Basic;Grau;#9E9E9E
+Creality;PETG;Basic;Orange;#FB8C00
 Creality;ABS;Hyper;Weiß;#FFFFFF
 Creality;ABS;Hyper;Grau;#A2A9AE
 Creality;ABS;Hyper;Schwarz;#000000
@@ -98,116 +98,116 @@ Creality;PETG;Hyper;Blau;#1E88E5
 Creality;PETG;Hyper;Gelb;#FDD835
 Creality;PETG;Hyper;Rot;#E53935
 Creality;PETG;Hyper;Schwarz;#000000
-Ender;PLA+;;Weiß;#FFFFFF
-Ender;PLA+;;Schwarz;#000000
-Ender;PLA+;;Orange;#FB8C00
-Ender;PLA+;;Grau;#9E9E9E
-Ender;PLA+;;Rot;#E53935
-Ender;PLA+;;Blau;#1E88E5
-Ender;PLA+;;Grüne Jadefarbe;#33C48F
-Ender;PLA+;;Beige;#E6BAA8
-Ender;PLA+;;Apfelgrün;#7DBE46
-Sunlu;PLA;;Schwarz;#000000
-Sunlu;PLA;;Weiß;#FFFFFF
-Sunlu;PLA;;Grau;#9E9E9E
-Sunlu;PLA;;Marmor;#B5BCC1
-Sunlu;PLA;;Rot;#E53935
-Sunlu;PLA;;Orange;#FB8C00
-Sunlu;PLA;;Silber;#C6C6C7
-Sunlu;PLA;;Schokolade;#512E1F
-Sunlu;PLA;;Zitronen Gelb;#FBE988
-Sunlu;PLA;;Kirschen Rot;#FF615F
-Sunlu;PLA;;Himmel Blau;#15A9C2
-Sunlu;PLA;;Sonniges Orange;#FF7235
-Sunlu;PLA;;Sakura Rosa;#F5B5C2
-Sunlu;PLA;;Mint Grün;#59D9AA
-Sunlu;PLA;;Transparent;#BEC4C2
-Sunlu;PLA;;Gelb;#FDD835
-Sunlu;PLA;;Knochenweiß;#E9D4B5+#EEE7D4
-Sunlu;PLA;;Transparent Blau;#0000FF
-Sunlu;PLA;;Transparent Grün;#00FF33
-Sunlu;PLA;;Transparent Orange;#FF8800
-Sunlu;PLA;;Transparent Rot;#FF0000
-Sunlu;PLA;;Transparent Gelb;#EEFF00
-Sunlu;PLA;;Grasgrün;#00818A
-Sunlu;PLA;;Fuchsia;#F20DC4
-Sunlu;PLA;;Kohlefaser;#000000
-Sunlu;PLA;;Grün;#00FF80
-Sunlu;PLA;;Beige;#FFCBAC
-Sunlu;PLA;;Olivgrün;#5A6D3D
-Sunlu;PLA;;Kaffee;#AC7239
-Sunlu;PLA;;Oak;#C2B29A
-Sunlu;PLA;;Magenta;#F95E88
-Sunlu;PLA;;Kleinblau (Blau);#1729AB
-Sunlu;PLA;;Lavendelviolet;#A54DCF
-Sunlu;PLA;;Keramik Weiß;#FAFEFE
-Sunlu;PETG;;Schwarz;#000000
-Sunlu;PETG;;Weiß;#FFFFFF
-Sunlu;PETG;;Grau;#9E9E9E
-Sunlu;PETG;;Rot;#E53935
-Sunlu;PETG;;Orange;#FB8C00
-Sunlu;PETG;;Silber;#BEBFC7
-Sunlu;PETG;;Schokolade;#793D00
-Sunlu;PETG;;Zitronen Gelb;#FFFF80
-Sunlu;PETG;;Kirschen Rot;#FC6D5C
-Sunlu;PETG;;Himmel Blau;#3AD6EF
-Sunlu;PETG;;Sonniges Orange;#FF6A00
-Sunlu;PETG;;Sakura Rosa;#FFBAC3
-Sunlu;PETG;;Mint Grün;#33F6D8
-Sunlu;PETG;;Transparent;#FFFFFF
-Sunlu;PETG;;Gelb;#FDD835
-Sunlu;PETG;;Cyan;#3DC6E8
-Sunlu;PETG;;Transparent Blau;#000B7C
-Sunlu;PETG;;Transparent Grün;#44F867
-Sunlu;PETG;;Transparent Orange;#FDB958
-Sunlu;PETG;;Transparent Rot;#FF4747
-Sunlu;PETG;;Transparent Gelb;#E2CC5B
-Sunlu;PETG;;Fuchsia;#F20DC4
-Sunlu;PETG;;Kohlefaser;#000000
-Sunlu;PETG;;Blau;#1E88E5
-Sunlu;PETG;;Grün;#43A047
-Sunlu;PETG;;Beige;#F5F5DC
-Sunlu;PETG;;Transparent Lila;#BE38F3
-Sunlu;PETG;;Olivgrün;#263E0F
-Sunlu;PETG;;Kaffee;#583400
-Sunlu;PETG;;Rosa;#EE68CA
-Sunlu;PETG;;Knochenweiß;#E9D4B5
-Sunlu;PETG;;Magenta;#BA1976
-Sunlu;PETG;;Dunkle Nacht Schwarz;#000000
-Sunlu;PETG;;Lavendelviolet;#685BC7
-Sunlu;PETG;;Kaffeebraun;#47321F
-Sunlu;PLA+;;Schwarz;#000000
-Sunlu;PLA+;;Weiß;#FFFFFF
-Sunlu;PLA+;;Grau;#9E9E9E
-Sunlu;PLA+;;Rot;#E53935
-Sunlu;PLA+;;Orange;#FB8C00
-Sunlu;PLA+;;Silber;#C6CBD0
-Sunlu;PLA+;;Schokolade;#5A3628
-Sunlu;PLA+;;Zitronen Gelb;#FFFFAF
-Sunlu;PLA+;;Kirschen Rot;#F7423A
-Sunlu;PLA+;;Himmel Blau;#15A9C2
-Sunlu;PLA+;;Sonniges Orange;#FF7713
-Sunlu;PLA+;;Sakura Rosa;#FFBAC3
-Sunlu;PLA+;;Mint Grün;#59D9AA
-Sunlu;PLA+;;Transparent;#FFFFFF
-Sunlu;PLA+;;Gelb;#FDD835
-Sunlu;PLA+;;Cyan;#00ACD0
-Sunlu;PLA+;;Transparent Blau;#0000FF
-Sunlu;PLA+;;Transparent Grün;#65FE59
-Sunlu;PLA+;;Transparent Orange;#FE904A
-Sunlu;PLA+;;Transparent Rot;#FF392F
-Sunlu;PLA+;;Transparent Gelb;#FFFFB1
-Sunlu;PLA+;;Fuchsia;#C901C4
-Sunlu;PLA+;;Grün;#43A047
-Sunlu;PLA+;;Olivgrün;#263E0F
-Sunlu;PLA+;;Kaffee;#886543
-Sunlu;PLA+;;Knochenweiß;#EEE7D4
-Sunlu;PLA+;;Oak;#D8B589
-Sunlu;PLA+;;Magenta;#D83491
-Sunlu;PLA+;;Dunkle Nacht Schwarz;#000000
-Sunlu;PLA+;;Kleinblau (Blau);#1729AB
-Sunlu;PLA+;;Keramik Weiß;#F4F9FF
-Sunlu;PLA+;;Geröstete Kastanie;#38250A
+Ender;PLA+;Basic;Weiß;#FFFFFF
+Ender;PLA+;Basic;Schwarz;#000000
+Ender;PLA+;Basic;Orange;#FB8C00
+Ender;PLA+;Basic;Grau;#9E9E9E
+Ender;PLA+;Basic;Rot;#E53935
+Ender;PLA+;Basic;Blau;#1E88E5
+Ender;PLA+;Basic;Grüne Jadefarbe;#33C48F
+Ender;PLA+;Basic;Beige;#E6BAA8
+Ender;PLA+;Basic;Apfelgrün;#7DBE46
+Sunlu;PLA;Basic;Schwarz;#000000
+Sunlu;PLA;Basic;Weiß;#FFFFFF
+Sunlu;PLA;Basic;Grau;#9E9E9E
+Sunlu;PLA;Basic;Marmor;#B5BCC1
+Sunlu;PLA;Basic;Rot;#E53935
+Sunlu;PLA;Basic;Orange;#FB8C00
+Sunlu;PLA;Basic;Silber;#C6C6C7
+Sunlu;PLA;Basic;Schokolade;#512E1F
+Sunlu;PLA;Basic;Zitronen Gelb;#FBE988
+Sunlu;PLA;Basic;Kirschen Rot;#FF615F
+Sunlu;PLA;Basic;Himmel Blau;#15A9C2
+Sunlu;PLA;Basic;Sonniges Orange;#FF7235
+Sunlu;PLA;Basic;Sakura Rosa;#F5B5C2
+Sunlu;PLA;Basic;Mint Grün;#59D9AA
+Sunlu;PLA;Basic;Transparent;#BEC4C2
+Sunlu;PLA;Basic;Gelb;#FDD835
+Sunlu;PLA;Basic;Knochenweiß;#E9D4B5+#EEE7D4
+Sunlu;PLA;Basic;Transparent Blau;#0000FF
+Sunlu;PLA;Basic;Transparent Grün;#00FF33
+Sunlu;PLA;Basic;Transparent Orange;#FF8800
+Sunlu;PLA;Basic;Transparent Rot;#FF0000
+Sunlu;PLA;Basic;Transparent Gelb;#EEFF00
+Sunlu;PLA;Basic;Grasgrün;#00818A
+Sunlu;PLA;Basic;Fuchsia;#F20DC4
+Sunlu;PLA;Basic;Kohlefaser;#000000
+Sunlu;PLA;Basic;Grün;#00FF80
+Sunlu;PLA;Basic;Beige;#FFCBAC
+Sunlu;PLA;Basic;Olivgrün;#5A6D3D
+Sunlu;PLA;Basic;Kaffee;#AC7239
+Sunlu;PLA;Basic;Oak;#C2B29A
+Sunlu;PLA;Basic;Magenta;#F95E88
+Sunlu;PLA;Basic;Kleinblau (Blau);#1729AB
+Sunlu;PLA;Basic;Lavendelviolet;#A54DCF
+Sunlu;PLA;Basic;Keramik Weiß;#FAFEFE
+Sunlu;PETG;Basic;Schwarz;#000000
+Sunlu;PETG;Basic;Weiß;#FFFFFF
+Sunlu;PETG;Basic;Grau;#9E9E9E
+Sunlu;PETG;Basic;Rot;#E53935
+Sunlu;PETG;Basic;Orange;#FB8C00
+Sunlu;PETG;Basic;Silber;#BEBFC7
+Sunlu;PETG;Basic;Schokolade;#793D00
+Sunlu;PETG;Basic;Zitronen Gelb;#FFFF80
+Sunlu;PETG;Basic;Kirschen Rot;#FC6D5C
+Sunlu;PETG;Basic;Himmel Blau;#3AD6EF
+Sunlu;PETG;Basic;Sonniges Orange;#FF6A00
+Sunlu;PETG;Basic;Sakura Rosa;#FFBAC3
+Sunlu;PETG;Basic;Mint Grün;#33F6D8
+Sunlu;PETG;Basic;Transparent;#FFFFFF
+Sunlu;PETG;Basic;Gelb;#FDD835
+Sunlu;PETG;Basic;Cyan;#3DC6E8
+Sunlu;PETG;Basic;Transparent Blau;#000B7C
+Sunlu;PETG;Basic;Transparent Grün;#44F867
+Sunlu;PETG;Basic;Transparent Orange;#FDB958
+Sunlu;PETG;Basic;Transparent Rot;#FF4747
+Sunlu;PETG;Basic;Transparent Gelb;#E2CC5B
+Sunlu;PETG;Basic;Fuchsia;#F20DC4
+Sunlu;PETG;Basic;Kohlefaser;#000000
+Sunlu;PETG;Basic;Blau;#1E88E5
+Sunlu;PETG;Basic;Grün;#43A047
+Sunlu;PETG;Basic;Beige;#F5F5DC
+Sunlu;PETG;Basic;Transparent Lila;#BE38F3
+Sunlu;PETG;Basic;Olivgrün;#263E0F
+Sunlu;PETG;Basic;Kaffee;#583400
+Sunlu;PETG;Basic;Rosa;#EE68CA
+Sunlu;PETG;Basic;Knochenweiß;#E9D4B5
+Sunlu;PETG;Basic;Magenta;#BA1976
+Sunlu;PETG;Basic;Dunkle Nacht Schwarz;#000000
+Sunlu;PETG;Basic;Lavendelviolet;#685BC7
+Sunlu;PETG;Basic;Kaffeebraun;#47321F
+Sunlu;PLA+;Basic;Schwarz;#000000
+Sunlu;PLA+;Basic;Weiß;#FFFFFF
+Sunlu;PLA+;Basic;Grau;#9E9E9E
+Sunlu;PLA+;Basic;Rot;#E53935
+Sunlu;PLA+;Basic;Orange;#FB8C00
+Sunlu;PLA+;Basic;Silber;#C6CBD0
+Sunlu;PLA+;Basic;Schokolade;#5A3628
+Sunlu;PLA+;Basic;Zitronen Gelb;#FFFFAF
+Sunlu;PLA+;Basic;Kirschen Rot;#F7423A
+Sunlu;PLA+;Basic;Himmel Blau;#15A9C2
+Sunlu;PLA+;Basic;Sonniges Orange;#FF7713
+Sunlu;PLA+;Basic;Sakura Rosa;#FFBAC3
+Sunlu;PLA+;Basic;Mint Grün;#59D9AA
+Sunlu;PLA+;Basic;Transparent;#FFFFFF
+Sunlu;PLA+;Basic;Gelb;#FDD835
+Sunlu;PLA+;Basic;Cyan;#00ACD0
+Sunlu;PLA+;Basic;Transparent Blau;#0000FF
+Sunlu;PLA+;Basic;Transparent Grün;#65FE59
+Sunlu;PLA+;Basic;Transparent Orange;#FE904A
+Sunlu;PLA+;Basic;Transparent Rot;#FF392F
+Sunlu;PLA+;Basic;Transparent Gelb;#FFFFB1
+Sunlu;PLA+;Basic;Fuchsia;#C901C4
+Sunlu;PLA+;Basic;Grün;#43A047
+Sunlu;PLA+;Basic;Olivgrün;#263E0F
+Sunlu;PLA+;Basic;Kaffee;#886543
+Sunlu;PLA+;Basic;Knochenweiß;#EEE7D4
+Sunlu;PLA+;Basic;Oak;#D8B589
+Sunlu;PLA+;Basic;Magenta;#D83491
+Sunlu;PLA+;Basic;Dunkle Nacht Schwarz;#000000
+Sunlu;PLA+;Basic;Kleinblau (Blau);#1729AB
+Sunlu;PLA+;Basic;Keramik Weiß;#F4F9FF
+Sunlu;PLA+;Basic;Geröstete Kastanie;#38250A
 Sunlu;PLA;Meta;Schwarz;#000000
 Sunlu;PLA;Meta;Weiß;#FFFFFF
 Sunlu;PLA;Meta;Grau;#626164
@@ -216,10 +216,10 @@ Sunlu;PLA;Meta;Rot;#E53935
 Sunlu;PLA;Meta;Gelb;#FDD835
 Sunlu;PLA;Meta;Rosa;#FF80C0
 Sunlu;PLA;Meta;Grün;#219096
-Sunlu;ABS;;Schwarz;#000000
-Sunlu;ABS;;Weiß;#FFFFFF
-Sunlu;ABS;;Grau;#808080
-Sunlu;ABS;;Rot;#FF0000
+Sunlu;ABS;Basic;Schwarz;#000000
+Sunlu;ABS;Basic;Weiß;#FFFFFF
+Sunlu;ABS;Basic;Grau;#808080
+Sunlu;ABS;Basic;Rot;#FF0000
 Sunlu;PLA;Matt;Schwarz;#000000
 Sunlu;PLA;Matt;Weiß;#FFFFFF
 Sunlu;PLA;Matt;Grau;#858585
@@ -245,7 +245,7 @@ Sunlu;PLA;Glow in the Dark;Rot zu Rot;#FC3105
 Sunlu;PLA;Glow in the Dark;Blau zu Blau;#00A5C3
 Sunlu;PLA;Glow in the Dark;Grün zu Grün;#00FF55
 Sunlu;PLA;Glow in the Dark;Weiß zu Blau;#E5E8D1+#3BC8E5
-Sunlu;PLA;Glow in the Dark;Weiß zu Grün;#FFFFF+,#88EE63
+Sunlu;PLA;Glow in the Dark;Weiß zu Grün;#FFFFF+#88EE63
 Sunlu;TPU;Silk;Weinrot;#512D35
 Sunlu;TPU;Silk;Schwarz;#000000
 Sunlu;TPU;Silk;Cream;#F8F6E4
@@ -290,11 +290,11 @@ Sunlu;PLA+;Silk;Schwarz + Weiß;#000000+#FFFFFF
 Sunlu;PLA+;Silk;Orange + Blau + Grün;#F79B69+#001EFF+#00CC03
 Sunlu;PLA+;Silk;Schwarz Gold Lila;#000000+#FFD700+#756BB4
 Sunlu;PLA+;Silk;Rot + Gelb + Blau;#E84E76+#FFDC78+#0F43C6
-Sunlu;ASA;;Schwarz;#000000
-Sunlu;ASA;;Rot;#E53935
-Sunlu;ASA;;Natürliche Frabe;#EEEFE7
-Sunlu;PVB;;Schwarz;#000000
-Sunlu;PVB;;Weiß;#FFFFFF
+Sunlu;ASA;Basic;Schwarz;#000000
+Sunlu;ASA;Basic;Rot;#E53935
+Sunlu;ASA;Basic;Natürliche Frabe;#EEEFE7
+Sunlu;PVB;Basic;Schwarz;#000000
+Sunlu;PVB;Basic;Weiß;#FFFFFF
 Sunlu;PLA+;2.0;Schwarz;#000000
 Sunlu;PLA+;2.0;Weiß;#FFFFFF
 Sunlu;PLA+;2.0;Grau;#9E9E9E
@@ -350,93 +350,93 @@ Jayo;PLA;Klassisch;Sonnigesorange;#FF7235
 Jayo;PLA;Klassisch;Zitronengelb;#FBE988
 Jayo;PLA;Klassisch;Sakura Rosa;#F5B5C2
 Jayo;PLA;Klassisch;Olivgrün;#43A047
-Jayo;PLA;;Schwarz;#000000
-Jayo;PLA;;Weiß;#FFFFFF
-Jayo;PLA;;Grau;#9E9E9E
-Jayo;PLA;;Rot ;#E53935
-Jayo;PLA;;Blau;#1E88E5
-Jayo;PLA;;Grün;#43A047
-Jayo;PLA;;Orange;#FB8C00
-Jayo;PLA;;Gelb;#FDD835
-Jayo;PLA;;Beige;#F5F5DC
-Jayo;PLA;;Lila;#8E24AA
-Jayo;PLA;;Transparent;#FFFFFF
-Jayo;PLA;;Transparent Rot;#FF0000
-Jayo;PLA;;Transparent Blau;#0000FF
-Jayo;PLA;;Transparent Grün;#00FF33
-Jayo;PLA;;Transparent Orange;#FF8800
-Jayo;PLA;;Transparent Gelb;#EEFF00
-Jayo;PLA;;Silber;#B2B2B2
-Jayo;PLA;;Gold;#FFD700
-Jayo;PLA;;Wurzelholz;#A4856D
-Jayo;PLA;;Olivgrün;#3A703F
-Jayo;PLA;;Schokolade;#9E5D3E
-Jayo;PLA;;Kirschrot;#FF615F
-Jayo;PLA;;Himmelblau;#15A9C2
-Jayo;PLA;;Mintgrün;#59D9AA
-Jayo;PLA;;Sonnigesorange;#FF7235
-Jayo;PLA;;Zitronengelb;#FBE988
-Jayo;PLA;;Sakura Rosa;#F5B5C2
-Jayo;PLA;;Transparent Lila;#9773E1
-Jayo;PLA;;Kaffee;#6F4E37
-Jayo;PLA;;PLA Galaxie Schwarz;#292C32
-Jayo;PLA;;PLA Galaxie Grün;#476E5F
-Jayo;PLA;;PLA Galaxie Lila;#483E5F
-Jayo;PLA+;;Schwarz;#000000
-Jayo;PLA+;;Weiß;#FFFFFF
-Jayo;PLA+;;Grau;#9E9E9E
-Jayo;PLA+;;Rot;#E53935
-Jayo;PLA+;;Blau;#1E88E5
-Jayo;PLA+;;Grün;#43A047
-Jayo;PLA+;;Orange;#FB8C00
-Jayo;PLA+;;Gelb;#FDD835
-Jayo;PLA+;;Fuchsia;#FF00FF
-Jayo;PLA+;;Cyan;#00FFFF
-Jayo;PLA+;;Transparent;#BFC3C7
-Jayo;PLA+;;Transparent Rot;#FF0000
-Jayo;PLA+;;Transparent Blau;#0000FF
-Jayo;PLA+;;Transparent Grün;#00FF33
-Jayo;PLA+;;Transparent Orange;#FF8800
-Jayo;PLA+;;Transparent Gelb;#EEFF00
-Jayo;PLA+;;Transparent Lila;#9773E1
-Jayo;PLA+;;Silber;#B2B2B2
-Jayo;PLA+;;Olivgrün;#3A703F
-Jayo;PLA+;;Lila;#8E24AA
-Jayo;PLA+;;Schokolade;#9E5D3E
-Jayo;PLA+;;Kirschrot;#FF615F
-Jayo;PLA+;;Himmelblau;#15A9C2
-Jayo;PLA+;;Mintgrün;#59D9AA
-Jayo;PLA+;;Sonnigesorange;#FF7235
-Jayo;PLA+;;Zitronengelb;#FBE988
-Jayo;PLA+;;Sakura Rosa;#F5B5C2
-Jayo;PLA+;;Kaffee;#6F4E37
-Jayo;PLA+;;Gold;#FFD700
-Jayo;PLA+;;Grasgrün;#00B377
-Jayo;PETG;;Schwarz;#000000
-Jayo;PETG;;Weiß;#FFFFFF
-Jayo;PETG;;Grau;#9E9E9E
-Jayo;PETG;;Rot;#E53935
-Jayo;PETG;;Blau;#1E88E5
-Jayo;PETG;;Grün;#43A047
-Jayo;PETG;;Orange;#FB8C00
-Jayo;PETG;;Transparent;#FFFFFF
-Jayo;PETG;;Transparent Rot;#E22400
-Jayo;PETG;;Transparent Blau;#141CFF
-Jayo;PETG;;Transparent Grün;#76BB40
-Jayo;PETG;;Transparent Orange;#FF4015
-Jayo;PETG;;Transparent Gelb;#F5C211
-Jayo;PETG;;Gelb;#FDD835
-Jayo;PETG;;Olivgrün;#556B2F
-Jayo;PETG;;Silber;#C4C2D0
-Jayo;PETG;;Kaffee;#6F4E37
-Jayo;PETG;;Kirschrot;#FF615F
-Jayo;PETG;;Himmelblau;#15A9C2
-Jayo;PETG;;Mintgrün;#59D9AA
-Jayo;PETG;;Sonnigesorange;#FF7235
-Jayo;PETG;;Zitronengelb;#FBE988
-Jayo;PETG;;Schokolade;#9E5D3E
-Jayo;PETG;;Sakura Rosa;#F5B5C2
-Jayo;PETG;;Kohlefaser;#0A0A0A
+Jayo;PLA;Basic;Schwarz;#000000
+Jayo;PLA;Basic;Weiß;#FFFFFF
+Jayo;PLA;Basic;Grau;#9E9E9E
+Jayo;PLA;Basic;Rot ;#E53935
+Jayo;PLA;Basic;Blau;#1E88E5
+Jayo;PLA;Basic;Grün;#43A047
+Jayo;PLA;Basic;Orange;#FB8C00
+Jayo;PLA;Basic;Gelb;#FDD835
+Jayo;PLA;Basic;Beige;#F5F5DC
+Jayo;PLA;Basic;Lila;#8E24AA
+Jayo;PLA;Basic;Transparent;#FFFFFF
+Jayo;PLA;Basic;Transparent Rot;#FF0000
+Jayo;PLA;Basic;Transparent Blau;#0000FF
+Jayo;PLA;Basic;Transparent Grün;#00FF33
+Jayo;PLA;Basic;Transparent Orange;#FF8800
+Jayo;PLA;Basic;Transparent Gelb;#EEFF00
+Jayo;PLA;Basic;Silber;#B2B2B2
+Jayo;PLA;Basic;Gold;#FFD700
+Jayo;PLA;Basic;Wurzelholz;#A4856D
+Jayo;PLA;Basic;Olivgrün;#3A703F
+Jayo;PLA;Basic;Schokolade;#9E5D3E
+Jayo;PLA;Basic;Kirschrot;#FF615F
+Jayo;PLA;Basic;Himmelblau;#15A9C2
+Jayo;PLA;Basic;Mintgrün;#59D9AA
+Jayo;PLA;Basic;Sonnigesorange;#FF7235
+Jayo;PLA;Basic;Zitronengelb;#FBE988
+Jayo;PLA;Basic;Sakura Rosa;#F5B5C2
+Jayo;PLA;Basic;Transparent Lila;#9773E1
+Jayo;PLA;Basic;Kaffee;#6F4E37
+Jayo;PLA;Basic;PLA Galaxie Schwarz;#292C32
+Jayo;PLA;Basic;PLA Galaxie Grün;#476E5F
+Jayo;PLA;Basic;PLA Galaxie Lila;#483E5F
+Jayo;PLA+;Basic;Schwarz;#000000
+Jayo;PLA+;Basic;Weiß;#FFFFFF
+Jayo;PLA+;Basic;Grau;#9E9E9E
+Jayo;PLA+;Basic;Rot;#E53935
+Jayo;PLA+;Basic;Blau;#1E88E5
+Jayo;PLA+;Basic;Grün;#43A047
+Jayo;PLA+;Basic;Orange;#FB8C00
+Jayo;PLA+;Basic;Gelb;#FDD835
+Jayo;PLA+;Basic;Fuchsia;#FF00FF
+Jayo;PLA+;Basic;Cyan;#00FFFF
+Jayo;PLA+;Basic;Transparent;#BFC3C7
+Jayo;PLA+;Basic;Transparent Rot;#FF0000
+Jayo;PLA+;Basic;Transparent Blau;#0000FF
+Jayo;PLA+;Basic;Transparent Grün;#00FF33
+Jayo;PLA+;Basic;Transparent Orange;#FF8800
+Jayo;PLA+;Basic;Transparent Gelb;#EEFF00
+Jayo;PLA+;Basic;Transparent Lila;#9773E1
+Jayo;PLA+;Basic;Silber;#B2B2B2
+Jayo;PLA+;Basic;Olivgrün;#3A703F
+Jayo;PLA+;Basic;Lila;#8E24AA
+Jayo;PLA+;Basic;Schokolade;#9E5D3E
+Jayo;PLA+;Basic;Kirschrot;#FF615F
+Jayo;PLA+;Basic;Himmelblau;#15A9C2
+Jayo;PLA+;Basic;Mintgrün;#59D9AA
+Jayo;PLA+;Basic;Sonnigesorange;#FF7235
+Jayo;PLA+;Basic;Zitronengelb;#FBE988
+Jayo;PLA+;Basic;Sakura Rosa;#F5B5C2
+Jayo;PLA+;Basic;Kaffee;#6F4E37
+Jayo;PLA+;Basic;Gold;#FFD700
+Jayo;PLA+;Basic;Grasgrün;#00B377
+Jayo;PETG;Basic;Schwarz;#000000
+Jayo;PETG;Basic;Weiß;#FFFFFF
+Jayo;PETG;Basic;Grau;#9E9E9E
+Jayo;PETG;Basic;Rot;#E53935
+Jayo;PETG;Basic;Blau;#1E88E5
+Jayo;PETG;Basic;Grün;#43A047
+Jayo;PETG;Basic;Orange;#FB8C00
+Jayo;PETG;Basic;Transparent;#FFFFFF
+Jayo;PETG;Basic;Transparent Rot;#E22400
+Jayo;PETG;Basic;Transparent Blau;#141CFF
+Jayo;PETG;Basic;Transparent Grün;#76BB40
+Jayo;PETG;Basic;Transparent Orange;#FF4015
+Jayo;PETG;Basic;Transparent Gelb;#F5C211
+Jayo;PETG;Basic;Gelb;#FDD835
+Jayo;PETG;Basic;Olivgrün;#556B2F
+Jayo;PETG;Basic;Silber;#C4C2D0
+Jayo;PETG;Basic;Kaffee;#6F4E37
+Jayo;PETG;Basic;Kirschrot;#FF615F
+Jayo;PETG;Basic;Himmelblau;#15A9C2
+Jayo;PETG;Basic;Mintgrün;#59D9AA
+Jayo;PETG;Basic;Sonnigesorange;#FF7235
+Jayo;PETG;Basic;Zitronengelb;#FBE988
+Jayo;PETG;Basic;Schokolade;#9E5D3E
+Jayo;PETG;Basic;Sakura Rosa;#F5B5C2
+Jayo;PETG;Basic;Kohlefaser;#0A0A0A
 Jayo;PLA+;Silk;Schwarz;#000000
 Jayo;PLA+;Silk;Weiß;#FFFFFF
 Jayo;PLA+;Silk;Grau;#9E9E9E
@@ -498,22 +498,22 @@ Jayo;PLA;Glow in the Dark;Rot bis Rot;#DE1212
 Jayo;PLA;Glow in the Dark;Gelb bis Gelb;#FEFB00
 Jayo;PLA;Glow in the Dark;Weiß bis Blau;#FEFFFF+#00FCFF
 Jayo;PLA;Glow in the Dark;Weiß bis Grün;#FFFFFF+#00F500
-Jayo;TPU;;Schwarz;#000000
-Jayo;TPU;;Weiß;#FFFFFF
+Jayo;TPU;Basic;Schwarz;#000000
+Jayo;TPU;Basic;Weiß;#FFFFFF
 Jayo;TPU;Silk;Schwarz;#000000
 Jayo;TPU;Silk;Cremeweiß;#F8F6E4
 Jayo;TPU;Silk;Weinrot;#512D35
-Jayo;ABS;;Schwarz;#000000
-Jayo;ABS;;Grau;#9E9E9E
-Jayo;ABS;;Weiß;#FFFFFF
-Jayo;ABS;;Rot;#E53935
+Jayo;ABS;Basic;Schwarz;#000000
+Jayo;ABS;Basic;Grau;#9E9E9E
+Jayo;ABS;Basic;Weiß;#FFFFFF
+Jayo;ABS;Basic;Rot;#E53935
 Jayo;ABS;Easy;Schwarz;#000000
 Jayo;ABS;Easy;Weiß;#FFFFFF
 Jayo;ABS;Easy;Grau;#9E9E9E
 Jayo;ABS;Easy;Blau;#1E88E5
-Jayo;ASA;;Schwarz;#000000
-Jayo;ASA;;Weiß;#FFFFFF
-Jayo;ASA;;Rot;#E53935
+Jayo;ASA;Basic;Schwarz;#000000
+Jayo;ASA;Basic;Weiß;#FFFFFF
+Jayo;ASA;Basic;Rot;#E53935
 Jayo;PLA;AntiString;Schwarz;#000000
 Jayo;PLA;AntiString;Grau;#9E9E9E
 Jayo;PLA;AntiString;Cremeweiß;#F8F6E4
@@ -650,15 +650,15 @@ Bambu Lab;PETG;Translucent;Orange;#FF911A
 Bambu Lab;PETG;Translucent;Lila;#D6ABFF
 Bambu Lab;PETG;Translucent;Braun;#C9A381
 Bambu Lab;PETG;Translucent;Grau;#8E8E8E
-Bambu Lab;ABS;;Silber;#C0C0C0
-Bambu Lab;ABS;;Schwarz;#000000
-Bambu Lab;ABS;;Weiß;#FFFFFF
-Bambu Lab;ABS;;Bambu Grün;#00AE42
-Bambu Lab;ABS;;Blau;#1E88E5
-Bambu Lab;ABS;;Azure;#489FDF
-Bambu Lab;ABS;;Mandarinengelb;#FFC72C
-Bambu Lab;ABS;;Marineblau;#0A2CA5
-Bambu Lab;ABS;;Rot;#E53935
+Bambu Lab;ABS;Basic;Silber;#C0C0C0
+Bambu Lab;ABS;Basic;Schwarz;#000000
+Bambu Lab;ABS;Basic;Weiß;#FFFFFF
+Bambu Lab;ABS;Basic;Bambu Grün;#00AE42
+Bambu Lab;ABS;Basic;Blau;#1E88E5
+Bambu Lab;ABS;Basic;Azure;#489FDF
+Bambu Lab;ABS;Basic;Mandarinengelb;#FFC72C
+Bambu Lab;ABS;Basic;Marineblau;#0A2CA5
+Bambu Lab;ABS;Basic;Rot;#E53935
 Bambu Lab;PETG;HF;Rot;#E53935
 Bambu Lab;PETG;HF;Blau;#1E88E5
 Bambu Lab;PETG;HF;Schwarz;#000000
@@ -671,44 +671,44 @@ Bambu Lab;PETG;HF;Dunkelgrau;#515151
 Bambu Lab;PETG;HF;Creme;#F9DFB9
 Bambu Lab;PETG;HF;Limettengrün;#6EE53C
 Bambu Lab;PETG;HF;Seeblau;#1F79E5
-Geeetech;PLA;;Lila;#8E24AA
-Geeetech;PLA;;Wasserblau;#00BFFF
-Geeetech;PLA;;Grün;#43A047
-Geeetech;PLA;;Rot;#E53935
-Geeetech;PLA;;Blau;#1E88E5
-Geeetech;PLA;;Grau;#9E9E9E
-Geeetech;PLA;;Gelb;#FDD835
-Geeetech;PLA;;Braun;#6D4C41
-Geeetech;PLA;;Schwarz;#000000
-Geeetech;PLA;;Weiß;#FFFFFF
-Geeetech;PLA;;Orange;#FB8C00
-Geeetech;PLA;;Transparent;#E0E0E0
-Geeetech;PLA;;Silber;#A5A9B4
-Geeetech;PLA;;Apfelgrün;#8EE53F
-Geeetech;PLA;;Knochenweiß;#E7DFCC
-Geeetech;PLA;;Warmweiß;#DBD6D0
-Geeetech;PLA;;Beige;#FFDAB9
-Geeetech;PLA;;Rosa;#FF1493
-Geeetech;PLA;;Sand Gold;#EEBE98
-Geeetech;PETG;;Schwarz;#000000
-Geeetech;PETG;;Orange;#FB8C00
-Geeetech;PETG;;Weiß;#FFFFFF
-Geeetech;PETG;;Grau;#9E9E9E
-Geeetech;PETG;;Silber;#C6CBD0
-Geeetech;PETG;;Transparent;#E0E0E0
-Geeetech;PETG;;Braun;#6D4C41
-Geeetech;PETG;;Lila;#8E24AA
-Geeetech;PETG;;Apfelgrün;#E7F71A
-Geeetech;PETG;;Wasserblau;#04AACB
-Geeetech;PETG;;Rosa;#FF66CC
-Geeetech;PETG;;Metallic Rosa;#D765C2
-Geeetech;PETG;;Metallic Grün;#2C4E23
-Geeetech;PETG;;Grün;#43A047
-Geeetech;PETG;;Blau;#1E88E5
-Geeetech;PETG;;Rot;#E53935
-Geeetech;PETG;;Gelb;#FDD835
-Geeetech;PETG;;Beige;#D1BC8A
-Geeetech;PETG;;Metallic Gold;#D4AF37
+Geeetech;PLA;Basic;Lila;#8E24AA
+Geeetech;PLA;Basic;Wasserblau;#00BFFF
+Geeetech;PLA;Basic;Grün;#43A047
+Geeetech;PLA;Basic;Rot;#E53935
+Geeetech;PLA;Basic;Blau;#1E88E5
+Geeetech;PLA;Basic;Grau;#9E9E9E
+Geeetech;PLA;Basic;Gelb;#FDD835
+Geeetech;PLA;Basic;Braun;#6D4C41
+Geeetech;PLA;Basic;Schwarz;#000000
+Geeetech;PLA;Basic;Weiß;#FFFFFF
+Geeetech;PLA;Basic;Orange;#FB8C00
+Geeetech;PLA;Basic;Transparent;#E0E0E0
+Geeetech;PLA;Basic;Silber;#A5A9B4
+Geeetech;PLA;Basic;Apfelgrün;#8EE53F
+Geeetech;PLA;Basic;Knochenweiß;#E7DFCC
+Geeetech;PLA;Basic;Warmweiß;#DBD6D0
+Geeetech;PLA;Basic;Beige;#FFDAB9
+Geeetech;PLA;Basic;Rosa;#FF1493
+Geeetech;PLA;Basic;Sand Gold;#EEBE98
+Geeetech;PETG;Basic;Schwarz;#000000
+Geeetech;PETG;Basic;Orange;#FB8C00
+Geeetech;PETG;Basic;Weiß;#FFFFFF
+Geeetech;PETG;Basic;Grau;#9E9E9E
+Geeetech;PETG;Basic;Silber;#C6CBD0
+Geeetech;PETG;Basic;Transparent;#E0E0E0
+Geeetech;PETG;Basic;Braun;#6D4C41
+Geeetech;PETG;Basic;Lila;#8E24AA
+Geeetech;PETG;Basic;Apfelgrün;#E7F71A
+Geeetech;PETG;Basic;Wasserblau;#04AACB
+Geeetech;PETG;Basic;Rosa;#FF66CC
+Geeetech;PETG;Basic;Metallic Rosa;#D765C2
+Geeetech;PETG;Basic;Metallic Grün;#2C4E23
+Geeetech;PETG;Basic;Grün;#43A047
+Geeetech;PETG;Basic;Blau;#1E88E5
+Geeetech;PETG;Basic;Rot;#E53935
+Geeetech;PETG;Basic;Gelb;#FDD835
+Geeetech;PETG;Basic;Beige;#D1BC8A
+Geeetech;PETG;Basic;Metallic Gold;#D4AF37
 Geeetech;PLA;Sparkly;Blau;#17036A
 Geeetech;PLA;Sparkly;Lila;#650B77
 Geeetech;PLA;Sparkly;Silber;#919191
@@ -741,27 +741,27 @@ Geeetech;PLA;Silk;Schwarz & Rot;#D2222D+#212121
 Geeetech;PLA;Silk;Gelb & Grün;#008F39+#FFD300
 Geeetech;PLA;Silk;Blau & Grün;#008F39+#0047AB
 Geeetech;PLA;Silk;Rot & Grün;#D2222D+#008F39
-Geeetech;TPU;;Blau;#1E88E5
-Geeetech;TPU;;Transparent Blau;#0654A7
-Geeetech;TPU;;Transparent Grün;#7CFF6B
-Geeetech;TPU;;Transparent Gold;#FFD700
-Geeetech;TPU;;Transparent Braun;#734A12
-Geeetech;TPU;;Transparent Gelb;#FFFF00
-Geeetech;TPU;;Schwarz;#000000
-Geeetech;TPU;;Weiß;#FFFFFF
-Geeetech;TPU;;Transparent;#E0E0E0
-Geeetech;TPU;;Grau;#9E9E9E
-Geeetech;TPU;;Grün;#43A047
-Geeetech;TPU;;Rosa;#FF66CC
-Geeetech;TPU;;Orange;#FB8C00
-Geeetech;TPU;;Lila;#8E24AA
-Geeetech;TPU;;Gelb;#FDD835
-Geeetech;TPU;;Rot;#E53935
-Geeetech;TPU;;Transparent Rot;#F85454
-Geeetech;TPU;;Transparent Lila;#7A0085
-Geeetech;TPU;;Transparent Silber;#E6E6FA
-Geeetech;TPU;;Transpsrent Orange;#FFAA66
-Geeetech;TPU;;Braun;#8B4126
+Geeetech;TPU;Basic;Blau;#1E88E5
+Geeetech;TPU;Basic;Transparent Blau;#0654A7
+Geeetech;TPU;Basic;Transparent Grün;#7CFF6B
+Geeetech;TPU;Basic;Transparent Gold;#FFD700
+Geeetech;TPU;Basic;Transparent Braun;#734A12
+Geeetech;TPU;Basic;Transparent Gelb;#FFFF00
+Geeetech;TPU;Basic;Schwarz;#000000
+Geeetech;TPU;Basic;Weiß;#FFFFFF
+Geeetech;TPU;Basic;Transparent;#E0E0E0
+Geeetech;TPU;Basic;Grau;#9E9E9E
+Geeetech;TPU;Basic;Grün;#43A047
+Geeetech;TPU;Basic;Rosa;#FF66CC
+Geeetech;TPU;Basic;Orange;#FB8C00
+Geeetech;TPU;Basic;Lila;#8E24AA
+Geeetech;TPU;Basic;Gelb;#FDD835
+Geeetech;TPU;Basic;Rot;#E53935
+Geeetech;TPU;Basic;Transparent Rot;#F85454
+Geeetech;TPU;Basic;Transparent Lila;#7A0085
+Geeetech;TPU;Basic;Transparent Silber;#E6E6FA
+Geeetech;TPU;Basic;Transpsrent Orange;#FFAA66
+Geeetech;TPU;Basic;Braun;#8B4126
 Geeetech;PLA;HS;Wasserblau;#00BFFF
 Geeetech;PLA;HS;Schwarz;#000000
 Geeetech;PLA;HS;Weiß;#FFFFFF
@@ -784,13 +784,13 @@ Geeetech;PLA;Carbon Fiber;Matcha Grün;#4F7A28
 Geeetech;PLA;Marmor;Blau;#DDE7ED
 Geeetech;PLA;Marmor;Braun;#F7EFC5
 Geeetech;PLA;Marmor;Grau;#C0C9CE
-Geeetech;ASA;;Schwarz;#000000
-Geeetech;ASA;;Lila;#8E24AA
-Geeetech;ASA;;Blau;#1E88E5
-Geeetech;ASA;;Grün;#43A047
-Geeetech;ASA;;Weiß;#FFFFFF
-Geeetech;ASA;;Orange;#FB8C00
-Geeetech;ASA;;Grau;#9E9E9E
+Geeetech;ASA;Basic;Schwarz;#000000
+Geeetech;ASA;Basic;Lila;#8E24AA
+Geeetech;ASA;Basic;Blau;#1E88E5
+Geeetech;ASA;Basic;Grün;#43A047
+Geeetech;ASA;Basic;Weiß;#FFFFFF
+Geeetech;ASA;Basic;Orange;#FB8C00
+Geeetech;ASA;Basic;Grau;#9E9E9E
 Geeetech;PLA;Glow in the Dark;Blau;#1E88E5
 Geeetech;PLA;Glow in the Dark;Grün;#43A047
 Geeetech;PLA;Glow in the Dark;Orangerot;#E53935
@@ -813,57 +813,57 @@ Geeetech;PLA;Matte;Terrakotta;#FFAC80
 Geeetech;PLA;Matte;Braun;#6D4C41
 Geeetech;PLA;Matte;Olivgrün;#1E4101
 Geeetech;PLA;Matte;Orange;#E7BB99
-Geeetech;ABS+;;Schwarz;#000000
-Geeetech;ABS+;;Braun;#6D4C41
-Geeetech;ABS+;;Apfelgrün;#8EE53F
-Geeetech;ABS+;;Lila;#8E24AA
-Geeetech;ABS+;;Orange;#FB8C00
-Geeetech;ABS+;;Silber;#A5A9B4
-Geeetech;ABS+;;Gelb;#FDD835
-Geeetech;ABS+;;Grün;#43A047
-Geeetech;ABS+;;Weiß;#FFFFFF
-Geeetech;ABS+;;Grau;#9E9E9E
-Geeetech;ABS+;;Blau;#1E88E5
-Geeetech;ABS+;;Rot;#E53935
-Geeetech;ABS+;;Wasserblau;#00BFFF
-Geeetech;ABS+;;Rosa;#FF66CC
-Geeetech;ABS+;;Hautfarbe;#FFDAB9
-Deeplee;PLA;;Galaxie Schwarz;#000000
-Deeplee;PLA;;Galaxie Lila;#8E24AA
-Deeplee;PLA;;Schwarz;#000000
-Deeplee;PLA;;Weiß;#FFFFFF
-Deeplee;PLA;;Grau;#9E9E9E
-Deeplee;PLA;;Rot;#E53935
-Deeplee;PLA;;Gelb;#FDD835
-Deeplee;PLA;;Orange;#FB8C00
-Deeplee;PLA;;Blau;#1E88E5
-Deeplee;PLA;;Grün;#43A047
-Deeplee;PLA;;Rosa;#FF66CC
-Deeplee;PLA;;Lila;#8E24AA
-Deeplee;PLA;;Himmelblau;#45C8D6
-Deeplee;PLA;;Seegrün;#2e8b57
-Deeplee;PLA;;Dunkelgrau;#A1A3A4
-Deeplee;PLA;;Holz;#CAA97D
-Deeplee;PLA;;Braun;#6D4C41
-Deeplee;PLA;;Beige;#F5F5DC
-Deeplee;PLA;;Wood Flour;#D6BD9B
-Deeplee;PLA;;Marmor;#D4DDE4
-Deeplee;PLA;;Kupfer;#B06117
-Deeplee;PLA+;;Schwarz;#000000
-Deeplee;PLA+;;Weiß;#FFFFFF
-Deeplee;PLA+;;Grau;#9E9E9E
-Deeplee;PLA+;;Rot;#E53935
-Deeplee;PLA+;;Gelb;#FDD835
-Deeplee;PLA+;;Grün;#43A047
-Deeplee;PLA+;;Blau;#1E88E5
-Deeplee;PLA+;;Orange;#FB8C00
-Deeplee;PLA+;;Himmelblau;#87CEEB
-Deeplee;PLA+;;Seegrün;#01AC8E
-Deeplee;PLA+;;Dunkelgrau;#7E7E80
-Deeplee;PLA+;;Rosa;#FF66CC
-Deeplee;PLA+;;Lila;#8E24AA
-Deeplee;PLA+;;Beige;#E3E1C1
-Deeplee;PLA+;;Braun;#6D4C41
+Geeetech;ABS+;Basic;Schwarz;#000000
+Geeetech;ABS+;Basic;Braun;#6D4C41
+Geeetech;ABS+;Basic;Apfelgrün;#8EE53F
+Geeetech;ABS+;Basic;Lila;#8E24AA
+Geeetech;ABS+;Basic;Orange;#FB8C00
+Geeetech;ABS+;Basic;Silber;#A5A9B4
+Geeetech;ABS+;Basic;Gelb;#FDD835
+Geeetech;ABS+;Basic;Grün;#43A047
+Geeetech;ABS+;Basic;Weiß;#FFFFFF
+Geeetech;ABS+;Basic;Grau;#9E9E9E
+Geeetech;ABS+;Basic;Blau;#1E88E5
+Geeetech;ABS+;Basic;Rot;#E53935
+Geeetech;ABS+;Basic;Wasserblau;#00BFFF
+Geeetech;ABS+;Basic;Rosa;#FF66CC
+Geeetech;ABS+;Basic;Hautfarbe;#FFDAB9
+Deeplee;PLA;Basic;Galaxie Schwarz;#000000
+Deeplee;PLA;Basic;Galaxie Lila;#8E24AA
+Deeplee;PLA;Basic;Schwarz;#000000
+Deeplee;PLA;Basic;Weiß;#FFFFFF
+Deeplee;PLA;Basic;Grau;#9E9E9E
+Deeplee;PLA;Basic;Rot;#E53935
+Deeplee;PLA;Basic;Gelb;#FDD835
+Deeplee;PLA;Basic;Orange;#FB8C00
+Deeplee;PLA;Basic;Blau;#1E88E5
+Deeplee;PLA;Basic;Grün;#43A047
+Deeplee;PLA;Basic;Rosa;#FF66CC
+Deeplee;PLA;Basic;Lila;#8E24AA
+Deeplee;PLA;Basic;Himmelblau;#45C8D6
+Deeplee;PLA;Basic;Seegrün;#2e8b57
+Deeplee;PLA;Basic;Dunkelgrau;#A1A3A4
+Deeplee;PLA;Basic;Holz;#CAA97D
+Deeplee;PLA;Basic;Braun;#6D4C41
+Deeplee;PLA;Basic;Beige;#F5F5DC
+Deeplee;PLA;Basic;Wood Flour;#D6BD9B
+Deeplee;PLA;Basic;Marmor;#D4DDE4
+Deeplee;PLA;Basic;Kupfer;#B06117
+Deeplee;PLA+;Basic;Schwarz;#000000
+Deeplee;PLA+;Basic;Weiß;#FFFFFF
+Deeplee;PLA+;Basic;Grau;#9E9E9E
+Deeplee;PLA+;Basic;Rot;#E53935
+Deeplee;PLA+;Basic;Gelb;#FDD835
+Deeplee;PLA+;Basic;Grün;#43A047
+Deeplee;PLA+;Basic;Blau;#1E88E5
+Deeplee;PLA+;Basic;Orange;#FB8C00
+Deeplee;PLA+;Basic;Himmelblau;#87CEEB
+Deeplee;PLA+;Basic;Seegrün;#01AC8E
+Deeplee;PLA+;Basic;Dunkelgrau;#7E7E80
+Deeplee;PLA+;Basic;Rosa;#FF66CC
+Deeplee;PLA+;Basic;Lila;#8E24AA
+Deeplee;PLA+;Basic;Beige;#E3E1C1
+Deeplee;PLA+;Basic;Braun;#6D4C41
 Deeplee;PLA;Rapid;Schwarz;#000000
 Deeplee;PLA;Rapid;Weiß;#FFFFFF
 Deeplee;PLA;Rapid;Grau;#9E9E9E
@@ -902,18 +902,18 @@ Deeplee;PLA;Silk;Stechpalmengrün;#0F9D76
 Deeplee;PLA;Silk;Schwarz Violett;#000000+#7318CD
 Deeplee;PLA;Silk;Blau Grün;#1E88E5+#9EF02B
 Deeplee;PLA;Silk;Weiß;#FFFFFF
-Deeplee;PETG;;Schwarz;#000000
-Deeplee;PETG;;Weiß;#FFFFFF
-Deeplee;PETG;;Rot;#E53935
-Deeplee;PETG;;Blau;#1E88E5
-Deeplee;PETG;;Grün;#43A047
-Deeplee;PETG;;Gelb;#FDD835
-Deeplee;PETG;;Grau;#9E9E9E
-Deeplee;PETG;;Orange;#FB8C00
-Deeplee;PETG;;Braun;#6D4C41
-Deeplee;PETG;;Klar;#FFFFFF
-Deeplee;PETG;;Beige;#D1BC8A
-Deeplee;PETG;;Himmelsgrau;#AAABAD
+Deeplee;PETG;Basic;Schwarz;#000000
+Deeplee;PETG;Basic;Weiß;#FFFFFF
+Deeplee;PETG;Basic;Rot;#E53935
+Deeplee;PETG;Basic;Blau;#1E88E5
+Deeplee;PETG;Basic;Grün;#43A047
+Deeplee;PETG;Basic;Gelb;#FDD835
+Deeplee;PETG;Basic;Grau;#9E9E9E
+Deeplee;PETG;Basic;Orange;#FB8C00
+Deeplee;PETG;Basic;Braun;#6D4C41
+Deeplee;PETG;Basic;Klar;#FFFFFF
+Deeplee;PETG;Basic;Beige;#D1BC8A
+Deeplee;PETG;Basic;Himmelsgrau;#AAABAD
 Deeplee;PETG;Rapid;Schwarz;#000000
 Deeplee;PETG;Rapid;Weiß;#FFFFFF
 Deeplee;PETG;Rapid;Rot;#E53935
@@ -977,49 +977,49 @@ Deeplee;PLA;Pro 2.0;Beige;#F5F5DC
 Deeplee;PLA;Pro 2.0;Rosa;#FF66CC
 Deeplee;PLA;Pro 2.0;Transparent;#FFFFFF
 Deeplee;PLA;Pro 2.0;Blau Grau;#6092B3
-Elegoo;PLA;;Schwarz;#000000
-Elegoo;PLA;;Weiß;#FFFFFF
-Elegoo;PLA;;Grau;#9E9E9E
-Elegoo;PLA;;Grün;#43A047
-Elegoo;PLA;;Blau;#1E88E5
-Elegoo;PLA;;Rot;#E53935
-Elegoo;PLA;;Gelb;#FDD835
-Elegoo;PLA;;Orange;#FB8C00
-Elegoo;PLA;;Rosa;#FF66CC
-Elegoo;PLA;;Lila;#8E24AA
-Elegoo;PLA;;Transparent;#BEBBC0
-Elegoo;PLA;;Himmelblau;#45C8D6
-Elegoo;PLA;;Meergrün;#08B690
-Elegoo;PLA;;Raumgrau;#413B53
-Elegoo;PLA;;Holzfarbe;#E5B171
-Elegoo;PLA;;Braun;#6D4C41
-Elegoo;PLA;;Beige;#F5F5DC
-Elegoo;PLA;;Wood Filled;#B19870
-Elegoo;PLA;;Bronze Filled;#785700
-Elegoo;PLA;;Cyan;#499CEE
-Elegoo;PLA;;Kakao Braun;#725B4D
-Elegoo;PLA;;Knallpink;#F9B0BD
-Elegoo;PLA;;Sonnenblumengelb;#FEC600
-Elegoo;PLA;;Kobaltblau;#1341D2
-Elegoo;PLA;;Apfelgrün;#CCEF4E
-Elegoo;PLA;;Türkisgrün;#54AFB2
-Elegoo;PLA+;;Schwarz;#000000
-Elegoo;PLA+;;Weiß;#FFFFFF
-Elegoo;PLA+;;Grau;#9E9E9E
-Elegoo;PLA+;;Grün;#43A047
-Elegoo;PLA+;;Blau;#1E88E5
-Elegoo;PLA+;;Rot;#E53935
-Elegoo;PLA+;;Gelb;#FDD835
-Elegoo;PLA+;;Orange;#FB8C00
-Elegoo;PLA+;;Rosa;#FF66CC
-Elegoo;PLA+;;Lila;#8E24AA
-Elegoo;PLA+;;Transparent;#DEDEDE
-Elegoo;PLA+;;Himmelblau;#45C8D6
-Elegoo;PLA+;;Meergrün;#4FB590
-Elegoo;PLA+;;Raumgrau;#413B53
-Elegoo;PLA+;;Holzfarbe;#9A7B4F
-Elegoo;PLA+;;Braun;#6D4C41
-Elegoo;PLA+;;Beige;#F5F5DC
+Elegoo;PLA;Basic;Schwarz;#000000
+Elegoo;PLA;Basic;Weiß;#FFFFFF
+Elegoo;PLA;Basic;Grau;#9E9E9E
+Elegoo;PLA;Basic;Grün;#43A047
+Elegoo;PLA;Basic;Blau;#1E88E5
+Elegoo;PLA;Basic;Rot;#E53935
+Elegoo;PLA;Basic;Gelb;#FDD835
+Elegoo;PLA;Basic;Orange;#FB8C00
+Elegoo;PLA;Basic;Rosa;#FF66CC
+Elegoo;PLA;Basic;Lila;#8E24AA
+Elegoo;PLA;Basic;Transparent;#BEBBC0
+Elegoo;PLA;Basic;Himmelblau;#45C8D6
+Elegoo;PLA;Basic;Meergrün;#08B690
+Elegoo;PLA;Basic;Raumgrau;#413B53
+Elegoo;PLA;Basic;Holzfarbe;#E5B171
+Elegoo;PLA;Basic;Braun;#6D4C41
+Elegoo;PLA;Basic;Beige;#F5F5DC
+Elegoo;PLA;Basic;Wood Filled;#B19870
+Elegoo;PLA;Basic;Bronze Filled;#785700
+Elegoo;PLA;Basic;Cyan;#499CEE
+Elegoo;PLA;Basic;Kakao Braun;#725B4D
+Elegoo;PLA;Basic;Knallpink;#F9B0BD
+Elegoo;PLA;Basic;Sonnenblumengelb;#FEC600
+Elegoo;PLA;Basic;Kobaltblau;#1341D2
+Elegoo;PLA;Basic;Apfelgrün;#CCEF4E
+Elegoo;PLA;Basic;Türkisgrün;#54AFB2
+Elegoo;PLA+;Basic;Schwarz;#000000
+Elegoo;PLA+;Basic;Weiß;#FFFFFF
+Elegoo;PLA+;Basic;Grau;#9E9E9E
+Elegoo;PLA+;Basic;Grün;#43A047
+Elegoo;PLA+;Basic;Blau;#1E88E5
+Elegoo;PLA+;Basic;Rot;#E53935
+Elegoo;PLA+;Basic;Gelb;#FDD835
+Elegoo;PLA+;Basic;Orange;#FB8C00
+Elegoo;PLA+;Basic;Rosa;#FF66CC
+Elegoo;PLA+;Basic;Lila;#8E24AA
+Elegoo;PLA+;Basic;Transparent;#DEDEDE
+Elegoo;PLA+;Basic;Himmelblau;#45C8D6
+Elegoo;PLA+;Basic;Meergrün;#4FB590
+Elegoo;PLA+;Basic;Raumgrau;#413B53
+Elegoo;PLA+;Basic;Holzfarbe;#9A7B4F
+Elegoo;PLA+;Basic;Braun;#6D4C41
+Elegoo;PLA+;Basic;Beige;#F5F5DC
 Elegoo;PLA;Rapid;Schwarz;#000000
 Elegoo;PLA;Rapid;Weiß;#FFFFFF
 Elegoo;PLA;Rapid;Grau;#9E9E9E
@@ -1039,7 +1039,7 @@ Elegoo;PLA;Silk;Rot;#E53935
 Elegoo;PLA;Silk;Gelb & Violett;#7206AC+#F4D848
 Elegoo;PLA;Silk;Schwarz & Grün;#17632A+#000000
 Elegoo;PLA;Silk;Gold;#D4AF37
-Elegoo;PLA;Silk;Rot & Grün;#DA3842,#286030
+Elegoo;PLA;Silk;Rot & Grün;#DA3842+#286030
 Elegoo;PLA;Silk;Silber & Grau;#93969C+#8F949B
 Elegoo;PLA;Silk;Rot & Kupfer;#D32F3C+#CE733A
 Elegoo;PLA;Silk;Blau & Lila;#478FEF+#800080
@@ -1093,18 +1093,18 @@ Elegoo;PLA;Wood;Walnuss Holz;#773F1A
 Elegoo;PLA;Wood;Rosen Holz;#60433F
 Elegoo;PLA;Wood;Esche Holz;#B6825D
 Elegoo;PLA;Wood;Teak Holz;#624133
-Elegoo;PETG;;Schwarz;#000000
-Elegoo;PETG;;Weiß;#FFFFFF
-Elegoo;PETG;;Grau;#9E9E9E
-Elegoo;PETG;;Grün;#43A047
-Elegoo;PETG;;Blau;#1E88E5
-Elegoo;PETG;;Rot;#E53935
-Elegoo;PETG;;Gelb;#FDD835
-Elegoo;PETG;;Orange;#FB8C00
-Elegoo;PETG;;Transparent;#F7F7F8
-Elegoo;PETG;;Raumgrau;#9E9E9E
-Elegoo;PETG;;Braun;#6D4C41
-Elegoo;PETG;;Beige;#F5F5DC
+Elegoo;PETG;Basic;Schwarz;#000000
+Elegoo;PETG;Basic;Weiß;#FFFFFF
+Elegoo;PETG;Basic;Grau;#9E9E9E
+Elegoo;PETG;Basic;Grün;#43A047
+Elegoo;PETG;Basic;Blau;#1E88E5
+Elegoo;PETG;Basic;Rot;#E53935
+Elegoo;PETG;Basic;Gelb;#FDD835
+Elegoo;PETG;Basic;Orange;#FB8C00
+Elegoo;PETG;Basic;Transparent;#F7F7F8
+Elegoo;PETG;Basic;Raumgrau;#9E9E9E
+Elegoo;PETG;Basic;Braun;#6D4C41
+Elegoo;PETG;Basic;Beige;#F5F5DC
 Elegoo;PETG;Rapid;Schwarz;#000000
 Elegoo;PETG;Rapid;Weiß;#FFFFFF
 Elegoo;PETG;Rapid;Rot;#E53935
@@ -1143,16 +1143,16 @@ Elegoo;TPU;95A;Grün;#43A047
 Elegoo;TPU;95A;Blau;#1E88E5
 Elegoo;TPU;95A;Rot;#E53935
 Elegoo;TPU;95A;Transparent;#FFFFFF
-Elegoo;PC;;Schwarz;#000000
-Elegoo;PC;;Weiß;#FFFFFF
-Elegoo;PC;;Transparent;#B0B0B0
-Elegoo;PC;;Klar Schwarz;#3E4654
-Elegoo;ASA;;Schwarz;#000000
-Elegoo;ASA;;Weiß;#FFFFFF
-Elegoo;ASA;;Grau;#9E9E9E
-Elegoo;ASA;;Grün;#43A047
-Elegoo;ASA;;Blau;#1E88E5
-Elegoo;ASA;;Rot ;#E53935
+Elegoo;PC;Basic;Schwarz;#000000
+Elegoo;PC;Basic;Weiß;#FFFFFF
+Elegoo;PC;Basic;Transparent;#B0B0B0
+Elegoo;PC;Basic;Klar Schwarz;#3E4654
+Elegoo;ASA;Basic;Schwarz;#000000
+Elegoo;ASA;Basic;Weiß;#FFFFFF
+Elegoo;ASA;Basic;Grau;#9E9E9E
+Elegoo;ASA;Basic;Grün;#43A047
+Elegoo;ASA;Basic;Blau;#1E88E5
+Elegoo;ASA;Basic;Rot ;#E53935
 Anycubic;PLA;Standard;Transparent;#F0F2F5
 Anycubic;PLA;Standard;Orange;#FB8C00
 Anycubic;PLA;Standard;Hell Lila;#695FA1
@@ -1180,26 +1180,26 @@ Anycubic;PLA;High Speed;Rosa;#FF66CC
 Anycubic;PLA;High Speed;Grün;#43A047
 Anycubic;PLA;High Speed;Lila;#8E24AA
 Anycubic;PLA;High Speed;Gelb;#FDD835
-Anycubic;PETG;;Schwarz;#000000
-Anycubic;PETG;;Grau;#9E9E9E
-Anycubic;PETG;;Weiß;#FFFFFF
-Anycubic;PETG;;Orange;#FB8C00
-Anycubic;PETG;;Rot;#E53935
-Anycubic;PETG;;Gelb;#FDD835
-Anycubic;PETG;;Lila;#8E24AA
-Anycubic;PETG;;Grün;#43A047
-Anycubic;PLA+;;Schwarz;#000000
-Anycubic;PLA+;;Grau;#9E9E9E
-Anycubic;PLA+;;Weiß;#FFFFFF
-Anycubic;PLA+;;Rot;#E53935
-Anycubic;PLA+;;Hellgrün;#3DB24E
-Anycubic;PLA+;;Lila;#8E24AA
-Anycubic;PLA+;;Silber;#8A8D8F
-Anycubic;PLA+;;Orange;#FB8C00
-Anycubic;PLA+;;Knallgelb;#FDDB27
-Anycubic;ASA;;Schwarz;#000000
-Anycubic;ASA;;Weiß;#FFFFFF
-Anycubic;ASA;;Grau;#9E9E9E
+Anycubic;PETG;Basic;Schwarz;#000000
+Anycubic;PETG;Basic;Grau;#9E9E9E
+Anycubic;PETG;Basic;Weiß;#FFFFFF
+Anycubic;PETG;Basic;Orange;#FB8C00
+Anycubic;PETG;Basic;Rot;#E53935
+Anycubic;PETG;Basic;Gelb;#FDD835
+Anycubic;PETG;Basic;Lila;#8E24AA
+Anycubic;PETG;Basic;Grün;#43A047
+Anycubic;PLA+;Basic;Schwarz;#000000
+Anycubic;PLA+;Basic;Grau;#9E9E9E
+Anycubic;PLA+;Basic;Weiß;#FFFFFF
+Anycubic;PLA+;Basic;Rot;#E53935
+Anycubic;PLA+;Basic;Hellgrün;#3DB24E
+Anycubic;PLA+;Basic;Lila;#8E24AA
+Anycubic;PLA+;Basic;Silber;#8A8D8F
+Anycubic;PLA+;Basic;Orange;#FB8C00
+Anycubic;PLA+;Basic;Knallgelb;#FDDB27
+Anycubic;ASA;Basic;Schwarz;#000000
+Anycubic;ASA;Basic;Weiß;#FFFFFF
+Anycubic;ASA;Basic;Grau;#9E9E9E
 Anycubic;PLA;Silk Dual/Tri-Color;Schwarz+ Gold;#212721+#C8B643
 Anycubic;PLA;Silk Dual/Tri-Color;Schwarz + Rot;#212721+#D22630
 Anycubic;PLA;Silk Dual/Tri-Color;Schwarz + Grün;#212721+#006F44
@@ -1230,54 +1230,54 @@ Anycubic;PLA;Pantone;Pfirsichflaum;#FFC196
 Anycubic;PLA;Pantone;Interstellares Violett;#744BD2
 Anycubic;PLA;Pantone;Tropisches Türkis;#009CBD
 Anycubic;PLA;Pantone;Frühlingsblatt;#89A84F
-eSun;PLA+;;Knochenweiß;#EED8C0
-eSun;PLA+;;Braun;#6D4C41
-eSun;PLA+;;Kaltes Weiß;#FFFFFF
-eSun;PLA+;;Dunkelblau;#101670
-eSun;PLA+;;Feuerwehr rot;#8D091E
-eSun;PLA+;;Grün;#43A047
-eSun;PLA+;;Magenta;#FF40FF
-eSun;PLA+;;Pink;#FF66CC
-eSun;PLA+;;Tannengrün;#00645F
-eSun;PLA+;;Rot;#E53935
-eSun;PLA+;;Silber;#C4C4C4
-eSun;PLA+;;Blau;#1E88E5
-eSun;PLA+;;Peak Green;#BAFF72
-eSun;PLA+;;Warmweiß;#FFFCFA
-eSun;PLA+;;Gelb;#FDD835
-eSun;PLA+;;Olivgrün;#555B46
-eSun;PLA+;;Schwarz;#000000
-eSun;PLA+;;Grau;#9E9E9E
-eSun;PLA+;;Hellblau;#169BEA
-eSun;PLA+;;Orange;#FB8C00
-eSun;PLA+;;Lila;#8E24AA
-eSun;PLA+;;Beige;#F5F5DC
-eSun;PLA+;;Gold;#FFA933
-eSun;PLA+;;Leuchtendes Blau;#FFFFFF+#4580FF
-eSun;PLA+;;Leuchtendes Grün;#FFFFFF+#43A047
-eSun;PLA+;;Very Peri;#6667AB
-eSun;PLA+;;Space Blue;#4AC3F0
-eSun;PLA+;;Hellbraun;#9B7348
-eSun;PLA+;;Baby Pink;#DDA3B0
-eSun;PLA+;;Korallenorange;#FF572F
-eSun;PLA+;;RGB Rot;#FF0000
-eSun;PLA+;;RGB Blau;#1E88E5
-eSun;PLA+;;RGB Grün;#43A047
-eSun;PLA+;;Aprikose Orange;#EF774A
-eSun;PLA+;;Mintgrün;#D8FFE6
-eSun;PLA+;;Baby Blau;#98FFFF
-eSun;PLA+;;Hell Khaki;#D6C9AF
-eSun;PLA+;;Flieder;#DEBBFF
-eSun;PLA+;;Matcha Grün;#C1F469
-eSun;PLA+;;Pfirsichrosa;#FFF9F5
-eSun;PLA+;;Milchweiß;#D9E0E3
-eSun;PLA+;;Mandelgelb;#FFFFC3
-eSun;PLA+;;Jade Grün;#33C48F
-eSun;PLA+;;Holly Grün;#004D28
-eSun;PLA+;;Senfgrün;#E4FF82
-eSun;PLA+;;Gras Grün;#009952
-eSun;PLA+;;Haze blau;#3B6FA0
-eSun;PLA+;;Korallenorange;#FF572F
+eSun;PLA+;Basic;Knochenweiß;#EED8C0
+eSun;PLA+;Basic;Braun;#6D4C41
+eSun;PLA+;Basic;Kaltes Weiß;#FFFFFF
+eSun;PLA+;Basic;Dunkelblau;#101670
+eSun;PLA+;Basic;Feuerwehr rot;#8D091E
+eSun;PLA+;Basic;Grün;#43A047
+eSun;PLA+;Basic;Magenta;#FF40FF
+eSun;PLA+;Basic;Pink;#FF66CC
+eSun;PLA+;Basic;Tannengrün;#00645F
+eSun;PLA+;Basic;Rot;#E53935
+eSun;PLA+;Basic;Silber;#C4C4C4
+eSun;PLA+;Basic;Blau;#1E88E5
+eSun;PLA+;Basic;Peak Green;#BAFF72
+eSun;PLA+;Basic;Warmweiß;#FFFCFA
+eSun;PLA+;Basic;Gelb;#FDD835
+eSun;PLA+;Basic;Olivgrün;#555B46
+eSun;PLA+;Basic;Schwarz;#000000
+eSun;PLA+;Basic;Grau;#9E9E9E
+eSun;PLA+;Basic;Hellblau;#169BEA
+eSun;PLA+;Basic;Orange;#FB8C00
+eSun;PLA+;Basic;Lila;#8E24AA
+eSun;PLA+;Basic;Beige;#F5F5DC
+eSun;PLA+;Basic;Gold;#FFA933
+eSun;PLA+;Basic;Leuchtendes Blau;#FFFFFF+#4580FF
+eSun;PLA+;Basic;Leuchtendes Grün;#FFFFFF+#43A047
+eSun;PLA+;Basic;Very Peri;#6667AB
+eSun;PLA+;Basic;Space Blue;#4AC3F0
+eSun;PLA+;Basic;Hellbraun;#9B7348
+eSun;PLA+;Basic;Baby Pink;#DDA3B0
+eSun;PLA+;Basic;Korallenorange;#FF572F
+eSun;PLA+;Basic;RGB Rot;#FF0000
+eSun;PLA+;Basic;RGB Blau;#1E88E5
+eSun;PLA+;Basic;RGB Grün;#43A047
+eSun;PLA+;Basic;Aprikose Orange;#EF774A
+eSun;PLA+;Basic;Mintgrün;#D8FFE6
+eSun;PLA+;Basic;Baby Blau;#98FFFF
+eSun;PLA+;Basic;Hell Khaki;#D6C9AF
+eSun;PLA+;Basic;Flieder;#DEBBFF
+eSun;PLA+;Basic;Matcha Grün;#C1F469
+eSun;PLA+;Basic;Pfirsichrosa;#FFF9F5
+eSun;PLA+;Basic;Milchweiß;#D9E0E3
+eSun;PLA+;Basic;Mandelgelb;#FFFFC3
+eSun;PLA+;Basic;Jade Grün;#33C48F
+eSun;PLA+;Basic;Holly Grün;#004D28
+eSun;PLA+;Basic;Senfgrün;#E4FF82
+eSun;PLA+;Basic;Gras Grün;#009952
+eSun;PLA+;Basic;Haze blau;#3B6FA0
+eSun;PLA+;Basic;Korallenorange;#FF572F
 eSun;PLA;Lite;Schwarz;#000000
 eSun;PLA;Lite;Periwinkle Blue;#6667AB
 eSun;PLA;Lite;Feuerwehr rot;#91202B
@@ -1300,28 +1300,28 @@ eSun;PLA;Matt;Mandarine;#EC704C
 eSun;PLA;Matt;Feuerwehr Rot;#FE4F3E
 eSun;PLA;Matt;Dunkelblau;#00263A
 eSun;PLA;Matt;Olivengrün;#3F5C0E
-eSun;PETG;;Grün;#43A047
-eSun;PETG;;Natur;#DDDFDB
-eSun;PETG;;Solid Green;#088C3B
-eSun;PETG;;Solid Grey;#71717F
-eSun;PETG;;Solid Gold;#D4AF37
-eSun;PETG;;Solid Red;#FF0000
-eSun;PETG;;Solid Silver;#6B6B6B
-eSun;PETG;;Solid Blue;#0062FF
-eSun;PETG;;Solid White;#FFFFFF
-eSun;PETG;;Solid Yellow;#FFFF00
-eSun;PETG;;Blau;#1E88E5
-eSun;PETG;;Vollschwarz;#000000
-eSun;ABS+;;Schwarz;#000000
-eSun;ABS+;;Kaltes Weiß;#F4FDFF
-eSun;ABS+;;Feuerwehr Rot;#952428
-eSun;ABS+;;Grün;#43A047
-eSun;ABS+;;Grau;#9E9E9E
-eSun;ABS+;;Natur;#F5F3E4
-eSun;ABS+;;Orange;#FB8C00
-eSun;ABS+;;Rot;#E53935
-eSun;ABS+;;Blau;#1E88E5
-eSun;ABS+;;Gelb;#FDD835
+eSun;PETG;Basic;Grün;#43A047
+eSun;PETG;Basic;Natur;#DDDFDB
+eSun;PETG;Basic;Solid Green;#088C3B
+eSun;PETG;Basic;Solid Grey;#71717F
+eSun;PETG;Basic;Solid Gold;#D4AF37
+eSun;PETG;Basic;Solid Red;#FF0000
+eSun;PETG;Basic;Solid Silver;#6B6B6B
+eSun;PETG;Basic;Solid Blue;#0062FF
+eSun;PETG;Basic;Solid White;#FFFFFF
+eSun;PETG;Basic;Solid Yellow;#FFFF00
+eSun;PETG;Basic;Blau;#1E88E5
+eSun;PETG;Basic;Vollschwarz;#000000
+eSun;ABS+;Basic;Schwarz;#000000
+eSun;ABS+;Basic;Kaltes Weiß;#F4FDFF
+eSun;ABS+;Basic;Feuerwehr Rot;#952428
+eSun;ABS+;Basic;Grün;#43A047
+eSun;ABS+;Basic;Grau;#9E9E9E
+eSun;ABS+;Basic;Natur;#F5F3E4
+eSun;ABS+;Basic;Orange;#FB8C00
+eSun;ABS+;Basic;Rot;#E53935
+eSun;ABS+;Basic;Blau;#1E88E5
+eSun;ABS+;Basic;Gelb;#FDD835
 Polymaker;PLA;PolyTerra;Muted White;#BBADA4
 Polymaker;PLA;PolyTerra;Cotton White;#F7F7F7
 Polymaker;PLA;PolyTerra;Marble White;#DDDBE1
@@ -1470,36 +1470,36 @@ Polymaker;ABS+;Polylite;Rot;#E53935
 Polymaker;ABS+;Polylite;Orange;#FB8C00
 Polymaker;ABS+;Polylite;Blau;#1E88E5
 Polymaker;ABS+;Polylite;Lila;#8E24AA
-Amazon Basics;PLA;;Blau;#1E88E5
-Amazon Basics;PLA;;Braun;#6D4C41
-Amazon Basics;PLA;;Dunkelblau;#0715DA
-Amazon Basics;PLA;;Dunkelgrau;#46515C
-Amazon Basics;PLA;;Transparent;#DBDBDB
-Amazon Basics;PLA;;Transparent Rot;#C94A4A
-Amazon Basics;PLA;;Neonorange;#DD732C
-Amazon Basics;PLA;;Gelb;#FDD835
-Amazon Basics;PLA;;Gold;#BE8F39
-Amazon Basics;PLA;;Hellgrau;#C4C7C1
-Amazon Basics;PLA;;Knallgrün;#6EC913
-Amazon Basics;PLA;;Leuchtend;#FFFFFF
-Amazon Basics;PLA;;Neongrün;#83E97C
-Amazon Basics;PLA;;Silber;#7E7E80
-Amazon Basics;PLA;;Violett;#ED3A9C
-Amazon Basics;PLA;;Orange;#FB8C00
-Amazon Basics;PLA;;Perlweiß;#ECEDE9
-Amazon Basics;PLA;;Weiß;#FFFFFF
-Amazon Basics;PLA;;Rosa;#FF66CC
-Amazon Basics;PLA;;Rot;#E53935
-Amazon Basics;PLA;;Schwarz;#000000
-Amazon Basics;ABS+;;Blau;#1E88E5
-Amazon Basics;ABS+;;Rot;#E53935
-Amazon Basics;ABS+;;Schwarz;#000000
-Amazon Basics;ABS+;;Weiß;#FFFFFF
-Amazon Basics;PETG;;Blau;#1E88E5
-Amazon Basics;PETG;;Transparent;#FFFFFF
-Amazon Basics;PETG;;Gelb;#FDD835
-Amazon Basics;PETG;;Orange;#FB8C00
-Amazon Basics;PETG;;Rot;#E53935
+Amazon Basics;PLA;Basic;Blau;#1E88E5
+Amazon Basics;PLA;Basic;Braun;#6D4C41
+Amazon Basics;PLA;Basic;Dunkelblau;#0715DA
+Amazon Basics;PLA;Basic;Dunkelgrau;#46515C
+Amazon Basics;PLA;Basic;Transparent;#DBDBDB
+Amazon Basics;PLA;Basic;Transparent Rot;#C94A4A
+Amazon Basics;PLA;Basic;Neonorange;#DD732C
+Amazon Basics;PLA;Basic;Gelb;#FDD835
+Amazon Basics;PLA;Basic;Gold;#BE8F39
+Amazon Basics;PLA;Basic;Hellgrau;#C4C7C1
+Amazon Basics;PLA;Basic;Knallgrün;#6EC913
+Amazon Basics;PLA;Basic;Leuchtend;#FFFFFF
+Amazon Basics;PLA;Basic;Neongrün;#83E97C
+Amazon Basics;PLA;Basic;Silber;#7E7E80
+Amazon Basics;PLA;Basic;Violett;#ED3A9C
+Amazon Basics;PLA;Basic;Orange;#FB8C00
+Amazon Basics;PLA;Basic;Perlweiß;#ECEDE9
+Amazon Basics;PLA;Basic;Weiß;#FFFFFF
+Amazon Basics;PLA;Basic;Rosa;#FF66CC
+Amazon Basics;PLA;Basic;Rot;#E53935
+Amazon Basics;PLA;Basic;Schwarz;#000000
+Amazon Basics;ABS+;Basic;Blau;#1E88E5
+Amazon Basics;ABS+;Basic;Rot;#E53935
+Amazon Basics;ABS+;Basic;Schwarz;#000000
+Amazon Basics;ABS+;Basic;Weiß;#FFFFFF
+Amazon Basics;PETG;Basic;Blau;#1E88E5
+Amazon Basics;PETG;Basic;Transparent;#FFFFFF
+Amazon Basics;PETG;Basic;Gelb;#FDD835
+Amazon Basics;PETG;Basic;Orange;#FB8C00
+Amazon Basics;PETG;Basic;Rot;#E53935
 3DJake;PLA;eco;Weiß;#FFFFFF
 3DJake;PLA;eco;Schwarz;#000000
 3DJake;PLA;eco;Orange ;#FB8C00
@@ -1526,46 +1526,46 @@ Amazon Basics;PETG;;Rot;#E53935
 3DJake;PLA;eco;CMYK Cyan;#5E84A4
 3DJake;PLA;eco;CMYK Magenta;#D5447E
 3DJake;PLA;eco;CMYK Yellow;#FFFF82
-3DJake;ABS;;Schwarz;#000000
-3DJake;ABS;;Weiß;#FFFFFF
-3DJake;ABS;;Silber;#A5A8A6
-3DJake;ABS;;Dunkelblau;#1E88E5
-3DJake;ABS;;Orange;#FB8C00
-3DJake;ABS;;Dunkelgrau;#5D5E5F
-3DJake;ABS;;Hellgrau;#AEB1B2
-3DJake;ABS;;Pastellblau;#21A1DE
-3DJake;ABS;;Violett;#28014B
-3DJake;ABS;;Pastellpink;#FFDBDF
-3DJake;ABS;;Neon Gelb;#FCFF2E
-3DJake;ABS;;Rot;#E53935
-3DJake;ABS;;Gelb;#FDD835
-3DJake;ABS;;Pink;#FF66CC
-3DJake;ABS;;Hellgrün;#3BCC38
-3DJake;ABS;;Dunkelgrün;#1B6758
-3DJake;ABS;;Hellblau;#4792DC
-3DJake;ABS;;Bronze;#746501
-3DJake;ABS;;Pastelgrün;#B4E4D8
-3DJake;ABS;;Neon Orange;#FA732A
-3DJake;ABS;;Neon Grün;#0BD10B
-3DJake;ABS;;Braun;#6D4C41
+3DJake;ABS;Basic;Schwarz;#000000
+3DJake;ABS;Basic;Weiß;#FFFFFF
+3DJake;ABS;Basic;Silber;#A5A8A6
+3DJake;ABS;Basic;Dunkelblau;#1E88E5
+3DJake;ABS;Basic;Orange;#FB8C00
+3DJake;ABS;Basic;Dunkelgrau;#5D5E5F
+3DJake;ABS;Basic;Hellgrau;#AEB1B2
+3DJake;ABS;Basic;Pastellblau;#21A1DE
+3DJake;ABS;Basic;Violett;#28014B
+3DJake;ABS;Basic;Pastellpink;#FFDBDF
+3DJake;ABS;Basic;Neon Gelb;#FCFF2E
+3DJake;ABS;Basic;Rot;#E53935
+3DJake;ABS;Basic;Gelb;#FDD835
+3DJake;ABS;Basic;Pink;#FF66CC
+3DJake;ABS;Basic;Hellgrün;#3BCC38
+3DJake;ABS;Basic;Dunkelgrün;#1B6758
+3DJake;ABS;Basic;Hellblau;#4792DC
+3DJake;ABS;Basic;Bronze;#746501
+3DJake;ABS;Basic;Pastelgrün;#B4E4D8
+3DJake;ABS;Basic;Neon Orange;#FA732A
+3DJake;ABS;Basic;Neon Grün;#0BD10B
+3DJake;ABS;Basic;Braun;#6D4C41
 3DJake;ABS;CF;Rot;#E53935
 3DJake;ABS;CF;Dunkelblau;#014A7E
 3DJake;ABS;CF;Dunkelgrau;#5D5E5F
 3DJake;ABS;CF;Schwarz;#000000
-3DJake;ASA;;Schwarz;#000000
-3DJake;ASA;;Dunkelgrau;#5D5E5F
-3DJake;ASA;;Weiß;#FFFFFF
-3DJake;ASA;;Rot;#E53935
-3DJake;ASA;;Dunkelblau;#014A7E
-3DJake;ASA;;Hellgrau;#9E9E9E
-3DJake;ASA;;Orange;#FB8C00
-3DJake;ASA;;Silber;#A5A8A6
-3DJake;ASA;;Gelb;#FDD835
-3DJake;ASA;;Hellblau;#1E88E5
-3DJake;ASA;;Hellgrün;#43A047
-3DJake;ASA;;Dunkelgrün;#43A047
-3DJake;ASA;;Neon Pink;#FF66CC
-3DJake;ASA;;Violett;#28014B
+3DJake;ASA;Basic;Schwarz;#000000
+3DJake;ASA;Basic;Dunkelgrau;#5D5E5F
+3DJake;ASA;Basic;Weiß;#FFFFFF
+3DJake;ASA;Basic;Rot;#E53935
+3DJake;ASA;Basic;Dunkelblau;#014A7E
+3DJake;ASA;Basic;Hellgrau;#9E9E9E
+3DJake;ASA;Basic;Orange;#FB8C00
+3DJake;ASA;Basic;Silber;#A5A8A6
+3DJake;ASA;Basic;Gelb;#FDD835
+3DJake;ASA;Basic;Hellblau;#1E88E5
+3DJake;ASA;Basic;Hellgrün;#43A047
+3DJake;ASA;Basic;Dunkelgrün;#43A047
+3DJake;ASA;Basic;Neon Pink;#FF66CC
+3DJake;ASA;Basic;Violett;#28014B
 3DJake;ASA;CF;Rot;#E53935
 3DJake;ASA;CF;Dunkelblau;#1E88E5
 3DJake;ASA;CF;Dunkelgrau;#9E9E9E
@@ -1685,21 +1685,21 @@ Amazon Basics;PETG;;Rot;#E53935
 3DJake;PLA;niceBio;Dunkelblau;#001EFF
 3DJake;PLA;niceBio;Rot;#E53935
 3DJake;PLA;niceBio;Hellgrau;#9E9E9E
-3DJake;PETG;;Schwarz;#000000
-3DJake;PETG;;Transparent;#6EB0F7
-3DJake;PETG;;Weiß;#FFFFFF
-3DJake;PETG;;Silber;#A5A8A6
-3DJake;PETG;;Transparent Gelb;#FEDFA9
-3DJake;PETG;;Rot;#E53935
-3DJake;PETG;;Dunkelblau;#001EFF
-3DJake;PETG;;Transparent Grün;#43A047
-3DJake;PETG;;Hellgrün;#3BCC38
-3DJake;PETG;;Transparent Rot;#BB1E10
-3DJake;PETG;;Hellblau;#1E88E5
-3DJake;PETG;;Dunkelgrün;#43A047
-3DJake;PETG;;Transparent Blau;#4792DC
-3DJake;PETG;;Gelb;#FDD835
-3DJake;PETG;;Violett;#28014B
+3DJake;PETG;Basic;Schwarz;#000000
+3DJake;PETG;Basic;Transparent;#6EB0F7
+3DJake;PETG;Basic;Weiß;#FFFFFF
+3DJake;PETG;Basic;Silber;#A5A8A6
+3DJake;PETG;Basic;Transparent Gelb;#FEDFA9
+3DJake;PETG;Basic;Rot;#E53935
+3DJake;PETG;Basic;Dunkelblau;#001EFF
+3DJake;PETG;Basic;Transparent Grün;#43A047
+3DJake;PETG;Basic;Hellgrün;#3BCC38
+3DJake;PETG;Basic;Transparent Rot;#BB1E10
+3DJake;PETG;Basic;Hellblau;#1E88E5
+3DJake;PETG;Basic;Dunkelgrün;#43A047
+3DJake;PETG;Basic;Transparent Blau;#4792DC
+3DJake;PETG;Basic;Gelb;#FDD835
+3DJake;PETG;Basic;Violett;#28014B
 3DJake;TPU;A95;Schwarz;#000000
 3DJake;TPU;A95;Hellblau;#4792DC
 3DJake;TPU;A95;Rot;#E53935
@@ -1717,7 +1717,7 @@ TEQstone;PLA;Basic;Rosa;#FF66CC
 TEQstone;PLA;Basic;Apfelgrün;#9BEB1F
 TEQstone;PLA;Basic;Cyan;#5E84A4
 TEQstone;PLA;Basic;Lila;#8E24AA
-TEQstone;PLA;Basic;Holz Braun;4C2B20
+TEQstone;PLA;Basic;Holz Braun;#4C2B20
 TEQstone;PLA;Basic;Marmor Braun;#FFB664
 TEQstone;PLA;Basic;Marmor Grau;#C0C0C0
 TEQstone;PLA;Silk;Gold Kupfer;#E29930+#B87333
@@ -1730,33 +1730,33 @@ TEQstone;PLA;Silk;Lila;#8E24AA
 TEQstone;TPU;95A;Schwarz;#000000
 TEQstone;TPU;95A;Blau;#1E88E5
 TEQstone;TPU;95A;Grau;#9E9E9E
-TEQstone;PETG;;Schwarz;#000000
-TEQstone;PETG;;Braun;#6D4C41
-TEQstone;PETG;;Grau;#9E9E9E
-TEQstone;PETG;;Grün;#43A047
-TEQstone;PETG;;Rot;#E53935
-TEQstone;PETG;;Transparent;#FFFFFF
-ColorFabb;ASA;;Naturel;DCDBD0
-ColorFabb;ASA;;Black;#000000
-ColorFabb;ASA;LW;Naturel;DCDBD0
+TEQstone;PETG;Basic;Schwarz;#000000
+TEQstone;PETG;Basic;Braun;#6D4C41
+TEQstone;PETG;Basic;Grau;#9E9E9E
+TEQstone;PETG;Basic;Grün;#43A047
+TEQstone;PETG;Basic;Rot;#E53935
+TEQstone;PETG;Basic;Transparent;#FFFFFF
+ColorFabb;ASA;Basic;Naturel;#DCDBD0
+ColorFabb;ASA;Basic;Black;#000000
+ColorFabb;ASA;LW;Naturel;#DCDBD0
 ColorFabb;ASA;LW;Black;#000000
-ColorFabb;Co-Polyester;;Clear;#F4FAFC
-ColorFabb;Co-Polyester;;Light Blue;#4DBCE9
-ColorFabb;Co-Polyester;;Flex Black;#000000
-ColorFabb;Co-Polyester;;Light Green;#3BCC38
-ColorFabb;Co-Polyester;;Red;#E53935
-ColorFabb;Co-Polyester;;Black;#000000
-ColorFabb;Co-Polyester;;White;#FFFFFF
-ColorFabb;Co-Polyester;;Dark Grey;#5D5D5D
-ColorFabb;Co-Polyester;;Economy Red;#FF0000
-ColorFabb;Co-Polyester;;Gold Metaillc;#CEB175
-ColorFabb;Co-Polyester;;Light Grey;CBD0CC
-ColorFabb;Co-Polyester;;Flex Clear;#F4FAFC
-ColorFabb;Co-Polyester;;Flex Dark Grey;#5D5D5D
-ColorFabb;PA;;Black;#000000
-ColorFabb;PHA;;Naturel;#DCDBD0
-ColorFabb;PHA;;Black;#000000
-ColorFabb;PHA;;White;#FFFFFF
+ColorFabb;Co-Polyester;Basic;Clear;#F4FAFC
+ColorFabb;Co-Polyester;Basic;Light Blue;#4DBCE9
+ColorFabb;Co-Polyester;Basic;Flex Black;#000000
+ColorFabb;Co-Polyester;Basic;Light Green;#3BCC38
+ColorFabb;Co-Polyester;Basic;Red;#E53935
+ColorFabb;Co-Polyester;Basic;Black;#000000
+ColorFabb;Co-Polyester;Basic;White;#FFFFFF
+ColorFabb;Co-Polyester;Basic;Dark Grey;#5D5D5D
+ColorFabb;Co-Polyester;Basic;Economy Red;#FF0000
+ColorFabb;Co-Polyester;Basic;Gold Metaillc;#CEB175
+ColorFabb;Co-Polyester;Basic;Light Grey;#CBD0CC
+ColorFabb;Co-Polyester;Basic;Flex Clear;#F4FAFC
+ColorFabb;Co-Polyester;Basic;Flex Dark Grey;#5D5D5D
+ColorFabb;PA;Basic;Black;#000000
+ColorFabb;PHA;Basic;Naturel;#DCDBD0
+ColorFabb;PHA;Basic;Black;#000000
+ColorFabb;PHA;Basic;White;#FFFFFF
 ColorFabb;PLA;LW;Gray Silver;#B7B3A8
 ColorFabb;PLA;LW;Green;#43A047
 ColorFabb;PLA;LW;Natural;#DCDBD0
@@ -1795,7 +1795,7 @@ ColorFabb;PLA;High Speed Pro;Olypic Gold;#CEB175
 ColorFabb;PLA;HP;Silver;#C0C0C0
 ColorFabb;PLA;HP;White;#FFFFFF
 ColorFabb;PLA;HP;Black;#000000
-ColorFabb;PETG;;Semi-Matte Black;#232124
+ColorFabb;PETG;Basic;Semi-Matte Black;#232124
 ColorFabb;PLA;Stein;Light Grey;#A9B2B8
 ColorFabb;PLA;Stein;Red Brick;#E39D87
 ColorFabb;PLA;Stein;Moss Green;#0F4336
@@ -1803,691 +1803,646 @@ ColorFabb;PLA;Vipers;Pastel Purple;#850AFF
 ColorFabb;PLA;Vipers;White;#FFFFFF
 ColorFabb;PLA;Vipers;Pastel Orange;#FB8C00
 ColorFabb;PLA;Vipers;Pastel Green;#43A047
-Das Filament;PLA;;Natur;#FCFAF2
-Das Filament;PLA;;Schwarz;#000000
-Das Filament;PLA;;Schwarz matt;#000000
-Das Filament;PLA;;Grüngold;#263E0F
-Das Filament;PLA;;Grüngold V2;#263E0F
-Das Filament;PLA;;Blue Pearl;#2E454C
-Das Filament;PLA;;Anthazit V2;#61676B
-Das Filament;PLA;;Grau;#9E9E9E
-Das Filament;PLA;;Silber;#C0C0C0
-Das Filament;PLA;;Weiß;#FFFFFF
-Das Filament;PLA;;Tonweiß matt;#EEEEED
-Das Filament;PLA;;Vanille;#f3e5ab
-Das Filament;PLA;;Sonnengelb;#F7B500
-Das Filament;PLA;;Aprikose;#fbceb1
-Das Filament;PLA;;Neonorange;#EF461A
-Das Filament;PLA;;Reinorange;#E65300
-Das Filament;PLA;;Rot;#E53935
-Das Filament;PLA;;Feuerrot;#BB1F11
-Das Filament;PLA;;Kirschrot;#9B2321
-Das Filament;PLA;;Metallic Rot;#BB1F11
-Das Filament;PLA;;Kastanienbraun;#633A34
-Das Filament;PLA;;Gold V2;#8C6B29
-Das Filament;PLA;;Lavendel;#e6e6fa
-Das Filament;PLA;;Magenta;#BC4077
-Das Filament;PLA;;Multicolor Galaxy;#203C7E+#83456E+#6F8B91
-Das Filament;PLA;;Königsblau;#4169e1
-Das Filament;PLA;;Toms3D Infinity Blue;#45AAE3
-Das Filament;PLA;;Himmelblau;#87ceeb
-Das Filament;PLA;;Milticolor Polarlicht;#0E74AF+#78A626
-Das Filament;PLA;;Tannengrün;#024442
-Das Filament;PLA;;Grasgrün;#00AF4B
-Das Filament;PLA;;Transluzent Grün;#00A822
-Das Filament;PLA;;Grün;#43A047
-Das Filament;PLA;;Glow Grün;#FFFFE8
-Das Filament;PLA;;Pfefferminze;#3eb489
-Das Filament;PETG;;Natur;#FCFAF2
-Das Filament;PETG;;Schwarz;#000000
-Das Filament;PETG;;Flammschutz Schwarz;#000000
-Das Filament;PETG;;Schiefergrau;#BCC0C2
-Das Filament;PETG;;Anthrazit V2;#61676B
-Das Filament;PETG;;Sturmgrau;#808080
-Das Filament;PETG;;Silber;#C0C0C0
-Das Filament;PETG;;Alu Silber;#c0c0c0
-Das Filament;PETG;;Weiß;#FFFFFF
-Das Filament;PETG;;Beige;#E5DAC8
-Das Filament;PETG;;Maisgelb;#F7B500
-Das Filament;PETG;;Transluzent Neongelb;#F8E45C
-Das Filament;PETG;;Melonengelb;#FF9C00
-Das Filament;PETG;;Leuchtorange;#EF461A
-Das Filament;PETG;;Transparent Rot;#FF0000
-Das Filament;PETG;;Feuerrot;#BB1F11
-Das Filament;PETG;;Rubinrot;#ff0000
-Das Filament;PETG;;Burnt Copper;#b87333
-Das Filament;PETG;;Lila;#8E24AA
-Das Filament;PETG;;Saphirblau;#0000ff
-Das Filament;PETG;;Metallic Blau;#0C69AC
-Das Filament;PETG;;Blau;#1E88E5
-Das Filament;PETG;;Transparent Blau;#1C71D8
-Das Filament;PETG;;Militär Grün;#00ff00
-Das Filament;PETG;;Opalgrün;#106037
-Das Filament;PETG;;Grasgrün;#00AF4B
-Das Filament;TPU;;Natur;#C0BFBC
-Das Filament;TPU;;Schwarz;#000000
-Das Filament;TPU;;Weiß;#FFFFFF
-Devil Design;PETG;;Weiß;#FFFFFF
-Devil Design;PETG;;Grau;#9E9E9E
-Devil Design;PETG;;Silber;#636363
-Devil Design;PETG;;Dunkelgrau;#343637
-Devil Design;PETG;;Galaxy Grau;#9E9E9E
-Devil Design;PETG;;Schwarz;#000000
-Devil Design;PETG;;Galaxy Schwarz;#000000
-Devil Design;PETG;;Blau;#1E88E5
-Devil Design;PETG;;Blau Transparent;#44D8FD
-Devil Design;PETG;;Super Blau;#081DB9
-Devil Design;PETG;;Hellgrün;#47D715
-Devil Design;PETG;;Smaragdgrün;#43A047
-Devil Design;PETG;;Grün Transparent;#26D123
-Devil Design;PETG;;Hellorange;#FA842B
-Devil Design;PETG;;Rot;#E53935
-Devil Design;PETG;;Rot Transparent;#AD1414
-Devil Design;PETG;;Gelb;#FDD835
-Devil Design;PETG;;Beige;#F5F5DC
-Devil Design;PETG;;Braun;#6D4C41
-Devil Design;PETG;;Olivgrün;#50533C
-Devil Design;PETG;;Galaxy Grün;#2F4538
-Devil Design;PETG;;Ocean Blau;#009DC4
-Devil Design;PETG;;Dunkelorange;#FF6600
-Devil Design;PETG;;Emerald Grün;#00AFAF
-Devil Design;PETG;;Minze;#9DFFCE
-Devil Design;PETG;;Rubin Rot;#AD1414
-Devil Design;PETG;;Olivgrün;#50533C
-Devil Design;PETG;;Violett;#7F00FF
-Devil Design;PETG;;Galaxy Rot;#F00000
-Devil Design;PETG;;Race Green;#0C4D09
-Devil Design;PETG;;Heller Stahl;#06323C
-Devil Design;PETG;;Galaxy Super Blau;#0E1358
-Devil Design;PETG;;Hellgrau;#D7D7D7
-Devil Design;PLA;;Weiß;#FFFFFF
-Devil Design;PLA;;PC Grau;#B7B3A8
-Devil Design;PLA;;Marmor;BABABA
-Devil Design;PLA;;Grau;#9E9E9E
-Devil Design;PLA;;Aluminium;#858583
-Devil Design;PLA;;Dunkelgrau;#393C37
-Devil Design;PLA;;Schwarz;#000000
-Devil Design;PLA;;Galaxy Schwarz;#000000
-Devil Design;PLA;;Blau;#1E88E5
-Devil Design;PLA;;Ocean Blau;#009DC4
-Devil Design;PLA;;Super Blau;#1E367B
-Devil Design;PLA;;Silk Blau;#1E88E5
-Devil Design;PLA;;Navy Blau;#0A183C
-Devil Design;PLA;;Minzgrün;#9DFFCE
-Devil Design;PLA;;Hellgrün;#47D715
-Devil Design;PLA;;Smaragdgrün;#43A047
-Devil Design;PLA;;Galaxy Grün;#2F4538
-Devil Design;PLA;;Hellorange;#FA842B
-Devil Design;PLA;;Rot;#E53935
-Devil Design;PLA;;Galaxy Rot;#F00000
-Devil Design;PLA;;Galaxy Violett;#613583
-Devil Design;PLA;;Gelb;#FDD835
-Devil Design;PLA;;Gold;#D4AF37
-Devil Design;PLA;;Silk Gold;#EBCE3D
-Devil Design;PLA;;Beige;#F5F5DC
-Devil Design;PLA;;Kastanienbraun;#cd5c5c
-Devil Design;PLA;;Braun;#6D4C41
-Devil Design;PLA;;Race Green;#0C4D09
-Devil Design;PLA;;Kupfer;#8D4931
-Devil Design;PLA;;Heißes Rot;#FF0000
-Devil Design;PLA;;Grün;#43A047
-Devil Design;PLA;;Bronze;#826648
-Devil Design;PLA;;Emerald Grün;#00AFAF
-Devil Design;PLA;;Helles Pink;#F76EEB
-Devil Design;PLA;;Ozean Blau;#009DC4
-Devil Design;PLA;;Dunklesorange;#FF6600
-Devil Design;PLA;;Perl Rosa;#F76EEB
-Devil Design;ASA;;Aluminium;#858583
-Devil Design;ASA;;Black;#000000
-Devil Design;ASA;;Bright Orange;#FA842B
-Devil Design;ASA;;Dark Gray;#343637
-Devil Design;ASA;;Natural;#DCDEE0
-Devil Design;ASA;;Race Green;#0C4D09
-Devil Design;ASA;;Red;#E53935
-Devil Design;ASA;;Super Blue ;#1E367B
-Devil Design;PLA;Silk;White;#FFFFFF
-Devil Design;PLA;Silk;Bright Yellow;#FDD835
-Devil Design;PLA;Silk;Bright Orange;#FB8C00
+Das Filament;PLA;Basic;Natur;#FCFAF2
+Das Filament;PLA;Basic;Schwarz;#000000
+Das Filament;PLA;Basic;Schwarz matt;#000000
+Das Filament;PLA;Basic;Grüngold;#263E0F
+Das Filament;PLA;Basic;Grüngold V2;#263E0F
+Das Filament;PLA;Basic;Blue Pearl;#2E454C
+Das Filament;PLA;Basic;Anthazit V2;#61676B
+Das Filament;PLA;Basic;Grau;#9E9E9E
+Das Filament;PLA;Basic;Silber;#C0C0C0
+Das Filament;PLA;Basic;Weiß;#FFFFFF
+Das Filament;PLA;Basic;Tonweiß matt;#EEEEED
+Das Filament;PLA;Basic;Vanille;#f3e5ab
+Das Filament;PLA;Basic;Sonnengelb;#F7B500
+Das Filament;PLA;Basic;Aprikose;#fbceb1
+Das Filament;PLA;Basic;Neonorange;#EF461A
+Das Filament;PLA;Basic;Reinorange;#E65300
+Das Filament;PLA;Basic;Rot;#E53935
+Das Filament;PLA;Basic;Feuerrot;#BB1F11
+Das Filament;PLA;Basic;Kirschrot;#9B2321
+Das Filament;PLA;Basic;Metallic Rot;#BB1F11
+Das Filament;PLA;Basic;Kastanienbraun;#633A34
+Das Filament;PLA;Basic;Gold V2;#8C6B29
+Das Filament;PLA;Basic;Lavendel;#e6e6fa
+Das Filament;PLA;Basic;Magenta;#BC4077
+Das Filament;PLA;Basic;Multicolor Galaxy;#203C7E+#83456E+#6F8B91
+Das Filament;PLA;Basic;Königsblau;#4169e1
+Das Filament;PLA;Basic;Toms3D Infinity Blue;#45AAE3
+Das Filament;PLA;Basic;Himmelblau;#87ceeb
+Das Filament;PLA;Basic;Milticolor Polarlicht;#0E74AF+#78A626
+Das Filament;PLA;Basic;Tannengrün;#024442
+Das Filament;PLA;Basic;Grasgrün;#00AF4B
+Das Filament;PLA;Basic;Transluzent Grün;#00A822
+Das Filament;PLA;Basic;Grün;#43A047
+Das Filament;PLA;Basic;Glow Grün;#FFFFE8
+Das Filament;PLA;Basic;Pfefferminze;#3eb489
+Das Filament;PETG;Basic;Natur;#FCFAF2
+Das Filament;PETG;Basic;Schwarz;#000000
+Das Filament;PETG;Basic;Flammschutz Schwarz;#000000
+Das Filament;PETG;Basic;Schiefergrau;#BCC0C2
+Das Filament;PETG;Basic;Anthrazit V2;#61676B
+Das Filament;PETG;Basic;Sturmgrau;#808080
+Das Filament;PETG;Basic;Silber;#C0C0C0
+Das Filament;PETG;Basic;Alu Silber;#c0c0c0
+Das Filament;PETG;Basic;Weiß;#FFFFFF
+Das Filament;PETG;Basic;Beige;#E5DAC8
+Das Filament;PETG;Basic;Maisgelb;#F7B500
+Das Filament;PETG;Basic;Transluzent Neongelb;#F8E45C
+Das Filament;PETG;Basic;Melonengelb;#FF9C00
+Das Filament;PETG;Basic;Leuchtorange;#EF461A
+Das Filament;PETG;Basic;Transparent Rot;#FF0000
+Das Filament;PETG;Basic;Feuerrot;#BB1F11
+Das Filament;PETG;Basic;Rubinrot;#ff0000
+Das Filament;PETG;Basic;Burnt Copper;#b87333
+Das Filament;PETG;Basic;Lila;#8E24AA
+Das Filament;PETG;Basic;Saphirblau;#0000ff
+Das Filament;PETG;Basic;Metallic Blau;#0C69AC
+Das Filament;PETG;Basic;Blau;#1E88E5
+Das Filament;PETG;Basic;Transparent Blau;#1C71D8
+Das Filament;PETG;Basic;Militär Grün;#00ff00
+Das Filament;PETG;Basic;Opalgrün;#106037
+Das Filament;PETG;Basic;Grasgrün;#00AF4B
+Das Filament;TPU;Basic;Natur;#C0BFBC
+Das Filament;TPU;Basic;Schwarz;#000000
+Das Filament;TPU;Basic;Weiß;#FFFFFF
+Devil Design;PETG;Basic;Weiß;#FFFFFF
+Devil Design;PETG;Basic;Grau;#9E9E9E
+Devil Design;PETG;Basic;Silber;#636363
+Devil Design;PETG;Basic;Dunkelgrau;#343637
+Devil Design;PETG;Basic;Galaxy Grau;#9E9E9E
+Devil Design;PETG;Basic;Schwarz;#000000
+Devil Design;PETG;Basic;Galaxy Schwarz;#000000
+Devil Design;PETG;Basic;Blau;#1E88E5
+Devil Design;PETG;Basic;Blau Transparent;#44D8FD
+Devil Design;PETG;Basic;Super Blau;#081DB9
+Devil Design;PETG;Basic;Hellgrün;#47D715
+Devil Design;PETG;Basic;Smaragdgrün;#287233
+Devil Design;PETG;Basic;Grün Transparent;#26D123
+Devil Design;PETG;Basic;Hellorange;#FA842B
+Devil Design;PETG;Basic;Rot;#E53935
+Devil Design;PETG;Basic;Rot Transparent;#AD0000
+Devil Design;PETG;Basic;Gelb;#FDD835
+Devil Design;PETG;Basic;Beige;#F5F5DC
+Devil Design;PETG;Basic;Braun;#6D4C41
+Devil Design;PETG;Basic;Olivgrün;#50533C
+Devil Design;PETG;Basic;Galaxy Grün;#2F4538
+Devil Design;PETG;Basic;Ocean Blau;#009DC4
+Devil Design;PETG;Basic;Dunkelorange;#FF6600
+Devil Design;PETG;Basic;Emerald Grün;#00AFAF
+Devil Design;PETG;Basic;Minze;#9DFFCE
+Devil Design;PETG;Basic;Rubin Rot;#AD1414
+Devil Design;PETG;Basic;Violett;#6F2A62
+Devil Design;PETG;Basic;Galaxy Rot;#F00000
+Devil Design;PETG;Basic;Race Green;#0C4D09
+Devil Design;PETG;Basic;Heller Stahl;#06323C
+Devil Design;PETG;Basic;Galaxy Super Blau;#0E1358
+Devil Design;PETG;Basic;Hellgrau;#D7D7D7
+Devil Design;PLA;Basic;Weiß;#FFFFFF
+Devil Design;PLA;Basic;PC Grau;#B7B3A8
+Devil Design;PLA;Basic;Marmor;#BABABA
+Devil Design;PLA;Basic;Grau;#9E9E9E
+Devil Design;PLA;Basic;Aluminium;#858583
+Devil Design;PLA;Basic;Dunkelgrau;#393C37
+Devil Design;PLA;Basic;Schwarz;#000000
+Devil Design;PLA;Basic;Galaxy Schwarz;#000000
+Devil Design;PLA;Basic;Blau;#1E88E5
+Devil Design;PLA;Basic;Ocean Blau;#009DC4
+Devil Design;PLA;Basic;Super Blau;#1E367B
+Devil Design;PLA;Basic;Silk Blau;#1E88E5
+Devil Design;PLA;Basic;Navy Blau;#0A183C
+Devil Design;PLA;Basic;Minzgrün;#9DFFCE
+Devil Design;PLA;Basic;Hellgrün;#47D715
+Devil Design;PLA;Basic;Smaragdgrün;#43A047
+Devil Design;PLA;Basic;Galaxy Grün;#2F4538
+Devil Design;PLA;Basic;Hellorange;#FA842B
+Devil Design;PLA;Basic;Rot;#E53935
+Devil Design;PLA;Basic;Galaxy Rot;#F00000
+Devil Design;PLA;Basic;Galaxy Violett;#613583
+Devil Design;PLA;Basic;Gelb;#FDD835
+Devil Design;PLA;Basic;Gold;#D4AF37
+Devil Design;PLA;Basic;Silk Gold;#EBCE3D
+Devil Design;PLA;Basic;Beige;#F5F5DC
+Devil Design;PLA;Basic;Kastanienbraun;#cd5c5c
+Devil Design;PLA;Basic;Braun;#6D4C41
+Devil Design;PLA;Basic;Race Green;#0C4D09
+Devil Design;PLA;Basic;Kupfer;#8D4931
+Devil Design;PLA;Basic;Heißes Rot;#FF0000
+Devil Design;PLA;Basic;Grün;#43A047
+Devil Design;PLA;Basic;Bronze;#826648
+Devil Design;PLA;Basic;Emerald Grün;#00AFAF
+Devil Design;PLA;Basic;Helles Pink;#F76EEB
+Devil Design;PLA;Basic;Ozean Blau;#009DC4
+Devil Design;PLA;Basic;Dunklesorange;#FF6600
+Devil Design;PLA;Basic;Perl Rosa;#F76EEB
+Devil Design;ASA;Basic;Aluminium;#858583
+Devil Design;ASA;Basic;Schwarz;#000000
+Devil Design;ASA;Basic;Bright Orange;#FA842B
+Devil Design;ASA;Basic;Dunkel Grau;#343637
+Devil Design;ASA;Basic;Natural;#DCDEE0
+Devil Design;ASA;Basic;Race Green;#0C4D09
+Devil Design;ASA;Basic;Rot;#E53935
+Devil Design;ASA;Basic;Super Blau;#1E367B
+Devil Design;PLA;Silk;Weiß;#FFFFFF
+Devil Design;PLA;Silk;Bright Yellow;#F6B900
+Devil Design;PLA;Silk;Bright Orange;#FA842B
 Devil Design;PLA;Silk;Bright Pink;#FF66CC
-Devil Design;PLA;Silk;Red;#E53935
-Devil Design;PLA;Silk;Blue;#1E88E5
-Devil Design;PLA;Silk;Violett;
-Devil Design;PLA;Silk;Bright Green;#43A047
-Devil Design;PLA;Silk;Light Gold;#D4AF37
-Devil Design;PLA;Silk;Gold;#D4AF37
-Devil Design;PLA;Silk;Bronze;
-Devil Design;ABS+;;Aluminum;
-Devil Design;ABS+;;Gray;#9E9E9E
-Devil Design;ABS+;;Black;#000000
-Devil Design;ABS+;;Red;#E53935
-Devil Design;ABS+;;White;#FFFFFF
-Devil Design;ABS+;;Super Blue;#1E88E5
-Devil Design;ABS+;;Bright Yellow;#FDD835
-Devil Design;ABS+;;Natural;
-Prusament;PLA;;Noctua Beige;#F5F5DC
-Prusament;PLA;;Noctua Brown;#6D4C41
-Prusament;PLA;;Pistachio Green;#43A047
-Prusament;PLA;;Chalky Blue;#1E88E5
-Prusament;PLA;;Anthracite Grey;#9E9E9E
-Prusament;PLA;;Orange;#FB8C00
-Prusament;PLA;;Pristine White;#FFFFFF
-Prusament;PLA;;Pearl White;#FFFFFF
-Prusament;PLA;;Vanilla White;#FFFFFF
-Prusament;PLA;;Pineapple Yellow;#FDD835
-Prusament;PLA;;Oh My Gold;#D4AF37
-Prusament;PLA;;Natural;
-Prusament;PLA;;Viva La Bronze;
-Prusament;PLA;;Orange;#FB8C00
-Prusament;PLA;;Galaxy Red;#E53935
-Prusament;PLA;;Lipstick Red;#E53935
-Prusament;PLA;;Ms. Pink;#FF66CC
-Prusament;PLA;;Galaxy Purple;#8E24AA
-Prusament;PLA;;Royal Blue;#1E88E5
-Prusament;PLA;;Azure Blue;#1E88E5
-Prusament;PLA;;Pro Green;#43A047
-Prusament;PLA;;Lime Green;#43A047
-Prusament;PLA;;Army Green;#43A047
-Prusament;PLA;;Simply Green;#43A047
-Prusament;PLA;;Opal Green;#43A047
-Prusament;PLA;;Galaxy Green;#43A047
-Prusament;PLA;;Premium Mystic Green;#43A047
-Prusament;PLA;;Gentlemans´s Grey;#9E9E9E
-Prusament;PLA;;Marble Grey;#9E9E9E
-Prusament;PLA;;Gravity Grey;#9E9E9E
-Prusament;PLA;;Galaxy Silver;#C0C0C0
-Prusament;PLA;;My Silverness;#C0C0C0
-Prusament;PLA;;Peal Mouse;
-Prusament;PLA;;Premium Mystic Brown;#6D4C41
-Prusament;PLA;;Prusa Galaxy Black;#000000
-Prusament;PLA;;Jet Black;#000000
-Prusament;PLA;;Anniversary LE2021;
-Prusament;PLA;;Gravity Grey Hex;#9E9E9E
+Devil Design;PLA;Silk;Rot;#E53935
+Devil Design;PLA;Silk;Blau;#1E88E5
+Devil Design;PLA;Silk;Violett;#6F2A62
+Devil Design;PLA;Silk;Bright Green;#47D715
+Devil Design;PLA;Silk;Light Gold;#EBCE3D
+Devil Design;PLA;Silk;Gold;#EBCE3D
+Devil Design;PLA;Silk;Bronze;#826648
+Devil Design;ABS+;Basic;Aluminum;#858583
+Devil Design;ABS+;Basic;Grau;#9E9E9E
+Devil Design;ABS+;Basic;Schwarz;#000000
+Devil Design;ABS+;Basic;Rot;#E53935
+Devil Design;ABS+;Basic;Weiß;#FFFFFF
+Devil Design;ABS+;Basic;Super Blau;#1E88E5
+Devil Design;ABS+;Basic;Bright Yellow;#F6B900
+Devil Design;ABS+;Basic;Natural;#DDC49A
+Prusament;PLA;Basic;Noctua Beige;#C8CCBE
+Prusament;PLA;Basic;Noctua Brown;#4F2506
+Prusament;PLA;Basic;Pistachio Green;#93A683
+Prusament;PLA;Basic;Chalky Blue;#6F9AAA
+Prusament;PLA;Basic;Anthracite Grey;#3F4647
+Prusament;PLA;Basic;Orange;#FB8C00
+Prusament;PLA;Basic;Pristine White;#E6EAEF
+Prusament;PLA;Basic;Pearl White;#D0D7D8
+Prusament;PLA;Basic;Vanilla White;#D9D4C6
+Prusament;PLA;Basic;Pineapple Yellow;#EFD00B
+Prusament;PLA;Basic;Oh My Gold;#CE9F2E
+Prusament;PLA;Basic;Natural;#DFDFD3
+Prusament;PLA;Basic;Viva La Bronze;#B38E3F
+Prusament;PLA;Basic;Galaxy Red;#8A2924
+Prusament;PLA;Basic;Lipstick Red;#D02F37
+Prusament;PLA;Basic;Ms. Pink;#E34A94
+Prusament;PLA;Basic;Galaxy Purple;#453A71
+Prusament;PLA;Basic;Royal Blue;#00518F
+Prusament;PLA;Basic;Azure Blue;#0082AD
+Prusament;PLA;Basic;Pro Green;#5AECCB
+Prusament;PLA;Basic;Lime Green;#A7B853
+Prusament;PLA;Basic;Army Green;#5E6345
+Prusament;PLA;Basic;Simply Green;#70A641
+Prusament;PLA;Basic;Opal Green;#065B4A
+Prusament;PLA;Basic;Galaxy Green;#555846
+Prusament;PLA;Basic;Premium Mystic Green;#555846
+Prusament;PLA;Basic;Gentlemans´s Grey;#354047
+Prusament;PLA;Basic;Marble Grey;#B0B4B5
+Prusament;PLA;Basic;Gravity Grey;#9FA4A8
+Prusament;PLA;Basic;Galaxy Silver;#999AA0
+Prusament;PLA;Basic;My Silverness;#AEB8C1
+Prusament;PLA;Basic;Peal Mouse;#A49D8E
+Prusament;PLA;Basic;Premium Mystic Brown;#482E31
+Prusament;PLA;Basic;Prusa Galaxy Black;#3D3E3D
+Prusament;PLA;Basic;Jet Black;#292B2B
+Prusament;PLA;Basic;Anniversary LE2023;#690FD7
+Prusament;PLA;Basic;Gravity Grey;#9FA4A8
 Prusament;PC;Space Grade;Black;#000000
-Prusament;PP;Glass Fibrer;Natural;
-Prusament;TPU;95A;Jet Black;#000000
-Prusament;TPU;95A;Natural;
+Prusament;PP;Glass Fibrer;Natural;#DBDBD2
+Prusament;TPU;95A;Jet Black;#292B2B
+Prusament;TPU;95A;Natural;#DBDBD2
 Prusament;PETG;Magnetite 40%;Grey;#9E9E9E
 Prusament;PP;Carbon Fiber;Black;#000000
-Prusament;PLA;Wood;Pastel Brown;#6D4C41
-Prusament;PLA;Wood;Chocolate Brown;#6D4C41
-Prusament;PLA;Wood;Linden Light;
-Prusament;PEI;1010;Natural;
+Prusament;PLA;Wood;Pastel Brown;#987654
+Prusament;PLA;Wood;Chocolate Brown;#8A6F57
+Prusament;PLA;Wood;Linden Light;#EECFAE
+Prusament;PEI;1010;Natural;#DBDBD2
 Prusament;PETG;Carbon Fiber;Black;#000000
-Prusament;rPLA;;Algae Pigment;
-Prusament;rPLA;;Corn Pigment;
-Prusament;rPLA;;Wine Pigment;
-Prusament;rPLA;;Risotto Pigment;
-Prusament;PETG;;Sky Blue;#1E88E5
-Prusament;PETG;;Anthracite Grey;#9E9E9E
-Prusament;PETG;;Urban Grey;#9E9E9E
-Prusament;PETG;;Signal White;#FFFFFF
-Prusament;PETG;;Clear;
-Prusament;PETG;;Mango Yellow;#FDD835
-Prusament;PETG;;Yellow Gold;#FDD835
-Prusament;PETG;;Orange;#FB8C00
-Prusament;PETG;;Orange Transparent;#FB8C00
-Prusament;PETG;;Terracotta Light;
-Prusament;PETG;;Carmine Red Transparent;#E53935
-Prusament;PETG;;Lipstick Red;#E53935
-Prusament;PETG;;Schimmering Violet;
-Prusament;PETG;;Ultramarine Blue Transparent;#1E88E5
-Prusament;PETG;;Chalky Blue;#1E88E5
-Prusament;PETG;;Ocean Blue;#1E88E5
-Prusament;PETG;;Prusa Pro Green;#43A047
-Prusament;PETG;;Jungle Green;#43A047
-Prusament;PETG;;Pistachio Green;#43A047
-Prusament;PETG;;Neon Green Transparent;#43A047
-Prusament;PETG;;Matte Black;#000000
-Prusament;PETG;;Prusa Galaxy Black;#000000
-Prusament;PETG;;Jet Black;#000000
-Prusament;PETG;V0;Natural;
-Prusament;PETG;V0;Jet Black;#000000
-Prusament;PVB;;Natural Transparent;
-Prusament;PVB;;Light Yellow Transparent;#FDD835
-Prusament;PVB;;Orange Transparent;#FB8C00
-Prusament;PVB;;Dark Blue Transparent;#1E88E5
-Prusament;PVB;;Bright Green Transparent;#43A047
-Prusament;PVB;;Smoky Black Transparent;#000000
-Prusament;ASA;;Olive Green;#43A047
-Prusament;ASA;;Prusa Go Green;#43A047
-Prusament;ASA;;Orange;#FB8C00
-Prusament;ASA;;Signal White;#FFFFFF
-Prusament;ASA;;Jet Black;#000000
-Prusament;ASA;;Prusa Galaxy Black;#000000
-Prusament;ASA;;Natural;
-Prusament;ASA;;Lipstick Red;#E53935
-Prusament;ASA;;Sapphire Blue;#1E88E5
+Prusament;rPLA;Basic;Algae Pigment;#674B42
+Prusament;rPLA;Basic;Corn Pigment;#B27B46
+Prusament;rPLA;Basic;Wine Pigment;#5E4940
+Prusament;rPLA;Basic;Risotto Pigment;#CCC9C0
+Prusament;PETG;Basic;Sky Blue;#067FD0
+Prusament;PETG;Basic;Anthracite Grey;#3F4647
+Prusament;PETG;Basic;Urban Grey;#95908D
+Prusament;PETG;Basic;Signal White;#E3DFD9
+Prusament;PETG;Basic;Clear;#E4E7E5
+Prusament;PETG;Basic;Mango Yellow;#F2B70A
+Prusament;PETG;Basic;Yellow Gold;#9A8524
+Prusament;PETG;Basic;Orange;#FB8C00
+Prusament;PETG;Basic;Orange Transparent;#FA7F01
+Prusament;PETG;Basic;Terracotta Light;#B87F6A
+Prusament;PETG;Basic;Carmine Red Transparent;#B54230
+Prusament;PETG;Basic;Lipstick Red;#BB2E33
+Prusament;PETG;Basic;Schimmering Violet;#5B6477
+Prusament;PETG;Basic;Ultramarine Blue Transparent;#2B3B61
+Prusament;PETG;Basic;Chalky Blue;#6F9AAA
+Prusament;PETG;Basic;Ocean Blue;#194C55
+Prusament;PETG;Basic;Prusa Pro Green;#5AECCB
+Prusament;PETG;Basic;Jungle Green;#007249
+Prusament;PETG;Basic;Pistachio Green;#93A683
+Prusament;PETG;Basic;Neon Green Transparent;#A6EC5F
+Prusament;PETG;Basic;Matte Black;#303635
+Prusament;PETG;Basic;Prusa Galaxy Black;#3D3E3D
+Prusament;PETG;Basic;Jet Black;#292B2B
+Prusament;PVB;Basic;Natural Transparent;#DFDFD3
+Prusament;PVB;Basic;Orange Transparent;#FA7F01
+Prusament;PVB;Basic;Dark Blue Transparent;#0A4DA5
+Prusament;PVB;Basic;Bright Green Transparent;#2B3B61
+Prusament;PVB;Basic;Smoky Black Transparent;#ADADAD
+Prusament;ASA;Basic;Olive Green;#5E6345
+Prusament;ASA;Basic;Prusa Go Green;#5AECCB
+Prusament;ASA;Basic;Orange;#FB8C00
+Prusament;ASA;Basic;Signal White;#E3DFD9
+Prusament;ASA;Basic;Jet Black;#292B2B
+Prusament;ASA;Basic;Prusa Galaxy Black;#3D3E3D
+Prusament;ASA;Basic;Natural;#DFDFD3
+Prusament;ASA;Basic;Lipstick Red;#D02F37
+Prusament;ASA;Basic;Sapphire Blue;#3B4468
 Prusament;PC;Blend;Orange;#FB8C00
-Prusament;PC;Blend;Prusa Go Green;#43A047
-Prusament;PC;Blend;Jet Black;#000000
-Prusament;PC;Blend;Urban Grey;#9E9E9E
-Prusament;PC;Blend;Natural;
+Prusament;PC;Blend;Prusa Go Green;#70A641
+Prusament;PC;Blend;Jet Black;#292B2B
+Prusament;PC;Blend;Urban Grey;#999596
+Prusament;PC;Blend;Natural;#DFDFD3
 Prusament;PC;Blend Carbon Fiber;Black;#000000
-Redline Filament;PLA;;Beige;#F5F5DC
-Redline Filament;PLA;;Maisgelb;#FDD835
-Redline Filament;PLA;;Elfenbein;
-Redline Filament;PLA;;Schwefelgelb;#FDD835
-Redline Filament;PLA;;Gelb;#FDD835
-Redline Filament;PLA;;Gelbgold;#FDD835
-Redline Filament;PLA;;Goldbraun;#6D4C41
-Redline Filament;PLA;;Bronzegold;#D4AF37
-Redline Filament;PLA;;Hellorange;#FB8C00
-Redline Filament;PLA;;Orange;#FB8C00
-Redline Filament;PLA;;Braunrot;#E53935
-Redline Filament;PLA;;Rot;#E53935
-Redline Filament;PLA;;Orientrot;#E53935
-Redline Filament;PLA;;Kupferbraun;#6D4C41
-Redline Filament;PLA;;Lila;#8E24AA
-Redline Filament;PLA;;Magenta;
-Redline Filament;PLA;;Leichtes Pink;#FF66CC
-Redline Filament;PLA;;Dunkelblau;#1E88E5
-Redline Filament;PLA;;Kobaltblau;#1E88E5
-Redline Filament;PLA;;Blau;#1E88E5
-Redline Filament;PLA;;Himmelblau;#1E88E5
-Redline Filament;PLA;;Dunkel Grün;#43A047
-Redline Filament;PLA;;Olivgrün;#43A047
-Redline Filament;PLA;;Apfelgrün;#43A047
-Redline Filament;PLA;;Leichtes Grün;#43A047
-Redline Filament;PLA;;Beigebraun;#6D4C41
-Redline Filament;PLA;;Braun;#6D4C41
-Redline Filament;PLA;;Khaki;
-Redline Filament;PLA;;Hellgrau;#9E9E9E
-Redline Filament;PLA;;Silber;
-Redline Filament;PLA;;Grau;#9E9E9E
-Redline Filament;PLA;;Eisengrau;#9E9E9E
-Redline Filament;PLA;;Weiß;#FFFFFF
-Redline Filament;PLA;;Transparent;
-Redline Filament;PLA;;Cream Weiß;#FFFFFF
-Redline Filament;PLA;;Schwarz;#000000
-Redline Filament;PLA;;Glow in the Dark Grün;#43A047
-Redline Filament;PLA;;Glow in the Dark Blau;#1E88E5
-Redline Filament;PLA;;Neon Gelb;#FDD835
-Redline Filament;PLA;;Neon Grpn;
-Redline Filament;PLA;;Neon Orange;#FB8C00
-Redline Filament;PLA;;Neon Pink;#FF66CC
-Redline Filament;PLA;;Neon Transparent;
-Redline Filament;PLA;;Matt Graphitschwarz;#000000
-Redline Filament;PLA;;Anthrazitgrau;#9E9E9E
-Redline Filament;PLA;;Lavendel;
-Redline Filament;PLA;;GreenyHT Schwarz;#000000
-Redline Filament;PLA;;Taubenblau;#1E88E5
-Redline Filament;PLA;;Iceland Blue;#1E88E5
-Redline Filament;PLA;;Wasserblau;#1E88E5
-Redline Filament;PLA;;CF10 Carbon;
-Redline Filament;PLA;;CF10 Blue Carbon;#1E88E5
-Redline Filament;PLA;;CF10 Gray Carbon;#9E9E9E
-Redline Filament;PLA;;CF10 Red Carbon;#E53935
-Redline Filament;PLA;Pastel;Minzcocktail;
-Redline Filament;PLA;Pastel;Flieder;
-Redline Filament;PLA;Pastel;Rose;
+Redline Filament;PLA;Basic;Beige;#F5F5DC
+Redline Filament;PLA;Basic;Maisgelb;#FFF700
+Redline Filament;PLA;Basic;Schwefelgelb;#DABE01
+Redline Filament;PLA;Basic;Gelb;#FDD835
+Redline Filament;PLA;Basic;Gelbgold;#DABE01
+Redline Filament;PLA;Basic;Goldbraun;#76623F
+Redline Filament;PLA;Basic;Bronzegold;#76623F
+Redline Filament;PLA;Basic;Hellorange;#FFAB01
+Redline Filament;PLA;Basic;Orange;#FB8C00
+Redline Filament;PLA;Basic;Braunrot;#B56231
+Redline Filament;PLA;Basic;Rot;#E53935
+Redline Filament;PLA;Basic;Orientrot;#FF0000
+Redline Filament;PLA;Basic;Kupferbraun;#B56231
+Redline Filament;PLA;Basic;Lila;#8E24AA
+Redline Filament;PLA;Basic;Magenta;#B52678
+Redline Filament;PLA;Basic;Leichtes Pink;#F4A4C0
+Redline Filament;PLA;Basic;Dunkelblau;#193153
+Redline Filament;PLA;Basic;Kobaltblau;#193153
+Redline Filament;PLA;Basic;Blau;#1E88E5
+Redline Filament;PLA;Basic;Himmelblau;#3583C3
+Redline Filament;PLA;Basic;Dunkel Grün;#0B620B
+Redline Filament;PLA;Basic;Olivgrün;#285007
+Redline Filament;PLA;Basic;Apfelgrün;#6FB02E
+Redline Filament;PLA;Basic;Leichtes Grün;#6FB02E
+Redline Filament;PLA;Basic;Beigebraun;#A66540
+Redline Filament;PLA;Basic;Braun;#6D4C41
+Redline Filament;PLA;Basic;Khaki;#D5C58A
+Redline Filament;PLA;Basic;Hellgrau;#857F74
+Redline Filament;PLA;Basic;Silber;#C4C4C4
+Redline Filament;PLA;Basic;Grau;#9E9E9E
+Redline Filament;PLA;Basic;Eisengrau;#212427
+Redline Filament;PLA;Basic;Weiß;#FFFFFF
+Redline Filament;PLA;Basic;Transparent;#FFFFFF
+Redline Filament;PLA;Basic;Cream Weiß;#FEFCF6
+Redline Filament;PLA;Basic;Schwarz;#000000
+Redline Filament;PLA;Basic;Neon Gelb;#FFDE21
+Redline Filament;PLA;Basic;Neon Grün;#25EF72
+Redline Filament;PLA;Basic;Neon Orange;#FB7603
+Redline Filament;PLA;Basic;Neon Pink;#FF13F0
+Redline Filament;PLA;Basic;Neon Transparent;#FFFFFF
+Redline Filament;PLA;Basic;Matt Graphitschwarz;#020303
+Redline Filament;PLA;Basic;Anthrazitgrau;#212427
+Redline Filament;PLA;Basic;Lavendel;#D3D3FF
+Redline Filament;PLA;Basic;Taubenblau;#6C7C98
+Redline Filament;PLA;Basic;Iceland Blue;#0000ff
+Redline Filament;PLA;Basic;Wasserblau;#308291
+Redline Filament;PLA;Pastel;Flieder;#A781EF
 Redline Filament;PLA;Pastel;Polarblau;#1E88E5
-Redline Filament;PLA;Pastel;Aprikosen Sorbet;
-Redline Filament;PLA;Pastel;Zitronencreme;
-Redline Filament;PLA;Pastel;Limettensaft;
-Redline Filament;PLA;Pastel;Soft Blue;#1E88E5
-Redline Filament;TPU;;Schwarz;#000000
-Redline Filament;TPU;;Rot;#E53935
-Redline Filament;TPU;;Dunkelblau;#1E88E5
-Redline Filament;TPU;;Weiß;#FFFFFF
-Redline Filament;PA6;Natur;Natur;
-Redline Filament;Carbon;;ASA CF10 Carbon;
-Redline Filament;Carbon;;PET-G CF10 Dunkelgrau;#9E9E9E
-Redline Filament;Carbon;;Carbon PA6 CF Nylon;
-Redline Filament;Carbon;;PLA CF10 Carbon;
-Redline Filament;Carbon;;PC Blend Carbon Fiber;
-Redline Filament;Carbon;;PLA CF10 Blue;#1E88E5
-Redline Filament;Carbon;;PLA CF10 RED;#E53935
-Redline Filament;Carbon;;PLA CF10 Gray;#9E9E9E
-Redline Filament;ASA-X;;Schwarz;#000000
-Redline Filament;ASA-X;;Weiß;#FFFFFF
-Redline Filament;ASA-X;;Dunkelblau;#1E88E5
-Redline Filament;ASA-X;;Eisengrau;#9E9E9E
-Redline Filament;ASA-X;;Rot;#E53935
-Redline Filament;ASA-X;;Hellgrau;#9E9E9E
-Redline Filament;ASA-X;;Verkehrsblau;#1E88E5
-Redline Filament;ASA-X;;Apfelgrün;#43A047
-Redline Filament;ASA-X;;Blattgrün;#43A047
-Redline Filament;ASA-X;;Dunkelsilber;
-Redline Filament;ASA-X;;Gelb;#FDD835
-Redline Filament;ASA-X;;Orange;#FB8C00
-Redline Filament;ASA-X;;Kevlar Schwarz;#000000
-Redline Filament;ASA-X;;Glitzer Eisengrau;#9E9E9E
-Redline Filament;ABS;;Schwarz;#000000
-Redline Filament;ABS;;Weiß;#FFFFFF
-Redline Filament;ABS;;Eisengrau;#9E9E9E
-Redline Filament;ABS;;Rot;#E53935
-Redline Filament;ABS;;Glitzer Eisengrau;#9E9E9E
-Redline Filament;ABS;;Neon Grün;#43A047
-Redline Filament;ABS;;Dunkelblau;#1E88E5
-Redline Filament;ABS;;Bronzegold;#D4AF37
-Redline Filament;ABS;;Silber;
-Redline Filament;ABS;;Magenta;
-Redline Filament;ABS;;Orange;#FB8C00
-Redline Filament;ABS;;Dunkelgrün;#43A047
-Redline Filament;ABS;;Kevlar Schwarz;#000000
-Redline Filament;ABS;;Neon Gelb;#FDD835
-Redline Filament;ABS;;Gelb;#FDD835
-Redline Filament;ABS;;Blau;#1E88E5
-Redline Filament;ABS;;Neon Pink;#FF66CC
-Redline Filament;ABS;;Himmelblau;#1E88E5
-Redline Filament;ABS;;Dunkelrot;#E53935
-Redline Filament;ABS;;Graualuminium;#9E9E9E
-Redline Filament;ABS;;Glow in the Dark;
-Redline Filament;ABS;;Signalweiß;#FFFFFF
-Redline Filament;ABS;;Natur;
-Redline Filament;ABS;;Zinkgelb;#FDD835
+Redline Filament;TPU;Basic;Schwarz;#000000
+Redline Filament;TPU;Basic;Rot;#E53935
+Redline Filament;TPU;Basic;Dunkelblau;#193153
+Redline Filament;TPU;Basic;Weiß;#FFFFFF
+Redline Filament;PA6;Natur;Natur;#FFFFFF
+Redline Filament;ASA-X;Basic;Schwarz;#000000
+Redline Filament;ASA-X;Basic;Weiß;#FFFFFF
+Redline Filament;ASA-X;Basic;Dunkelblau;#1E88E5
+Redline Filament;ASA-X;Basic;Eisengrau;#212427
+Redline Filament;ASA-X;Basic;Rot;#E53935
+Redline Filament;ASA-X;Basic;Hellgrau;#857F74
+Redline Filament;ASA-X;Basic;Verkehrsblau;#0078A7
+Redline Filament;ASA-X;Basic;Apfelgrün;#6FB02E
+Redline Filament;ASA-X;Basic;Blattgrün;#325A28
+Redline Filament;ASA-X;Basic;Dunkelsilber;#343438
+Redline Filament;ASA-X;Basic;Gelb;#FDD835
+Redline Filament;ASA-X;Basic;Orange;#FB8C00
+Redline Filament;ASA-X;Basic;Kevlar Schwarz;#000000
+Redline Filament;ASA-X;Basic;Glitzer Eisengrau;#555555
+Redline Filament;ABS;Basic;Schwarz;#000000
+Redline Filament;ABS;Basic;Weiß;#FFFFFF
+Redline Filament;ABS;Basic;Eisengrau;#212427
+Redline Filament;ABS;Basic;Rot;#E53935
+Redline Filament;ABS;Basic;Glitzer Eisengrau;#555555
+Redline Filament;ABS;Basic;Neon Grün;#25EF72
+Redline Filament;ABS;Basic;Dunkelblau;#193153
+Redline Filament;ABS;Basic;Bronzegold;#76623F
+Redline Filament;ABS;Basic;Silber;#C0C0C0
+Redline Filament;ABS;Basic;Magenta;#B52678
+Redline Filament;ABS;Basic;Orange;#FB8C00
+Redline Filament;ABS;Basic;Dunkelgrün;#0B620B
+Redline Filament;ABS;Basic;Kevlar Schwarz;#000000
+Redline Filament;ABS;Basic;Neon Gelb;#FDD835
+Redline Filament;ABS;Basic;Gelb;#FDD835
+Redline Filament;ABS;Basic;Blau;#1E88E5
+Redline Filament;ABS;Basic;Neon Pink;#FF66CC
+Redline Filament;ABS;Basic;Himmelblau;#3583C3
+Redline Filament;ABS;Basic;Dunkelrot;#650023
+Redline Filament;ABS;Basic;Graualuminium;#57544B
+Redline Filament;ABS;Basic;Glow in the Dark;#B0ECAC
+Redline Filament;ABS;Basic;Signalweiß;#FFFFFF
+Redline Filament;ABS;Basic;Natur;#FFFFFF
+Redline Filament;ABS;Basic;Zinkgelb;#FDD835
 Fiberlogy;PLA;Easy;White;#FFFFFF
 Fiberlogy;PLA;Easy;Beige;#F5F5DC
 Fiberlogy;PLA;Easy;Black;#000000
-Fiberlogy;PLA;Easy;True Gold;#D4AF37
-Fiberlogy;PLA;Easy;Inox;
+Fiberlogy;PLA;Easy;True Gold;#CB882D
+Fiberlogy;PLA;Easy;Inox;#969AA3
 Fiberlogy;PLA;Easy;Navy Blue;#1E88E5
 Fiberlogy;PLA;Easy;Pink;#FF66CC
-Fiberlogy;PLA;Easy;True Blue;#1E88E5
-Fiberlogy;PLA;Easy;Burgundy;
-Fiberlogy;PLA;Easy;Vertigo;
+Fiberlogy;PLA;Easy;True Blue;#0000FF
+Fiberlogy;PLA;Easy;Burgundy;#971B2F
+Fiberlogy;PLA;Easy;Vertigo;#292929
 Fiberlogy;PLA;Easy;Lithophane White;#FFFFFF
 Fiberlogy;PLA;Easy;Red;#E53935
-Fiberlogy;PLA;Easy;Light Green;#43A047
+Fiberlogy;PLA;Easy;Light Green;#83FD4E
 Fiberlogy;PLA;Easy;Yellow;#FDD835
-Fiberlogy;PLA;Easy;Graphite;
-Fiberlogy;PLA;Easy;Pastel Yellow;#FDD835
-Fiberlogy;PLA;Easy;Alien Green;#43A047
-Fiberlogy;PLA;Easy;Pastel Blue;#1E88E5
+Fiberlogy;PLA;Easy;Graphite;#404040
+Fiberlogy;PLA;Easy;Pastel Yellow;#EDED93
+Fiberlogy;PLA;Easy;Alien Green;#1A564B
+Fiberlogy;PLA;Easy;Pastel Blue;#AACBE4
 Fiberlogy;PLA;Easy;Orange;#FB8C00
 Fiberlogy;PLA;Easy;Ruby Red;#E53935
-Fiberlogy;PLA;Easy;Aurora;
-Fiberlogy;PLA;Easy;Gray;#9E9E9E
-Fiberlogy;PLA;Easy;Onyx;
-Fiberlogy;PLA;Easy;Neon Yellow;#FDD835
-Fiberlogy;PLA;Easy;Sandstone;
-Fiberlogy;PLA;Easy;Midnight Sky;
-Fiberlogy;PLA;Easy;Neon Green;#43A047
+Fiberlogy;PLA;Easy;Gray;#858585
+Fiberlogy;PLA;Easy;Onyx;#212121
+Fiberlogy;PLA;Easy;Neon Yellow;#D9E713
+Fiberlogy;PLA;Easy;Midnight Sky;#160078
+Fiberlogy;PLA;Easy;Neon Green;#37FF00
 Fiberlogy;PLA;Easy;Brown;#6D4C41
-Fiberlogy;PLA;Easy;Pastel Lilac;#8E24AA
-Fiberlogy;PLA;Easy;Pastel Pink;#FF66CC
-Fiberlogy;PLA;Easy;Pastel Mint;
-Fiberlogy;PLA;Easy;Spectra Blue;#1E88E5
-Fiberlogy;PLA;Easy;Skin3;
-Fiberlogy;PLA;Easy;Skin2;
-Fiberlogy;PLA;Easy;Candy;
-Fiberlogy;PLA;Easy;Granite;
+Fiberlogy;PLA;Easy;Pastel Lilac;#BF9BDE
+Fiberlogy;PLA;Easy;Pastel Pink;#FFCCCC
+Fiberlogy;PLA;Easy;Pastel Mint;#90F9F2
+Fiberlogy;PLA;Easy;Spectra Blue;#2C4F66
+Fiberlogy;PLA;Easy;Skin3;#AA7D64
+Fiberlogy;PLA;Easy;Skin2;#AA7D64
+Fiberlogy;PLA;Easy;Granite;#5E605D
 Fiberlogy;PLA;Easy;Green;#43A047
-Fiberlogy;PLA;Easy;Skin1;
-Fiberlogy;PLA;Easy;Onyx Gold;#D4AF37
-Fiberlogy;PLA;Easy;Brick;
+Fiberlogy;PLA;Easy;Skin1;#D69494
+Fiberlogy;PLA;Easy;Onyx Gold;#212121
+Fiberlogy;PLA;Easy;Brick;#8B4F39
 Fiberlogy;PLA;Easy;Neon Orange;#FB8C00
 Fiberlogy;PLA;Easy;Blue;#1E88E5
-Fiberlogy;PLA;Easy;Red Orange;#E53935
+Fiberlogy;PLA;Easy;Red Orange;#F6421F
 Fiberlogy;PLA;Easy;Irish Green;#43A047
-Fiberlogy;PLA;HS Clear;Pure Transparent;
-Fiberlogy;PLA;HS Clear;Burgundy;
-Fiberlogy;PLA;HS Clear;Navy Blue;#1E88E5
+Fiberlogy;PLA;HS Clear;Pure Transparent;#ECECE7
+Fiberlogy;PLA;HS Clear;Burgundy;#6E000F
+Fiberlogy;PLA;HS Clear;Navy Blue;#0002BB
 Fiberlogy;PLA;HS Clear;Pink;#FF66CC
-Fiberlogy;PLA;HS Clear;Orange;#FB8C00
+Fiberlogy;PLA;HS Clear;Orange;#D6442B
 Fiberlogy;PLA;HS Clear;Green;#43A047
-Fiberlogy;PLA;HS Clear;Light Green;#43A047
+Fiberlogy;PLA;HS Clear;Light Green;#85BE18
 Fiberlogy;PLA;HS Clear;Blue;#1E88E5
-Fiberlogy;PLA;HS Clear;Turquoise;
-Fiberlogy;PLA;Impact;Khaki;
 Fiberlogy;PLA;Impact;White;#FFFFFF
-Fiberlogy;PLA;Impact;Graphite;
+Fiberlogy;PLA;Impact;Graphite;#404040
 Fiberlogy;PLA;Impact;Black;#000000
-Fiberlogy;PLA;Impact;Vertigo;
-Fiberlogy;PLA;Impact;Light Green;#43A047
+Fiberlogy;PLA;Impact;Vertigo;#292929
+Fiberlogy;PLA;Impact;Light Green;#83FD4E
 Fiberlogy;PLA;Impact;Gray;#9E9E9E
-Fiberlogy;PLA;Impact;Onyx;
+Fiberlogy;PLA;Impact;Onyx;#212121
 Fiberlogy;PLA;Impact;Orange;#FB8C00
 Fiberlogy;PLA;Impact;Yellow;#FDD835
-Fiberlogy;PLA;Impact;Army Green;#43A047
+Fiberlogy;PLA;Impact;Army Green;#263E0F
 Fiberlogy;PLA;Impact;Red;#E53935
-Fiberlogy;PLA;Impact;Olive Green;#43A047
-Fiberlogy;PLA;Impact;Plue;
-Fiberlogy;PLA;Matte;Pastel Pink;#FF66CC
+Fiberlogy;PLA;Impact;Olive Green;#3C5D42
+Fiberlogy;PLA;Matte;Pastel Pink;#FFCCCC
 Fiberlogy;PLA;Matte;Beige;#F5F5DC
-Fiberlogy;PLA;Matte;Skin1;
+Fiberlogy;PLA;Matte;Skin1;#D69494
 Fiberlogy;PLA;Matte;Gray;#9E9E9E
-Fiberlogy;PLA;Matte;Pastel Yellow;#FDD835
+Fiberlogy;PLA;Matte;Pastel Yellow;#E4DCAA
 Fiberlogy;PLA;Matte;White;#FFFFFF
-Fiberlogy;PLA;Matte;Skin2;
-Fiberlogy;PLA;Matte;Pastel Mint;
-Fiberlogy;PLA;Matte;Graphite;
-Fiberlogy;PLA;Matte;Skin3;
-Fiberlogy;PLA;Matte;Pastel Lilac;#8E24AA
+Fiberlogy;PLA;Matte;Skin2;#AA7D64
+Fiberlogy;PLA;Matte;Pastel Mint;#90F9F2
+Fiberlogy;PLA;Matte;Graphite;#BBBCBC
+Fiberlogy;PLA;Matte;Skin3;#AA7D64
+Fiberlogy;PLA;Matte;Pastel Lilac;#8E7ECF
 Fiberlogy;PLA;Matte;Black;#000000
 Fiberlogy;PLA;Matte;Blue;#1E88E5
 Fiberlogy;PLA;Matte;Red;#E53935
-Fiberlogy;PLA;Matte;Pastel Blue;#1E88E5
-Fiberlogy;PLA;Mineral;White;#FFFFFF
-Fiberlogy;PLA;Mineral;Marble;
-Fiberlogy;PLA;Mineral;Concrete;
-Fiberlogy;PLA;Mineral;Natur;
-Fiberlogy;PLA;Mineral;Black;#000000
+Fiberlogy;PLA;Matte;Pastel Blue;#AACBE4
 Fiberlogy;PETG;Easy;Black;#000000
-Fiberlogy;PETG;Easy;Burgundy;
+Fiberlogy;PETG;Easy;Burgundy;#800020
 Fiberlogy;PETG;Easy;White;#FFFFFF
-Fiberlogy;PETG;Easy;Transparent;
-Fiberlogy;PETG;Easy;Graphite;
-Fiberlogy;PETG;Easy;Pastel Pink;#FF66CC
+Fiberlogy;PETG;Easy;Transparent;#ECECE7
+Fiberlogy;PETG;Easy;Graphite;#53565A
+Fiberlogy;PETG;Easy;Pastel Pink;#FFCCCC
 Fiberlogy;PETG;Easy;Orange;#FB8C00
-Fiberlogy;PETG;Easy;Pastel Blue;#1E88E5
-Fiberlogy;PETG;Easy;Bottle Green;#43A047
-Fiberlogy;PETG;Easy;Pastel Mint;
+Fiberlogy;PETG;Easy;Pastel Blue;#2C4F66
+Fiberlogy;PETG;Easy;Pastel Mint;#90F9F2
 Fiberlogy;PETG;Easy;Gray;#9E9E9E
-Fiberlogy;PETG;Easy;Vertigo;
+Fiberlogy;PETG;Easy;Vertigo;#282828
 Fiberlogy;PETG;Easy;Yellow;#FDD835
 Fiberlogy;PETG;Easy;Silver;#C0C0C0
 Fiberlogy;PETG;Easy;Blue;#1E88E5
-Fiberlogy;PETG;Easy;Light Green;#43A047
+Fiberlogy;PETG;Easy;Light Green;#83FD4E
 Fiberlogy;PETG;Easy;Red;#E53935
 Fiberlogy;PETG;Easy;Orange;#FB8C00
-Fiberlogy;PETG;Easy;Pastel Lilac;#8E24AA
-Fiberlogy;PETG;Easy;Pastel Yellow;#FDD835
+Fiberlogy;PETG;Easy;Pastel Lilac;#8E7ECF
+Fiberlogy;PETG;Easy;Pastel Yellow;#EDED93
 Fiberlogy;PETG;Easy;Navy Blue;#1E88E5
-Fiberlogy;PETG;Easy;Onyx;
-Fiberlogy;PETG;;Scarlet;
+Fiberlogy;PETG;Easy;Onyx;#212121
 Fiberlogy;PETG;CF;Black;#000000
-Fiberlogy;PETG+TPE;;Natural;
-Fiberlogy;PETG+TPE;;Black;#000000
+Fiberlogy;PETG+TPE;Basic;Natural;#FAFAFA
+Fiberlogy;PETG+TPE;Basic;Black;#000000
 Fiberlogy;PETG;Matte;Black;#000000
-Fiberlogy;PETG;Matte;Pastel Lilac;#8E24AA
+Fiberlogy;PETG;Matte;Pastel Lilac;#8E7ECF
 Fiberlogy;PETG;Matte;Red;#E53935
 Fiberlogy;PETG;Matte;White;#FFFFFF
 Fiberlogy;PETG;Matte;Gray;#9E9E9E
-Fiberlogy;PETG;Matte;Pastel Mint;
-Fiberlogy;PETG;Matte;Graphite;
-Fiberlogy;PETG;Matte;Pastel Pink;#FF66CC
-Fiberlogy;PETG;Matte;Pastel Yellow;#FDD835
+Fiberlogy;PETG;Matte;Pastel Mint;#90F9F2
+Fiberlogy;PETG;Matte;Graphite;#BBBCBC
+Fiberlogy;PETG;Matte;Pastel Pink;#FFCCCC
+Fiberlogy;PETG;Matte;Pastel Yellow;#E4DCAA
 Fiberlogy;PETG;Matte;Blue;#1E88E5
-Fiberlogy;PETG;Matte;Light Green;#43A047
+Fiberlogy;PETG;Matte;Light Green;#83FD4E
 Fiberlogy;PETG;Matte;Green;#43A047
-Fiberlogy;PETG;Matte;Pastel Blue;#1E88E5
-Fiberlogy;PETG;V0;Natural;
+Fiberlogy;PETG;Matte;Pastel Blue;#2C4F66
+Fiberlogy;PETG;V0;Natural;#FAFAFA
 Fiberlogy;PETG;V0;Black;#000000
 Fiberlogy;PETG;V0;Gray;#9E9E9E
-Fiberlogy;PCTG;;Schwarz;#000000
-Fiberlogy;PCTG;;Blau;#1E88E5
-Fiberlogy;PCTG;;Navy Blau;#1E88E5
-Fiberlogy;PCTG;;Rot;#E53935
-Fiberlogy;PCTG;;Orange Transparent;#FB8C00
-Fiberlogy;PCTG;;Graphit;
-Fiberlogy;PCTG;;Orange;#FB8C00
-Fiberlogy;PCTG;;Vertigo;
-Fiberlogy;PCTG;;Grau;#9E9E9E
-Fiberlogy;PCTG;;Weiß;#FFFFFF
-Fiberlogy;PCTG;;Onyx;
-Fiberlogy;PCTG;;Pure Transparent;
-Fiberlogy;PCTG;;Burgundy;
+Fiberlogy;PCTG;Basic;Schwarz;#000000
+Fiberlogy;PCTG;Basic;Blau;#1E88E5
+Fiberlogy;PCTG;Basic;Navy Blau;#1E88E5
+Fiberlogy;PCTG;Basic;Rot;#E53935
+Fiberlogy;PCTG;Basic;Orange Transparent;#D6442B
+Fiberlogy;PCTG;Basic;Graphit;#BBBCBC
+Fiberlogy;PCTG;Basic;Orange;#FB8C00
+Fiberlogy;PCTG;Basic;Vertigo;#282828
+Fiberlogy;PCTG;Basic;Grau;#9E9E9E
+Fiberlogy;PCTG;Basic;Weiß;#FFFFFF
+Fiberlogy;PCTG;Basic;Onyx;#212121
+Fiberlogy;PCTG;Basic;Pure Transparent;#ECECE7
+Fiberlogy;PCTG;Basic;Burgundy;#800020
 Fiberlogy;PCTG;CF;Black;#000000
 Fiberlogy;PCTG;GF10;Black;#000000
-Fiberlogy;PCTG;GF10;Natural;
-Fiberlogy;ASA;;Olivgrün;#43A047
-Fiberlogy;ASA;;Weiß;#FFFFFF
-Fiberlogy;ASA;;Rot;#E53935
-Fiberlogy;ASA;;Graphit;
-Fiberlogy;ASA;;Blau;#1E88E5
-Fiberlogy;ASA;;Gelb;#FDD835
-Fiberlogy;ASA;;Schwarz;#000000
-Fiberlogy;ASA;;Orange;#FB8C00
-Fiberlogy;ASA;;Vertigo;
-Fiberlogy;ASA;;Hellgrün;#43A047
-Fiberlogy;ASA;;Grau;#9E9E9E
-Fiberlogy;ASA;;Natur;
-Fiberlogy;ASA;;Onyx;
-Fiberlogy;ASA;;Inox;
+Fiberlogy;PCTG;GF10;Natural;#FAFAFA
+Fiberlogy;ASA;Basic;Olivgrün;#3C5D42
+Fiberlogy;ASA;Basic;Weiß;#FFFFFF
+Fiberlogy;ASA;Basic;Rot;#E53935
+Fiberlogy;ASA;Basic;Graphit;#BBBCBC
+Fiberlogy;ASA;Basic;Blau;#1E88E5
+Fiberlogy;ASA;Basic;Gelb;#FDD835
+Fiberlogy;ASA;Basic;Schwarz;#000000
+Fiberlogy;ASA;Basic;Orange;#FB8C00
+Fiberlogy;ASA;Basic;Vertigo;#282828
+Fiberlogy;ASA;Basic;Hellgrün;#43A047
+Fiberlogy;ASA;Basic;Grau;#9E9E9E
+Fiberlogy;ASA;Basic;Natur;#D5DADC
+Fiberlogy;ASA;Basic;Onyx;#212121
+Fiberlogy;ASA;Basic;Inox;#969AA3
 Fiberlogy;ASA;Matte;Black;#000000
-Fiberlogy;ASA;Matte;Olive Green;#43A047
-Fiberlogy;ASA;Matte;Graphite;
+Fiberlogy;ASA;Matte;Olive Green;#3C5D42
+Fiberlogy;ASA;Matte;Graphite;#BBBCBC
 Fiberlogy;ASA;Matte;Gray;#9E9E9E
-Fiberlogy;ASA;Matte;Natural;
-Fiberlogy;ABS;;Gray;#9E9E9E
-Fiberlogy;ABS;;Onyx;
-Fiberlogy;ABS;;Red;#E53935
-Fiberlogy;ABS;;Navy Blue;#1E88E5
-Fiberlogy;ABS;;Black;#000000
-Fiberlogy;ABS;;Graphite;
-Fiberlogy;ABS;;Black;#000000
-Fiberlogy;ABS;;Light Green;#43A047
-Fiberlogy;ABS;;Blue;#1E88E5
-Fiberlogy;ABS;;Beige;#F5F5DC
-Fiberlogy;ABS;;Inox;
-Fiberlogy;ABS;;Yellow;#FDD835
-Fiberlogy;ABS;;Orange;#FB8C00
-Fiberlogy;ABS;;White;#FFFFFF
-Fiberlogy;ABS;;Burgundy;
-Fiberlogy;ABS;;Green;#43A047
-Fiberlogy;ABS;GF;Light Green;#43A047
+Fiberlogy;ASA;Matte;Natural;#FAFAFA
+Fiberlogy;ABS;Basic;Gray;#9E9E9E
+Fiberlogy;ABS;Basic;Onyx;#212121
+Fiberlogy;ABS;Basic;Red;#E53935
+Fiberlogy;ABS;Basic;Navy Blue;#1E88E5
+Fiberlogy;ABS;Basic;Black;#000000
+Fiberlogy;ABS;Basic;Graphite;#BBBCBC
+Fiberlogy;ABS;Basic;Black;#000000
+Fiberlogy;ABS;Basic;Light Green;#83FD4E
+Fiberlogy;ABS;Basic;Blue;#1E88E5
+Fiberlogy;ABS;Basic;Beige;#F5F5DC
+Fiberlogy;ABS;Basic;Inox;#969AA3
+Fiberlogy;ABS;Basic;Yellow;#FDD835
+Fiberlogy;ABS;Basic;Orange;#FB8C00
+Fiberlogy;ABS;Basic;White;#FFFFFF
+Fiberlogy;ABS;Basic;Burgundy;#800020
+Fiberlogy;ABS;Basic;Green;#43A047
+Fiberlogy;ABS;GF;Light Green;#83FD4E
 Fiberlogy;ABS;GF;Red;#E53935
-Fiberlogy;ABS;GF;Natural;
+Fiberlogy;ABS;GF;Natural;#FAFAFA
 Fiberlogy;ABS;GF;Black;#000000
 Fiberlogy;ABS;Plus;Red;#E53935
-Fiberlogy;ABS;Plus;Graphite;
+Fiberlogy;ABS;Plus;Graphite;#BBBCBC
 Fiberlogy;ABS;Plus;Blue;#1E88E5
 Fiberlogy;ABS;Plus;Black;#000000
 Fiberlogy;ABS;Plus;Gray;#9E9E9E
 Fiberlogy;ABS;Plus;White;#FFFFFF
 Fiberlogy;ABS;Plus;Yellow;#FDD835
-Fiberlogy;ABS;Easy;Pure Transparent;
-Fiberlogy;ABS;Easy;Orange Transparent;#FB8C00
-Fiberlogy;ABS;Easy;Navy Blue Transparent;#1E88E5
-Fiberlogy;ABS;Easy;Blue Transparent;#1E88E5
-Fiberlogy;ABS;Easy;Burgundy Transparent;
-Fiberlogy;ABS;Easy;Light Green Transparent;#43A047
-Fiberlogy;PC/ABS;;Black;#000000
-Fiberlogy;PC/ABS;;Natural;
-Fiberlogy;Fiberflex 30D;;Black;#000000
-Fiberlogy;Fiberflex 30D;;Red;#E53935
-Fiberlogy;Fiberflex 30D;;Orange;#FB8C00
-Fiberlogy;Fiberflex 30D;;Beige;#F5F5DC
-Fiberlogy;Fiberflex 30D;;Blue;#1E88E5
-Fiberlogy;Fiberflex 30D;;Yellow;#FDD835
-Fiberlogy;Fiberflex 30D;;Pink;#FF66CC
-Fiberlogy;Fiberflex 30D;;Graphite;
-Fiberlogy;Fiberflex 30D;;White;#FFFFFF
-Fiberlogy;Fiberflex 30D;;Green;#43A047
-Fiberlogy;Fiberflex 30D;;Gray;#9E9E9E
-Fiberlogy;Fiberflex 30D;;Burgundy;
-Fiberlogy;Fiberflex 30D;;Navy Blue;#1E88E5
-Fiberlogy;Fiberflex 30D;;Light Green;#43A047
-Fiberlogy;Fiberflex 30D;;Neon Yellow;#FDD835
-Fiberlogy;Fiberflex 40D;;Brown;#6D4C41
-Fiberlogy;Fiberflex 40D;;Black;#000000
-Fiberlogy;Fiberflex 40D;;Orange;#FB8C00
-Fiberlogy;Fiberflex 40D;;Light Green;#43A047
-Fiberlogy;Fiberflex 40D;;Graphite;
-Fiberlogy;Fiberflex 40D;;Navy Blue;#1E88E5
-Fiberlogy;Fiberflex 40D;;Red;#E53935
-Fiberlogy;Fiberflex 40D;;Burgundy;
-Fiberlogy;Fiberflex 40D;;Blue;#1E88E5
-Fiberlogy;Fiberflex 40D;;Yellow;#FDD835
-Fiberlogy;Fiberflex 40D;;Purple;#8E24AA
-Fiberlogy;Fiberflex 40D;;Green;#43A047
-Fiberlogy;Fiberflex 40D;;Neon Yellow;#FDD835
-Fiberlogy;Fiberflex 40D;;White;#FFFFFF
-Fiberlogy;Fiberflex 40D;;Skin3;
-Fiberlogy;Fiberflex 40D;;Gray;#9E9E9E
-Fiberlogy;Fiberflex 40D;;Skin2;
-Fiberlogy;Fiberflex 40D;;Skin1;
-Fiberlogy;Fiberflex 40D;;Beige;#F5F5DC
-Fiberlogy;Fiberflex 40D;;Vertigo;
-Fiberlogy;Fiberflex 40D;;Pink;#FF66CC
-Fiberlogy;Fiberflex;CF;Black;#000000
-Fiberlogy;MattFlex 40D;;Black;#000000
-Fiberlogy;MattFlex 40D;;Red;#E53935
-Fiberlogy;MattFlex 40D;;White;#FFFFFF
-Fiberlogy;MattFlex 40D;;Blue;#1E88E5
-Fiberlogy;MattFlex 40D;;Graphite;
+Fiberlogy;ABS;Easy;Pure Transparent;#ECECE7
+Fiberlogy;ABS;Easy;Orange Transparent;#D6442B
+Fiberlogy;ABS;Easy;Navy Blue Transparent;#0002BB
+Fiberlogy;ABS;Easy;Blue Transparent;#06548E
+Fiberlogy;ABS;Easy;Burgundy Transparent;#800020
+Fiberlogy;ABS;Easy;Light Green Transparent;#85BE18
+Fiberlogy;PC/ABS;Basic;Black;#000000
+Fiberlogy;PC/ABS;Basic;Natural;#FAFAFA
+Fiberlogy;Fiberflex 30D;Basic;Black;#000000
+Fiberlogy;Fiberflex 30D;Basic;Red;#E53935
+Fiberlogy;Fiberflex 30D;Basic;Orange;#FB8C00
+Fiberlogy;Fiberflex 30D;Basic;Beige;#F5F5DC
+Fiberlogy;Fiberflex 30D;Basic;Blue;#1E88E5
+Fiberlogy;Fiberflex 30D;Basic;Yellow;#FDD835
+Fiberlogy;Fiberflex 30D;Basic;Pink;#FF66CC
+Fiberlogy;Fiberflex 30D;Basic;Graphite;#BBBCBC
+Fiberlogy;Fiberflex 30D;Basic;White;#FFFFFF
+Fiberlogy;Fiberflex 30D;Basic;Green;#43A047
+Fiberlogy;Fiberflex 30D;Basic;Gray;#9E9E9E
+Fiberlogy;Fiberflex 30D;Basic;Burgundy;#800020
+Fiberlogy;Fiberflex 30D;Basic;Navy Blue;#0002BB
+Fiberlogy;Fiberflex 30D;Basic;Light Green;#83FD4E
+Fiberlogy;Fiberflex 30D;Basic;Neon Yellow;#FFF900
+Fiberlogy;Fiberflex 40D;Basic;Brown;#6D4C41
+Fiberlogy;Fiberflex 40D;Basic;Black;#000000
+Fiberlogy;Fiberflex 40D;Basic;Orange;#FB8C00
+Fiberlogy;Fiberflex 40D;Basic;Light Green;#83FD4E
+Fiberlogy;Fiberflex 40D;Basic;Graphite;#BBBCBC
+Fiberlogy;Fiberflex 40D;Basic;Navy Blue;#1E88E5
+Fiberlogy;Fiberflex 40D;Basic;Red;#E53935
+Fiberlogy;Fiberflex 40D;Basic;Burgundy;#800020
+Fiberlogy;Fiberflex 40D;Basic;Blue;#1E88E5
+Fiberlogy;Fiberflex 40D;Basic;Yellow;#FDD835
+Fiberlogy;Fiberflex 40D;Basic;Purple;#8E24AA
+Fiberlogy;Fiberflex 40D;Basic;Green;#43A047
+Fiberlogy;Fiberflex 40D;Basic;Neon Yellow;#FFF900
+Fiberlogy;Fiberflex 40D;Basic;White;#FFFFFF
+Fiberlogy;Fiberflex 40D;Basic;Skin3;#AA7D64
+Fiberlogy;Fiberflex 40D;Basic;Gray;#9E9E9E
+Fiberlogy;Fiberflex 40D;Basic;Skin2;#AA7D64
+Fiberlogy;Fiberflex 40D;Basic;Skin1;#D69494
+Fiberlogy;Fiberflex 40D;Basic;Beige;#F5F5DC
+Fiberlogy;Fiberflex 40D;Basic;Vertigo;#292929
+Fiberlogy;Fiberflex 40D;Basic;Pink;#FF66CC
+Fiberlogy;MattFlex 40D;Basic;Black;#000000
+Fiberlogy;MattFlex 40D;Basic;Red;#E53935
+Fiberlogy;MattFlex 40D;Basic;White;#FFFFFF
+Fiberlogy;MattFlex 40D;Basic;Blue;#1E88E5
+Fiberlogy;MattFlex 40D;Basic;Graphite;#BBBCBC
 Fiberlogy;PA12;Nylon;Black;#000000
-Fiberlogy;PA12;Nylon;Natural;
+Fiberlogy;PA12;Nylon;Natural;#FAFAFA
 Fiberlogy;PA12;Nylon;White;#FFFFFF
 Fiberlogy;PA12;Nylon;Orange;#FB8C00
 Fiberlogy;PA12;Nylon;Blue;#1E88E5
 Fiberlogy;PA12;Nylon;Yellow;#FDD835
 Fiberlogy;PA12;Nylon;Red;#E53935
-Fiberlogy;PA12;Nylon;Light Green;#43A047
-Fiberlogy;PA12;Nylon;Inox;
+Fiberlogy;PA12;Nylon;Light Green;#83FD4E
+Fiberlogy;PA12;Nylon;Inox;#89939A
 Fiberlogy;PA12;Nylon + GF15;Black;#000000
-Fiberlogy;PA12;Nylon + GF15;Natural;
+Fiberlogy;PA12;Nylon + GF15;Natural;#FAFAFA
 Fiberlogy;PA12;Nylon + GF15;Red;#E53935
 Fiberlogy;PA12;Nylon + GF15;Light Green;#43A047
-Fiberlogy;PP;;White;#FFFFFF
-Fiberlogy;PP;;Natur;
-Fiberlogy;PP;;Black;#000000
-Fiberlogy;PP;;Blue;#1E88E5
-Fiberlogy;PP;;Light Green;#43A047
-Fiberlogy;PP;;Orange;#FB8C00
-Fiberlogy;PP;;Red;#E53935
-Fiberlogy;PP;;Graphite;
-Fiberlogy;PP;;Yellow;#FDD835
-Fiberlogy;PP;;Gray;#9E9E9E
-Fiberlogy;PP;;Steel Blue;#1E88E5
-Fiberlogy;PP;;Sage Green;#43A047
-Fiberlogy;PP;;Pastel Mint;
-Fiberlogy;PP;;Pastel Pink;#FF66CC
-Fiberlogy;PP;;Brown;#6D4C41
-Fiberlogy;PP;;Pastel Lilac;#8E24AA
-Fiberlogy;PP;;Pastel Blue;#1E88E5
-Fiberlogy;PP;;Pastel Yellow;#FDD835
-Fiberlogy;CPE;;Natural;
-Fiberlogy;CPE;;Black;#000000
-Fiberlogy;CPE;;Pure Transparent;
-Fiberlogy;HIPS;;Natural;
-Fiberlogy;HIPS;;Black;#000000
-Fiberlogy;HIPS;;White;#FFFFFF
-Fiberlogy;HIPS;;Graphite;
-Fiberlogy;Fiberwood;;Natural;
-Fiberlogy;Fiberwood;;Brown;#6D4C41
-Fiberlogy;Fiberwood;;Green;#43A047
-Fiberlogy;Fiberwood;;Carmine;
-Fiberlogy;Fiberwood;;Black;#000000
-Fiberlogy;Fiberwood;;White;#FFFFFF
-Fiberlogy;FiberSilk;;Metallic Copper;
-Fiberlogy;FiberSilk;;Metallic Red;#E53935
-Fiberlogy;FiberSilk;;Metallic Navy Blue;#1E88E5
-Fiberlogy;FiberSilk;;Metallic Gold;#D4AF37
-Fiberlogy;FiberSilk;;Metallic Orange;#FB8C00
-Fiberlogy;FiberSilk;;Metallic Brass;
-Fiberlogy;FiberSilk;;Metallic Bronze;
-Fiberlogy;FiberSilk;;Metallic Pearl;
-Fiberlogy;FiberSilk;;Metallic Anthracite;
-Fiberlogy;FiberSilk;;Metallic Blue;#1E88E5
-Fiberlogy;FiberSilk;;Metallic Silver;#C0C0C0
-Fiberlogy;FiberSilk;;Metallic Inox;
-Fiberlogy;FiberSmooth;;Gray;#9E9E9E
-Fiberlogy;FiberSmooth;;Black;#000000
-Fiberlogy;FiberSmooth;;Blue;#1E88E5
-Fiberlogy;FiberSmooth;;Red;#E53935
-Fiberlogy;FiberSmooth;;Graphite;
-FILAXIX;PLA;;White;#FFFFFF
-FILAXIX;PLA;;Black;#000000
-FILAXIX;PLA;Silk Dual Color;Rainbow;
-FILAXIX;PLA;Silk Dual Color;Red Blue;#E53935
-FILAXIX;PLA;Silk Dual Color;Blue Green;#1E88E5
-FILAXIX;PLA;Silk Dual Color;Red Green;#E53935
-FILAXIX;PLA;Silk Dual Color;Blue Silver;#1E88E5
-FILAXIX;PLA;Silk Dual Color;Gold;#D4AF37
-FILAXIX;PLA;Silk Dual Color;Silver;#C0C0C0
-FILAXIX;PLA;Silk Dual Color;Red Copper;#E53935
+Fiberlogy;PP;Basic;White;#FFFFFF
+Fiberlogy;PP;Basic;Natur;#FAFAFA
+Fiberlogy;PP;Basic;Black;#000000
+Fiberlogy;PP;Basic;Blue;#1E88E5
+Fiberlogy;PP;Basic;Light Green;#83FD4E
+Fiberlogy;PP;Basic;Orange;#FB8C00
+Fiberlogy;PP;Basic;Red;#E53935
+Fiberlogy;PP;Basic;Graphite;#BBBCBC
+Fiberlogy;PP;Basic;Yellow;#FDD835
+Fiberlogy;PP;Basic;Gray;#9E9E9E
+Fiberlogy;PP;Basic;Steel Blue;#33B4DD
+Fiberlogy;PP;Basic;Sage Green;#C3FFD7
+Fiberlogy;PP;Basic;Pastel Mint;#94FBB3
+Fiberlogy;PP;Basic;Pastel Pink;#F6D1F3
+Fiberlogy;PP;Basic;Brown;#6D4C41
+Fiberlogy;PP;Basic;Pastel Lilac;#E392FE
+Fiberlogy;PP;Basic;Pastel Blue;#53D5FD
+Fiberlogy;PP;Basic;Pastel Yellow;#E4DCAA
+Fiberlogy;CPE;Basic;Natural;#FAFAFA
+Fiberlogy;CPE;Basic;Black;#000000
+Fiberlogy;CPE;Basic;Pure Transparent;#ECECE7
+Fiberlogy;HIPS;Basic;Natural;#FAFAFA
+Fiberlogy;HIPS;Basic;Black;#000000
+Fiberlogy;HIPS;Basic;White;#FFFFFF
+Fiberlogy;HIPS;Basic;Graphite;#BBBCBC
+Fiberlogy;Fiberwood;Basic;Natural;#FAFAFA
+Fiberlogy;Fiberwood;Basic;Brown;#6D4C41
+Fiberlogy;Fiberwood;Basic;Green;#43A047
+Fiberlogy;Fiberwood;Basic;Black;#000000
+Fiberlogy;Fiberwood;Basic;White;#FFFFFF
+Fiberlogy;FiberSilk;Basic;Metallic Copper;#B87333
+Fiberlogy;FiberSilk;Basic;Metallic Red;#E53935
+Fiberlogy;FiberSilk;Basic;Metallic Navy Blue;#1E88E5
+Fiberlogy;FiberSilk;Basic;Metallic Gold;#D4AF37
+Fiberlogy;FiberSilk;Basic;Metallic Orange;#FB8C00
+Fiberlogy;FiberSilk;Basic;Metallic Brass;#B5A642
+Fiberlogy;FiberSilk;Basic;Metallic Pearl;#FFFEEB
+Fiberlogy;FiberSilk;Basic;Metallic Anthracite;#292927
+Fiberlogy;FiberSilk;Basic;Metallic Blue;#1E88E5
+Fiberlogy;FiberSilk;Basic;Metallic Silver;#C0C0C0
+Fiberlogy;FiberSilk;Basic;Metallic Inox;#89939A
+Fiberlogy;FiberSmooth;Basic;Gray;#9E9E9E
+Fiberlogy;FiberSmooth;Basic;Black;#000000
+Fiberlogy;FiberSmooth;Basic;Blue;#1E88E5
+Fiberlogy;FiberSmooth;Basic;Red;#E53935
+Fiberlogy;FiberSmooth;Basic;Graphite;#BBBCBC
+FILAXIX;PLA;Basic;White;#FFFFFF
+FILAXIX;PLA;Basic;Black;#000000
+FILAXIX;PLA;Silk Dual Color;Red Blue;#FF0000+#000000
+FILAXIX;PLA;Silk Dual Color;Blue Green;#3535FF+#075601
+FILAXIX;PLA;Silk Dual Color;Red Green;#FF0000+#075601
+FILAXIX;PLA;Silk Dual Color;Blue Silver;#3535FF+#96A6A6
+FILAXIX;PLA;Silk Dual Color;Gold;#B0D37C
+FILAXIX;PLA;Silk Dual Color;Silver;#96A6A6
 FILAXIX;PETG;Glasfaser;Black;#000000
 FILAXIX;PETG;Glasfaser;Blue;#1E88E5
 FILAXIX;PETG;Glasfaser;Green;#43A047
@@ -2495,645 +2450,526 @@ FILAXIX;PETG;Glasfaser;Grey;#9E9E9E
 FILAXIX;PETG;Glasfaser;Red;#E53935
 FILAXIX;PETG;Glasfaser;White;#FFFFFF
 FILAXIX;PETG;Kohlefaser;Black;#000000
-FILAXIX;PETG;Kohlefaser;Marble Grey;#9E9E9E
-FILAXIX;PETG;Kohlefaser;Carbon Blue;#1E88E5
-FILAXIX;PETG;Kohlefaser;Olive Green;#43A047
-FILAXIX;PETG;;Blue;#1E88E5
-FILAXIX;PETG;;Silver;#C0C0C0
-FILAXIX;PETG;;Space Grey;#9E9E9E
+FILAXIX;PETG;Kohlefaser;Marble Grey;#2C343A
+FILAXIX;PETG;Kohlefaser;Carbon Blue;#385B7D
+FILAXIX;PETG;Basic;Blue;#1E88E5
+FILAXIX;PETG;Basic;Silver;#C0C0C0
 FILAXIX;PETG;High Speed;White;#FFFFFF
-FILAXIX;ASA;;Grey;#9E9E9E
-FILAXIX;ASA;;Black;#000000
-FILAXIX;ASA;;White;#FFFFFF
+FILAXIX;ASA;Basic;Grey;#9E9E9E
+FILAXIX;ASA;Basic;Black;#000000
+FILAXIX;ASA;Basic;White;#FFFFFF
 FILAXIX;PETG;Matte;White;#FFFFFF
 FILAXIX;PETG;Matte;Milky white;#FFFFFF
 FormFutura;ABS;Pro;White;#FFFFFF
 FormFutura;ABS;Pro;Black;#000000
-FormFutura;ABS;EasyFil;Glow in the Dark Green;#43A047
-FormFutura;ABS;EasyFil;Magenta;
-FormFutura;ABS;EasyFil;Dark Blue;#1E88E5
+FormFutura;ABS;EasyFil;Glow in the Dark Green;#9AF9B2
+FormFutura;ABS;EasyFil;Magenta;#B769F7
+FormFutura;ABS;EasyFil;Dark Blue;#073664
 FormFutura;ABS;EasyFil;Silver;#C0C0C0
-FormFutura;ABS;EasyFil;Light Blue;#1E88E5
+FormFutura;ABS;EasyFil;Light Blue;#3B689B
 FormFutura;ABS;EasyFil;Black;#000000
-FormFutura;ABS;EasyFil;Bronze;
-FormFutura;ABS;EasyFil;Light Green;#43A047
+FormFutura;ABS;EasyFil;Bronze;#B5784F
+FormFutura;ABS;EasyFil;Light Green;#80FF00
 FormFutura;ABS;EasyFil;Red;#E53935
 FormFutura;ABS;EasyFil;Yellow;#FDD835
 FormFutura;ABS;EasyFil;Orange;#FB8C00
 FormFutura;ABS;EasyFil;Brown;#6D4C41
 FormFutura;ABS;EasyFil;Grey;#9E9E9E
-FormFutura;ABS;EasyFil;Dark Green;#43A047
+FormFutura;ABS;EasyFil;Dark Green;#2B713F
 FormFutura;ABS;EasyFil;White;#FFFFFF
 FormFutura;ABS;ReForm rTitan;White;#FFFFFF
 FormFutura;ABS;ReForm rTitan;Black;#000000
-FormFutura;ABS;ReForm rTitan;Anthracide Grey;#9E9E9E
+FormFutura;ABS;ReForm rTitan;Anthracide Grey;#353535
 FormFutura;ABS;Titan X;Black;#000000
 FormFutura;ABS;Titan X;White;#FFFFFF
-FormFutura;ABS;Titan X;Natural;
-FormFutura;ABS;Titan X;Light Grey;#9E9E9E
-FormFutura;ABS;Titan X;Dark Blue;#1E88E5
+FormFutura;ABS;Titan X;Natural;#BABABA
+FormFutura;ABS;Titan X;Light Grey;#CFCFCF
+FormFutura;ABS;Titan X;Dark Blue;#073664
 FormFutura;ABS;Titan X;Red;#E53935
 FormFutura;ABS;Titan X;Grey;#9E9E9E
-FormFutura;ASA;ApolloX Kevlar;Natural;
+FormFutura;ASA;ApolloX Kevlar;Natural;#BABABA
 FormFutura;ASA;ApolloX Kevlar;Black;#000000
-FormFutura;ApolloX;;Black;#000000
-FormFutura;ApolloX;;Dark Blue;#1E88E5
-FormFutura;ApolloX;;White;#FFFFFF
-FormFutura;ApolloX;;Natural;
-FormFutura;ApolloX;;Light Grey;#9E9E9E
-FormFutura;ApolloX;;Red;#E53935
-FormFutura;ApolloX;;Grey;#9E9E9E
+FormFutura;ApolloX;Basic;Black;#000000
+FormFutura;ApolloX;Basic;Dark Blue;#073664
+FormFutura;ApolloX;Basic;White;#FFFFFF
+FormFutura;ApolloX;Basic;Natural;#BABABA
+FormFutura;ApolloX;Basic;Light Grey;#CFCFCF
+FormFutura;ApolloX;Basic;Red;#E53935
+FormFutura;ApolloX;Basic;Grey;#9E9E9E
 FormFutura;ASA;ReForm rApollo;Grey;#9E9E9E
 FormFutura;ASA;ReForm rApollo;White;#FFFFFF
 FormFutura;ASA;ReForm rApollo;Black;#000000
 FormFutura;ASA;CarbonFil;Black;#000000
-FormFutura;ASA;CarbonFil;CF03;
 FormFutura;ASA;CarbonFil;Grey;#9E9E9E
 FormFutura;ASA;CarbonFil;Green;#43A047
 FormFutura;HIPS;EasyFil;Red;#E53935
-FormFutura;HIPS;EasyFil;Dark Bllue;
+FormFutura;HIPS;EasyFil;Dark Bllue;#073664
 FormFutura;HIPS;EasyFil;White;#FFFFFF
 FormFutura;HIPS;EasyFil;Grey;#9E9E9E
 FormFutura;HIPS;EasyFil;Black;#000000
-FormFutura;HIPS;EasyFil;Natural;
+FormFutura;HIPS;EasyFil;Natural;#BABABA
 FormFutura;WOOD;BioFil;Brown;#6D4C41
-FormFutura;WOOD;BioFil;Natural;
+FormFutura;WOOD;BioFil;Natural;#BABABA
 FormFutura;WOOD;BioFil;White;#FFFFFF
 FormFutura;WOOD;BioFil;Black;#000000
-FormFutura;WOOD;BioFil;Ochre;
 FormFutura;PA6;CF15 STYX;Black;#000000
 FormFutura;PA7;CF15 STYX;Signal White;#FFFFFF
-FormFutura;PA8;CF15 STYX;Natural;
-FormFutura;PC;;Clear;
-FormFutura;PC;;Traffic Black;#000000
-FormFutura;PC;;White;#FFFFFF
-FormFutura;PC;;Iron Grey;#9E9E9E
+FormFutura;PA8;CF15 STYX;Natural;#BABABA
+FormFutura;PC;Basic;Clear;#D1ECFF
+FormFutura;PC;Basic;Traffic Black;#000000
+FormFutura;PC;Basic;White;#FFFFFF
+FormFutura;PC;Basic;Iron Grey;#9E9E9E
 FormFutura;PETG;Bulk;Black;#000000
-FormFutura;PETG;Bulk;Clear;
+FormFutura;PETG;Bulk;Clear;#D1ECFF
 FormFutura;PETG;Bulk;White;#FFFFFF
 FormFutura;PETG;Bulk;Red;#E53935
 FormFutura;PETG;Bulk;Yellow;#FDD835
-FormFutura;PETG;Bulk;Dark Grey;#9E9E9E
+FormFutura;PETG;Bulk;Dark Grey;#6E787A
 FormFutura;PETG;Bulk;Blue;#1E88E5
 FormFutura;PETG;Bulk;Silver;#C0C0C0
-FormFutura;PETG;Bulk;Light Green;#43A047
+FormFutura;PETG;Bulk;Light Green;#80FF00
 FormFutura;PET;EasyFil;Yellow;#FDD835
 FormFutura;PET;EasyFil;Orange;#FB8C00
 FormFutura;PET;EasyFil;Red;#E53935
-FormFutura;PET;EasyFil;Light Green;#43A047
+FormFutura;PET;EasyFil;Light Green;#80FF00
 FormFutura;PET;EasyFil;Black;#000000
 FormFutura;PET;EasyFil;White;#FFFFFF
-FormFutura;PET;EasyFil;Dark Green;#43A047
-FormFutura;PET;EasyFil;Dark Blue;#1E88E5
+FormFutura;PET;EasyFil;Dark Green;#2B713F
+FormFutura;PET;EasyFil;Dark Blue;#073664
 FormFutura;PET;EasyFil;Silver;#C0C0C0
-FormFutura;PET;EasyFil;Light Blue;#1E88E5
-FormFutura;PET;EasyFil;Dark Grey;#9E9E9E
-FormFutura;PET;EasyFil;Clear;
-FormFutura;ePETG;Easyfil;Transparent Yellow;#FDD835
-FormFutura;ePETG;Easyfil;Transparent;
-FormFutura;ePETG;Easyfil;Traffic Green;#43A047
-FormFutura;ePETG;Easyfil;Squirrel Grey;#9E9E9E
+FormFutura;PET;EasyFil;Light Blue;#1E90FF
+FormFutura;PET;EasyFil;Dark Grey;#6E787A
+FormFutura;PET;EasyFil;Clear;#D1ECFF
+FormFutura;ePETG;Easyfil;Transparent Yellow;#FFF824
+FormFutura;ePETG;Easyfil;Transparent;#FFFFFF
 FormFutura;ePETG;Easyfil;Traffic Red;#E53935
 FormFutura;ePETG;Easyfil;Grey Aluminium;#9E9E9E
 FormFutura;ePETG;Easyfil;Signal Yellow;#FDD835
-FormFutura;ePETG;Easyfil;Blue Lilac;#1E88E5
-FormFutura;ePETG;Easyfil;Light Ivory;
-FormFutura;ePETG;Easyfil;Bottle Green;#43A047
-FormFutura;ePETG;Easyfil;Transparent Blue;#1E88E5
+FormFutura;ePETG;Easyfil;Transparent Blue;#3860FF
 FormFutura;ePETG;Easyfil;Transparent Orange;#FB8C00
-FormFutura;ePETG;Easyfil;Transparent Red;#E53935
-FormFutura;ePETG;Easyfil;Sky Blue;#1E88E5
-FormFutura;ePETG;Easyfil;Pure Orange;#FB8C00
-FormFutura;ePETG;Easyfil;Iron Grey;#9E9E9E
+FormFutura;ePETG;Easyfil;Transparent Red;#FF4255
+FormFutura;ePETG;Easyfil;Sky Blue;#0080C0
+FormFutura;ePETG;Easyfil;Pure Orange;#E95E01
 FormFutura;ePETG;Easyfil;Traffic Black;#000000
 FormFutura;ePETG;Easyfil;Traffic White;#FFFFFF
-FormFutura;ePETG;Easyfil;Ultramarine Blue;#1E88E5
-FormFutura;PETG;Hdglass;See Through Yellow;#FDD835
-FormFutura;PETG;Hdglass;See Through Red;#E53935
-FormFutura;PETG;Hdglass;See Through Green;#43A047
-FormFutura;PETG;Hdglass;Blinded Light Grey;#9E9E9E
-FormFutura;PETG;Hdglass;Blinded Red;#E53935
-FormFutura;PETG;Hdglass;Blinded Pearl Green;#43A047
-FormFutura;PETG;Hdglass;Luor Orange;#FB8C00
-FormFutura;PETG;Hdglass;Pastel Purple ;#8E24AA
+FormFutura;PETG;Hdglass;See Through Yellow;#FFF824
+FormFutura;PETG;Hdglass;See Through Red;#FF4255
+FormFutura;PETG;Hdglass;See Through Green;#33FF41
+FormFutura;PETG;Hdglass;Blinded Light Grey;#CFCFCF
+FormFutura;PETG;Hdglass;Blinded Red;#FF0000
+FormFutura;PETG;Hdglass;Blinded Pearl Green;#098137
+FormFutura;PETG;Hdglass;Fluor Orange;#F88425
+FormFutura;PETG;Hdglass;Pastel Purple ;#AF6482
 FormFutura;PETG;Hdglass;Blinded Black;#000000
-FormFutura;PETG;Hdglass;Blinded Dark Blue;#1E88E5
-FormFutura;PETG;Hdglass;See Through Blue;#1E88E5
+FormFutura;PETG;Hdglass;Blinded Dark Blue;#001EFF
+FormFutura;PETG;Hdglass;See Through Blue;#3860FF
 FormFutura;PETG;Hdglass;Blinded White;#FFFFFF
-FormFutura;PETG;Hdglass;Blinded Pearl Blue;#1E88E5
-FormFutura;PETG;Hdglass;Blinded Light Blue;#1E88E5
-FormFutura;PETG;Hdglass;Blinded Sapphire Grey;#9E9E9E
-FormFutura;PETG;Hdglass;Blinded Light Green;#43A047
-FormFutura;PETG;Hdglass;Blinded Silver;#C0C0C0
-FormFutura;PETG;Hdglass;Blinded Bronze;
+FormFutura;PETG;Hdglass;Blinded Pearl Blue;#487A9D
+FormFutura;PETG;Hdglass;Blinded Light Blue;#29BFFF
+FormFutura;PETG;Hdglass;Blinded Sapphire Grey;#4A7796
+FormFutura;PETG;Hdglass;Blinded Light Green;#B0F769
+FormFutura;PETG;Hdglass;Blinded Silver;#616161
+FormFutura;PETG;Hdglass;Blinded Bronze;#824D1C
 FormFutura;PETG;Hdglass;Pink Stained;#FF66CC
 FormFutura;PETG;Hdglass;Blinded Orange;#FB8C00
-FormFutura;PETG;Hdglass;Clear;
-FormFutura;PETG;Hdglass;Fluor Clear Stained;
-FormFutura;PETG;Hdglass;Fluor Yellow Stained;#FDD835
-FormFutura;PETG;Hdglass;Pastel Green Stained;#43A047
-FormFutura;PETG;Hdglass;See Through Black;#000000
-FormFutura;rPET;ReForm;Dark Blue;#1E88E5
+FormFutura;PETG;Hdglass;Clear;#D1ECFF
+FormFutura;PETG;Hdglass;Fluor Clear Stained;#D1ECFF
+FormFutura;PETG;Hdglass;Fluor Yellow Stained;#D9F21C
+FormFutura;PETG;Hdglass;Pastel Green Stained;#5BAE5C
+FormFutura;PETG;Hdglass;See Through Black;#454545
+FormFutura;rPET;ReForm;Dark Blue;#073664
 FormFutura;rPET;ReForm;Silver;#C0C0C0
 FormFutura;rPET;ReForm;Yellow;#FDD835
 FormFutura;rPET;ReForm;Orange;#FB8C00
 FormFutura;rPET;ReForm;Red;#E53935
-FormFutura;rPET;ReForm;Light Green;#43A047
-FormFutura;rPET;ReForm;Violet;
-FormFutura;PLA;Bulk;Mustard Yellow;#FDD835
+FormFutura;rPET;ReForm;Light Green;#80FF00
+FormFutura;rPET;ReForm;Violet;#7F4376
 FormFutura;PLA;Bulk;Black;#000000
 FormFutura;PLA;Bulk;White;#FFFFFF
-FormFutura;PLA;Bulk;Dark Blue;#1E88E5
-FormFutura;PLA;Bulk;Medium Grey;#9E9E9E
-FormFutura;PLA;Bulk;Matt Autumm Red;#E53935
+FormFutura;PLA;Bulk;Dark Blue;#073664
+FormFutura;PLA;Bulk;Matt Autumm Red;#5C0700
 FormFutura;PLA;Bulk;Matt Black;#000000
 FormFutura;PLA;Bulk;Matt White;#FFFFFF
-FormFutura;PLA;Bulk;Forest Green;#43A047
+FormFutura;PLA;Bulk;Forest Green;#2B713F
 FormFutura;ePLA;Easyfil;Traffic Black;#000000
 FormFutura;ePLA;Easyfil;Snow White;#FFFFFF
 FormFutura;ePLA;Easyfil;Matt Black;#000000
-FormFutura;ePLA;Easyfil;Matt Soft Blue;#1E88E5
+FormFutura;ePLA;Easyfil;Matt Soft Blue;#29BFFF
 FormFutura;ePLA;Easyfil;Signal Yellow;#FDD835
-FormFutura;ePLA;Easyfil;Squirrel Grey;#9E9E9E
-FormFutura;ePLA;Easyfil;Luminous Bright Orange;#FB8C00
-FormFutura;ePLA;Easyfil;Matt Water Blue;#1E88E5
-FormFutura;ePLA;Easyfil;Light Green;#43A047
-FormFutura;ePLA;Easyfil;Khaki Grey;#9E9E9E
-FormFutura;ePLA;Easyfil;Yellow Green;#43A047
-FormFutura;ePLA;Easyfil;Anthracite Grey;#9E9E9E
+FormFutura;ePLA;Easyfil;Luminous Bright Orange;#F68425
+FormFutura;ePLA;Easyfil;Light Green;#80FF00
+FormFutura;ePLA;Easyfil;Yellow Green;#9ACD32
+FormFutura;ePLA;Easyfil;Anthracite Grey;#353535
 FormFutura;ePLA;Easyfil;Signal White;#FFFFFF
-FormFutura;ePLA;Easyfil;Light Grey;#9E9E9E
-FormFutura;ePLA;Easyfil;Matt Apricot;
-FormFutura;ePLA;Easyfil;Light Blue;#1E88E5
-FormFutura;ePLA;Easyfil;Pearl Gold;#D4AF37
-FormFutura;ePLA;Easyfil;Turquoise Blue;#1E88E5
-FormFutura;ePLA;Easyfil;Beige Brown;#6D4C41
-FormFutura;ePLA;Easyfil;Matt Mint Green;#43A047
+FormFutura;ePLA;Easyfil;Light Grey;#BABABA
+FormFutura;ePLA;Easyfil;Matt Apricot;#E8C2B5
+FormFutura;ePLA;Easyfil;Light Blue;#3B689B
+FormFutura;ePLA;Easyfil;Pearl Gold;#D3AF37
+FormFutura;ePLA;Easyfil;Turquoise Blue;#18B8CD
+FormFutura;ePLA;Easyfil;Beige Brown;#A48F7A
 FormFutura;ePLA;Easyfil;White Aluminium;#FFFFFF
 FormFutura;ePLA;Easyfil;Iron Grey;#9E9E9E
-FormFutura;ePLA;Easyfil;Pure Orange;#FB8C00
-FormFutura;ePLA;Easyfil;Natural;
-FormFutura;ePLA;Easyfil;Traffic Yellow;#FDD835
-FormFutura;ePLA;Easyfil;Grey Aluminium;#9E9E9E
-FormFutura;ePLA;Easyfil;Luminous Green;#43A047
-FormFutura;ePLA;Easyfil;Luminous Yellow;#FDD835
+FormFutura;ePLA;Easyfil;Pure Orange;#E95E01
+FormFutura;ePLA;Easyfil;Natural;#BABABA
+FormFutura;ePLA;Easyfil;Traffic Yellow;#F7B500
+FormFutura;ePLA;Easyfil;Grey Aluminium;#8A8A8A
+FormFutura;ePLA;Easyfil;Luminous Green;#5BAE5C
+FormFutura;ePLA;Easyfil;Luminous Yellow;#FEFD62
 FormFutura;ePLA;Easyfil;Blue Lilac;#1E88E5
-FormFutura;ePLA;Easyfil;Ultramarine Blue;#1E88E5
-FormFutura;ePLA;Easyfil;Pearl Bronze ;
-FormFutura;ePLA;Easyfil;Matt Mauve;
+FormFutura;ePLA;Easyfil;Blue Orion;#313E7D
+FormFutura;ePLA;Easyfil;Pearl Bronze ;#B5784F
 FormFutura;ePLA;Easyfil;Matt White;#FFFFFF
-FormFutura;ePLA;Easyfil;Heather Violet;
-FormFutura;ePLA;Easyfil;Matt Polar Blue;#1E88E5
-FormFutura;ePLA;Easyfil;Matt Lemon Cream;
-FormFutura;ePLA;Easyfil;Light Ivory;
 FormFutura;ePLA;Easyfil;Traffic Red;#E53935
 FormFutura;ePLA;Easyfil;Matt Vanilla White;#FFFFFF
 FormFutura;ePLA;Easyfil;Traffic Green;#43A047
-FormFutura;ePLA;Easyfil;Matt Light Grey;#9E9E9E
-FormFutura;PLA;Wood Easyfil;Pine;
-FormFutura;PLA;Wood Easyfil;Cedar;
-FormFutura;PLA;Wood Easyfil;Coconut;
-FormFutura;PLA;Wood Easyfil;Birch;
-FormFutura;PLA;Wood Easyfil;Ebony;
-FormFutura;PLA;Wood Easyfil;Olive;
-FormFutura;PLA;Wood Easyfil;Willow;
-FormFutura;PLA;Galaxy;Titanium Silver;#C0C0C0
-FormFutura;PLA;Galaxy;Orin Blue;#1E88E5
-FormFutura;PLA;Galaxy;Opal Green;#43A047
-FormFutura;PLA;Galaxy;Gemini Blue;#1E88E5
-FormFutura;PLA;Galaxy;Emerald Green;#43A047
-FormFutura;PLA;Galaxy;Champagne Gold;#D4AF37
-FormFutura;PLA;Galaxy;Callisto Yellow;#FDD835
-FormFutura;PLA;Galaxy;Space Grey;#9E9E9E
-FormFutura;PLA;Galaxy;Mercury Brown;#6D4C41
-FormFutura;PLA;Galaxy;Jupiter Brown;#6D4C41
-FormFutura;PLA;Galaxy;Ruby Red;#E53935
-FormFutura;PLA;Galaxy;Andromeda Purple;#8E24AA
-FormFutura;PLA;High Gloss;Gold;#D4AF37
-FormFutura;PLA;High Gloss;Silber;
-FormFutura;PLA;High Gloss;Gelb;#FDD835
-FormFutura;PLA;High Gloss;Blau;#1E88E5
-FormFutura;PLA;High Gloss;Violett;
-FormFutura;PLA;High Gloss;Pink;#FF66CC
-FormFutura;PLA;High Gloss;ColorMorph Blue & Green;#1E88E5
-FormFutura;PLA;High Gloss;Weiß;#FFFFFF
-FormFutura;PLA;High Gloss;Bronze;
-FormFutura;PLA;High Gloss;Kupfer;
-FormFutura;PLA;High Gloss;ColorMorph White & Green;#FFFFFF
-FormFutura;PLA;High Gloss;ColorMorph Magenta & Silver;#C0C0C0
-FormFutura;PLA;High Gloss;ColorMorph Pink & Purple;#8E24AA
-FormFutura;PLA;High Gloss;ColorMorph Gold & Silver;#D4AF37
-FormFutura;PLA;High Gloss;ColorMorph Yellow & Pink;#FDD835
-FormFutura;PLA;High Gloss;Grün;#43A047
-FormFutura;PLA;High Gloss;ColorMorph Green & Magenta;#43A047
-FormFutura;PLA;High Gloss;ColorMorph Silver & Purple;#8E24AA
-FormFutura;PLA;High Gloss;Magenta;
+FormFutura;ePLA;Easyfil;Matt Light Grey;#BABABA
+FormFutura;PLA;Wood Easyfil;Pine;#B5AA82
+FormFutura;PLA;Wood Easyfil;Cedar;#DD760F
+FormFutura;PLA;Wood Easyfil;Birch;#CDAB8F
+FormFutura;PLA;Galaxy;Titanium Silver;#919AA1
+FormFutura;PLA;Galaxy;Orion Blue;#313E7D
+FormFutura;PLA;Galaxy;Opal Green;#316970
+FormFutura;PLA;Galaxy;Champagne Gold;#A99465
+FormFutura;PLA;Galaxy;Space Grey;#706F74
+FormFutura;PLA;Galaxy;Ruby Red;#AE5256
+FormFutura;PLA;Galaxy;Andromeda Purple;#9F196E
+FormFutura;PLA;High Gloss;Gold;#D3AF37
+FormFutura;PLA;High Gloss;Silver;#8C98A1
+FormFutura;PLA;High Gloss;Yellow;#FDD835
+FormFutura;PLA;High Gloss;Blue;#1E88E5
+FormFutura;PLA;High Gloss;Violett;#7F4376
+FormFutura;PLA;High Gloss;Pink;#FF7AA2
+FormFutura;PLA;High Gloss;White;#FFFFFF
+FormFutura;PLA;High Gloss;Bronze;#824D1C
+FormFutura;PLA;High Gloss;Copper;#6A4010
+FormFutura;PLA;High Gloss;Green;#5BAE5C
+FormFutura;PLA;High Gloss;Magenta;#B769F7
 FormFutura;PLA;Matt;Stealth Black;#000000
-FormFutura;PLA;Matt;Earth Red Camouflage;#E53935
-FormFutura;PLA;Matt;Dark Green Camouflage;#43A047
-FormFutura;PLA;Matt;Olive Camouflage;
-FormFutura;PLA;Matt;Desert Sand Camouflage;
-FormFutura;PLA;Matt;Blue Camouflage;#1E88E5
-FormFutura;PLA;Matt;Aircraft Grey Camouflage;#9E9E9E
+FormFutura;PLA;Matt;Earth Red Camouflage;#E3123F
 FormFutura;PLA;Matt;Stealth White;#FFFFFF
-FormFutura;PLA;Matt;Urban Grey Camouflage;#9E9E9E
-FormFutura;PLA;Matt;Gunmetal Grey Camouflage;#9E9E9E
-FormFutura;PLA;Matt;Purple Camouflage;#8E24AA
-FormFutura;rPLA;ReForm;Elephant Grey;#9E9E9E
-FormFutura;rPLA;ReForm;Black;#000000
-FormFutura;rPLA;ReForm;Moss Grey;#9E9E9E
-FormFutura;rPLA;ReForm;Venom Green;#43A047
-FormFutura;rPLA;ReForm;Turkish Blue;#1E88E5
-FormFutura;PLA;StoneFil;Terracotta;
-FormFutura;PLA;StoneFil;Concrete;
-FormFutura;PLA;StoneFil;Granite;
-FormFutura;PLA;StoneFil;Pottery Clay;
+FormFutura;PLA;Matt;Gunmetal Grey Camouflage;#DB8000
+FormFutura;PLA;StoneFil;Terracotta;#BD634D
+FormFutura;PLA;StoneFil;Granite;#969696
+FormFutura;PLA;StoneFil;Pottery Clay;#F2F2F2
 FormFutura;PLA;Tough;Black;#000000
 FormFutura;PLA;Tough;Red;#E53935
 FormFutura;PLA;Tough;Grey;#9E9E9E
 FormFutura;PLA;Tough;Dark Blue;#1E88E5
 FormFutura;PLA;Tough;White;#FFFFFF
-FormFutura;PLA;Tough;Natural;
+FormFutura;PLA;Tough;Natural;#BABABA
 FormFutura;PLA;Volcano;White;#FFFFFF
 FormFutura;PLA;Volcano;Traffic Black;#000000
 FormFutura;PLA;Volcano;Red;#E53935
 FormFutura;PLA;Volcano;Dark Blue;#1E88E5
 FormFutura;PLA;Volcano;Pure Yellow;#FDD835
 FormFutura;PLA;Volcano;Iron Grey;#9E9E9E
-FormFutura;PLA;Volcano;Industrial Yellow;#FDD835
 FormFutura;PLA;Volcano;Dark Green;#43A047
 FormFutura;PLA;Volcano;Traffic White;#FFFFFF
-FormFutura;PLA;Volcano;Gras Green;#43A047
-FormFutura;PLA;Volcano;Light Grey;#9E9E9E
-FormFutura;PLA;Volcano;Teal Blue;#1E88E5
+FormFutura;PLA;Volcano;Light Grey;#CFCFCF
 FormFutura;PLA;Volcano;Orange;#FB8C00
-FormFutura;PLA;Volcano;Lime Green;#43A047
-FormFutura;PLA;Volcano;Industrial Blue;#1E88E5
-FormFutura;PP;;Natural;
-FormFutura;PP;;Black;#000000
-FormFutura;PP;;White;#FFFFFF
+FormFutura;PLA;Volcano;Lime Green;#80FF00
+FormFutura;PP;Basic;Natural;#BABABA
+FormFutura;PP;Basic;Black;#000000
+FormFutura;PP;Basic;White;#FFFFFF
 FormFutura;TPC;30D LexiFil;Black;#000000
 FormFutura;TPC;30D LexiFil;White;#FFFFFF
 FormFutura;TPC;40D LexiFil;Black;#000000
 FormFutura;TPC;40D LexiFil;White;#FFFFFF
 FormFutura;TPU;Python Flex;98A Black;#000000
-FormFutura;TPU;Python Flex;98A Clear;
-FormFutura;TPU;Python Flex;90A Clear;
+FormFutura;TPU;Python Flex;98A Clear;#D1ECFF
+FormFutura;TPU;Python Flex;90A Clear;#D1ECFF
 FormFutura;TPU;Python Flex;90A Black;#000000
 FormFutura;TPU;Python Flex;98A White;#FFFFFF
 FormFutura;TPU;Python Flex;90A White;#FFFFFF
-FormFutura;rTPU;;85A Traffic Black;#000000
-FormFutura;rTPU;;85A Traffic White;#FFFFFF
-FormFutura;rTPU;;90A Traffic Black;#000000
-FormFutura;rTPU;;95A Traffic Black;#000000
-FormFutura;rTPU;;95A Traffic White;#FFFFFF
-FormFutura;rTPU;;90A Traffic White;#FFFFFF
-Overture;PLA;;White;#FFFFFF
-Overture;PLA;;Black;#000000
-Overture;PLA;;Cold White;#FFFFFF
-Overture;PLA;;Red;#E53935
-Overture;PLA;;Fresh Red;#E53935
-Overture;PLA;;Space Gray;#9E9E9E
-Overture;PLA;;Light Gray;#9E9E9E
-Overture;PLA;;Cement Gray;#9E9E9E
-Overture;PLA;;Orange;#FB8C00
-Overture;PLA;;Pink;#FF66CC
-Overture;PLA;;Blue ;#1E88E5
-Overture;PLA;;Light Blue;#1E88E5
-Overture;PLA;;Gray Blue;#1E88E5
-Overture;PLA;;Green;#43A047
-Overture;PLA;;Olive Green;#43A047
-Overture;PLA;;Glow in Dark;
-Overture;PLA;;Yellow;#FDD835
-Overture;PLA;;Highlight Yellow;#FDD835
-Overture;PLA;;Royal Gold;#D4AF37
-Overture;PLA;;Brown;#6D4C41
-Overture;PLA;;Chocolate;
-Overture;PLA;;Purple ;#8E24AA
-Overture;PLA;;Rainbow;
-Overture;PLA;;Aurora Berry;
-Overture;PLA;;Avocado;
-Overture;PLA;;Tequila Sunrise;
-Overture;PLA;;Lemon Yellow;#FDD835
-Overture;PLA;;Metallic Gray;#9E9E9E
-Overture;PLA;;Northern Lights;
-Overture;PLA;;Rocket Pop;
-Overture;PLA;;Sparkle Black;#000000
-Overture;PLA;;Sparkle Purple;#8E24AA
-Overture;PLA;;Champagne Frost;
-Overture;PLA;;Christmas Prism;
+FormFutura;rTPU;Basic;85A Traffic Black;#000000
+FormFutura;rTPU;Basic;85A Traffic White;#FFFFFF
+FormFutura;rTPU;Basic;90A Traffic Black;#000000
+FormFutura;rTPU;Basic;95A Traffic Black;#000000
+FormFutura;rTPU;Basic;95A Traffic White;#FFFFFF
+FormFutura;rTPU;Basic;90A Traffic White;#FFFFFF
+Overture;PLA;Basic;White;#FFFFFF
+Overture;PLA;Basic;Black;#000000
+Overture;PLA;Basic;Cold White;#FFFFFF
+Overture;PLA;Basic;Red;#E53935
+Overture;PLA;Basic;Fresh Red;#E31A1F
+Overture;PLA;Basic;Space Gray;#63646B
+Overture;PLA;Basic;Light Gray;#BAC4C4
+Overture;PLA;Basic;Cement Gray;#697272
+Overture;PLA;Basic;Orange;#FB8C00
+Overture;PLA;Basic;Pink;#FF66CC
+Overture;PLA;Basic;Blue ;#1E88E5
+Overture;PLA;Basic;Light Blue;#3ABBDE
+Overture;PLA;Basic;Gray Blue;#6D8791
+Overture;PLA;Basic;Green;#43A047
+Overture;PLA;Basic;Olive Green;#97A014
+Overture;PLA;Basic;Yellow;#FDD835
+Overture;PLA;Basic;Highlight Yellow;#F9F16B
+Overture;PLA;Basic;Royal Gold;#FFCB47
+Overture;PLA;Basic;Brown;#6D4C41
+Overture;PLA;Basic;Chocolate;#57361C
+Overture;PLA;Basic;Purple ;#7142A3
+Overture;PLA;Basic;Rainbow;#008080
+Overture;PLA;Gradient;Aurora Berry;#FF4FA3+#7A3CCF
+Overture;PLA;Gradient;Avocado;#99C821+#64AD2A+#ECEF3D
+Overture;PLA;Basic;Tequila Sunrise;#D96F33+#DC1818
+Overture;PLA;Basic;Lemon Yellow;#FFED29
+Overture;PLA;Basic;Metallic Gray;#8B98AC
+Overture;PLA;Gradient;Northern Lights;#58B4BE+#C582F4+#5A75C0+#4FAF93
+Overture;PLA;Sparkle;Sparkle Black;#000000
+Overture;PLA;Sparkle;Sparkle Purple;#7701B2
+Overture;PLA;Basic;Champagne Frost;#F9EEB3
 Overture;PLA;Matte;White;#FFFFFF
 Overture;PLA;Matte;Black;#000000
-Overture;PLA;Matte;Carbon Fiber Black;#000000
-Overture;PLA;Matte;Light gray;#9E9E9E
-Overture;PLA;Matte;Black-White;#000000
+Overture;PLA;Matte;Carbon Fiber Black;#1D1E1E
+Overture;PLA;Matte;Light gray;#BAC4C4
+Overture;PLA;Matte;Black-White;#1D1E1E+#FFFFFF
 Overture;PLA;Matte;Pink;#FF66CC
 Overture;PLA;Matte;Red;#E53935
-Overture;PLA;Matte;Pastel Red;#E53935
-Overture;PLA;Matte;Brick Red;#E53935
+Overture;PLA;Matte;Pastel Red;#F76E6E
+Overture;PLA;Matte;Brick Red;#D22D2F
 Overture;PLA;Matte;Orange;#FB8C00
 Overture;PLA;Matte;Yellow;#FDD835
-Overture;PLA;Matte;Skin;
-Overture;PLA;Matte;Light Brown;#6D4C41
-Overture;PLA;Matte;Wood;
-Overture;PLA;Matte;Chocolate;
-Overture;PLA;Matte;Grass green;#43A047
-Overture;PLA;Matte;Army Green;#43A047
-Overture;PLA;Matte;Light Green ;#43A047
+Overture;PLA;Matte;Skin;#F0DDC2
+Overture;PLA;Matte;Light Brown;#EDD5A6
+Overture;PLA;Matte;Wood;#CAAC78
+Overture;PLA;Matte;Chocolate;#503529
+Overture;PLA;Matte;Grass green;#CEFF5C
+Overture;PLA;Matte;Army Green;#6E8451
+Overture;PLA;Matte;Light Green ;#AFDEB9
 Overture;PLA;Matte;Green;#43A047
-Overture;PLA;Matte;Light blue ;#1E88E5
-Overture;PLA;Matte;Navy Blue;#1E88E5
+Overture;PLA;Matte;Light blue ;#99FFFA
+Overture;PLA;Matte;Navy Blue;#142B4B
 Overture;PLA;Matte;Blue;#1E88E5
-Overture;PLA;Matte;Purple;#8E24AA
-Overture;PLA;Matte;Rainbow;
-Overture;PLA;Matte;Candy Rainbow;
-Overture;PLA;Matte;Butter Yellow;#FDD835
-Overture;PLA;Matte;Baby Pink;#FF66CC
-Overture;PLA;Matte;Bamboo Green;#43A047
-Overture;PLA;Matte;Lilac;#8E24AA
-Overture;PLA;Matte;Turquoise;
-Overture;PLA;Matte;Beige;#F5F5DC
-Overture;PLA;Matte;Blue-Red;#E53935
-Overture;PLA;Matte;Orange-Red;#E53935
-Overture;PLA;Matte;Light Blue-Yellow;#1E88E5
-Overture;PLA;Professional;Wine ;
+Overture;PLA;Matte;Purple;#8C69B5
+Overture;PLA;Matte;Rainbow;#008080
+Overture;PLA;Matte;Candy Rainbow;#047A8D+#AE763D+#8F9A4E
+Overture;PLA;Matte;Butter Yellow;#FCFAA6
+Overture;PLA;Matte;Baby Pink;#FFE0E0
+Overture;PLA;Matte;Bamboo Green;#A1D66B
+Overture;PLA;Matte;Lilac;#ECD1FF
+Overture;PLA;Matte;Turquoise;#05E1C7
+Overture;PLA;Matte;Beige;#E0EFD5
+Overture;PLA;Matte;Blue-Red;#0074BD+#F00024
+Overture;PLA;Matte;Orange-Red;#FF7300+#FF0000
+Overture;PLA;Matte;Light Blue-Yellow;#CFFFC2
+Overture;PLA;Professional;Wine ;#AD0028
 Overture;PLA;Professional;Pink;#FF66CC
 Overture;PLA;Professional;Black;#000000
 Overture;PLA;Professional;White;#FFFFFF
-Overture;PLA;Professional;Moonlight Silver;#C0C0C0
-Overture;PLA;Professional;Light Gray;#9E9E9E
-Overture;PLA;Professional;Space Gray;#9E9E9E
-Overture;PLA;Professional;Silver Metal;#C0C0C0
-Overture;PLA;Professional;Fresh red;#E53935
+Overture;PLA;Professional;Moonlight Silver;#BEC3CB
+Overture;PLA;Professional;Light Gray;#8F9695
+Overture;PLA;Professional;Space Gray;#969BA2
+Overture;PLA;Professional;Silver Metal;#A9AEB2
+Overture;PLA;Professional;Fresh red;#F00000
 Overture;PLA;Professional;Red;#E53935
-Overture;PLA;Professional;Chocolate;
+Overture;PLA;Professional;Chocolate;#50311E
 Overture;PLA;Professional;Brown;#6D4C41
-Overture;PLA;Professional;Royal Gold;#D4AF37
+Overture;PLA;Professional;Royal Gold;#E3B145
 Overture;PLA;Professional;Orange;#FB8C00
 Overture;PLA;Professional;Yellow;#FDD835
-Overture;PLA;Professional;Highlight Yellow;#FDD835
-Overture;PLA;Professional;Army Green;#43A047
+Overture;PLA;Professional;Highlight Yellow;#EBFF57
+Overture;PLA;Professional;Army Green;#8A8850
 Overture;PLA;Professional;Green;#43A047
-Overture;PLA;Professional;Light Green;#43A047
-Overture;PLA;Professional;Olive Green;#43A047
-Overture;PLA;Professional;Light Blue;#1E88E5
-Overture;PLA;Professional;Digital Blue;#1E88E5
-Overture;PLA;Professional;Gray Blue;#1E88E5
-Overture;PLA;Professional;Dark Blue;#1E88E5
-Overture;PLA;Professional;Purple ;#8E24AA
-Overture;PLA;Professional;Sunset Rainbow;
-Overture;PLA;Professional;Copper;
-Overture;PLA;Professional;Bronze;
-Overture;PLA;Professional;Champagne;
-Overture;PLA;Silk;Silk Gold;#D4AF37
-Overture;PLA;Silk;Silk Copper;
-Overture;PLA;Silk;Silk Gray;#9E9E9E
-Overture;PLA;Silk;Silk Silver;#C0C0C0
-Overture;PLA;Silk;Silk White;#FFFFFF
-Overture;PLA;Silk;Silk Red;#E53935
-Overture;PLA;Silk;Silk Fresh Red;#E53935
-Overture;PLA;Silk;Silk Neon green;#43A047
-Overture;PLA;Silk;Silk Green;#43A047
-Overture;PLA;Silk;Silk Purple;#8E24AA
-Overture;PLA;Silk;Silk Blue;#1E88E5
-Overture;PLA;Silk;Silk Gold-Silver;#D4AF37
-Overture;PLA;Silk;Silk Green-Silver;#43A047
-Overture;PLA;Silk;Silk Blue-Silver;#1E88E5
-Overture;PLA;Silk;Silk Magenta-Gold;#D4AF37
-Overture;PLA;Silk;Silk Red-Gold;#E53935
-Overture;PLA;Silk;Silk Green-Magenta;#43A047
-Overture;PLA;Silk;Silk Blue-Yellow;#1E88E5
-Overture;PLA;Silk;Silk Green-Blue;#1E88E5
-Overture;PLA;Silk;Silk Purple-Gold;#8E24AA
-Overture;PLA;Silk;Silk Caramel;
-Overture;PLA;Silk;Silk Tiger Eye;
-Overture;PLA;Silk;Silk Tropic;
-Overture;PLA;Silk;Silk Glacier Flash;
-Overture;PLA;Silk;Silk Purple Chrome;#8E24AA
-Overture;PLA;Silk;Silk Lime Surge;
-Overture;PLA;Silk;Silk Evergreen Bronze;#43A047
-Overture;PLA;Silk;Silk Golden Ember;#D4AF37
-Overture;PLA;Silk;Silk Chrome Gray;#9E9E9E
-Overture;PLA;Silk;Silk Periwinkle;
-Overture;PLA;Silk;Silk Lettuce Tomato;
-Overture;PLA;Silk;Silk Copper Shore;
-Overture;PLA;Silk;Silk Punch Pink;#FF66CC
-Overture;PLA;Silk;Silk Parakeet;
-Overture;PLA;Silk;Silk Vaporwave;
-Overture;PLA;Easy;Easy Black;#000000
-Overture;PLA;Easy;Easy White;#FFFFFF
-Overture;PLA;Easy;Easy Space Gray;#9E9E9E
-Overture;PLA;Easy;Easy Rock White;#FFFFFF
-Overture;PLA;Easy;Easy Red;#E53935
-Overture;PLA;Easy;Easy Orange;#FB8C00
-Overture;PLA;Easy;Easy Caramel;
-Overture;PLA;Easy;Easy Digital Blue;#1E88E5
-Overture;PLA;Easy;Easy Green;#43A047
-Overture;PLA;Easy;Glow Red;#E53935
-Overture;PLA;Easy;Glow Orange;#FB8C00
-Overture;PLA;Easy;Glow Yellow;#FDD835
-Overture;PLA;Easy;Glow Blue;#1E88E5
-Overture;PLA;Easy;Easy Natural;
-Overture;PLA;Easy;Shimmer Silver Green;#43A047
-Overture;PLA;Easy;Shimmer Bronze;
-Overture;PLA;Easy;Shimmer Dark Green;#43A047
-Overture;PLA;Easy;Shimmer Purple;#8E24AA
-Overture;PLA;Easy;Easy Yellow;#FDD835
-Overture;PLA;Easy;Easy Yolk Yellow ;#FDD835
-Overture;PLA;Easy;Easy Pumpkin Orange;#FB8C00
-Overture;PLA;Easy;Easy Magenta;
-Overture;PLA;Easy;Easy Pink;#FF66CC
-Overture;PLA;Easy;Easy Beige;#F5F5DC
-Overture;PLA;Easy;Easy Purple;#8E24AA
-Overture;PLA;Easy;Easy Cobalt Blue;#1E88E5
-Overture;PLA;Rock;Rock Rainbow;
-Overture;PLA;Rock;Rock White;#FFFFFF
-Overture;PLA;Rock;Fossil Rock;
-Overture;PLA;Rock;Sedimentary Rock;
-Overture;PLA;Rock;Mist Gray;#9E9E9E
-Overture;PLA;Rock;Moonlight Gray;#9E9E9E
-Overture;PLA;Rock;Muted Gray;#9E9E9E
-Overture;PLA;Rock;Haze Gray;#9E9E9E
-Overture;PLA;Rock;Slate Gray;#9E9E9E
-Overture;PLA;Rock;Marigold Yellow;#FDD835
-Overture;PLA;Rock;Alpine Forest;
-Overture;PLA;Rock;Barrier Reef;
-Overture;PLA;Rock;Desert Bluff;
-Overture;PLA;Rock;Painted Hills;
-Overture;PLA;Rock;Pink Lake;#FF66CC
-Overture;PLA;Rock;Sedona Red;#E53935
-Overture;PLA;Rock;Tropical Jungle;
-Overture;PLA;Rock;Wetland Green;#43A047
-Overture;PLA;Rock;Cheesewood;
-Overture;PLA;Rock;Walnut Wood;
-Overture;PLA;Rock;Jarrah;
-Overture;PLA;Rock;White Oak;#FFFFFF
-Overture;PLA;Shimmer;Shimmer Dark Green;#43A047
-Overture;PLA;Shimmer;Shimmer Purple;#8E24AA
-Overture;PLA;Shimmer;Shimmer Silver Green;#43A047
-Overture;PLA;Shimmer;Shimmer Bronze;
-Overture;PLA;Glow in the Dark;Glow Blue;#1E88E5
-Overture;PLA;Glow in the Dark;Glow Red;#E53935
-Overture;PLA;Glow in the Dark;Glow Orange;#FB8C00
-Overture;PLA;Glow in the Dark;Glow Yellow;#FDD835
-Overture;PLA;Glow in the Dark;Glow White in Green;#FFFFFF
+Overture;PLA;Professional;Light Green;#BCD69B
+Overture;PLA;Professional;Olive Green;#B0BE50
+Overture;PLA;Professional;Light Blue;#99F1FF
+Overture;PLA;Professional;Digital Blue;#0099E6
+Overture;PLA;Professional;Gray Blue;#8FBBC1
+Overture;PLA;Professional;Dark Blue;#183681
+Overture;PLA;Professional;Purple ;#7659B5
+Overture;PLA;Professional;Sunset Rainbow;#8EDB86
+Overture;PLA;Professional;Copper;#B87333
+Overture;PLA;Professional;Bronze;#8C6239
+Overture;PLA;Professional;Champagne;#B8BAAE
+Overture;PLA;Silk;Gold;#B76701
+Overture;PLA;Silk;Copper;#641501
+Overture;PLA;Silk;Gray;#394658
+Overture;PLA;Silk;Silver;#818FA0
+Overture;PLA;Silk;White;#DDD4CA
+Overture;PLA;Silk;Red;#DA445A
+Overture;PLA;Silk;Fresh Red;#CC0201
+Overture;PLA;Silk;Neon green;#00FF00
+Overture;PLA;Silk;Green;#018E63
+Overture;PLA;Silk;Purple;#7769BC
+Overture;PLA;Silk;Blue;#0353BA
+Overture;PLA;Silk;Gold-Silver;#D5AE52+#CABDBE
+Overture;PLA;Silk;Green-Silver;#00C26B+#818FA0
+Overture;PLA;Silk;Blue-Silver;#009DE0+#D1DBEA
+Overture;PLA;Silk;Magenta-Gold;#F7E06E+#AD0076
+Overture;PLA;Silk;Red-Gold;#F04C64+#F5BC00
+Overture;PLA;Silk;Green-Magenta;#9FFF05+#AD0076
+Overture;PLA;Silk;Blue-Yellow;#FFFF5C+#3673BA
+Overture;PLA;Silk;Green-Blue;#005AAD+#00C27B
+Overture;PLA;Silk;Purple-Gold;#702AB2+#FFCB1F
+Overture;PLA;Silk;Caramel;#FFD59A
+Overture;PLA;Silk;Tiger Eye;#DB8439+#E08D3C
+Overture;PLA;Silk;Glacier Blue;#FFFFFF+#A3EAFF
+Overture;PLA;Silk;Purple Chrome;#F37CEF+#5B1D6D
+Overture;PLA;Silk;Chrome Gray;#C0C0C0
+Overture;PLA;Silk;Periwinkle;#768EC7
+Overture;PLA;Silk;Punch Pink;#CE5A9E
+Overture;PLA;Silk;Vaporwave;#9AB8D5+#EFAEED
+Overture;PLA;Easy;Black;#000000
+Overture;PLA;Easy;White;#FFFFFF
+Overture;PLA;Easy;Space Gray;#525657
+Overture;PLA;Easy;Rock White;#EDF0F2
+Overture;PLA;Easy;Red;#E53935
+Overture;PLA;Easy;Orange;#FB8C00
+Overture;PLA;Easy;Caramel;#A88D5D
+Overture;PLA;Easy;Digital Blue;#03CEF7+#0696EF
+Overture;PLA;Easy;Green;#43A047
+Overture;PLA;Easy;Glow Red;#FF7D7A
+Overture;PLA;Easy;Glow Orange;#FF9C66
+Overture;PLA;Easy;Glow Yellow;#EBFF6B
+Overture;PLA;Easy;Glow Blue;#5EB7D4
+Overture;PLA;Easy;Shimmer Silver Green;#9ECB86
+Overture;PLA;Easy;Shimmer Bronze;#5B633B+#4F453B
+Overture;PLA;Easy;Shimmer Dark Green;#008059
+Overture;PLA;Easy;Shimmer Purple;#906482
+Overture;PLA;Easy;Yellow;#FDD835
+Overture;PLA;Easy;Yolk Yellow ;#FFE357
+Overture;PLA;Easy;Pumpkin Orange;#FF8D5C
+Overture;PLA;Easy;Magenta;#EC0ECF
+Overture;PLA;Easy;Pink;#FF66CC
+Overture;PLA;Easy;Beige;#F5F5DC
+Overture;PLA;Easy;Purple;#8E24AA
+Overture;PLA;Easy;Cobalt Blue;#173DA2
+Overture;PLA;Rock;Rainbow;#1AB790+#AF121A
+Overture;PLA;Rock;Rock White;#F1F1F1
+Overture;PLA;Rock;Fossil Rock;#C2C0BA+#503529+#EDD5A6
+Overture;PLA;Rock;Sedimentary Rock;#C4B199+#765540+#AA876B
+Overture;PLA;Rock;Mist Gray;#CACCCB
+Overture;PLA;Rock;Moonlight Gray;#BEC3CB
+Overture;PLA;Rock;Muted Gray;#929292
+Overture;PLA;Rock;Haze Gray;#7591A4
+Overture;PLA;Rock;Alpine Forest;#669C35+#9AA60E+#7A4A00
+Overture;PLA;Rock;Barrier Reef;#0042AA+#00C7FC
+Overture;PLA;Rock;Desert Bluff;#EFA160+#DD7B54+#F7C27C
+Overture;PLA;Rock;Painted Hills;#FFA57D+#FF6251+#ED719E
+Overture;PLA;Rock;Sedona Red;#E32400+#DDC343+#FFE4A8
+Overture;PLA;Rock;Wetland Green;#4B8B4A
+Overture;PLA;Rock;Walnut Wood;#59392B
+Overture;PLA;Rock;White Oak;#ECD5AB
+Overture;PLA;Shimmer;Shimmer Dark Green;#008059
+Overture;PLA;Shimmer;Shimmer Purple;#906482
+Overture;PLA;Shimmer;Shimmer Silver Green;#9ECB86
+Overture;PLA;Shimmer;Shimmer Bronze;#5B633B+#4F453B
+Overture;PLA;Glow in the Dark;Glow Blue;#4DA2AB
+Overture;PLA;Glow in the Dark;Glow Red;#FF7D7A
+Overture;PLA;Glow in the Dark;Glow Orange;#FF9C66
+Overture;PLA;Glow in the Dark;Glow Yellow;#EBFF6B
+Overture;PLA;Glow in the Dark;Glow White in Green;#FFFEEA+#30CA38
 Overture;PLA+;Super;Orange;#FB8C00
 Overture;PLA+;Super;Black;#000000
-Overture;PLA+;Super;Light Gray;#9E9E9E
+Overture;PLA+;Super;Light Gray;#919599
 Overture;PLA+;Super;White;#FFFFFF
 Overture;PLA+;Super;Red;#E53935
 Overture;PLA+;Super;Pink;#FF66CC
-Overture;PLA+;Super;Sakura Pink;#FF66CC
-Overture;PLA+;Super;Light Brown;#6D4C41
+Overture;PLA+;Super;Light Brown;#EDD5A6
 Overture;PLA+;Super;Yellow;#FDD835
 Overture;PLA+;Super;Green;#43A047
-Overture;PLA+;Super;Dark Blue;#1E88E5
+Overture;PLA+;Super;Dark Blue;#033877
 Overture;PLA+;Super;Purple;#8E24AA
-Overture;PLA;Gradient;Northern Lights;
-Overture;PLA;Gradient;Rainbow;
-Overture;PLA;Gradient;Aurora Berry;
-Overture;PLA;Gradient;Avocado;
-Overture;PLA;Gradient;Tequila Sunrise;
-Overture;PLA;Gradient;Rocket Pop;
-Overture;PLA;Rock Gradient;Rock Rainbow;
-Overture;PLA;Rock Gradient;Alpine Forest;
-Overture;PLA;Rock Gradient;Barrier Reef;
-Overture;PLA;Rock Gradient;Desert Bluff;
-Overture;PLA;Rock Gradient;Painted Hills;
-Overture;PLA;Rock Gradient;Pink Lake;#FF66CC
-Overture;PLA;Rock Gradient;Sedona Red;#E53935
-Overture;PLA;Rock Gradient;Tropical Jungle;
-Overture;PLA;Rock Gradient;Wetland Green;#43A047
-Overture;PLA;Silk Gradient;Silk Red-Gold;#E53935
-Overture;PLA;Silk Gradient;Silk Magenta-Gold;#D4AF37
-Overture;PLA;Silk Gradient;Silk Purple-Gold;#8E24AA
-Overture;PLA;Silk Gradient;Silk Gold-Silver;#D4AF37
-Overture;PLA;Silk Gradient;Silk Blue-Silver;#1E88E5
-Overture;PLA;Silk Gradient;Silk Green-Silver;#43A047
-Overture;PLA;Silk Gradient;Silk Green-Blue;#1E88E5
-Overture;PLA;Silk Gradient;Silk Blue-Yellow;#1E88E5
-Overture;PLA;Silk Gradient;Silk Green-Magenta;#43A047
-Overture;PLA;Silk Gradient;Silk Caramel;
-Overture;PLA;Silk Gradient;Silk Tiger Eye;
-Overture;PLA;Silk Gradient;Silk Tropic;
-Overture;PLA;Silk Gradient;Silk Glacier Flash;
-Overture;PLA;Silk Gradient;Silk Purple Chrome;#8E24AA
-Overture;PLA;Silk Gradient;Silk Lime Surge;
-Overture;PLA;Silk Gradient;Silk Evergreen Bronze;#43A047
-Overture;PLA;Silk Gradient;Silk Golden Ember;#D4AF37
-Overture;PLA;Silk Gradient;Silk Chrome Gray;#9E9E9E
-Overture;PLA;Silk Gradient;Silk Periwinkle;
-Overture;PLA;Silk Gradient;Silk Lettuce Tomato;
-Overture;PLA;Silk Gradient;Silk Copper Shore;
-Overture;PLA;Silk Gradient;Silk Punch Pink;#FF66CC
-Overture;PLA;Silk Gradient;Silk Parakeet;
-Overture;PLA;Silk Gradient;Silk Vaporwave;
-Overture;PLA;Matte Dual Colors;Rainbow;
-Overture;PLA;Matte Dual Colors;Candy Rainbow;
-Overture;PLA;Matte Dual Colors;Blue-Red;#E53935
-Overture;PLA;Matte Dual Colors;Orange-Red;#E53935
-Overture;PLA;Matte Dual Colors;Light Blue-Yellow;#1E88E5
-Overture;PETG;;Black;#000000
-Overture;PETG;;White;#FFFFFF
-Overture;PETG;;Rock White;#FFFFFF
-Overture;PETG;;Transparent;
-Overture;PETG;;Space Gray;#9E9E9E
-Overture;PETG;;Light Gray;#9E9E9E
-Overture;PETG;;Red;#E53935
-Overture;PETG;;Transparent Red;#E53935
-Overture;PETG;;Magenta;
-Overture;PETG;;Pink;#FF66CC
-Overture;PETG;;Orange;#FB8C00
-Overture;PETG;;Gold;#D4AF37
-Overture;PETG;;Brown;#6D4C41
-Overture;PETG;;Yellow;#FDD835
-Overture;PETG;;Grass Green;#43A047
-Overture;PETG;;Transparent Green;#43A047
-Overture;PETG;;Green;#43A047
-Overture;PETG;;Army Green;#43A047
-Overture;PETG;;Digital Blue;#1E88E5
-Overture;PETG;;Transparent Blue;#1E88E5
-Overture;PETG;;Blue;#1E88E5
-Overture;PETG;;Starry Blue;#1E88E5
-Overture;PETG;;Sparkle Blue;#1E88E5
-Overture;PETG;;Purple;#8E24AA
-Overture;ABS;;Black;#000000
-Overture;ABS;;Blue;#1E88E5
-Overture;ABS;;Dark Red;#E53935
-Overture;ABS;;White;#FFFFFF
-Overture;ABS;;Gray;#9E9E9E
-Overture;ABS;;Slate Gray;#9E9E9E
-Overture;ABS;;Yellow;#FDD835
-Overture;ABS;;Glow Green;#43A047
-Overture;ABS;;Natural;
-Overture;ABS;;Green;#43A047
-Overture;ABS;;Purple;#8E24AA
-Overture;ABS;;Diamond Purple;#8E24AA
-Overture;ABS;;Diamond Gray;#9E9E9E
-Overture;ABS;;Diamond Orange;#FB8C00
-Overture;ASA;;Black;#000000
-Overture;ASA;;White;#FFFFFF
-Overture;ASA;;Gray;#9E9E9E
-Overture;ASA;;Red;#E53935
-Overture;ASA;;Brown;#6D4C41
-Overture;ASA;;Orange;#FB8C00
-Overture;ASA;;Yellow;#FDD835
-Overture;ASA;;Natural;
-Overture;ASA;;Olive Green;#43A047
-Overture;ASA;;Green;#43A047
-Overture;ASA;;Blue;#1E88E5
-Overture;ASA;;Diamond Blue;#1E88E5
-Overture;ASA;;Diamond Red;#E53935
-Overture;ASA;;Diamond Green;#43A047
+Overture;PLA;Matte Dual Colors;Rainbow;#008080
+Overture;PLA;Matte Dual Colors;Candy Rainbow;#047A8D+#AE763D+#8F9A4E
+Overture;PLA;Matte Dual Colors;Blue-Red;#0074BD+#F00024
+Overture;PLA;Matte Dual Colors;Orange-Red;#FCAB59+#F02800
+Overture;PLA;Matte Dual Colors;Light Blue-Yellow;#CFFFC2
+Overture;PETG;Basic;Black;#000000
+Overture;PETG;Basic;White;#FFFFFF
+Overture;PETG;Basic;Rock White;#C2C8CB
+Overture;PETG;Basic;Space Gray;#76797D
+Overture;PETG;Basic;Light Gray;#D5D8DD
+Overture;PETG;Basic;Red;#E53935
+Overture;PETG;Basic;Transparent Red;#CE333E
+Overture;PETG;Basic;Magenta;#C80181
+Overture;PETG;Basic;Pink;#FF66CC
+Overture;PETG;Basic;Orange;#FB8C00
+Overture;PETG;Basic;Gold;#D4AF37
+Overture;PETG;Basic;Brown;#6D4C41
+Overture;PETG;Basic;Yellow;#FDD835
+Overture;PETG;Basic;Grass Green;#C4D802
+Overture;PETG;Basic;Transparent Green;#019A45
+Overture;PETG;Basic;Green;#43A047
+Overture;PETG;Basic;Army Green;#404720
+Overture;PETG;Basic;Digital Blue;#0378D0
+Overture;PETG;Basic;Transparent Blue;#09048E
+Overture;PETG;Basic;Blue;#1E88E5
+Overture;PETG;Basic;Starry Blue;#142B4B
+Overture;PETG;Basic;Sparkle Blue;#253F56
+Overture;PETG;Basic;Purple;#8E24AA
+Overture;ABS;Basic;Black;#000000
+Overture;ABS;Basic;Blue;#1E88E5
+Overture;ABS;Basic;Dark Red;#FF311F
+Overture;ABS;Basic;White;#FFFFFF
+Overture;ABS;Basic;Gray;#9E9E9E
+Overture;ABS;Basic;Slate Gray;#91A086
+Overture;ABS;Basic;Yellow;#FDD835
+Overture;ABS;Basic;Glow Green;#FCFCFC+#05F521
+Overture;ABS;Basic;Natural;#FDFAE2
+Overture;ABS;Basic;Green;#43A047
+Overture;ABS;Basic;Purple;#8E24AA
+Overture;ABS;Basic;Diamond Purple;#8238F0
+Overture;ABS;Basic;Diamond Gray;#8C8C8C
+Overture;ABS;Basic;Diamond Orange;#E66700
+Overture;ASA;Basic;Black;#000000
+Overture;ASA;Basic;White;#FFFFFF
+Overture;ASA;Basic;Gray;#9E9E9E
+Overture;ASA;Basic;Red;#E53935
+Overture;ASA;Basic;Brown;#6D4C41
+Overture;ASA;Basic;Orange;#FB8C00
+Overture;ASA;Basic;Yellow;#FDD835
+Overture;ASA;Basic;Natural;#FDFAE2
+Overture;ASA;Basic;Olive Green;#008040
+Overture;ASA;Basic;Green;#43A047
+Overture;ASA;Basic;Blue;#1E88E5
+Overture;ASA;Basic;Diamond Blue;#324283
+Overture;ASA;Basic;Diamond Green;#3A9856
 Overture;TPU;High Speed;Black;#000000
 Overture;TPU;High Speed;White;#FFFFFF
-Overture;TPU;High Speed;Clear;
+Overture;TPU;High Speed;Clear;#FFF1FF
 Overture;TPU;High Speed;Gray;#9E9E9E
 Overture;TPU;High Speed;Pink;#FF66CC
 Overture;TPU;High Speed;Orange;#FB8C00
-Overture;TPU;High Speed;Grass Green;#43A047
-Overture;TPU;High Speed;Translucent Blue;#1E88E5
-Overture;TPU;High Speed;Translucent Red;#E53935
-Overture;TPU;High Speed;Translucent Green;#43A047
-Overture;TPU;High Speed;Translucent Purple;#8E24AA
-Overture;TPU;High Speed;Translucent Orange;#FB8C00
-Overture;TPU;High Speed;Neon Magenta;
-Overture;TPU;High Speed;Pastel Rose;
+Overture;TPU;High Speed;Grass Green;#DDF737
+Overture;TPU;High Speed;Translucent Blue;#0B82F9
+Overture;TPU;High Speed;Translucent Red;#FF0000
+Overture;TPU;High Speed;Translucent Green;#2EA52C
+Overture;TPU;High Speed;Translucent Purple;#262249
+Overture;TPU;High Speed;Neon Magenta;#E520B7
 Overture;TPU;High Speed;Luminous Pink;#FF66CC
-Overture;TPU;High Speed;Neon Yellow;#FDD835
-Overture;TPU;High Speed;Luminous Electric Indigo;
-Overture;TPU;High Speed;Luminous Blue;#1E88E5
-Overture;TPU;High Speed;Luminous Green;#43A047
-Overture;TPU;High Speed;Luminous Orange;#FB8C00
-Overture;TPU;;Black;#000000
-Overture;TPU;;Space Gray;#9E9E9E
-Overture;TPU;;Gray;#9E9E9E
-Overture;TPU;;White;#FFFFFF
-Overture;TPU;;Transparent;
-Overture;TPU;;Red;#E53935
-Overture;TPU;;Bright Pink;#FF66CC
-Overture;TPU;;Brown;#6D4C41
-Overture;TPU;;Orange;#FB8C00
-Overture;TPU;;Yellow;#FDD835
-Overture;TPU;;Digital Blue;#1E88E5
-Overture;TPU;;Blue;#1E88E5
-Overture;TPU;;Purple;#8E24AA
-Overture;TPU;;Green;#43A047
-Overture;TPU;;Neon Red;#E53935
-Overture;TPU;;Neon Green;#43A047
-Overture;TPU;;Neon Orange;#FB8C00
-Overture;TPU;;Light Green;#43A047
-Ultimaker;PLA;;Schwarz;#000000
-Ultimaker;PLA;;Weiß;#FFFFFF
-Ultimaker;PLA;;Perlweiss;#FFFFFF
-Ultimaker;PLA;;Silbermetallic;
-Ultimaker;PLA;;Magenta;
-Ultimaker;PLA;;Orange;#FB8C00
-Ultimaker;PLA;;Rot;#E53935
-Ultimaker;PLA;;Blau;#1E88E5
-Ultimaker;PLA;;Grün;#43A047
-Ultimaker;PLA;;Gelb ;#FDD835
-Ultimaker;PLA;;Transparent;
+Overture;TPU;High Speed;Neon Yellow;#FEF71D
+Overture;TPU;High Speed;Luminous Electric Indigo;#6869F5
+Overture;TPU;High Speed;Luminous Blue;#48BBFE+#D3D5D2
+Overture;TPU;High Speed;Luminous Green;#D4D6CF+#42DDA3
+Overture;TPU;High Speed;Luminous Orange;#DCDED9+#FDB970
+Overture;TPU;Basic;Black;#000000
+Overture;TPU;Basic;Space Gray;#9E9E9E
+Overture;TPU;Basic;Gray;#9E9E9E
+Overture;TPU;Basic;White;#FFFFFF
+Overture;TPU;Basic;Transparent;#E5E5E5
+Overture;TPU;Basic;Red;#E53935
+Overture;TPU;Basic;Bright Pink;#FFB7D4
+Overture;TPU;Basic;Brown;#6D4C41
+Overture;TPU;Basic;Orange;#FB8C00
+Overture;TPU;Basic;Yellow;#FDD835
+Overture;TPU;Basic;Digital Blue;#6ABCF6
+Overture;TPU;Basic;Blue;#1E88E5
+Overture;TPU;Basic;Purple;#8E24AA
+Overture;TPU;Basic;Green;#43A047
+Overture;TPU;Basic;Neon Red;#FC1723
+Overture;TPU;Basic;Neon Green;#00C700
+Overture;TPU;Basic;Neon Orange;#FF8652
+Overture;TPU;Basic;Light Green;#BCD69B
+Ultimaker;PLA;Basic;Schwarz;#000000
+Ultimaker;PLA;Basic;Weiß;#FFFFFF
+Ultimaker;PLA;Basic;Perlweiss;#FFFFFF
+Ultimaker;PLA;Basic;Silbermetallic;#7A7A7A
+Ultimaker;PLA;Basic;Orange;#FB8C00
+Ultimaker;PLA;Basic;Rot;#E53935
+Ultimaker;PLA;Basic;Blau;#1E88E5
+Ultimaker;PLA;Basic;Grün;#43A047
+Ultimaker;PLA;Basic;Gelb ;#FDD835
 Ultimaker;PLA;Tough;Schwarz;#000000
 Ultimaker;PLA;Tough;Weiß;#FFFFFF
 Ultimaker;PLA;Tough;Rot ;#E53935
@@ -3142,32 +2978,32 @@ Ultimaker;PLA;Tough;Grün;#43A047
 Ultimaker;PLA;Tough;Grau;#9E9E9E
 Ultimaker;PLA;Tough;Gelb;#FDD835
 Ultimaker;ABS-R;Method X;Rot;#E53935
-Ultimaker;ABS-R;Method X;Natur;
+Ultimaker;ABS-R;Method X;Natur;#FFFFFF
 Ultimaker;PA;Nylon;Schwarz;#000000
-Ultimaker;PA;Nylon;Transparent;
-Ultimaker;ABS;;Schwarz;#000000
-Ultimaker;ABS;;Weiß;#FFFFFF
-Ultimaker;ABS;;Gold;#D4AF37
-Ultimaker;ABS;;Orange;#FB8C00
-Ultimaker;ABS;;Rot;#E53935
-Ultimaker;ABS;;Silber;
-Ultimaker;ABS;;Blau;#1E88E5
-Ultimaker;ABS;;Grün;#43A047
-Ultimaker;ABS;;Gelb;#FDD835
-Ultimaker;ABS;;Grau;#9E9E9E
-Ultimaker;PETG;;Schwarz;#000000
-Ultimaker;PETG;;Weiß ;#FFFFFF
-Ultimaker;PETG;;Orange;#FB8C00
-Ultimaker;PETG;;Rot;#E53935
-Ultimaker;PETG;;Silber;
-Ultimaker;PETG;;Blau;#1E88E5
-Ultimaker;PETG;;Grün;#43A047
-Ultimaker;PETG;;Gelb ;#FDD835
-Ultimaker;PETG;;Transparent;
-Ultimaker;PETG;;Grau;#9E9E9E
-Ultimaker;PC;;Schwarz ;#000000
-Ultimaker;PC;;Weiß;#FFFFFF
-Ultimaker;PC;;Transparent;
+Ultimaker;PA;Nylon;Transparent;#FFFFFF
+Ultimaker;ABS;Basic;Schwarz;#000000
+Ultimaker;ABS;Basic;Weiß;#FFFFFF
+Ultimaker;ABS;Basic;Gold;#D4AF37
+Ultimaker;ABS;Basic;Orange;#FB8C00
+Ultimaker;ABS;Basic;Rot;#E53935
+Ultimaker;ABS;Basic;Silber;#7A7A7A
+Ultimaker;ABS;Basic;Blau;#1E88E5
+Ultimaker;ABS;Basic;Grün;#43A047
+Ultimaker;ABS;Basic;Gelb;#FDD835
+Ultimaker;ABS;Basic;Grau;#9E9E9E
+Ultimaker;PETG;Basic;Schwarz;#000000
+Ultimaker;PETG;Basic;Weiß ;#FFFFFF
+Ultimaker;PETG;Basic;Orange;#FB8C00
+Ultimaker;PETG;Basic;Rot;#E53935
+Ultimaker;PETG;Basic;Silber;#7A7A7A
+Ultimaker;PETG;Basic;Blau;#1E88E5
+Ultimaker;PETG;Basic;Grün;#43A047
+Ultimaker;PETG;Basic;Gelb ;#FDD835
+Ultimaker;PETG;Basic;Transparent;#FFFFFF
+Ultimaker;PETG;Basic;Grau;#9E9E9E
+Ultimaker;PC;Basic;Schwarz ;#000000
+Ultimaker;PC;Basic;Weiß;#FFFFFF
+Ultimaker;PC;Basic;Transparent;#FFFFFF
 Ultimaker;PET;CF;Schwarz;#000000
 Ultimaker;PET;CF;Blau;#1E88E5
 Ultimaker;PET;CF;Grau;#9E9E9E
@@ -3175,267 +3011,194 @@ Ultimaker;TPU;95A Premium;Schwarz;#000000
 Ultimaker;TPU;95A Premium;Weiß;#FFFFFF
 Ultimaker;TPU;95A Premium;Rot;#E53935
 Ultimaker;TPU;95A Premium;Blau;#1E88E5
-Ultimaker;CPE;;Schwarz;#000000
-Ultimaker;CPE;;Weiß;#FFFFFF
-Ultimaker;CPE;;Dunkelgrau;#9E9E9E
-Ultimaker;CPE;;Hellgrau;#9E9E9E
-Ultimaker;CPE;;Rot;#E53935
-Ultimaker;CPE;;Blau;#1E88E5
-Ultimaker;CPE;;Grün;#43A047
-Ultimaker;CPE+;;Schwarz;#000000
-Ultimaker;CPE+;;Weiß;#FFFFFF
-Spectrum;PLA;Carbon;Carbon;
+Ultimaker;CPE;Basic;Schwarz;#000000
+Ultimaker;CPE;Basic;Weiß;#FFFFFF
+Ultimaker;CPE;Basic;Dunkelgrau;#9E9E9E
+Ultimaker;CPE;Basic;Hellgrau;#9E9E9E
+Ultimaker;CPE;Basic;Rot;#E53935
+Ultimaker;CPE;Basic;Blau;#1E88E5
+Ultimaker;CPE;Basic;Grün;#43A047
+Ultimaker;CPE+;Basic;Schwarz;#000000
+Ultimaker;CPE+;Basic;Weiß;#FFFFFF
+Spectrum;PLA;Carbon;Carbon;#000000
 Spectrum;PLA;FlameGuard;Polar White;#FFFFFF
 Spectrum;PLA;FlameGuard;Deep Black;#000000
-Spectrum;PLA;FlameGuard;Technical Red;#E53935
-Spectrum;PLA;FlameGuard;Light Grey;#9E9E9E
-Spectrum;PLA;FlameGuard;Industrial Grey;#9E9E9E
-Spectrum;PLA;FlameGuard;Performance Blue;#1E88E5
-Spectrum;PLA;Huracan;Aluminium Silver;#C0C0C0
-Spectrum;PLA;Huracan;baby Blue;#1E88E5
-Spectrum;PLA;Huracan;Banana Yellow;#FDD835
-Spectrum;PLA;Huracan;Cream Beige;#F5F5DC
-Spectrum;PLA;Huracan;Fresh Green;#43A047
-Spectrum;PLA;Huracan;Light Weight;
-Spectrum;PLA;Huracan;Lion Orange;#FB8C00
-Spectrum;PLA;Huracan;Ola Pink;#FF66CC
-Spectrum;PLA;Huracan;Purple Grape;#8E24AA
-Spectrum;PLA;Huracan;Royal Blue;#1E88E5
+Spectrum;PLA;FlameGuard;Technical Red;#FF0000
+Spectrum;PLA;FlameGuard;Light Grey;#C0C0C0
+Spectrum;PLA;Huracan;Aluminium Silver;#949AA8
+Spectrum;PLA;Huracan;Baby Blue;#80CEFF
+Spectrum;PLA;Huracan;Bahama Yellow;#FACA31
+Spectrum;PLA;Huracan;Cream Beige;#E6D2B5
+Spectrum;PLA;Huracan;Fresh Green;#A5F8DC
+Spectrum;PLA;Huracan;Lion Orange;#FA701E
+Spectrum;PLA;Huracan;Ola Pink;#FF0090
 Spectrum;PLA;Huracan;Signal White;#FFFFFF
 Spectrum;PLA;Huracan;Traffic Black;#000000
 Spectrum;PLA;Huracan;True Red;#E53935
-Spectrum;PLA;Huracan;Anthracite Grey;#9E9E9E
+Spectrum;PLA;Huracan;Anthracite Grey;#42494B
 Spectrum;PLA;LW UltraFoam;Traffic Black;#000000
 Spectrum;PLA;LW UltraFoam;Dark Grey;#9E9E9E
 Spectrum;PLA;LW UltraFoam;Light Grey;#9E9E9E
-Spectrum;PLA;LW UltraFoam;Lion Orange;#FB8C00
-Spectrum;PLA;LW UltraFoam;Persian Blue;#1E88E5
+Spectrum;PLA;LW UltraFoam;Lion Orange;#FA701E
 Spectrum;PLA;LW UltraFoam;Pure Red;#E53935
 Spectrum;PLA;LW UltraFoam;Pure White;#FFFFFF
-Spectrum;PLA;Pastello;Apricot Orange;#FB8C00
-Spectrum;PLA;Pastello;Atmospheric Blue;#1E88E5
-Spectrum;PLA;Pastello;Bonbon Rose;
-Spectrum;PLA;Pastello;Coctail Green;#43A047
-Spectrum;PLA;Pastello;Cosmetic Mauve;
-Spectrum;PLA;Pastello;Flamingo Red;#E53935
-Spectrum;PLA;Pastello;Holland Red;#E53935
-Spectrum;PLA;Pastello;Lemon Cream;
-Spectrum;PLA;Pastello;Pale Salmon;
-Spectrum;PLA;Pastello;Pink Pastel;#FF66CC
-Spectrum;PLA;Pastello;Water Blue;#1E88E5
-Spectrum;PLA;Crytal;Crystal Blue Horizon;#1E88E5
-Spectrum;PLA;Crytal;Crystal Electric Yellow;#FDD835
-Spectrum;PLA;Crytal;Crystal Frozen Berry;
-Spectrum;PLA;Crytal;Crystal Neon Green;#43A047
-Spectrum;PLA;Crytal;Crystal Neon Orange;#FB8C00
-Spectrum;PLA;Crytal;Crystal Raspberry Red;#E53935
-Spectrum;PLA;ESD;Turquoise;
-Spectrum;PLA;ESD;Tool Blue;#1E88E5
+Spectrum;PLA;Pastello;Bonbon Rose;#F9429E
+Spectrum;PLA;Pastello;Flamingo Red;#E2A392
+Spectrum;PLA;Pastello;Pink Pastel;#E6D3D1
+Spectrum;PLA;Crytal;Blue Horizon;#028FE4
+Spectrum;PLA;Crytal;Electric Yellow;#F1EA23
+Spectrum;PLA;Crytal;Frozen Berry;#E60144
+Spectrum;PLA;Crytal;Neon Green;#20EC0D
+Spectrum;PLA;Crytal;Neon Orange;#FF7A05
+Spectrum;PLA;ESD;Turquoise;#4FA5B0
 Spectrum;PLA;ESD;Pure White;#FFFFFF
 Spectrum;PLA;ESD;Dark Grey;#9E9E9E
 Spectrum;PLA;ESD;Light Grey;#9E9E9E
-Spectrum;PLA;ESD;Power Tool Green;#43A047
-Spectrum;PLA;ESD;Power Tool Dark Green;#43A047
 Spectrum;PLA;ESD;Traffic Black;#000000
-Spectrum;PLA;Glitter;Emereld Green;#43A047
-Spectrum;PLA;Glitter;Red Sparkle;#E53935
-Spectrum;PLA;Glitter;Stardust Blue;#1E88E5
-Spectrum;PLA;Glitter;Aztec Gold;#D4AF37
-Spectrum;PLA;Glitter;Clear Gold;#D4AF37
-Spectrum;PLA;Glitter;Aurora Gold;#D4AF37
-Spectrum;PLA;Glitter;Volcano Grey;#9E9E9E
-Spectrum;PLA;Glitter;Silver Metalic;#C0C0C0
+Spectrum;PLA;Glitter;Emereld Green;#35682D
+Spectrum;PLA;Glitter;Red Sparkle;#FF4013
+Spectrum;PLA;Glitter;Stardust Blue;#001E57
+Spectrum;PLA;Glitter;Aztec Gold;#CCB36D
+Spectrum;PLA;Glitter;Clear Gold;#BFB493
+Spectrum;PLA;Glitter;Aurora Gold;#000000+#E9E60C
+Spectrum;PLA;Glitter;Volcano Grey;#1B1C1D
 Spectrum;PLA;Glow in the Dark;Green;#43A047
 Spectrum;PLA;Glow in the Dark;Blue;#1E88E5
-Spectrum;PLA;High Speed;Baby Blue;#1E88E5
-Spectrum;PLA;High Speed;Crimson Red;#E53935
+Spectrum;PLA;High Speed;Baby Blue;#80CEFF
 Spectrum;PLA;High Speed;Dark Grey;#9E9E9E
 Spectrum;PLA;High Speed;Deep Black;#000000
 Spectrum;PLA;High Speed;Gold;#D4AF37
-Spectrum;PLA;High Speed;Grass Green;#43A047
-Spectrum;PLA;High Speed;Granite Grey;#9E9E9E
-Spectrum;PLA;High Speed;Iceland Blue;#1E88E5
-Spectrum;PLA;High Speed;Latte Beige;#F5F5DC
-Spectrum;PLA;High Speed;Leaf Green;#43A047
-Spectrum;PLA;High Speed;Lime Green;#43A047
-Spectrum;PLA;High Speed;Lion Orange;#FB8C00
-Spectrum;PLA;High Speed;Navy Blue;#1E88E5
-Spectrum;PLA;High Speed;Neon Green UV;#43A047
-Spectrum;PLA;High Speed;Neon Orange UV;#FB8C00
-Spectrum;PLA;High Speed;Neon Transparent;
-Spectrum;PLA;High Speed;Neo Red;#E53935
-Spectrum;PLA;High Speed;Pacific Blue;#1E88E5
-Spectrum;PLA;High Speed;Pink Panther;#FF66CC
+Spectrum;PLA;High Speed;Grass Green;#36B300
+Spectrum;PLA;High Speed;Iceland Blue;#00A3D7
+Spectrum;PLA;High Speed;Leaf Green;#1E482B
+Spectrum;PLA;High Speed;Lime Green;#61993B
+Spectrum;PLA;High Speed;Lion Orange;#FA701E
+Spectrum;PLA;High Speed;Navy Blue;#002990
+Spectrum;PLA;High Speed;Neon Green UV;#20EC0D
+Spectrum;PLA;High Speed;Neon Orange UV;#FF7A05
+Spectrum;PLA;High Speed;Pacific Blue;#4583C5
+Spectrum;PLA;High Speed;Pink Panther;#FF0090
 Spectrum;PLA;High Speed;Signal White;#FFFFFF
-Spectrum;PLA;High Speed;Silver Star;#C0C0C0
-Spectrum;PLA;High Speed;Telegrey;#9E9E9E
-Spectrum;PLA;High Speed;Traffic Red;#E53935
+Spectrum;PLA;High Speed;Silver Star;#727374
+Spectrum;PLA;High Speed;Traffic Red;#FF0000
 Spectrum;PLA;High Speed;True Yellow;#FDD835
-Spectrum;PLA;High Speed;Walnut Brown;#6D4C41
 Spectrum;PLA;High Speed;Arctic White;#FFFFFF
-Spectrum;PLA;Magic Silk;Golden Berry;#D4AF37
-Spectrum;PLA;Magic Silk;Nightfire;
-Spectrum;PLA;Magic Silk;Solar Eclipse;
-Spectrum;PLA;Magic Silk;Forest Flame;
-Spectrum;PLA;Magic Silk;Lagoon Breeze;
-Spectrum;PLA;Magic Silk;Raspberry Blush;
-Spectrum;PLA;Magic Silk;Amber Leaf;
-Spectrum;PLA;Magic Silk;Solar Flare;
-Spectrum;PLA;Magic Silk;Magenta Dream;
-Spectrum;PLA;Magic Silk;Fire & Ice;
-Spectrum;PLA;Magic Silk;Magenta Blossom;
-Spectrum;PLA;Magic Silk;Royal Amethyst;
-Spectrum;PLA;Magic Silk;Mystic Orchid;
-Spectrum;PLA;Magic Silk;Aurora Bloom;
-Spectrum;PLA;Magic Silk;Vivid Lavender;
-Spectrum;PLA;Matt;Bloody Red;#E53935
-Spectrum;PLA;Matt;Bahama Yellow;#FDD835
-Spectrum;PLA;Matt;Lime Green;#43A047
-Spectrum;PLA;Matt;Lion Orange;#FB8C00
-Spectrum;PLA;Matt;Navy Blue;#1E88E5
+Spectrum;PLA;Magic Silk;Nightfire;#FF0000+#000000
+Spectrum;PLA;Magic Silk;Forest Flame;#038452
+Spectrum;PLA;Magic Silk;Lagoon Breeze;#0000FF+#008000
+Spectrum;PLA;Magic Silk;Magenta Dream;#FF00FF+#400080
+Spectrum;PLA;Magic Silk;Fire & Ice;#8C2F37+#004378
+Spectrum;PLA;Magic Silk;Mystic Orchid;#8000FF+#008000
+Spectrum;PLA;Magic Silk;Aurora Bloom;#0000FF+#FF00FF
+Spectrum;PLA;Matt;Bloody Red;#BB1E10
+Spectrum;PLA;Matt;Bahama Yellow;#FBCA2F
+Spectrum;PLA;Matt;Lime Green;#61993B
+Spectrum;PLA;Matt;Lion Orange;#FA701E
+Spectrum;PLA;Matt;Navy Blue;#002990
 Spectrum;PLA;Matt;Polar White;#FFFFFF
 Spectrum;PLA;Matt;Dark Grey;#9E9E9E
 Spectrum;PLA;Matt;Deep Black;#000000
-Spectrum;PLA;Nature;Algae;
-Spectrum;PLA;Nature;Algae Nori;
-Spectrum;PLA;Nature;Dark Beer;
-Spectrum;PLA;Nature;Flax;
-Spectrum;PLA;Nature;Hemp;
-Spectrum;PLA;Nature;Pils Beer;
-Spectrum;PLA;Premium;Bloody Red;#E53935
-Spectrum;PLA;Premium;Dragon Red;#E53935
-Spectrum;PLA;Premium;Fluorescent Orange;#FB8C00
-Spectrum;PLA;Premium;Carrot Orange;#E53935
-Spectrum;PLA;Premium;Lion Orange;#FB8C00
-Spectrum;PLA;Premium;Pearl Gold;#D4AF37
-Spectrum;PLA;Premium;Bahama Yellow;#FDD835
-Spectrum;PLA;Premium;Fluorescent Yellow;#FDD835
-Spectrum;PLA;Premium;Lime Green;#43A047
-Spectrum;PLA;Premium;Fluo Green;#43A047
-Spectrum;PLA;Premium;Forest Green;#43A047
-Spectrum;PLA;Premium;Pastel Turquoise;
-Spectrum;PLA;Premium;Blue Lagoon;#1E88E5
-Spectrum;PLA;Premium;Caribbean Blue;#1E88E5
-Spectrum;PLA;Premium;Pacific Blue;#1E88E5
-Spectrum;PLA;Premium;Navy Blue;#1E88E5
-Spectrum;PLA;Premium;Lavender Violett;
-Spectrum;PLA;Premium;Magenta;
-Spectrum;PLA;Premium;Pink Panther;#FF66CC
-Spectrum;PLA;Premium;Rust Copper;
-Spectrum;PLA;Premium;Chocolate Brown;#6D4C41
-Spectrum;PLA;Premium;Pearl Bronze;
-Spectrum;PLA;Premium;Military Khaki;
-Spectrum;PLA;Premium;Golden Line;#D4AF37
-Spectrum;PLA;Premium;Natural;
-Spectrum;PLA;Premium;Translucent;
-Spectrum;PLA;Premium;Ivory Beige;#F5F5DC
+Spectrum;PLA;Premium;Bloody Red;#BB1E10
+Spectrum;PLA;Premium;Dragon Red;#B4212C
+Spectrum;PLA;Premium;Carrot Orange;#FC8C10
+Spectrum;PLA;Premium;Lion Orange;#FF8800
+Spectrum;PLA;Premium;Pearl Gold;#D0A611
+Spectrum;PLA;Premium;Bahama Yellow;#FBCA2F
+Spectrum;PLA;Premium;Lime Green;#61993B
+Spectrum;PLA;Premium;Fluo Green;#89E248
+Spectrum;PLA;Premium;Forest Green;#038452
+Spectrum;PLA;Premium;Pastel Turquoise;#69EAF8
+Spectrum;PLA;Premium;Blue Lagoon;#4CB9BC
+Spectrum;PLA;Premium;Caribbean Blue;#026677
+Spectrum;PLA;Premium;Pacific Blue;#4169E1
+Spectrum;PLA;Premium;Navy Blue;#1902C5
+Spectrum;PLA;Premium;Lavender Violett;#A07DAD
+Spectrum;PLA;Premium;Magenta;#FF00FF
+Spectrum;PLA;Premium;Pink Panther;#FF0090
+Spectrum;PLA;Premium;Rust Copper;#DB4D00
+Spectrum;PLA;Premium;Chocolate Brown;#60412B
+Spectrum;PLA;Premium;Golden Line;#AD9B52
+Spectrum;PLA;Premium;Translucent;#FFFFFF
+Spectrum;PLA;Premium;Ivory Beige;#E6D2B5
 Spectrum;PLA;Premium;Arctic White;#FFFFFF
 Spectrum;PLA;Premium;Polar White;#FFFFFF
-Spectrum;PLA;Premium;Light Grey;#9E9E9E
-Spectrum;PLA;Premium;Silver Star;#C0C0C0
+Spectrum;PLA;Premium;Light Grey;#C0C0C0
+Spectrum;PLA;Premium;Silver Star;#727374
 Spectrum;PLA;Premium;Dark Grey;#9E9E9E
-Spectrum;PLA;Premium;Anthracite Grey;#9E9E9E
+Spectrum;PLA;Premium;Anthracite Grey;#42494B
 Spectrum;PLA;Premium;Deep Black;#000000
-Spectrum;PLA;Premium;PLA Premium Wizard Indigo;
-Spectrum;PLA;Premium;PLA Premium Wizard Green;#43A047
-Spectrum;PLA;Premium;PLA Premium Wizard Charcoal;
-Spectrum;PLA;Pro;Dragon Red;#E53935
-Spectrum;PLA;Pro;Bloody Red;#E53935
-Spectrum;PLA;Pro;Carrot Orange;#E53935
-Spectrum;PLA;Pro;Lion Orange;#FB8C00
-Spectrum;PLA;Pro;Pearl Gold;#D4AF37
-Spectrum;PLA;Pro;Bahama Yellow;#FDD835
-Spectrum;PLA;Pro;Lime Green;#43A047
-Spectrum;PLA;Pro;Forest Green;#43A047
-Spectrum;PLA;Pro;Pastel Turquoise;
-Spectrum;PLA;Pro;Blue Lagoon;#1E88E5
-Spectrum;PLA;Pro;Pacific Blue;#1E88E5
-Spectrum;PLA;Pro;Navy Blue;#1E88E5
-Spectrum;PLA;Pro;Lavender Violett;
-Spectrum;PLA;Pro;Magenta;
-Spectrum;PLA;Pro;Pink Panther;#FF66CC
-Spectrum;PLA;Pro;Rust Copper;
-Spectrum;PLA;Pro;Chocolate Brown;#6D4C41
-Spectrum;PLA;Pro;Pearl Bronze;
-Spectrum;PLA;Pro;Military Khaki;
-Spectrum;PLA;Pro;Coral;
-Spectrum;PLA;Pro;Ivory Beige;#F5F5DC
+Spectrum;PLA;Premium;Wizard Indigo;#2C1B2B
+Spectrum;PLA;Premium;Wizard Green;#2D3E3A
+Spectrum;PLA;Premium;Wizard Charcoal;#1E1E1E
+Spectrum;PLA;Pro;Dragon Red;#B4212C
+Spectrum;PLA;Pro;Bloody Red;#BB1E10
+Spectrum;PLA;Pro;Carrot Orange;#FC8C10
+Spectrum;PLA;Pro;Lion Orange;#FF8800
+Spectrum;PLA;Pro;Pearl Gold;#D0A611
+Spectrum;PLA;Pro;Bahama Yellow;#FBCA2F
+Spectrum;PLA;Pro;Lime Green;#61993B
+Spectrum;PLA;Pro;Forest Green;#038452
+Spectrum;PLA;Pro;Pastel Turquoise;#69EAF8
+Spectrum;PLA;Pro;Blue Lagoon;#4CB9BC
+Spectrum;PLA;Pro;Pacific Blue;#4169E1
+Spectrum;PLA;Pro;Navy Blue;#1902C5
+Spectrum;PLA;Pro;Lavender Violett;#A07DAD
+Spectrum;PLA;Pro;Magenta;#FF00FF
+Spectrum;PLA;Pro;Pink Panther;#FF0090
+Spectrum;PLA;Pro;Rust Copper;#DB4D00
+Spectrum;PLA;Pro;Chocolate Brown;#60412B
+Spectrum;PLA;Pro;Ivory Beige;#E6D2B5
 Spectrum;PLA;Pro;Polar White;#FFFFFF
 Spectrum;PLA;Pro;Arctic White;#FFFFFF
-Spectrum;PLA;Pro;Silver Star;#C0C0C0
+Spectrum;PLA;Pro;Silver Star;#727374
 Spectrum;PLA;Pro;Dark Grey;#9E9E9E
 Spectrum;PLA;Pro;Deep Black;#000000
-Spectrum;PLA;Silk Rainbow;Ancient;
-Spectrum;PLA;Silk Rainbow;Earth Blend;
-Spectrum;PLA;Silk Rainbow;Fire Red;#E53935
-Spectrum;PLA;Silk Rainbow;Frost Gloss;
-Spectrum;PLA;Silk Rainbow;Fusion;
-Spectrum;PLA;Silk Rainbow;Ocean Melange;
-Spectrum;PLA;Stone Age;Stone Age Dark;
-Spectrum;PLA;Stone Age;Stone Age Light;
+Spectrum;PLA;Silk Rainbow;Fusion;#00FF2D+#FF001E
+Spectrum;PLA;Silk Rainbow;Ocean Melange;#00FF00+#FF00FF
+Spectrum;PLA;Stone Age;Stone Age Dark;#999C9F
 Spectrum;PLA;Tough;Dark Grey;#9E9E9E
 Spectrum;PLA;Tough;Deep Black;#000000
-Spectrum;PLA;Tough;Natural;
 Spectrum;PLA;Tough;Polar White;#FFFFFF
-Spectrum;rPLA;;Signal Blue;#1E88E5
-Spectrum;rPLA;;Apple Green;#43A047
-Spectrum;rPLA;;Traffic Black;#000000
-Spectrum;rPLA;;Yellow Orange;#FDD835
-Spectrum;rPLA;;Basalt Grey;#9E9E9E
-Spectrum;rPLA;;Signal White;#FFFFFF
-Spectrum;rPLA;;Leaf Green;#43A047
-Spectrum;rPLA;;Signal Red;#E53935
+Spectrum;rPLA;Basic;Signal Blue;#1E88E5
+Spectrum;rPLA;Basic;Apple Green;#43A047
+Spectrum;rPLA;Basic;Traffic Black;#000000
+Spectrum;rPLA;Basic;Yellow Orange;#E07A1B
+Spectrum;rPLA;Basic;Basalt Grey;#455364
+Spectrum;rPLA;Basic;Signal White;#FFFFFF
+Spectrum;rPLA;Basic;Leaf Green;#1E482B
+Spectrum;rPLA;Basic;Signal Red;#E53935
 Spectrum;PLA;SafeGuard;Deep Black;#000000
 Spectrum;PLA;SafeGuard;Dark Blue;#1E88E5
-Spectrum;PLA;SafeGuard;Baby Blue;#1E88E5
+Spectrum;PLA;SafeGuard;Baby Blue;#80CEFF
 Spectrum;PLA;SafeGuard;Polar White;#FFFFFF
-Spectrum;PLA;SafeGuard;Bahama Yellow;#FDD835
-Spectrum;PLA;SafeGuard;Industiral Grey;#9E9E9E
-Spectrum;PLA;SafeGuard;Lime Green;#43A047
+Spectrum;PLA;SafeGuard;Bahama Yellow;#FACA31
+Spectrum;PLA;SafeGuard;Lime Green;#61993B
 Spectrum;PLA;SafeGuard;True Red;#E53935
-Spectrum;PLA;SafeGuard;Light Grey;#9E9E9E
-Spectrum;PLA;Silk;Ruby Red;#E53935
-Spectrum;PLA;Silk;Rose Gold;#D4AF37
-Spectrum;PLA;Silk;Spicy Copper;
-Spectrum;PLA;Silk;Cinnamon Bronze;
-Spectrum;PLA;Silk;Apple Green;#43A047
-Spectrum;PLA;Silk;Tropical Green;#43A047
-Spectrum;PLA;Silk;Indigo Blue;#1E88E5
-Spectrum;PLA;Silk;Candy Blue;#1E88E5
-Spectrum;PLA;Silk;Amethyst Violet;
-Spectrum;PLA;Silk;Taffy Pink;#FF66CC
-Spectrum;PLA;Silk;Unmellow Yellow;#FDD835
-Spectrum;PLA;Silk;Glorious Gold;#D4AF37
-Spectrum;PLA;Silk;Sapphire Blue;#1E88E5
-Spectrum;PLA;Silk;Sterling Silver;#C0C0C0
+Spectrum;PLA;Silk;Ruby Red;#B21C1F
+Spectrum;PLA;Silk;Spicy Copper;#AB7264
+Spectrum;PLA;Silk;Cinnamon Bronze;#C58C66
+Spectrum;PLA;Silk;Tropical Green;#557422
+Spectrum;PLA;Silk;Candy Blue;#00C7FC
+Spectrum;PLA;Silk;Taffy Pink;#E388E6
+Spectrum;PLA;Silk;Unmellow Yellow;#CCDA46
+Spectrum;PLA;Silk;Glorious Gold;#C3A327
+Spectrum;PLA;Silk;Sapphire Blue;#0F52BA
+Spectrum;PLA;Silk;Sterling Silver;#808386
 Spectrum;PLA;Silk;Pearl White;#FFFFFF
-Spectrum;PLA;Silk;Aluminium Silver;#C0C0C0
-Spectrum;PLA;HT The Filament;Warm White;#FFFFFF
-Spectrum;PLA;HT The Filament;Camel Beige;#F5F5DC
-Spectrum;PLA;HT The Filament;Cobalt Blue;#1E88E5
+Spectrum;PLA;Silk;Aluminium Silver;#949AA8
 Spectrum;PLA;HT The Filament;Dark Grey;#9E9E9E
 Spectrum;PLA;HT The Filament;Jet Black;#000000
-Spectrum;PLA;HT The Filament;Light Grey;#9E9E9E
-Spectrum;PLA;HT The Filament;Tooling Dark Green;#43A047
-Spectrum;PLA;HT The Filament;Tooling Green;#43A047
-Spectrum;PLA;HT The Filament;Tooling Lime;
-Spectrum;PLA;HT The Filament;Tooling Red;#E53935
-Spectrum;PLA;HT The Filament;Tooling Torquoise;
-Spectrum;PLA;HT The Filament;Tooling Yellow;#FDD835
-Spectrum;PLA;HT The Filament;Vivid Red;#E53935
-Spectrum;PLA;The Filament;Basalt Grey;#9E9E9E
-Spectrum;PLA;The Filament;Bison Brown;#6D4C41
-Spectrum;PLA;The Filament;Could Grey;#9E9E9E
+Spectrum;PLA;HT The Filament;Tooling Dark Green;#2A6F39
+Spectrum;PLA;HT The Filament;Tooling Yellow;#FCE517
+Spectrum;PLA;The Filament;Basalt Grey;#455364
+Spectrum;PLA;The Filament;Bison Brown;#3E2214
 Spectrum;PLA;The Filament;Midnight Black;#000000
-Spectrum;PLA;The Filament;Perfomance Blue;#1E88E5
-Spectrum;PLA;The Filament;Plasma Purple;#8E24AA
-Spectrum;PLA;The Filament;Silver Aluminium;#C0C0C0
-Spectrum;PLA;The Filament;Sky Blue;#1E88E5
-Spectrum;PLA;The Filament;Sorbet Yellow;#FDD835
-Spectrum;PLA;The Filament;Strawberry Pink;#FF66CC
-Spectrum;PLA;The Filament;Technical Red;#E53935
+Spectrum;PLA;The Filament;Silver Aluminium;#949AA8
+Spectrum;PLA;The Filament;Sky Blue;#82C8E5
+Spectrum;PLA;The Filament;Strawberry Pink;#F25FAD
+Spectrum;PLA;The Filament;Technical Red;#FF0000
 Spectrum;PLA;The Filament;Traffic White;#FFFFFF
-Spectrum;PLA;The Filament;Wood Ash;
+Spectrum;PLA;The Filament;Wood Ash;#D7CAB0
 Spectrum;PLA;CF The Filament;Black;#000000
 Spectrum;PLA;CF The Filament;Blue;#1E88E5
 Spectrum;PLA;CF The Filament;Green;#43A047
@@ -3443,187 +3206,143 @@ Spectrum;PLA;CF The Filament;Grey;#9E9E9E
 Spectrum;PLA;CF The Filament;Purple;#8E24AA
 Spectrum;PLA;CF The Filament;Red;#E53935
 Spectrum;PLA;HS The Filament;Midnight Black;#000000
-Spectrum;PLA;HS The Filament;Winter Blue;#1E88E5
-Spectrum;PLA;HS The Filament;Grid Beige;#F5F5DC
-Spectrum;PLA;HS The Filament;Mirage Grey;#9E9E9E
-Spectrum;PLA;HS The Filament;Moss Green;#43A047
-Spectrum;PLA;HS The Filament;Moss Grey;#9E9E9E
 Spectrum;PLA;HS The Filament;Pure Orange;#FB8C00
-Spectrum;PLA;HS The Filament;Quantum Purple;#8E24AA
 Spectrum;PLA;HS The Filament;Traffic White;#FFFFFF
-Spectrum;PLA;HS The Filament;Tuscary Yellow;#FDD835
-Spectrum;PLA;HS The Filament;Energy Green;#43A047
-Spectrum;PLA;HS The Filament;Fire Red;#E53935
+Spectrum;PLA;HS The Filament;Energy Green;#A5F8DC
+Spectrum;PLA;HS The Filament;Fire Red;#FF0000
 Spectrum;PLA;Lite The Filament;Black;#000000
 Spectrum;PLA;Lite The Filament;White;#FFFFFF
 Spectrum;PLA;Lite The Filament;Yellow;#FDD835
 Spectrum;PLA;Lite The Filament;Blue;#1E88E5
-Spectrum;PLA;Lite The Filament;Magenta;
+Spectrum;PLA;Lite The Filament;Magenta;#FF00FF
 Spectrum;PLA;Lite The Filament;Orange;#FB8C00
 Spectrum;PLA;Lite The Filament;Red;#E53935
 Spectrum;PLA;Lite The Filament;Green;#43A047
 Spectrum;PLA;Lite The Filament;Silver;#C0C0C0
 Spectrum;PLA;Lite The Filament;Grey;#9E9E9E
-Spectrum;PLA;Matte The Filament;Tropper Grey;#9E9E9E
-Spectrum;PLA;Matte The Filament;Urban Grey;#9E9E9E
-Spectrum;PLA;Matte The Filament;Military Olive;
-Spectrum;PLA;Matte The Filament;Night Blue;#1E88E5
-Spectrum;PLA;Matte The Filament;October Red;#E53935
+Spectrum;PLA;Matte The Filament;October Red;#8D3434
 Spectrum;PLA;Matte The Filament;Snow White;#FFFFFF
-Spectrum;PLA;Matte The Filament;Army Green;#43A047
-Spectrum;PLA;Matte The Filament;Camo Green;#43A047
-Spectrum;PLA;Matte The Filament;Desert Beige;#F5F5DC
-Spectrum;PLA;Matte The Filament;Jungle Green;#43A047
-Spectrum;ABS;GP450;Traffic Red;#E53935
+Spectrum;ABS;GP450;Traffic Red;#FF0000
 Spectrum;ABS;GP450;Pure Green;#43A047
 Spectrum;ABS;GP450;Dark Blue;#1E88E5
-Spectrum;ABS;GP450;Natural;
+Spectrum;ABS;GP450;Natural;#BFB5A2
 Spectrum;ABS;GP450;Pure White;#FFFFFF
 Spectrum;ABS;GP450;Silver;#C0C0C0
-Spectrum;ABS;GP450;Obsidian Black;#000000
-Spectrum;ASA;275;Bloody Red;#E53935
-Spectrum;ASA;275;Lion Orange;#FB8C00
+Spectrum;ABS;GP450;Obsidian Black;#222020
+Spectrum;ASA;275;Bloody Red;#AF0E0E
+Spectrum;ASA;275;Lion Orange;#FF8800
 Spectrum;ASA;275;Traffic Yellow;#FDD835
-Spectrum;ASA;275;Lime Green;#43A047
-Spectrum;ASA;275;Forest Green;#43A047
-Spectrum;ASA;275;Pacific Blue;#1E88E5
-Spectrum;ASA;275;Navy Blue;#1E88E5
-Spectrum;ASA;275;Natural;
+Spectrum;ASA;275;Lime Green;#61993B
+Spectrum;ASA;275;Forest Green;#008351
+Spectrum;ASA;275;Pacific Blue;#4583C5
+Spectrum;ASA;275;Navy Blue;#23508B
+Spectrum;ASA;275;Natural;#BFB5A2
 Spectrum;ASA;275;Polar White;#FFFFFF
 Spectrum;ASA;275;Dark Grey;#9E9E9E
-Spectrum;ASA;275;Silver Star;#C0C0C0
+Spectrum;ASA;275;Silver Star;#AAADB1
 Spectrum;ASA;275;Deep Black;#000000
-Spectrum;ASA;275;Brown Red;#E53935
-Spectrum;ASA;275 FlameGuard;Bloody Red;#E53935
+Spectrum;ASA;275;Brown Red;#660A0A
+Spectrum;ASA;275 FlameGuard;Bloody Red;#AF0E0E
 Spectrum;ASA;275 FlameGuard;Dark Grey;#9E9E9E
 Spectrum;ASA;275 FlameGuard;Polar White;#FFFFFF
-Spectrum;ASA;275 FlameGuard;Silver Star;#C0C0C0
-Spectrum;ASA;Hips-X;Dragon Red;#E53935
-Spectrum;ASA;Hips-X;Bahama Yellow;#FDD835
-Spectrum;ASA;Hips-X;Gypsum White;#FFFFFF
-Spectrum;ASA;Hips-X;Deep Black;#000000
-Spectrum;ASA;LW UltraFoam;Bloody Red;#E53935
-Spectrum;ASA;LW UltraFoam;Dark Grey;#9E9E9E
-Spectrum;ASA;LW UltraFoam;Light Grey;#9E9E9E
-Spectrum;ASA;LW UltraFoam;Navy Blue;#1E88E5
-Spectrum;ASA;LW UltraFoam;Pure White;#FFFFFF
-Spectrum;ABS;Smart;Dragon Red;#E53935
-Spectrum;ABS;Smart;Lion Orange;#FB8C00
-Spectrum;ABS;Smart;Bahama Yellow;#FDD835
-Spectrum;ABS;Smart;Forest Green;#43A047
-Spectrum;ABS;Smart;Pacific Blue;#1E88E5
-Spectrum;ABS;Smart;Coral;
+Spectrum;ASA;275 FlameGuard;Silver Star;#AAADB1
+Spectrum;ABS;Smart;Dragon Red;#B4212C
+Spectrum;ABS;Smart;Lion Orange;#FF8800
+Spectrum;ABS;Smart;Bahama Yellow;#DEA501
+Spectrum;ABS;Smart;Forest Green;#008351
+Spectrum;ABS;Smart;Pacific Blue;#4583C5
 Spectrum;ABS;Smart;Polar White;#FFFFFF
-Spectrum;ABS;Smart;Silver Star;#C0C0C0
+Spectrum;ABS;Smart;Silver Star;#AAADB1
 Spectrum;ABS;Smart;Dark Grey;#9E9E9E
 Spectrum;ABS;Smart;Deep Black;#000000
-Spectrum;ASA;The Filament;Grass Green;#43A047
+Spectrum;ASA;The Filament;Grass Green;#36B300
 Spectrum;ASA;The Filament;Midnight Black;#000000
 Spectrum;ASA;The Filament;Pure Red;#E53935
-Spectrum;ASA;The Filament;Sky Blue;#1E88E5
-Spectrum;ASA;The Filament;State Grey;#9E9E9E
+Spectrum;ASA;The Filament;Sky Blue;#82C8E5
 Spectrum;ASA;The Filament;Traffic White;#FFFFFF
 Spectrum;ASA;CF The Filament;Black;#000000
 Spectrum;ASA;CF The Filament;Blue;#1E88E5
 Spectrum;ASA;CF The Filament;Green;#43A047
 Spectrum;ASA;CF The Filament;Grey;#9E9E9E
 Spectrum;ASA;CF The Filament;Red;#E53935
-Spectrum;PETG;Glow in the Dark;Yellow Green;#43A047
+Spectrum;PETG;Glow in the Dark;Yellow Green;#B1DD8C
 Spectrum;PETG;Glow in the Dark;Blue;#1E88E5
-Spectrum;PETG;HT100;Traffic Red;#E53935
-Spectrum;PETG;HT100;Transparent Blue;#1E88E5
-Spectrum;PETG;HT100;Clear;
-Spectrum;PETG;HT100;Pure White;#FFFFFF
-Spectrum;PETG;HT100;Silver Steel;#C0C0C0
-Spectrum;PETG;HT100;Iron Crey;
-Spectrum;PETG;HT100;Obsidian Black;#000000
-Spectrum;PETG;Matt;Bloody Red;#E53935
-Spectrum;PETG;Matt;Lion Orange;#FB8C00
-Spectrum;PETG;Matt;Olive Green;#43A047
+Spectrum;PETG;Matt;Bloody Red;#AF0E0E
+Spectrum;PETG;Matt;Lion Orange;#FF8800
+Spectrum;PETG;Matt;Olive Green;#4E533B
 Spectrum;PETG;Matt;Dark Grey;#9E9E9E
-Spectrum;PETG;Matt;Sand Khaki;
-Spectrum;PETG;Matt;Nava Blue;#1E88E5
+Spectrum;PETG;Matt;Sand Khaki;#FEF19F
 Spectrum;PETG;Matt;Polar White;#FFFFFF
 Spectrum;PETG;Matt;Deep Black;#000000
-Spectrum;PETG;Matt;Desert Storm;
-Spectrum;PETG;Matt;Brown Uniform;#6D4C41
-Spectrum;PETG;Premium;Transparent Red;#E53935
-Spectrum;PETG;Premium;Bloody Red;#E53935
-Spectrum;PETG;Premium;Transparent Orange;#FB8C00
-Spectrum;PETG;Premium;Transparent Yellow;#FDD835
+Spectrum;PETG;Matt;Brown Uniform;#554D41
+Spectrum;PETG;Premium;Transparent Red;#781D1D
+Spectrum;PETG;Premium;Bloody Red;#AF0E0E
+Spectrum;PETG;Premium;Transparent Orange;#F86C39
+Spectrum;PETG;Premium;Transparent Yellow;#FECB3E
 Spectrum;PETG;Premium;Signal Yellow;#FDD835
 Spectrum;PETG;Premium;Beige;#F5F5DC
-Spectrum;PETG;Premium;Pearl Gold;#D4AF37
-Spectrum;PETG;Premium;Lion Orange;#FB8C00
-Spectrum;PETG;Premium;Lime Green;#43A047
-Spectrum;PETG;Premium;Mint Green;#43A047
-Spectrum;PETG;Premium;Olive Green;#43A047
-Spectrum;PETG;Premium;Iceland Blue;#1E88E5
-Spectrum;PETG;Premium;Turquoise Blue;#1E88E5
-Spectrum;PETG;Premium;Pacific Blue;#1E88E5
-Spectrum;PETG;Premium;Navy Blue;#1E88E5
-Spectrum;PETG;Premium;Transparent Blue;#1E88E5
+Spectrum;PETG;Premium;Pearl Gold;#D0A611
+Spectrum;PETG;Premium;Lion Orange;#FF8800
+Spectrum;PETG;Premium;Olive Green;#4E533B
+Spectrum;PETG;Premium;Iceland Blue;#00A3D7
+Spectrum;PETG;Premium;Turquoise Blue;#4FA5B0
+Spectrum;PETG;Premium;Pacific Blue;#007CB0
+Spectrum;PETG;Premium;Navy Blue;#1902C5
+Spectrum;PETG;Premium;Transparent Blue;#0061FF
 Spectrum;PETG;Premium;Pink;#FF66CC
-Spectrum;PETG;Premium;Chocolate Brown;#6D4C41
+Spectrum;PETG;Premium;Chocolate Brown;#51382F
 Spectrum;PETG;Premium;Arctic White;#FFFFFF
-Spectrum;PETG;Premium;Glassy;
-Spectrum;PETG;Premium;Light Grey;#9E9E9E
-Spectrum;PETG;Premium;Silver Star;#C0C0C0
+Spectrum;PETG;Premium;Silver Star;#878581
 Spectrum;PETG;Premium;Dark Grey;#9E9E9E
-Spectrum;PETG;Premium;Anthracite Grey;#9E9E9E
+Spectrum;PETG;Premium;Anthracite Grey;#42494B
 Spectrum;PETG;Premium;Transparent Black;#000000
 Spectrum;PETG;Premium;Deep Black;#000000
-Spectrum;PETG;Premium;Glow in the Dark Blue;#1E88E5
-Spectrum;PETG;Premium;Glow in the Dark Yellow-Green;#43A047
-Spectrum;PETG;Premium;Bahama Yellow;#FDD835
-Spectrum;PETG;Premium;Wizzard Charcoal;
-Spectrum;PETG;Premium;Wizzard Indigo;
-Spectrum;PETG;Premium;Bottle Green;#43A047
+Spectrum;PETG;Premium;Glow in the Dark Blue;#0000FF
+Spectrum;PETG;Premium;Glow in the Dark Yellow-Green;#B1DD8C
+Spectrum;PETG;Premium;Bahama Yellow;#FBCA2F
+Spectrum;PETG;Premium;Wizzard Charcoal;#1E1E1E
+Spectrum;PETG;Premium;Wizzard Indigo;#2C1B2B
 Spectrum;PETG;Premium High Speed;Arctic White;#FFFFFF
-Spectrum;PETG;Premium High Speed;Bright Green;#43A047
-Spectrum;PETG;Premium High Speed;Dark Grey;#9E9E9E
+Spectrum;PETG;Premium High Speed;Dark Grey;#463F3F
 Spectrum;PETG;Premium High Speed;Deep Black;#000000
 Spectrum;PETG;Premium High Speed;Heart Red;#E53935
-Spectrum;PETG;Premium High Speed;Light Grey;#9E9E9E
-Spectrum;PETG;Premium High Speed;Light Ivory;
-Spectrum;PETG;Premium High Speed;Lion Orange;#FB8C00
-Spectrum;PETG;Premium High Speed;Navy Blue;#1E88E5
-Spectrum;PETG;Premium High Speed;Olive Green;#43A047
-Spectrum;PETG;Premium High Speed;Pastel Blue;#1E88E5
-Spectrum;PETG;Premium High Speed;Silver Star;#C0C0C0
+Spectrum;PETG;Premium High Speed;Light Grey;#B9BCC1
+Spectrum;PETG;Premium High Speed;Light Ivory;#FFFFF0
+Spectrum;PETG;Premium High Speed;Lion Orange;#FF8800
+Spectrum;PETG;Premium High Speed;Navy Blue;#1902C5
+Spectrum;PETG;Premium High Speed;Olive Green;#4E533B
+Spectrum;PETG;Premium High Speed;Pastel Blue;#B9D2E4
+Spectrum;PETG;Premium High Speed;Silver Star;#878581
 Spectrum;PETG;Premium High Speed;Sulfur Yellow;#FDD835
-Spectrum;PETG;Premium High Speed;Transparent Blue;#1E88E5
-Spectrum;PETG;Premium High Speed;Transparent Red;#E53935
-Spectrum;PETG/PTFE;;Signal White;#FFFFFF
-Spectrum;PETG/PTFE;;Traffic Red;#E53935
-Spectrum;PETG/PTFE;;Light Blue;#1E88E5
-Spectrum;PETG/PTFE;;Iron Grey;#9E9E9E
-Spectrum;PETG/PTFE;;Traffic Black;#000000
-Spectrum;PETG;ESD;Power Tool Turquoise;
+Spectrum;PETG;Premium High Speed;Transparent Blue;#151153
+Spectrum;PETG;Premium High Speed;Transparent Red;#781D1D
+Spectrum;PETG/PTFE;Basic;Signal White;#FFFFFF
+Spectrum;PETG/PTFE;Basic;Traffic Red;#FF0000
+Spectrum;PETG/PTFE;Basic;Iron Grey;#6C6E6B
+Spectrum;PETG/PTFE;Basic;Traffic Black;#000000
+Spectrum;PETG;ESD;Power Tool Turquoise;#4FA5B0
 Spectrum;PETG;ESD;Power Tool Blue;#1E88E5
-Spectrum;PETG;ESD;Power Tool Dark Green;#43A047
+Spectrum;PETG;ESD;Power Tool Dark Green;#2A6F39
 Spectrum;PETG;ESD;Power Tool Green;#43A047
-Spectrum;PETG;ESD;Light Grey;#9E9E9E
+Spectrum;PETG;ESD;Light Grey;#B9BCC1
 Spectrum;PETG;ESD;Pure White;#FFFFFF
 Spectrum;PETG;ESD;Traffic Black;#000000
-Spectrum;rPETG;;Porcelain White;#FFFFFF
-Spectrum;rPETG;;Signal Blue;#1E88E5
-Spectrum;rPETG;;Signal Yellow;#FDD835
-Spectrum;rPETG;;Traffic Black;#000000
-Spectrum;rPETG;;Traffic Green;#43A047
-Spectrum;rPETG;;Carmine Red;#E53935
-Spectrum;rPETG;;Iron Grey;#9E9E9E
-Spectrum;rPETG;;Orange;#FB8C00
-Spectrum;PETG;The Filament;Cloud Grey;#9E9E9E
+Spectrum;rPETG;Basic;Porcelain White;#FFFFFF
+Spectrum;rPETG;Basic;Signal Blue;#1E88E5
+Spectrum;rPETG;Basic;Signal Yellow;#FDD835
+Spectrum;rPETG;Basic;Traffic Black;#000000
+Spectrum;rPETG;Basic;Traffic Green;#43A047
+Spectrum;rPETG;Basic;Carmine Red;#E53935
+Spectrum;rPETG;Basic;Iron Grey;#9E9E9E
+Spectrum;rPETG;Basic;Orange;#FB8C00
 Spectrum;PETG;The Filament;Midnight Black;#000000
-Spectrum;PETG;The Filament;Performance Blue;#1E88E5
-Spectrum;PETG;The Filament;Silver Aluminium;#C0C0C0
+Spectrum;PETG;The Filament;Silver Aluminium;#969696
 Spectrum;PETG;The Filament;Snow White;#FFFFFF
 Spectrum;PETG;The Filament;Sorbet Yellow;#FDD835
-Spectrum;PETG;The Filament;Strawberry Pink;#FF66CC
-Spectrum;PETG;The Filament;Technical Red;#E53935
-Spectrum;PETG;The Filament;Transparent Blue;#1E88E5
-Spectrum;PETG;The Filament;Transparent Red;#E53935
+Spectrum;PETG;The Filament;Strawberry Pink;#F25FAD
+Spectrum;PETG;The Filament;Technical Red;#FF0000
+Spectrum;PETG;The Filament;Transparent Blue;#151153
+Spectrum;PETG;The Filament;Transparent Red;#781D1D
 Spectrum;PETG;CF The Filament;Black;#000000
 Spectrum;PETG;CF The Filament;Blue;#1E88E5
 Spectrum;PETG;CF The Filament;Green;#43A047
@@ -3638,29 +3357,29 @@ Spectrum;PETG;Lite The Filament;Red;#E53935
 Spectrum;PETG;Lite The Filament;Silver;#C0C0C0
 Spectrum;PETG;Lite The Filament;White;#FFFFFF
 Spectrum;PETG;Lite The Filament;Yellow;#FDD835
-Spectrum;TPU;S-Flex 85A;Bloody Red;#E53935
-Spectrum;TPU;S-Flex 85A;Lion Orange;#FB8C00
-Spectrum;TPU;S-Flex 85A;Bahama Yellow;#FDD835
-Spectrum;TPU;S-Flex 85A;Lime Green;#43A047
-Spectrum;TPU;S-Flex 85A;Pacific Blue;#1E88E5
+Spectrum;TPU;S-Flex 85A;Bloody Red;#AF0E0E
+Spectrum;TPU;S-Flex 85A;Lion Orange;#FF8800
+Spectrum;TPU;S-Flex 85A;Bahama Yellow;#FBCA2F
+Spectrum;TPU;S-Flex 85A;Lime Green;#61993B
+Spectrum;TPU;S-Flex 85A;Pacific Blue;#1249ED
 Spectrum;TPU;S-Flex 85A;Deep Black;#000000
 Spectrum;TPU;S-Flex 85A;Polar White;#FFFFFF
-Spectrum;TPU;S-Flex 90A;Bloody Red;#E53935
-Spectrum;TPU;S-Flex 90A;Lion Orange;#FB8C00
-Spectrum;TPU;S-Flex 90A;Bahama Yellow;#FDD835
-Spectrum;TPU;S-Flex 90A;Lime Green;#43A047
-Spectrum;TPU;S-Flex 90A;Pacific Blue;#1E88E5
+Spectrum;TPU;S-Flex 90A;Bloody Red;#AF0E0E
+Spectrum;TPU;S-Flex 90A;Lion Orange;#FF8800
+Spectrum;TPU;S-Flex 90A;Bahama Yellow;#FBCA2F
+Spectrum;TPU;S-Flex 90A;Lime Green;#61993B
+Spectrum;TPU;S-Flex 90A;Pacific Blue;#1249ED
 Spectrum;TPU;S-Flex 90A;Polar White;#FFFFFF
 Spectrum;TPU;S-Flex 90A;Deep Black;#000000
-Spectrum;TPU;S-Flex 90A;Glow in the Dark - Green;#43A047
-Spectrum;TPU;S-Flex 98A;Bloody Red;#E53935
-Spectrum;TPU;S-Flex 98A;Lion Orange;#FB8C00
-Spectrum;TPU;S-Flex 98A;Bahama Yellow;#FDD835
+Spectrum;TPU;S-Flex 90A;Glow in the Dark - Green;#E6E8DD,#4ADB36
+Spectrum;TPU;S-Flex 98A;Bloody Red;#AF0E0E
+Spectrum;TPU;S-Flex 98A;Lion Orange;#FF8800
+Spectrum;TPU;S-Flex 98A;Bahama Yellow;#FBCA2F
 Spectrum;TPU;S-Flex 98A;Lime Green;#43A047
-Spectrum;TPU;S-Flex 98A;Pacific Blue;#1E88E5
+Spectrum;TPU;S-Flex 98A;Pacific Blue;#1249ED
 Spectrum;TPU;S-Flex 98A;Polar White;#FFFFFF
 Spectrum;TPU;S-Flex 98A;Deep Black;#000000
-Spectrum;TPU;S-Flex 98A;Glow in the Dark - Green;#43A047
+Spectrum;TPU;S-Flex 98A;Glow in the Dark - Green;#E6E8DD+#4ADB36
 Spectrum;TPU;82A The Filament;Green;#43A047
 Spectrum;TPU;82A The Filament;Red;#E53935
 Spectrum;TPU;82A The Filament;Black;#000000
@@ -3676,19 +3395,18 @@ Spectrum;TPU;95A The Filament;Black;#000000
 Spectrum;TPU;95A The Filament;White;#FFFFFF
 Spectrum;TPU;95A The Filament;Green;#43A047
 Spectrum;TPU;95A The Filament;Blue;#1E88E5
-Spectrum;PC;275;Iron Grey;#9E9E9E
 Spectrum;PC;275;Lime Green;#43A047
-Spectrum;PC;275;Lion Orange;#FB8C00
-Spectrum;PC;275;Natural;
-Spectrum;PC;275;Navy Blue;#1E88E5
+Spectrum;PC;275;Lion Orange;#FF8800
+Spectrum;PC;275;Natural;#BFB5A2
+Spectrum;PC;275;Navy Blue;#002990
 Spectrum;PC;275;Signal Yellow;#FDD835
 Spectrum;PC;275;Traffic Black;#000000
-Spectrum;PC;275;Traffic Red;#E53935
+Spectrum;PC;275;Traffic Red;#FF0000
 Spectrum;PC;275;Traffic White;#FFFFFF
 Spectrum;PC;275;Blue;#1E88E5
 Spectrum;PC;275;Orange;#FB8C00
 Spectrum;PC;275;Red;#E53935
 Spectrum;PC;275;Yellow;#FDD835
-Spectrum;WOOD;;Oak;
-Spectrum;WOOD;;Natural;
-Spectrum;WOOD;;Ebony;
+Spectrum;WOOD;Basic;Oak;#AEA190
+Spectrum;WOOD;Basic;Natural;#B18D59
+Spectrum;WOOD;Basic;Ebony Black;#25221E

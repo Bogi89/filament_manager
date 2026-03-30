@@ -222,7 +222,7 @@ setState(() {
     mainAxisSize: MainAxisSize.min,
     children: [
 
-      ...parsedColors.take(3).map(
+      ...parsedColors.map(
         (color) => Container(
           width: 14,
           height: 14,
