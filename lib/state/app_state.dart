@@ -14,6 +14,9 @@ class AppState extends ChangeNotifier {
 
   double warningPercent = 20;
 
+  /// 🔥 NEU
+  String sortMode = "Material";
+
   bool isInitialized = false;
 
   AppState() {
@@ -41,6 +44,9 @@ class AppState extends ChangeNotifier {
     themeMode = settings['themeMode'];
     locale = settings['locale'];
     warningPercent = settings['warningPercent'];
+
+    /// 🔥 NEU
+    sortMode = settings['sortMode'];
   }
 
   Future<void> saveData() async {
@@ -72,6 +78,17 @@ class AppState extends ChangeNotifier {
     warningPercent = value;
 
     await SettingsService.saveWarningPercent(value);
+
+    notifyListeners();
+  }
+
+  /// 🔥 NEU — Sort speichern
+
+  void setSortMode(String mode) async {
+
+    sortMode = mode;
+
+    await SettingsService.saveSortMode(mode);
 
     notifyListeners();
   }

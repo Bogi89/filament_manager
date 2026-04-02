@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../state/app_state.dart';
 import '../models/filament.dart';
 import 'add_filament_page.dart';
 import 'filament_detail_page.dart';
 import '../widgets/filament_spool_icon.dart';
+import '../services/filament_catalog_service.dart';
 
 class FilamentPage extends StatefulWidget {
   const FilamentPage({super.key});
@@ -29,36 +31,94 @@ class _FilamentPageState extends State<FilamentPage> {
   String? selectedBrand;
   String? selectedMaterial;
 
+  /// Sortiermodus (bleibt lokal, wird aber synchronisiert)
+
+  String selectedSort = "Material";
+
+  List<String> catalogSuggestions = [];
+
+  Key autocompleteKey = UniqueKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _prepareCatalogSuggestions();
+  }
+
+  void _prepareCatalogSuggestions() {
+
+    final brands = FilamentCatalogService.getBrands();
+
+    final Set<String> suggestions = {};
+
+    for (final brand in brands) {
+
+      final materials =
+          FilamentCatalogService.getMaterials(brand);
+
+      for (final material in materials) {
+
+        final variants =
+            FilamentCatalogService.getVariants(
+          brand,
+          material,
+        );
+
+        for (final variant in variants) {
+
+          suggestions.add(
+            "$brand $material $variant",
+          );
+
+        }
+      }
+    }
+
+    catalogSuggestions = suggestions.toList();
+    catalogSuggestions.sort();
+  }
+
+  /// Material normalisieren
+
+  String _normalizeMaterial(String material){
+
+    material = material.toLowerCase();
+
+    if(material.contains("rifd")) return "pla";
+
+    if(material.contains("pla")) return "pla";
+    if(material.contains("petg")) return "petg";
+    if(material.contains("abs")) return "abs";
+    if(material.contains("asa")) return "asa";
+    if(material.contains("tpu")) return "tpu";
+
+    return material;
+  }
+
   @override
   Widget build(BuildContext context) {
 
     final appState = context.watch<AppState>();
+
+    /// 🔥 Sortierung aus Settings laden
+
+    selectedSort = appState.sortMode;
+
     final warning = appState.warningPercent / 100;
 
-    final List<Filament> filaments = [...appState.filaments];
-
-    filaments.sort((a,b){
-
-      final pa = a.remainingWeight / a.totalWeight;
-      final pb = b.remainingWeight / b.totalWeight;
-
-      final ca = pa <= warning;
-      final cb = pb <= warning;
-
-      if(ca && !cb) return -1;
-      if(!ca && cb) return 1;
-
-      return pa.compareTo(pb);
-    });
+    final List<Filament> filaments =
+    [...appState.filaments];
 
     List<Filament> filtered = filaments;
 
     if(selectedBrand != null){
-      filtered = filtered.where((f)=>f.brand == selectedBrand).toList();
+      filtered =
+          filtered.where((f)=>f.brand == selectedBrand).toList();
     }
 
     if(selectedMaterial != null){
-      filtered = filtered.where((f)=>f.material == selectedMaterial).toList();
+      filtered =
+          filtered.where((f)=>f.material == selectedMaterial).toList();
     }
 
     if(searchText.isNotEmpty){
@@ -81,8 +141,49 @@ class _FilamentPageState extends State<FilamentPage> {
       grouped[filament.brand]!.add(filament);
     }
 
+    /// Sortierung
+
+    for(final brand in grouped.keys){
+
+      grouped[brand]!.sort((a,b){
+
+        if(selectedSort == "Restgewicht"){
+
+          final pa =
+              a.remainingWeight / a.totalWeight;
+
+          final pb =
+              b.remainingWeight / b.totalWeight;
+
+          return pa.compareTo(pb);
+        }
+
+        if(selectedSort == "Name"){
+
+          return a.variant.compareTo(b.variant);
+        }
+
+        final matA =
+            _normalizeMaterial(a.material);
+
+        final matB =
+            _normalizeMaterial(b.material);
+
+        final matCompare =
+            matA.compareTo(matB);
+
+        if(matCompare != 0)
+          return matCompare;
+
+        return a.variant.compareTo(b.variant);
+
+      });
+
+    }
+
     final criticalCount = filaments
-        .where((f)=> (f.remainingWeight / f.totalWeight) <= warning)
+        .where((f)=>
+    (f.remainingWeight / f.totalWeight) <= warning)
         .length;
 
     return Scaffold(
@@ -138,21 +239,28 @@ class _FilamentPageState extends State<FilamentPage> {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:16),
+
             child: Autocomplete<String>(
+
+              key: autocompleteKey,
+
               optionsBuilder: (TextEditingValue textEditingValue) {
 
                 if (textEditingValue.text.isEmpty) {
                   return const Iterable<String>.empty();
                 }
 
-                final query = textEditingValue.text.toLowerCase();
+                final query =
+                    textEditingValue.text.toLowerCase();
 
-                final suggestions = filaments.map((f) =>
-                "${f.brand} ${f.material} ${f.variant}").toSet();
+                return catalogSuggestions.where((option) {
 
-                return suggestions.where((option) {
-                  return option.toLowerCase().contains(query);
-                });
+                  return option
+                      .toLowerCase()
+                      .contains(query);
+
+                }).take(20);
+
               },
 
               onSelected: (selection) {
@@ -164,9 +272,8 @@ class _FilamentPageState extends State<FilamentPage> {
                 });
               },
 
-              fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-
-                searchController.text = controller.text;
+              fieldViewBuilder:
+                  (context, controller, focusNode, onFieldSubmitted) {
 
                 return TextField(
                   controller: controller,
@@ -241,14 +348,73 @@ class _FilamentPageState extends State<FilamentPage> {
 
                 const SizedBox(width:10),
 
+                /// 🔥 SORTIEREN MIT SPEICHERN
+
+                Expanded(
+                  child: DropdownButton<String>(
+
+                    hint: const Text("Sortieren"),
+
+                    value: selectedSort,
+
+                    isExpanded: true,
+
+                    items: const [
+
+                      DropdownMenuItem(
+                        value: "Material",
+                        child: Text("Nach Material"),
+                      ),
+
+                      DropdownMenuItem(
+                        value: "Restgewicht",
+                        child: Text("Nach Restgewicht"),
+                      ),
+
+                      DropdownMenuItem(
+                        value: "Name",
+                        child: Text("Nach Name"),
+                      ),
+
+                    ],
+
+                    onChanged: (value){
+
+                      setState(() {
+
+                        selectedSort = value!;
+
+                        /// 🔥 Speichern
+
+                        appState.setSortMode(value);
+
+                      });
+
+                    },
+
+                  ),
+                ),
+
+                const SizedBox(width:10),
+
                 IconButton(
                   icon: const Icon(Icons.refresh),
                   onPressed: (){
                     setState(() {
+
                       selectedBrand = null;
                       selectedMaterial = null;
+
                       searchText = "";
                       searchController.clear();
+
+                      autocompleteKey = UniqueKey();
+
+                      /// 🔥 Reset speichern
+
+                      selectedSort = "Material";
+                      appState.setSortMode("Material");
+
                     });
                   },
                 ),
@@ -297,7 +463,8 @@ class _FilamentPageState extends State<FilamentPage> {
 
                       ...filaments.map((f){
 
-                        final percent = (f.remainingWeight / f.totalWeight) * 100;
+                        final percent =
+                            (f.remainingWeight / f.totalWeight) * 100;
 
                         Color percentColor;
 

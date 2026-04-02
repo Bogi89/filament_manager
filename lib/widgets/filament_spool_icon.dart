@@ -12,8 +12,15 @@ class FilamentSpoolIcon extends StatelessWidget {
 
   String _getSpoolImage() {
 
-    final material =
+    String material =
         filament.material.toLowerCase();
+
+    /// 🔥 NEU — Spezialfälle Mapping
+
+    /// RIFD ist PLA
+    if (material.contains("rifd")) {
+      material = "pla";
+    }
 
     /// PLA
     if (material.contains("pla")) {
