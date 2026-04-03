@@ -1740,23 +1740,20 @@ ColorFabb;ASA;Basic;Naturel;#DCDBD0
 ColorFabb;ASA;Basic;Black;#000000
 ColorFabb;ASA;LW;Naturel;#DCDBD0
 ColorFabb;ASA;LW;Black;#000000
-ColorFabb;Co-Polyester;Basic;Clear;#F4FAFC
-ColorFabb;Co-Polyester;Basic;Light Blue;#4DBCE9
-ColorFabb;Co-Polyester;Basic;Flex Black;#000000
-ColorFabb;Co-Polyester;Basic;Light Green;#3BCC38
-ColorFabb;Co-Polyester;Basic;Red;#E53935
-ColorFabb;Co-Polyester;Basic;Black;#000000
-ColorFabb;Co-Polyester;Basic;White;#FFFFFF
-ColorFabb;Co-Polyester;Basic;Dark Grey;#5D5D5D
-ColorFabb;Co-Polyester;Basic;Economy Red;#FF0000
-ColorFabb;Co-Polyester;Basic;Gold Metaillc;#CEB175
-ColorFabb;Co-Polyester;Basic;Light Grey;#CBD0CC
-ColorFabb;Co-Polyester;Basic;Flex Clear;#F4FAFC
-ColorFabb;Co-Polyester;Basic;Flex Dark Grey;#5D5D5D
+ColorFabb;PETG;Co-Polyester;Clear;#F4FAFC
+ColorFabb;PETG;Co-Polyester;Light Blue;#4DBCE9
+ColorFabb;PETG;Co-Polyester;Flex Black;#000000
+ColorFabb;PETG;Co-Polyester;Light Green;#3BCC38
+ColorFabb;PETG;Co-Polyester;Red;#E53935
+ColorFabb;PETG;Co-Polyester;Black;#000000
+ColorFabb;PETG;Co-Polyester;White;#FFFFFF
+ColorFabb;PETG;Co-Polyester;Dark Grey;#5D5D5D
+ColorFabb;PETG;Co-Polyester;Economy Red;#FF0000
+ColorFabb;PETG;Co-Polyester;Gold Metaillc;#CEB175
+ColorFabb;PETG;Co-Polyester;Light Grey;#CBD0CC
+ColorFabb;PETG;Co-Polyester;Flex Clear;#F4FAFC
+ColorFabb;PETG;Co-Polyester;Flex Dark Grey;#5D5D5D
 ColorFabb;PA;Basic;Black;#000000
-ColorFabb;PHA;Basic;Naturel;#DCDBD0
-ColorFabb;PHA;Basic;Black;#000000
-ColorFabb;PHA;Basic;White;#FFFFFF
 ColorFabb;PLA;LW;Gray Silver;#B7B3A8
 ColorFabb;PLA;LW;Green;#43A047
 ColorFabb;PLA;LW;Natural;#DCDBD0
@@ -2038,11 +2035,6 @@ Prusament;PETG;Basic;Neon Green Transparent;#A6EC5F
 Prusament;PETG;Basic;Matte Black;#303635
 Prusament;PETG;Basic;Prusa Galaxy Black;#3D3E3D
 Prusament;PETG;Basic;Jet Black;#292B2B
-Prusament;PVB;Basic;Natural Transparent;#DFDFD3
-Prusament;PVB;Basic;Orange Transparent;#FA7F01
-Prusament;PVB;Basic;Dark Blue Transparent;#0A4DA5
-Prusament;PVB;Basic;Bright Green Transparent;#2B3B61
-Prusament;PVB;Basic;Smoky Black Transparent;#ADADAD
 Prusament;ASA;Basic;Olive Green;#5E6345
 Prusament;ASA;Basic;Prusa Go Green;#5AECCB
 Prusament;ASA;Basic;Orange;#FB8C00
@@ -2664,10 +2656,6 @@ FormFutura;PLA;Volcano;Lime Green;#80FF00
 FormFutura;PP;Basic;Natural;#BABABA
 FormFutura;PP;Basic;Black;#000000
 FormFutura;PP;Basic;White;#FFFFFF
-FormFutura;TPC;30D LexiFil;Black;#000000
-FormFutura;TPC;30D LexiFil;White;#FFFFFF
-FormFutura;TPC;40D LexiFil;Black;#000000
-FormFutura;TPC;40D LexiFil;White;#FFFFFF
 FormFutura;TPU;Python Flex;98A Black;#000000
 FormFutura;TPU;Python Flex;98A Clear;#D1ECFF
 FormFutura;TPU;Python Flex;90A Clear;#D1ECFF
@@ -3004,15 +2992,6 @@ Ultimaker;TPU;95A Premium;Schwarz;#000000
 Ultimaker;TPU;95A Premium;Weiß;#FFFFFF
 Ultimaker;TPU;95A Premium;Rot;#E53935
 Ultimaker;TPU;95A Premium;Blau;#1E88E5
-Ultimaker;CPE;Basic;Schwarz;#000000
-Ultimaker;CPE;Basic;Weiß;#FFFFFF
-Ultimaker;CPE;Basic;Dunkelgrau;#9E9E9E
-Ultimaker;CPE;Basic;Hellgrau;#9E9E9E
-Ultimaker;CPE;Basic;Rot;#E53935
-Ultimaker;CPE;Basic;Blau;#1E88E5
-Ultimaker;CPE;Basic;Grün;#43A047
-Ultimaker;CPE+;Basic;Schwarz;#000000
-Ultimaker;CPE+;Basic;Weiß;#FFFFFF
 Spectrum;PLA;Carbon;Carbon;#000000
 Spectrum;PLA;FlameGuard;Polar White;#FFFFFF
 Spectrum;PLA;FlameGuard;Deep Black;#000000

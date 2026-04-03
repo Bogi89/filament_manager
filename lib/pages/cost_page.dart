@@ -42,6 +42,9 @@ class _CostPageState extends State<CostPage> {
 
   bool subtractFromStock = true;
 
+  /// 📅 NEU — Datum
+  DateTime selectedDate = DateTime.now();
+
   void calculate() {
 
     if (selectedFilament == null) return;
@@ -76,6 +79,25 @@ class _CostPageState extends State<CostPage> {
     setState(() {});
   }
 
+  /// 📅 Datum auswählen
+  Future<void> pickDate() async {
+
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+
+      setState(() {
+        selectedDate = picked;
+      });
+
+    }
+  }
+
   void save() {
 
     if (selectedFilament == null) return;
@@ -97,7 +119,9 @@ class _CostPageState extends State<CostPage> {
       weightUsed: usedWeight,
       printHours: hours,
       totalCost: totalCost,
-      date: DateTime.now(),
+
+      /// 📅 GEÄNDERT
+      date: selectedDate,
     );
 
     widget.onSaveJob(job);
@@ -150,6 +174,11 @@ class _CostPageState extends State<CostPage> {
   @override
   Widget build(BuildContext context) {
 
+    final formattedDate =
+        "${selectedDate.day.toString().padLeft(2, '0')}."
+        "${selectedDate.month.toString().padLeft(2, '0')}."
+        "${selectedDate.year}";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Kosten berechnen"),
@@ -163,32 +192,63 @@ class _CostPageState extends State<CostPage> {
 
             field("Projektname", projectController),
 
-            DropdownButtonFormField<Filament>(
-              decoration:
-                  const InputDecoration(labelText: "Filament auswählen"),
-              items: widget.filaments
-                  .map((f) => DropdownMenuItem(
-                        value: f,
-                        child: Text(
-                            "${f.brand} ${f.material} ${f.variant}"),
-                      ))
-                  .toList(),
-              onChanged: (val) {
+            /// 📅 NEU — Datum Feld
 
-                if (val == null) return;
-
-                setState(() {
-                  selectedFilament = val;
-                });
-
-                // automatisch übernehmen
-                spoolWeightController.text =
-                    val.totalWeight.toStringAsFixed(0);
-
-                spoolPriceController.text =
-                    val.price.toStringAsFixed(2);
-              },
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text("Datum auswählen"),
+              subtitle: Text(formattedDate),
+              trailing: const Icon(Icons.calendar_today),
+              onTap: pickDate,
             ),
+
+            const SizedBox(height: 10),
+
+            DropdownButtonFormField<Filament>(
+  decoration:
+      const InputDecoration(labelText: "Filament auswählen"),
+
+  items: widget.filaments.map((f) {
+
+    final percent =
+        (f.remainingWeight / f.totalWeight) * 100;
+
+    String weightText =
+        "${f.remainingWeight.toInt()} g";
+
+    if (percent <= 10) {
+
+      weightText =
+          "${f.remainingWeight.toInt()} g ⚠";
+
+    }
+
+    return DropdownMenuItem(
+      value: f,
+
+      child: Text(
+        "${f.brand} ${f.material} ${f.variant} ($weightText)",
+      ),
+
+    );
+
+  }).toList(),
+
+  onChanged: (val) {
+
+    if (val == null) return;
+
+    setState(() {
+      selectedFilament = val;
+    });
+
+    spoolWeightController.text =
+        val.totalWeight.toStringAsFixed(0);
+
+    spoolPriceController.text =
+        val.price.toStringAsFixed(2);
+  },
+),
 
             const SizedBox(height: 10),
 

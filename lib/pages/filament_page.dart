@@ -426,8 +426,11 @@ class _FilamentPageState extends State<FilamentPage> {
           const SizedBox(height:10),
 
           Expanded(
-            child: ListView(
-              controller: _scrollController,
+  child: ListView(
+    controller: _scrollController,
+    padding: const EdgeInsets.only(
+      bottom: 120,
+    ),
               children: grouped.entries.map((entry){
 
                 final brand = entry.key;
@@ -528,7 +531,7 @@ class _FilamentPageState extends State<FilamentPage> {
                                           Row(
                                             children: [
 
-                                              ...f.colors.take(3).map((color){
+                                              ...f.colors.take(4).map((color){
 
                                                 return Container(
                                                   width:10,
@@ -637,7 +640,9 @@ class _FilamentPageState extends State<FilamentPage> {
                                                     value: percent / 100,
                                                     minHeight:8,
                                                     backgroundColor:
-                                                    Colors.grey.shade300,
+    Theme.of(context).brightness == Brightness.dark
+        ? Colors.grey.shade800
+        : Colors.grey.shade300,
                                                     valueColor:
                                                     AlwaysStoppedAnimation(
                                                         percentColor),
@@ -762,7 +767,9 @@ class _FilamentPageState extends State<FilamentPage> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.grey.shade100,
+          color: Theme.of(context).brightness == Brightness.dark
+    ? Colors.grey.shade900
+    : Colors.grey.shade100,
         ),
         child: Column(
           children: [
