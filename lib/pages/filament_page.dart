@@ -187,6 +187,10 @@ class _FilamentPageState extends State<FilamentPage> {
         .length;
 
     return Scaffold(
+  backgroundColor:
+    Theme.of(context).brightness == Brightness.dark
+        ? Colors.black
+        : const Color(0xFFE9EEF5),
 
       appBar: AppBar(
         title: const Text("Filamente"),
@@ -214,29 +218,28 @@ class _FilamentPageState extends State<FilamentPage> {
         children: [
 
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
+  padding: const EdgeInsets.all(16),
+  child: Row(
+    children: [
 
-                _topCard(
-                  icon: Icons.inventory,
-                  value: filaments.length.toString(),
-                  label: "Filamente",
-                ),
+      _topCard(
+        icon: Icons.inventory,
+        value: filaments.length.toString(),
+        label: "Filamente",
+      ),
 
-                const SizedBox(width:16),
+      const SizedBox(width: 16),
 
-                _topCard(
-                  icon: Icons.warning,
-                  value: criticalCount.toString(),
-                  label: "Kritisch",
-                  color: Colors.red,
-                ),
+      _topCard(
+        icon: Icons.warning,
+        value: criticalCount.toString(),
+        label: "Kritisch",
+        color: Colors.red,
+      ),
 
-              ],
-            ),
-          ),
-
+    ],
+  ),
+),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:16),
 
@@ -486,9 +489,23 @@ class _FilamentPageState extends State<FilamentPage> {
                               horizontal:16, vertical:6),
 
                           child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
+  color: Theme.of(context).brightness == Brightness.dark
+      ? null
+      : Colors.white,
+
+  elevation:
+      Theme.of(context).brightness == Brightness.dark
+          ? 0
+          : 3,
+
+  shadowColor:
+      Theme.of(context).brightness == Brightness.dark
+          ? Colors.transparent
+          : Colors.black.withOpacity(0.08),
+
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(18),
+  ),
 
                             child: InkWell(
 
@@ -522,188 +539,261 @@ class _FilamentPageState extends State<FilamentPage> {
                                     const SizedBox(width:16),
 
                                     Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
 
-                                        children: [
+      /// Titelzeile
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-                                          Row(
-                                            children: [
+          /// Farbpunkte
+          Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: f.colors.take(4).map((color) {
 
-                                              ...f.colors.take(4).map((color){
+              return Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                ),
+              );
 
-                                                return Container(
-                                                  width:10,
-                                                  height:10,
-                                                  margin: const EdgeInsets.only(right:6),
-                                                  decoration: BoxDecoration(
-                                                    color: color,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                );
+            }).toList(),
+          ),
 
-                                              }).toList(),
+          const SizedBox(width: 8),
 
-                                              Expanded(
-                                                child: Text(
-                                                  "${f.material} ${f.variant}",
-                                                  style: const TextStyle(
-                                                    fontSize:16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
+          /// Material + Variante
+          Expanded(
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: [
 
-                                            ],
-                                          ),
+      /// Material (z.B. PLA)
+      Text(
+  f.material,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.3,
+  ),
+),
+
+/// Variant (z.B. Glow in the Dark)
+if (f.variant.isNotEmpty)
+  Text(
+    f.variant,
+    maxLines: 3,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+      fontSize: 13,
+      color: Colors.grey.shade400,
+      fontWeight: FontWeight.w400,
+    ),
+  ),
+
+    ],
+  ),
+),
+
+        ],
+      ),
 
                                           const SizedBox(height:6),
 
-                                          if(isEditing)
+                                          if (isEditing)
+  Wrap(
+    spacing: 6,
+    runSpacing: 6,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    alignment: WrapAlignment.start,
+    children: [
 
-                                            Row(
-                                              children: [
+      _weightButton("-10", () {
+        _changeWeight(-10, f);
+      }),
 
-                                                _weightButton("-10", (){
-                                                  _changeWeight(-10,f);
-                                                }),
+      _weightButton("-", () {
+        _changeWeight(-1, f);
+      }),
 
-                                                _weightButton("-", (){
-                                                  _changeWeight(-1,f);
-                                                }),
+      SizedBox(
+        width: 60, // 🔥 kleiner → Platz für +10
+        child: TextField(
+          controller: weightController,
+          keyboardType: TextInputType.number,
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 4,
+            ),
+          ),
+        ),
+      ),
 
-                                                SizedBox(
-                                                  width:70,
-                                                  child: TextField(
-                                                    controller: weightController,
-                                                    keyboardType:
-                                                    TextInputType.number,
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
+      _weightButton("+", () {
+        _changeWeight(1, f);
+      }),
 
-                                                _weightButton("+", (){
-                                                  _changeWeight(1,f);
-                                                }),
+      _weightButton("+10", () {
+        _changeWeight(10, f);
+      }),
 
-                                                _weightButton("+10", (){
-                                                  _changeWeight(10,f);
-                                                }),
+      IconButton(
+        icon: const Icon(Icons.check),
+        color: Colors.green,
+        onPressed: () {
 
-                                                IconButton(
-                                                  icon: const Icon(
-                                                    Icons.check,
-                                                    color: Colors.green,
-                                                  ),
-                                                  onPressed: (){
+          final newWeight =
+              double.tryParse(weightController.text);
 
-                                                    final value =
-                                                        double.tryParse(
-                                                            weightController.text)
-                                                            ?? f.remainingWeight;
+          if (newWeight != null) {
 
-                                                    f.remainingWeight = value;
+            f.remainingWeight = newWeight;
 
-                                                    editingFilament = null;
+            context
+                .read<AppState>()
+                .updateFilament(f);
 
-                                                    appState.saveData();
+          }
 
-                                                    setState((){});
-                                                  },
-                                                )
-                                              ],
-                                            )
+          setState(() {
 
-                                          else
+            editingFilament = null;
 
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
+          });
 
-                                                Text(
-                                                  "${f.remainingWeight.toInt()} g von ${f.totalWeight.toInt()} g",
-                                                  style: const TextStyle(
-                                                    fontSize:13,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
+        },
+      ),
 
-                                                const SizedBox(height:6),
+    ],
+  )
+else
+  Column(
+    crossAxisAlignment:
+        CrossAxisAlignment.start,
+    children: [
 
-                                                ClipRRect(
-                                                  borderRadius:
-                                                  BorderRadius.circular(8),
-                                                  child:
-                                                  LinearProgressIndicator(
-                                                    value: percent / 100,
-                                                    minHeight:8,
-                                                    backgroundColor:
-    Theme.of(context).brightness == Brightness.dark
-        ? Colors.grey.shade800
-        : Colors.grey.shade300,
-                                                    valueColor:
-                                                    AlwaysStoppedAnimation(
-                                                        percentColor),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+      Text(
+        "${f.remainingWeight.toInt()} g von ${f.totalWeight.toInt()} g",
+        style: const TextStyle(
+          fontSize:13,
+          color: Colors.grey,
+        ),
+      ),
 
+      const SizedBox(height:6),
+
+      ClipRRect(
+        borderRadius:
+            BorderRadius.circular(10),
+        child:
+            LinearProgressIndicator(
+  value: percent / 100,
+
+  minHeight: 12,
+
+  backgroundColor:
+      Theme.of(context).brightness == Brightness.dark
+          ? Colors.grey.shade800
+          : Colors.grey.shade200,
+
+  valueColor:
+      AlwaysStoppedAnimation(percentColor),
+
+  borderRadius: BorderRadius.circular(8),
+),
+      ),
+
+    ],
+  ),                                  
                                         ],
                                       ),
                                     ),
 
                                     const SizedBox(width:16),
 
-                                    if(!isEditing)
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            size: 14,
-                                            color: percentColor,
-                                          ),
-                                          const SizedBox(width:6),
-                                          Text(
-                                            "${percent.round()}%",
-                                            style: TextStyle(
-                                              fontSize:20,
-                                              fontWeight: FontWeight.bold,
-                                              color: percentColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    if (!isEditing)
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
 
-                                    const SizedBox(width:8),
+      /// Prozent-Zeile
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
 
-                                    if(!isEditing)
+          Icon(
+            Icons.circle,
+            size: 10,
+            color: percentColor,
+          ),
 
-                                      IconButton(
-                                        icon: const Icon(Icons.edit),
-                                        onPressed: (){
-                                          editingFilament = f;
-                                          weightController.text =
-                                              f.remainingWeight
-                                                  .toInt()
-                                                  .toString();
-                                          setState((){});
-                                        },
-                                      ),
+          const SizedBox(width: 4),
 
-                                    if(!isEditing)
+          Text(
+            "${percent.round()}%",
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: percentColor,
+            ),
+          ),
+        ],
+      ),
 
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.delete,
-                                          color: Colors.red,
-                                        ),
-                                        onPressed: (){
-                                          appState.removeFilament(f);
-                                        },
-                                      ),
+      const SizedBox(height: 2),
+
+      /// Button-Zeile
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+
+          IconButton(
+            icon: const Icon(
+              Icons.edit,
+              size: 18,
+            ),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {
+              editingFilament = f;
+              weightController.text =
+                  f.remainingWeight.toInt().toString();
+              setState(() {});
+            },
+          ),
+
+          const SizedBox(width: 6),
+
+          IconButton(
+            icon: const Icon(
+              Icons.delete,
+              size: 18,
+              color: Colors.red,
+            ),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {
+              appState.removeFilament(f);
+            },
+          ),
+
+        ],
+      ),
+
+    ],
+  ),
 
                                   ],
                                 ),
@@ -756,36 +846,96 @@ class _FilamentPageState extends State<FilamentPage> {
   }
 
   Widget _topCard({
-    required IconData icon,
-    required String value,
-    required String label,
-    Color? color,
-  }){
+  required IconData icon,
+  required String value,
+  required String label,
+  Color? color,
+}){
 
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Theme.of(context).brightness == Brightness.dark
-    ? Colors.grey.shade900
-    : Colors.grey.shade100,
-        ),
-        child: Column(
-          children: [
-            Icon(icon,color: color ?? Colors.blue),
-            const SizedBox(height:8),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize:18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(label),
-          ],
-        ),
+  return Expanded(
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 22,
+        horizontal: 16,
       ),
-    );
-  }
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey.shade900
+            : Colors.white,
+
+        boxShadow: Theme.of(context).brightness == Brightness.dark
+            ? []
+            : [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.06),
+                  blurRadius: 12,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+      ),
+
+      child: Row(
+        children: [
+
+          /// Icon links
+          Container(
+            width: 44,
+            height: 44,
+
+            decoration: BoxDecoration(
+              color: (color ?? Colors.blue)
+                  .withOpacity(0.12),
+
+              borderRadius:
+                  BorderRadius.circular(12),
+            ),
+
+            child: Icon(
+              icon,
+              color: color ?? Colors.blue,
+              size: 26,
+            ),
+          ),
+
+          const SizedBox(width: 14),
+
+          /// Zahlen + Label
+          Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+
+            children: [
+
+              /// 🔥 Große Zahl
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+
+              const SizedBox(height: 2),
+
+              /// Label kleiner
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+
+            ],
+          ),
+
+        ],
+      ),
+    ),
+  );
+}
 }

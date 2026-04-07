@@ -32,9 +32,27 @@ class DashboardPage extends StatelessWidget {
                         .round();
 
                 return ListTile(
-                  title: Text(
-                    "${f.material} ${f.variant}",
-                  ),
+                  title: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+
+    /// Hersteller
+    Text(
+      f.brand,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    /// Material + Variante
+    Text(
+      f.variant.isNotEmpty
+          ? "${f.material} ${f.variant}"
+          : f.material,
+    ),
+
+  ],
+),
                   trailing: Text(
                     "$percent%",
                     style: const TextStyle(

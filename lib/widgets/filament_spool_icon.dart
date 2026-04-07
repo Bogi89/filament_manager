@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/filament.dart';
+import '../theme/app_spacing.dart';
 
 class FilamentSpoolIcon extends StatelessWidget {
 
@@ -15,103 +16,116 @@ class FilamentSpoolIcon extends StatelessWidget {
     String material =
         filament.material.toLowerCase();
 
-    /// 🔥 NEU — Spezialfälle Mapping
-
     /// RIFD ist PLA
     if (material.contains("rifd")) {
       material = "pla";
     }
 
-    /// PLA
     if (material.contains("pla")) {
       return "assets/images/spool_pla.png";
     }
 
-    /// PETG
     if (material.contains("petg")) {
       return "assets/images/spool_petg.png";
     }
 
-    /// ABS
     if (material.contains("abs")) {
       return "assets/images/spool_abs.png";
     }
 
-    /// ASA
     if (material.contains("asa")) {
       return "assets/images/spool_asa.png";
     }
 
-    /// TPU
     if (material.contains("tpu")) {
       return "assets/images/spool_tpu.png";
     }
 
-    /// HIPS
     if (material.contains("hips")) {
       return "assets/images/spool_hips.png";
     }
 
-    /// CARBON
     if (material.contains("carbon")) {
       return "assets/images/spool_carbon.png";
     }
 
-    /// PC ⭐ NEU
     if (material.contains("pc")) {
       return "assets/images/spool_pc.png";
     }
 
-    /// PA (Nylon)
     if (material.contains("pa")) {
       return "assets/images/spool_pa.png";
     }
 
-    /// PP
     if (material.contains("pp")) {
       return "assets/images/spool_pp.png";
     }
 
-    /// PCTG
     if (material.contains("pctg")) {
       return "assets/images/spool_pctg.png";
     }
 
-    /// PEI
     if (material.contains("pei")) {
       return "assets/images/spool_pei.png";
     }
 
-    /// WOOD
     if (material.contains("wood")) {
       return "assets/images/spool_wood.png";
     }
 
-    /// Fallback
     return "assets/images/spool_base.png";
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return SizedBox(
-      width: 52,
-      height: 52,
-      child: Image.asset(
-        _getSpoolImage(),
-        fit: BoxFit.contain,
+    return Container(
 
-        /// ⭐ wichtig bei Fehlern sichtbar
-        errorBuilder:
-            (context, error, stackTrace) {
+      // 🔥 größer als vorher
+      width: 92,
+      height: 92,
 
-          return Image.asset(
-            "assets/images/spool_base.png",
-            fit: BoxFit.contain,
-          );
-
-        },
+      margin: const EdgeInsets.only(
+        right: AppSpacing.lg,
       ),
+
+      decoration: BoxDecoration(
+
+        shape: BoxShape.circle,
+
+        // 🔥 moderner Shadow
+        boxShadow: [],
+      ),
+
+      child: ClipOval(
+  child: Container(
+
+    padding: const EdgeInsets.all(0),
+
+    child: Image.asset(
+
+            _getSpoolImage(),
+
+            fit: BoxFit.contain,
+
+            errorBuilder:
+                (context, error, stackTrace) {
+
+              return Image.asset(
+                "assets/images/spool_base.png",
+                fit: BoxFit.contain,
+              );
+
+            },
+
+          ),
+
+        ),
+
+      ),
+
     );
+
   }
+
 }

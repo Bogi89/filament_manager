@@ -7,6 +7,9 @@ import 'pages/main_navigation.dart';
 import 'l10n/app_localizations.dart';
 import 'services/filament_catalog_service.dart';
 
+// 🔥 Neues Theme importieren
+import 'theme/app_theme.dart';
+
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,23 +48,9 @@ class MyApp extends StatelessWidget {
 
       themeMode: appState.themeMode,
 
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.light,
-        ),
-      ),
-
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
-        ),
-      ),
+      // 🔥 Neues Design-System Theme
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
 
       home: const MainNavigation(),
     );
