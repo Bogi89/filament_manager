@@ -154,4 +154,36 @@ class FilamentCatalogService {
 
     return Color(int.parse(clean, radix: 16));
   }
+  
+  // ================= HEX → NAME =================
+
+static String findColorNameByHex(String hex) {
+
+  String clean =
+      hex.replaceAll('#', '').toLowerCase();
+
+  for (final item in _catalog) {
+
+    if (item.hex == null) continue;
+
+    final parts =
+        item.hex!
+            .toLowerCase()
+            .replaceAll('#', '')
+            .split('+');
+
+    for (final p in parts) {
+
+      if (p.trim() == clean.trim()) {
+
+        return item.color;
+
+      }
+
+    }
+
+  }
+
+  return "Unknown";
+}
 }

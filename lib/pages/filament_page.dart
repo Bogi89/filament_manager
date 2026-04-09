@@ -7,6 +7,7 @@ import 'add_filament_page.dart';
 import 'filament_detail_page.dart';
 import '../widgets/filament_spool_icon.dart';
 import '../services/filament_catalog_service.dart';
+import '../widgets/filament_filter_bar.dart';
 
 class FilamentPage extends StatefulWidget {
   const FilamentPage({super.key});
@@ -218,212 +219,120 @@ class _FilamentPageState extends State<FilamentPage> {
         children: [
 
           Padding(
-  padding: const EdgeInsets.all(16),
-  child: Row(
-    children: [
-
-      _topCard(
-        icon: Icons.inventory,
-        value: filaments.length.toString(),
-        label: "Filamente",
-      ),
-
-      const SizedBox(width: 16),
-
-      _topCard(
-        icon: Icons.warning,
-        value: criticalCount.toString(),
-        label: "Kritisch",
-        color: Colors.red,
-      ),
-
-    ],
-  ),
-),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16),
-
-            child: Autocomplete<String>(
-
-              key: autocompleteKey,
-
-              optionsBuilder: (TextEditingValue textEditingValue) {
-
-                if (textEditingValue.text.isEmpty) {
-                  return const Iterable<String>.empty();
-                }
-
-                final query =
-                    textEditingValue.text.toLowerCase();
-
-                return catalogSuggestions.where((option) {
-
-                  return option
-                      .toLowerCase()
-                      .contains(query);
-
-                }).take(20);
-
-              },
-
-              onSelected: (selection) {
-
-                searchController.text = selection;
-
-                setState(() {
-                  searchText = selection;
-                });
-              },
-
-              fieldViewBuilder:
-                  (context, controller, focusNode, onFieldSubmitted) {
-
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: "Filament suchen...",
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value){
-                    setState(() {
-                      searchText = value;
-                    });
-                  },
-                );
-              },
-            ),
-          ),
-
-          const SizedBox(height:10),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
 
-                Expanded(
-                  child: DropdownButton<String>(
-                    hint: const Text("Hersteller"),
-                    isExpanded: true,
-                    value: selectedBrand,
-                    items: filaments
-                        .map((f)=>f.brand)
-                        .toSet()
-                        .map((brand){
-                      return DropdownMenuItem(
-                        value: brand,
-                        child: Text(brand),
-                      );
-                    }).toList(),
-                    onChanged: (value){
-                      setState(() {
-                        selectedBrand = value;
-                      });
-                    },
-                  ),
+                _topCard(
+                  icon: Icons.inventory,
+                  value: filaments.length.toString(),
+                  label: "Filamente",
                 ),
 
-                const SizedBox(width:10),
+                const SizedBox(width: 24),
 
-                Expanded(
-                  child: DropdownButton<String>(
-                    hint: const Text("Material"),
-                    isExpanded: true,
-                    value: selectedMaterial,
-                    items: filaments
-                        .map((f)=>f.material)
-                        .toSet()
-                        .map((mat){
-                      return DropdownMenuItem(
-                        value: mat,
-                        child: Text(mat),
-                      );
-                    }).toList(),
-                    onChanged: (value){
-                      setState(() {
-                        selectedMaterial = value;
-                      });
-                    },
-                  ),
-                ),
-
-                const SizedBox(width:10),
-
-                /// 🔥 SORTIEREN MIT SPEICHERN
-
-                Expanded(
-                  child: DropdownButton<String>(
-
-                    hint: const Text("Sortieren"),
-
-                    value: selectedSort,
-
-                    isExpanded: true,
-
-                    items: const [
-
-                      DropdownMenuItem(
-                        value: "Material",
-                        child: Text("Nach Material"),
-                      ),
-
-                      DropdownMenuItem(
-                        value: "Restgewicht",
-                        child: Text("Nach Restgewicht"),
-                      ),
-
-                      DropdownMenuItem(
-                        value: "Name",
-                        child: Text("Nach Name"),
-                      ),
-
-                    ],
-
-                    onChanged: (value){
-
-                      setState(() {
-
-                        selectedSort = value!;
-
-                        /// 🔥 Speichern
-
-                        appState.setSortMode(value);
-
-                      });
-
-                    },
-
-                  ),
-                ),
-
-                const SizedBox(width:10),
-
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: (){
-                    setState(() {
-
-                      selectedBrand = null;
-                      selectedMaterial = null;
-
-                      searchText = "";
-                      searchController.clear();
-
-                      autocompleteKey = UniqueKey();
-
-                      /// 🔥 Reset speichern
-
-                      selectedSort = "Material";
-                      appState.setSortMode("Material");
-
-                    });
-                  },
+                _topCard(
+                  icon: Icons.warning,
+                  value: criticalCount.toString(),
+                  label: "Kritisch",
+                  color: Colors.red,
                 ),
 
               ],
             ),
+          ),
+
+          /// 🔥 Neue FilterBar ersetzt Autocomplete + Dropdowns
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+
+            child: FilamentFilterBar(
+
+              searchController: searchController,
+
+              brandItems:
+                  filaments
+                      .map((f) => f.brand)
+                      .toSet()
+                      .toList(),
+
+              materialItems:
+                  filaments
+                      .map((f) => f.material)
+                      .toSet()
+                      .toList(),
+
+              selectedBrand: selectedBrand,
+              selectedMaterial: selectedMaterial,
+              selectedSort: selectedSort,
+
+              onBrandChanged: (value) {
+
+                setState(() {
+
+                  selectedBrand = value;
+
+                });
+
+              },
+
+              onMaterialChanged: (value) {
+
+                setState(() {
+
+                  selectedMaterial = value;
+
+                });
+
+              },
+
+              onSortChanged: (value) {
+
+                if (value == null) return;
+
+                setState(() {
+
+                  selectedSort = value;
+
+                  appState.setSortMode(value);
+
+                });
+
+              },
+
+              onSearchChanged: (value) {
+
+                setState(() {
+
+                  searchText = value;
+
+                });
+
+              },
+
+              onReset: () {
+
+                setState(() {
+
+                  selectedBrand = null;
+                  selectedMaterial = null;
+
+                  searchText = "";
+                  searchController.clear();
+
+                  selectedSort = "Material";
+
+                  appState.setSortMode("Material");
+
+                });
+
+              },
+
+            ),
+
           ),
 
           const SizedBox(height:10),
@@ -575,16 +484,39 @@ class _FilamentPageState extends State<FilamentPage> {
     mainAxisSize: MainAxisSize.min,
     children: [
 
-      /// Material (z.B. PLA)
-      Text(
-  f.material,
-  maxLines: 1,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontSize: 17,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.3,
-  ),
+      Row(
+  children: [
+
+    /// Material (PLA / ABS usw.)
+    Text(
+      f.material,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(
+        fontSize: 17,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.3,
+      ),
+    ),
+
+    const SizedBox(width: 8),
+
+    /// Farbnamen anzeigen
+    if (_buildColorNames(f).isNotEmpty)
+      Expanded(
+        child: Text(
+          _buildColorNames(f),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey.shade400,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+
+  ],
 ),
 
 /// Variant (z.B. Glow in the Dark)
@@ -836,16 +768,29 @@ else
 
   Widget _weightButton(String text, VoidCallback onPressed){
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal:2),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        child: Text(text),
-      ),
-    );
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal:2),
+    child: ElevatedButton(
+      onPressed: onPressed,
+      child: Text(text),
+    ),
+  );
+}
+
+String _buildColorNames(Filament f) {
+
+  if (f.colorNames.isEmpty) {
+    return "";
   }
 
-  Widget _topCard({
+  /// 🔥 Nur den ersten Namen anzeigen
+  final name = f.colorNames.first;
+
+  return name;
+
+}
+
+Widget _topCard({
   required IconData icon,
   required String value,
   required String label,
@@ -855,7 +800,7 @@ else
   return Expanded(
     child: Container(
       padding: const EdgeInsets.symmetric(
-        vertical: 22,
+        vertical: 28,
         horizontal: 16,
       ),
 
@@ -878,7 +823,8 @@ else
       ),
 
       child: Row(
-        children: [
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
 
           /// Icon links
           Container(

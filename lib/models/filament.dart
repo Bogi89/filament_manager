@@ -25,6 +25,9 @@ class Filament {
 
   List<Color> colors;
 
+  /// 🔥 NEU — Farbnamen
+  List<String> colorNames;
+
   Filament({
     String? id,
     required this.brand,
@@ -40,7 +43,15 @@ class Filament {
 
     this.colorType = "single",
     List<Color>? colors,
+
+    /// 🔥 NEU
+    List<String>? colorNames,
+
   })  : colors = colors ?? [color],
+
+        /// Falls keine Namen vorhanden → leer
+        colorNames = colorNames ?? [],
+
         id = id ?? Random().nextInt(999999999).toString();
 
   factory Filament.fromJson(Map<String, dynamic> json) {
@@ -51,6 +62,18 @@ class Filament {
 
       for (var c in json['colors']) {
         parsedColors.add(Color(c));
+      }
+
+    }
+
+    /// 🔥 Farbnamen laden (falls vorhanden)
+
+    List<String> parsedNames = [];
+
+    if (json['colorNames'] != null) {
+
+      for (var n in json['colorNames']) {
+        parsedNames.add(n.toString());
       }
 
     }
@@ -80,6 +103,10 @@ class Filament {
       colors: parsedColors.isEmpty
           ? [Color(json['color'])]
           : parsedColors,
+
+      /// 🔥 Farbnamen setzen
+      colorNames: parsedNames,
+
     );
 
   }
@@ -109,6 +136,9 @@ class Filament {
       'colorType': colorType,
 
       'colors': colors.map((c) => c.value).toList(),
+
+      /// 🔥 Farbnamen speichern
+      'colorNames': colorNames,
 
     };
 

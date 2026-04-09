@@ -271,27 +271,29 @@ setState(() {
         preloadedColorMap[selectedColor!]
         ?? [Colors.grey];
 
+        final colorNames = [selectedColor!];
+
     final filament = Filament(
-      brand: selectedBrand!,
-      material: selectedMaterial!,
-      variant: selectedVariant!,
-      diameter:
-      selectedDiameter ?? 1.75,
-      totalWeight: totalWeight,
-      remainingWeight:
-      remainingWeight,
-      price: price,
-      nozzleTemp:
-      nozzleTemp ?? 0,
-      bedTemp:
-      bedTemp ?? 0,
-      color: parsedColors.first,
-      colors: parsedColors,
-      colorType:
+  brand: selectedBrand!,
+  material: selectedMaterial!,
+  variant: selectedVariant!,
+  diameter: selectedDiameter ?? 1.75,
+  totalWeight: totalWeight,
+  remainingWeight: remainingWeight,
+  price: price,
+  nozzleTemp: nozzleTemp ?? 0,
+  bedTemp: bedTemp ?? 0,
+  color: parsedColors.first,
+  colors: parsedColors,
+
+  /// 🔥 NEU
+  colorNames: colorNames,
+
+  colorType:
       parsedColors.length > 1
           ? "multi"
           : "single",
-    );
+);
 
     widget.onSave(filament);
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../models/filament.dart';
 import '../models/print_job.dart';
+
 import '../services/settings_service.dart';
 import '../services/storage_service.dart';
+import '../services/filament_catalog_service.dart';
 
 class AppState extends ChangeNotifier {
 
@@ -14,7 +17,6 @@ class AppState extends ChangeNotifier {
 
   double warningPercent = 20;
 
-  /// 🔥 NEU
   String sortMode = "Material";
 
   bool isInitialized = false;
@@ -23,43 +25,108 @@ class AppState extends ChangeNotifier {
     init();
   }
 
+  /// ================= INIT =================
+
   Future<void> init() async {
 
     await loadSettings();
 
-    filaments = await StorageService.loadFilaments();
-    jobs = await StorageService.loadJobs();
+    await FilamentCatalogService.loadCatalog();
+
+    filaments =
+        await StorageService.loadFilaments();
+
+    jobs =
+        await StorageService.loadJobs();
+
+    /// 🔥 Alte Filamente reparieren
+    for (var f in filaments) {
+
+      List<String> detectedNames = [];
+
+      for (var c in f.colors) {
+
+        final hex =
+            c.value
+                .toRadixString(16)
+                .substring(2);
+
+        final name =
+            FilamentCatalogService
+                .findColorNameByHex(hex);
+
+        if (!detectedNames.contains(name)) {
+
+          detectedNames.add(name);
+
+        }
+
+      }
+
+      /// 🔥 WICHTIG: Wenn ein echter Name existiert → nur diesen nehmen
+      final validNames =
+          detectedNames
+              .where((n) => n != "Unknown")
+              .toList();
+
+      if (validNames.isNotEmpty) {
+
+        /// Wenn mehrere gleiche → zusammenfassen
+        f.colorNames =
+            validNames
+                .toSet()
+                .toList();
+
+      } else {
+
+        f.colorNames = ["Unknown"];
+
+      }
+
+    }
+
+    await saveData();
 
     isInitialized = true;
 
     notifyListeners();
   }
 
-  /// SETTINGS
+  /// ================= SETTINGS =================
 
   Future<void> loadSettings() async {
 
-    final settings = await SettingsService.loadSettings();
+    final settings =
+        await SettingsService.loadSettings();
 
-    themeMode = settings['themeMode'];
-    locale = settings['locale'];
-    warningPercent = settings['warningPercent'];
+    themeMode =
+        settings['themeMode'];
 
-    /// 🔥 NEU
-    sortMode = settings['sortMode'];
+    locale =
+        settings['locale'];
+
+    warningPercent =
+        settings['warningPercent'];
+
+    sortMode =
+        settings['sortMode'];
   }
 
   Future<void> saveData() async {
 
-    await StorageService.saveFilaments(filaments);
-    await StorageService.saveJobs(jobs);
+    await StorageService
+        .saveFilaments(filaments);
+
+    await StorageService
+        .saveJobs(jobs);
   }
 
   void setLocale(Locale newLocale) async {
 
     locale = newLocale;
 
-    await SettingsService.saveLocale(newLocale);
+    await SettingsService
+        .saveLocale(newLocale);
 
     notifyListeners();
   }
@@ -68,7 +135,8 @@ class AppState extends ChangeNotifier {
 
     themeMode = newTheme;
 
-    await SettingsService.saveThemeMode(newTheme);
+    await SettingsService
+        .saveThemeMode(newTheme);
 
     notifyListeners();
   }
@@ -77,44 +145,89 @@ class AppState extends ChangeNotifier {
 
     warningPercent = value;
 
-    await SettingsService.saveWarningPercent(value);
+    await SettingsService
+        .saveWarningPercent(value);
 
     notifyListeners();
   }
-
-  /// 🔥 NEU — Sort speichern
 
   void setSortMode(String mode) async {
 
     sortMode = mode;
 
-    await SettingsService.saveSortMode(mode);
+    await SettingsService
+        .saveSortMode(mode);
 
     notifyListeners();
   }
 
-  /// WARNLOGIK
+  /// ================= WARNLOGIK =================
 
   double getRemainingPercent(Filament f) {
 
     if (f.totalWeight == 0) return 0;
 
-    return (f.remainingWeight / f.totalWeight) * 100;
+    return
+        (f.remainingWeight / f.totalWeight) * 100;
   }
 
   bool isCritical(Filament f) {
 
-    return getRemainingPercent(f) <= warningPercent;
+    return
+        getRemainingPercent(f)
+        <= warningPercent;
   }
 
   int get criticalCount {
 
-    return filaments.where((f) => isCritical(f)).length;
+    return filaments
+        .where((f) => isCritical(f))
+        .length;
   }
 
-  /// FILAMENT
+  /// ================= FILAMENT =================
 
   void addFilament(Filament filament) {
+
+    List<String> detectedNames = [];
+
+    for (var c in filament.colors) {
+
+      final hex =
+          c.value
+              .toRadixString(16)
+              .substring(2);
+
+      final name =
+          FilamentCatalogService
+              .findColorNameByHex(hex);
+
+      if (!detectedNames.contains(name)) {
+
+        detectedNames.add(name);
+
+      }
+
+    }
+
+    final validNames =
+        detectedNames
+            .where((n) => n != "Unknown")
+            .toList();
+
+    if (validNames.isNotEmpty) {
+
+      filament.colorNames =
+          validNames
+              .toSet()
+              .toList();
+
+    } else {
+
+      filament.colorNames =
+          ["Unknown"];
+
+    }
 
     filaments.add(filament);
 
@@ -125,7 +238,8 @@ class AppState extends ChangeNotifier {
 
   void removeFilament(Filament filament) {
 
-    filaments.removeWhere((f) => f.id == filament.id);
+    filaments.removeWhere(
+        (f) => f.id == filament.id);
 
     saveData();
 
@@ -134,10 +248,14 @@ class AppState extends ChangeNotifier {
 
   void updateFilament(Filament updated) {
 
-    final index = filaments.indexWhere((f) => f.id == updated.id);
+    final index =
+        filaments.indexWhere(
+            (f) => f.id == updated.id);
 
     if (index != -1) {
+
       filaments[index] = updated;
+
     }
 
     saveData();
@@ -145,7 +263,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// PRINT JOBS
+  /// ================= PRINT JOBS =================
 
   void addJob(PrintJob job) {
 
@@ -155,4 +273,5 @@ class AppState extends ChangeNotifier {
 
     notifyListeners();
   }
+
 }
