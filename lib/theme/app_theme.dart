@@ -8,7 +8,7 @@ import 'app_text_styles.dart';
 class AppTheme {
 
   // =========================
-  // LIGHT THEME
+  // LIGHT THEME (🔵 Blau)
   // =========================
 
   static ThemeData lightTheme = ThemeData(
@@ -20,66 +20,117 @@ class AppTheme {
     scaffoldBackgroundColor:
         AppColors.backgroundLight,
 
-    primaryColor: AppColors.primary,
+    primaryColor:
+        AppColors.primaryLight,
 
     colorScheme: ColorScheme.light(
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      surface: AppColors.surfaceLight,
-      error: AppColors.critical,
+
+      primary:
+          AppColors.primaryLight,
+
+      secondary:
+          AppColors.primaryLight,
+
+      surface:
+          AppColors.surfaceLight,
+
+      error:
+          AppColors.critical,
+
     ),
 
     appBarTheme: const AppBarTheme(
-      elevation: 0,
-      centerTitle: false,
-      backgroundColor: AppColors.surfaceLight,
-      foregroundColor:
-          AppColors.textPrimaryLight,
-      titleTextStyle: AppTextStyles.title,
-    ),
 
-    // 🔥 FIX: CardThemeData statt CardTheme
+  backgroundColor: Colors.white,
+
+  elevation: 0,
+
+  centerTitle: false,
+
+  titleTextStyle: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFF111827),
+    letterSpacing: 0.2,
+  ),
+
+  iconTheme: IconThemeData(
+    color: Color(0xFF111827),
+  ),
+
+),
+
     cardTheme: CardThemeData(
+
       elevation: 0,
-      color: AppColors.cardLight,
+
+      color:
+          AppColors.cardLight,
+
       shape: RoundedRectangleBorder(
-        borderRadius: AppRadius.radiusMD,
+
+        borderRadius:
+            AppRadius.radiusMD,
+
       ),
+
       margin: EdgeInsets.zero,
+
     ),
 
     floatingActionButtonTheme:
         const FloatingActionButtonThemeData(
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
+
+      backgroundColor:
+          AppColors.primaryLight,
+
+      foregroundColor:
+          Colors.white,
+
     ),
 
     inputDecorationTheme:
         InputDecorationTheme(
 
       filled: true,
+
       fillColor: Colors.white,
 
       border: OutlineInputBorder(
+
         borderRadius:
             AppRadius.radiusSM,
+
       ),
 
       enabledBorder: OutlineInputBorder(
+
         borderRadius:
             AppRadius.radiusSM,
+
         borderSide: BorderSide(
+
           color: Colors.grey.shade300,
+
         ),
+
       ),
 
-      focusedBorder: const OutlineInputBorder(
+      focusedBorder:
+          const OutlineInputBorder(
+
         borderRadius:
             AppRadius.radiusSM,
+
         borderSide: BorderSide(
-          color: AppColors.primary,
+
+          color:
+              AppColors.primaryLight,
+
           width: 2,
+
         ),
+
       ),
 
       contentPadding:
@@ -93,19 +144,23 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
 
         backgroundColor:
-            AppColors.primary,
+            AppColors.primaryLight,
 
-        foregroundColor: Colors.white,
+        foregroundColor:
+            Colors.white,
 
         shape: RoundedRectangleBorder(
+
           borderRadius:
               AppRadius.radiusSM,
+
         ),
 
         padding:
             AppSpacing.paddingMD,
 
       ),
+
     ),
 
     textTheme: const TextTheme(
@@ -130,7 +185,7 @@ class AppTheme {
   );
 
   // =========================
-  // DARK THEME
+  // DARK THEME (🟣 Lila)
   // =========================
 
   static ThemeData darkTheme = ThemeData(
@@ -142,70 +197,118 @@ class AppTheme {
     scaffoldBackgroundColor:
         AppColors.backgroundDark,
 
-    primaryColor: AppColors.primary,
+    primaryColor:
+        AppColors.primaryDark,
 
     colorScheme: ColorScheme.dark(
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      surface: AppColors.surfaceDark,
-      error: AppColors.critical,
+
+      primary:
+          AppColors.primaryDark,
+
+      secondary:
+          AppColors.primaryDark,
+
+      surface:
+          AppColors.surfaceDark,
+
+      error:
+          AppColors.critical,
+
     ),
 
     appBarTheme: const AppBarTheme(
-      elevation: 0,
-      centerTitle: false,
-      backgroundColor:
-          AppColors.surfaceDark,
-      foregroundColor:
-          AppColors.textPrimaryDark,
-      titleTextStyle:
-          AppTextStyles.title,
-    ),
 
-    // 🔥 FIX hier auch
+  backgroundColor: Color(0xFF0F0F14),
+
+  elevation: 0,
+
+  centerTitle: false,
+
+  titleTextStyle: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+    letterSpacing: 0.2,
+  ),
+
+  iconTheme: IconThemeData(
+    color: Colors.white,
+  ),
+
+),
+
     cardTheme: CardThemeData(
+
       elevation: 0,
-      color: AppColors.cardDark,
+
+      color:
+          AppColors.cardDark,
+
       shape: RoundedRectangleBorder(
+
         borderRadius:
             AppRadius.radiusMD,
+
       ),
+
       margin: EdgeInsets.zero,
+
     ),
 
     floatingActionButtonTheme:
         const FloatingActionButtonThemeData(
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
+
+      backgroundColor:
+          AppColors.primaryDark,
+
+      foregroundColor:
+          Colors.white,
+
     ),
 
     inputDecorationTheme:
         InputDecorationTheme(
 
       filled: true,
+
       fillColor:
           AppColors.surfaceDark,
 
       border: OutlineInputBorder(
+
         borderRadius:
             AppRadius.radiusSM,
+
       ),
 
       enabledBorder: OutlineInputBorder(
+
         borderRadius:
             AppRadius.radiusSM,
+
         borderSide: BorderSide(
+
           color: Colors.grey.shade700,
+
         ),
+
       ),
 
-      focusedBorder: const OutlineInputBorder(
+      focusedBorder:
+          const OutlineInputBorder(
+
         borderRadius:
             AppRadius.radiusSM,
+
         borderSide: BorderSide(
-          color: AppColors.primary,
+
+          color:
+              AppColors.primaryDark,
+
           width: 2,
+
         ),
+
       ),
 
       contentPadding:
@@ -219,19 +322,23 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
 
         backgroundColor:
-            AppColors.primary,
+            AppColors.primaryDark,
 
-        foregroundColor: Colors.white,
+        foregroundColor:
+            Colors.white,
 
         shape: RoundedRectangleBorder(
+
           borderRadius:
               AppRadius.radiusSM,
+
         ),
 
         padding:
             AppSpacing.paddingMD,
 
       ),
+
     ),
 
     textTheme: const TextTheme(

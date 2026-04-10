@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 import '../models/filament.dart';
 import '../models/print_job.dart';
+import '../widgets/spool_icon.dart';
 
 class DashboardPage extends StatelessWidget {
   final Function(int) onNavigate;
@@ -155,7 +156,7 @@ class DashboardPage extends StatelessWidget {
                 const EdgeInsets.all(20),
             child: Align(
               alignment:
-                  Alignment.centerLeft,
+                  Alignment.center,
               child: Text(
                 "Dashboard",
                 style: Theme.of(context)
@@ -289,8 +290,7 @@ class DashboardPage extends StatelessWidget {
 
                     Expanded(
                       child: _statCard(
-                        icon:
-                            Icons.inventory,
+                        icon: SpoolIcon(size: 24),
                         value:
                             filaments.length
                                 .toString(),
@@ -304,16 +304,16 @@ class DashboardPage extends StatelessWidget {
 
                     Expanded(
                       child: _statCard(
-                        icon:
-                            Icons.warning,
+                        icon: const Icon(
+  Icons.warning,
+  color: Colors.red,
+),
                         value:
                             criticalFilaments
                                 .length
                                 .toString(),
                         label:
                             "Kritisch",
-                        iconColor:
-                            Colors.red,
                       ),
                     ),
 
@@ -327,8 +327,7 @@ class DashboardPage extends StatelessWidget {
 
                     Expanded(
                       child: _statCard(
-                        icon:
-                            Icons.print,
+                        icon: const Icon(Icons.print),
                         value:
                             jobs.length
                                 .toString(),
@@ -342,8 +341,7 @@ class DashboardPage extends StatelessWidget {
 
                     Expanded(
                       child: _statCard(
-                        icon:
-                            Icons.scale,
+                        icon: const Icon(Icons.scale),
                         value:
                             "${printedWeight.toStringAsFixed(0)} g",
                         label:
@@ -433,7 +431,7 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _statCard({
-    required IconData icon,
+  required Widget icon,
     required String value,
     required String label,
     Color? iconColor,
@@ -445,10 +443,7 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           children: [
 
-            Icon(
-              icon,
-              color: iconColor,
-            ),
+            icon,
 
             const SizedBox(height: 8),
 

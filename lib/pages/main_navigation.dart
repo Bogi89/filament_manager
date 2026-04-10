@@ -8,6 +8,7 @@ import 'cost_page.dart';
 import 'history_page.dart';
 import 'statistics_page.dart';
 import 'settings_page.dart';
+import '../widgets/spool_icon.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -64,60 +65,83 @@ class _MainNavigationState extends State<MainNavigation> {
 
     return Scaffold(
 
-      backgroundColor: Colors.grey[100],
+      backgroundColor:
+          Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF0F0F14)
+              : Colors.grey[100],
 
       body: pages[_selectedIndex],
 
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Builder(
+        builder: (context) {
 
-        backgroundColor: Colors.white,
+          final isDark =
+              Theme.of(context).brightness == Brightness.dark;
 
-        elevation: 10,
+          return BottomNavigationBar(
 
-        type: BottomNavigationBarType.fixed,
+            backgroundColor:
+                isDark
+                    ? const Color(0xFF111118)
+                    : Colors.white,
 
-        selectedItemColor: Colors.deepPurple,
+            elevation: 10,
 
-        unselectedItemColor: Colors.grey,
+            type: BottomNavigationBarType.fixed,
 
-        currentIndex: _selectedIndex,
+            selectedItemColor:
+                isDark
+                    ? const Color(0xFF7C4DFF) // Dark → Lila
+                    : const Color(0xFF3B82F6), // Light → Blau
 
-        onTap: _onItemTapped,
+            unselectedItemColor:
+                isDark
+                    ? Colors.grey.shade400
+                    : Colors.grey.shade600,
 
-        items: const [
+            currentIndex: _selectedIndex,
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: "Dashboard",
-          ),
+            onTap: _onItemTapped,
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.inventory),
-            label: "Filament",
-          ),
+            items: [
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.euro),
-            label: "Kosten",
-          ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard),
+                label: "Dashboard",
+              ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: "Historie",
-          ),
+              BottomNavigationBarItem(
+  icon: SpoolIcon(size: 26),
+  label: 'Filament',
+),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: "Statistik",
-          ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.euro),
+                label: "Kosten",
+              ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history),
+                label: "Historie",
+              ),
 
-        ],
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart),
+                label: "Statistik",
+              ),
+
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: "Settings",
+              ),
+
+            ],
+
+          );
+
+        },
       ),
+
     );
   }
 }

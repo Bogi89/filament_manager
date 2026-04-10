@@ -8,6 +8,7 @@ import 'filament_detail_page.dart';
 import '../widgets/filament_spool_icon.dart';
 import '../services/filament_catalog_service.dart';
 import '../widgets/filament_filter_bar.dart';
+import '../widgets/spool_icon.dart';
 
 class FilamentPage extends StatefulWidget {
   const FilamentPage({super.key});
@@ -197,23 +198,75 @@ class _FilamentPageState extends State<FilamentPage> {
         title: const Text("Filamente"),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+      floatingActionButton: Padding(
+  padding: const EdgeInsets.only(
+    bottom: 12,
+    right: 8,
+  ),
 
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => AddFilamentPage(
-                onSave: (filament){
-                  appState.addFilament(filament);
-                },
-              ),
+  child: SizedBox(
+    height: 56,
+
+    child: ElevatedButton.icon(
+
+      onPressed: () async {
+
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => AddFilamentPage(
+              onSave: (filament) {
+                context.read<AppState>().addFilament(filament);
+              },
             ),
-          );
+          ),
+        );
 
-        },
-        child: const Icon(Icons.add),
+      },
+
+      icon: const Icon(
+        Icons.add,
+        size: 26,
       ),
+
+      label: const Text(
+        "Filament",
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+
+      style: ElevatedButton.styleFrom(
+
+  backgroundColor:
+      Theme.of(context).brightness == Brightness.dark
+          ? const Color(0xFF7B61FF) // Dark → Lila
+          : const Color(0xFF3B82F6), // Light → Blau
+
+  foregroundColor: Colors.white,
+
+  elevation: 8,
+
+  padding: const EdgeInsets.symmetric(
+    horizontal: 18,
+  ),
+
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+
+  shadowColor:
+      (Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF7B61FF)
+              : const Color(0xFF3B82F6))
+          .withOpacity(0.4),
+
+),
+
+    ),
+  ),
+),
 
       body: Column(
         children: [
@@ -224,7 +277,9 @@ class _FilamentPageState extends State<FilamentPage> {
               children: [
 
                 _topCard(
-                  icon: Icons.inventory,
+                  icon: const SpoolIcon(
+  size: 24,
+),
                   value: filaments.length.toString(),
                   label: "Filamente",
                 ),
@@ -232,7 +287,7 @@ class _FilamentPageState extends State<FilamentPage> {
                 const SizedBox(width: 24),
 
                 _topCard(
-                  icon: Icons.warning,
+                  icon: const Icon(Icons.warning),
                   value: criticalCount.toString(),
                   label: "Kritisch",
                   color: Colors.red,
@@ -242,98 +297,149 @@ class _FilamentPageState extends State<FilamentPage> {
             ),
           ),
 
-          /// 🔥 Neue FilterBar ersetzt Autocomplete + Dropdowns
+          /// ================= FILTER (einklappbar) =================
 
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
+Container(
+  margin: const EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 8,
+  ),
+
+  decoration: BoxDecoration(
+    color: Theme.of(context).cardColor,
+    borderRadius: BorderRadius.circular(16),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.05),
+        blurRadius: 8,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  ),
+
+  child: Theme(
+    data: Theme.of(context).copyWith(
+      dividerColor: Colors.transparent,
+    ),
+
+    child: ExpansionTile(
+
+      tilePadding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 6,
+      ),
+
+      childrenPadding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: 16,
+      ),
+
+      title: Row(
+        children: const [
+          Icon(Icons.filter_list),
+          SizedBox(width: 8),
+          Text(
+            "Filter",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
             ),
-
-            child: FilamentFilterBar(
-
-              searchController: searchController,
-
-              brandItems:
-                  filaments
-                      .map((f) => f.brand)
-                      .toSet()
-                      .toList(),
-
-              materialItems:
-                  filaments
-                      .map((f) => f.material)
-                      .toSet()
-                      .toList(),
-
-              selectedBrand: selectedBrand,
-              selectedMaterial: selectedMaterial,
-              selectedSort: selectedSort,
-
-              onBrandChanged: (value) {
-
-                setState(() {
-
-                  selectedBrand = value;
-
-                });
-
-              },
-
-              onMaterialChanged: (value) {
-
-                setState(() {
-
-                  selectedMaterial = value;
-
-                });
-
-              },
-
-              onSortChanged: (value) {
-
-                if (value == null) return;
-
-                setState(() {
-
-                  selectedSort = value;
-
-                  appState.setSortMode(value);
-
-                });
-
-              },
-
-              onSearchChanged: (value) {
-
-                setState(() {
-
-                  searchText = value;
-
-                });
-
-              },
-
-              onReset: () {
-
-                setState(() {
-
-                  selectedBrand = null;
-                  selectedMaterial = null;
-
-                  searchText = "";
-                  searchController.clear();
-
-                  selectedSort = "Material";
-
-                  appState.setSortMode("Material");
-
-                });
-
-              },
-
-            ),
-
           ),
+        ],
+      ),
+
+      children: [
+
+        FilamentFilterBar(
+
+          searchController: searchController,
+
+          brandItems: filaments
+              .map((f) => f.brand)
+              .toSet()
+              .toList(),
+
+          materialItems: filaments
+              .map((f) => f.material)
+              .toSet()
+              .toList(),
+
+          selectedBrand: selectedBrand,
+          selectedMaterial: selectedMaterial,
+          selectedSort: selectedSort,
+
+          onBrandChanged: (value) {
+
+            setState(() {
+
+              selectedBrand = value;
+
+            });
+
+          },
+
+          onMaterialChanged: (value) {
+
+            setState(() {
+
+              selectedMaterial = value;
+
+            });
+
+          },
+
+          onSortChanged: (value) {
+
+            if (value == null) return;
+
+            setState(() {
+
+              selectedSort = value;
+
+              appState.setSortMode(value);
+
+            });
+
+          },
+
+          onSearchChanged: (value) {
+
+            setState(() {
+
+              searchText = value;
+
+            });
+
+          },
+
+          onReset: () {
+
+            setState(() {
+
+              selectedBrand = null;
+              selectedMaterial = null;
+
+              searchText = "";
+              searchController.clear();
+
+              selectedSort = "Material";
+
+              appState.setSortMode("Material");
+
+            });
+
+          },
+
+        ),
+
+      ],
+
+    ),
+
+  ),
+
+),
 
           const SizedBox(height:10),
 
@@ -459,21 +565,33 @@ class _FilamentPageState extends State<FilamentPage> {
 
           /// Farbpunkte
           Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            children: f.colors.take(4).map((color) {
+  spacing: 6,
+  runSpacing: 6,
+  children: f.colors.take(4).map((color) {
 
-              return Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                ),
-              );
+    return Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
 
-            }).toList(),
-          ),
+        color: color == Colors.white
+            ? const Color(0xFFE5E7EB)
+            : color,
+
+        shape: BoxShape.circle,
+
+        border: color == Colors.white
+            ? Border.all(
+                color: const Color(0xFF9CA3AF),
+                width: 0.5,
+              )
+            : null,
+      ),
+    );
+
+  }).toList(), // 🔥 DIESE ZEILE FEHLT BEI DIR
+
+),
 
           const SizedBox(width: 8),
 
@@ -633,7 +751,7 @@ else
             LinearProgressIndicator(
   value: percent / 100,
 
-  minHeight: 12,
+  minHeight: 14,
 
   backgroundColor:
       Theme.of(context).brightness == Brightness.dark
@@ -643,7 +761,7 @@ else
   valueColor:
       AlwaysStoppedAnimation(percentColor),
 
-  borderRadius: BorderRadius.circular(8),
+  borderRadius: BorderRadius.circular(10),
 ),
       ),
 
@@ -791,90 +909,90 @@ String _buildColorNames(Filament f) {
 }
 
 Widget _topCard({
-  required IconData icon,
+  required Widget icon,
   required String value,
   required String label,
   Color? color,
-}){
-
+}) {
   return Expanded(
     child: Container(
       padding: const EdgeInsets.symmetric(
         vertical: 28,
         horizontal: 16,
       ),
-
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius:
+            BorderRadius.circular(18),
 
-        color: Theme.of(context).brightness == Brightness.dark
+        color: Theme.of(context)
+                    .brightness ==
+                Brightness.dark
             ? Colors.grey.shade900
             : Colors.white,
 
-        boxShadow: Theme.of(context).brightness == Brightness.dark
-            ? []
-            : [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
-                  blurRadius: 12,
-                  offset: const Offset(0, 5),
-                ),
-              ],
+        boxShadow:
+            Theme.of(context)
+                        .brightness ==
+                    Brightness.dark
+                ? []
+                : [
+                    BoxShadow(
+                      color: Colors.black
+                          .withOpacity(0.06),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
       ),
 
       child: Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
+        mainAxisAlignment:
+            MainAxisAlignment.center,
+
+        children: [
 
           /// Icon links
+
           Container(
             width: 44,
             height: 44,
 
             decoration: BoxDecoration(
-              color: (color ?? Colors.blue)
-                  .withOpacity(0.12),
+              color: (color ??
+                      Theme.of(context)
+                          .colorScheme
+                          .primary)
+                  .withOpacity(0.15),
 
               borderRadius:
                   BorderRadius.circular(12),
             ),
 
-            child: Icon(
-              icon,
-              color: color ?? Colors.blue,
-              size: 26,
+            child: Center(
+              child: icon,
             ),
           ),
 
-          const SizedBox(width: 14),
+          const SizedBox(width: 12),
 
-          /// Zahlen + Label
+          /// Text rechts
+
           Column(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
 
             children: [
 
-              /// 🔥 Große Zahl
               Text(
                 value,
                 style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  fontWeight:
+                      FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 2),
-
-              /// Label kleiner
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.grey.shade500,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(label),
 
             ],
           ),
