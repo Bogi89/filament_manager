@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'spool.dart';
+import '../services/color_registry.dart';
+import 'package:flutter/material.dart';
+
 class Filament {
 
   String id;
@@ -25,8 +29,11 @@ class Filament {
 
   List<Color> colors;
 
-  /// 🔥 NEU — Farbnamen
+  /// 🔥 Farbnamen
   List<String> colorNames;
+
+  /// 🧵 NEU — Spulenliste
+  List<Spool> spools;
 
   Filament({
     String? id,
@@ -43,19 +50,28 @@ class Filament {
 
     this.colorType = "single",
     List<Color>? colors,
-
-    /// 🔥 NEU
     List<String>? colorNames,
+
+    /// 🧵 optional
+    List<Spool>? spools,
 
   })  : colors = colors ?? [color],
 
-        /// Falls keine Namen vorhanden → leer
         colorNames = colorNames ?? [],
+
+        /// 🧵 Wenn keine Spulen vorhanden → eine erstellen
+        spools = spools ??
+            [
+              Spool(
+                weight: remainingWeight,
+              )
+            ],
 
         id = id ?? Random().nextInt(999999999).toString();
 
   factory Filament.fromJson(Map<String, dynamic> json) {
 
+    /// Farben laden
     List<Color> parsedColors = [];
 
     if (json['colors'] != null) {
@@ -66,8 +82,7 @@ class Filament {
 
     }
 
-    /// 🔥 Farbnamen laden (falls vorhanden)
-
+    /// Farbnamen laden
     List<String> parsedNames = [];
 
     if (json['colorNames'] != null) {
@@ -78,34 +93,87 @@ class Filament {
 
     }
 
+    /// 🧵 Spulen laden
+    List<Spool> parsedSpools = [];
+
+    if (json['spools'] != null) {
+
+      for (var s in json['spools']) {
+
+        parsedSpools.add(
+          Spool.fromJson(s),
+        );
+
+      }
+
+    }
+
     return Filament(
 
       id: json['id'],
 
       brand: json['brand'],
       material: json['material'],
-      variant: json['variant'],
+      variant: (json['variant'] != null &&
+          json['variant'].toString().trim().isNotEmpty)
+    ? json['variant'].toString()
+    : "Standard",
 
-      diameter: (json['diameter'] as num).toDouble(),
+      diameter:
+          (json['diameter'] as num)
+              .toDouble(),
 
-      totalWeight: (json['totalWeight'] as num).toDouble(),
-      remainingWeight: (json['remainingWeight'] as num).toDouble(),
+      totalWeight:
+          (json['totalWeight'] as num)
+              .toDouble(),
 
-      price: (json['price'] as num).toDouble(),
+      remainingWeight:
+          (json['remainingWeight'] as num)
+              .toDouble(),
 
-      nozzleTemp: json['nozzleTemp'],
-      bedTemp: json['bedTemp'],
+      price:
+          (json['price'] as num)
+              .toDouble(),
 
-      color: Color(json['color']),
+      nozzleTemp:
+          json['nozzleTemp'],
 
-      colorType: json['colorType'] ?? "single",
+      bedTemp:
+          json['bedTemp'],
 
-      colors: parsedColors.isEmpty
-          ? [Color(json['color'])]
-          : parsedColors,
+      color:
+    parsedColors.isNotEmpty
+        ? parsedColors.first
+        : Colors.grey,
 
-      /// 🔥 Farbnamen setzen
-      colorNames: parsedNames,
+      colorType:
+          json['colorType'] ?? "single",
+
+      colors:
+    parsedColors.isNotEmpty
+        ? parsedColors
+        : [Colors.grey],
+
+      colorNames:
+    parsedNames.isEmpty
+        ? List.generate(
+            parsedColors.length,
+            (_) => "Unknown",
+          )
+        : parsedNames,
+
+      /// 🧵 Spulen setzen
+      spools:
+          parsedSpools.isEmpty
+              ? [
+                  Spool(
+                    weight:
+                        (json['remainingWeight']
+                                as num)
+                            .toDouble(),
+                  )
+                ]
+              : parsedSpools,
 
     );
 
@@ -135,10 +203,18 @@ class Filament {
 
       'colorType': colorType,
 
-      'colors': colors.map((c) => c.value).toList(),
+      'colors':
+          colors
+              .map((c) => c.value)
+              .toList(),
 
-      /// 🔥 Farbnamen speichern
       'colorNames': colorNames,
+
+      /// 🧵 Spulen speichern
+      'spools':
+          spools
+              .map((s) => s.toJson())
+              .toList(),
 
     };
 

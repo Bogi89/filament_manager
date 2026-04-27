@@ -9,6 +9,7 @@ import '../widgets/filament_spool_icon.dart';
 import '../services/filament_catalog_service.dart';
 import '../widgets/filament_filter_bar.dart';
 import '../widgets/spool_icon.dart';
+import '../widgets/cards/filament_brand_section.dart';
 
 class FilamentPage extends StatefulWidget {
   const FilamentPage({super.key});
@@ -451,413 +452,37 @@ Container(
     ),
               children: grouped.entries.map((entry){
 
-                final brand = entry.key;
-                final filaments = entry.value;
+  final brand = entry.key;
+  final filaments = entry.value;
 
-                expandedBrands.putIfAbsent(brand, ()=>true);
+  expandedBrands.putIfAbsent(
+    brand,
+    () => true,
+  );
 
-                return Column(
-                  children: [
+  return FilamentBrandSection(
 
-                    ListTile(
-                      title: Text(
-                        brand,
-                        style: const TextStyle(
-                          fontSize:18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      trailing: Icon(
-                        expandedBrands[brand]!
-                            ? Icons.expand_less
-                            : Icons.expand_more,
-                      ),
-                      onTap: (){
-                        setState(() {
-                          expandedBrands[brand] =
-                          !expandedBrands[brand]!;
-                        });
-                      },
-                    ),
+    brand: brand,
 
-                    if(expandedBrands[brand]!)
+    filaments: filaments,
 
-                      ...filaments.map((f){
+    isExpanded:
+        expandedBrands[brand]!,
 
-                        final percent =
-                            (f.remainingWeight / f.totalWeight) * 100;
+    onToggle: () {
 
-                        Color percentColor;
+      setState(() {
 
-                        if(percent <= appState.warningPercent){
-                          percentColor = Colors.red;
-                        }else if(percent <= 50){
-                          percentColor = Colors.orange;
-                        }else{
-                          percentColor = Colors.green;
-                        }
+        expandedBrands[brand] =
+            !expandedBrands[brand]!;
 
-                        final isEditing = editingFilament == f;
+      });
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal:16, vertical:6),
+    },
 
-                          child: Card(
-  color: Theme.of(context).brightness == Brightness.dark
-      ? null
-      : Colors.white,
+  );
 
-  elevation:
-      Theme.of(context).brightness == Brightness.dark
-          ? 0
-          : 3,
-
-  shadowColor:
-      Theme.of(context).brightness == Brightness.dark
-          ? Colors.transparent
-          : Colors.black.withOpacity(0.08),
-
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(18),
-  ),
-
-                            child: InkWell(
-
-                              borderRadius: BorderRadius.circular(16),
-
-                              onTap: (){
-
-                                if(isEditing) return;
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        FilamentDetailPage(
-                                          filament: f,
-                                        ),
-                                  ),
-                                );
-                              },
-
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-
-                                child: Row(
-                                  children: [
-
-                                    FilamentSpoolIcon(
-                                      filament: f,
-                                    ),
-
-                                    const SizedBox(width:16),
-
-                                    Expanded(
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-
-      /// Titelzeile
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          /// Farbpunkte
-          Wrap(
-  spacing: 6,
-  runSpacing: 6,
-  children: f.colors.take(4).map((color) {
-
-    return Container(
-      width: 12,
-      height: 12,
-      decoration: BoxDecoration(
-
-        color: color == Colors.white
-            ? const Color(0xFFE5E7EB)
-            : color,
-
-        shape: BoxShape.circle,
-
-        border: color == Colors.white
-            ? Border.all(
-                color: const Color(0xFF9CA3AF),
-                width: 0.5,
-              )
-            : null,
-      ),
-    );
-
-  }).toList(), // 🔥 DIESE ZEILE FEHLT BEI DIR
-
-),
-
-          const SizedBox(width: 8),
-
-          /// Material + Variante
-          Expanded(
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-
-      Row(
-  children: [
-
-    /// Material (PLA / ABS usw.)
-    Text(
-      f.material,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 0.3,
-      ),
-    ),
-
-    const SizedBox(width: 8),
-
-    /// Farbnamen anzeigen
-    if (_buildColorNames(f).isNotEmpty)
-      Expanded(
-        child: Text(
-          _buildColorNames(f),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 13,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-
-  ],
-),
-
-/// Variant (z.B. Glow in the Dark)
-if (f.variant.isNotEmpty)
-  Text(
-    f.variant,
-    maxLines: 3,
-    overflow: TextOverflow.ellipsis,
-    style: TextStyle(
-      fontSize: 13,
-      color: Colors.grey.shade400,
-      fontWeight: FontWeight.w400,
-    ),
-  ),
-
-    ],
-  ),
-),
-
-        ],
-      ),
-
-                                          const SizedBox(height:6),
-
-                                          if (isEditing)
-  Wrap(
-    spacing: 6,
-    runSpacing: 6,
-    crossAxisAlignment: WrapCrossAlignment.center,
-    alignment: WrapAlignment.start,
-    children: [
-
-      _weightButton("-10", () {
-        _changeWeight(-10, f);
-      }),
-
-      _weightButton("-", () {
-        _changeWeight(-1, f);
-      }),
-
-      SizedBox(
-        width: 60, // 🔥 kleiner → Platz für +10
-        child: TextField(
-          controller: weightController,
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 4,
-            ),
-          ),
-        ),
-      ),
-
-      _weightButton("+", () {
-        _changeWeight(1, f);
-      }),
-
-      _weightButton("+10", () {
-        _changeWeight(10, f);
-      }),
-
-      IconButton(
-        icon: const Icon(Icons.check),
-        color: Colors.green,
-        onPressed: () {
-
-          final newWeight =
-              double.tryParse(weightController.text);
-
-          if (newWeight != null) {
-
-            f.remainingWeight = newWeight;
-
-            context
-                .read<AppState>()
-                .updateFilament(f);
-
-          }
-
-          setState(() {
-
-            editingFilament = null;
-
-          });
-
-        },
-      ),
-
-    ],
-  )
-else
-  Column(
-    crossAxisAlignment:
-        CrossAxisAlignment.start,
-    children: [
-
-      Text(
-        "${f.remainingWeight.toInt()} g von ${f.totalWeight.toInt()} g",
-        style: const TextStyle(
-          fontSize:13,
-          color: Colors.grey,
-        ),
-      ),
-
-      const SizedBox(height:6),
-
-      ClipRRect(
-        borderRadius:
-            BorderRadius.circular(10),
-        child:
-            LinearProgressIndicator(
-  value: percent / 100,
-
-  minHeight: 14,
-
-  backgroundColor:
-      Theme.of(context).brightness == Brightness.dark
-          ? Colors.grey.shade800
-          : Colors.grey.shade200,
-
-  valueColor:
-      AlwaysStoppedAnimation(percentColor),
-
-  borderRadius: BorderRadius.circular(10),
-),
-      ),
-
-    ],
-  ),                                  
-                                        ],
-                                      ),
-                                    ),
-
-                                    const SizedBox(width:16),
-
-                                    if (!isEditing)
-  Column(
-    crossAxisAlignment: CrossAxisAlignment.end,
-    children: [
-
-      /// Prozent-Zeile
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          Icon(
-            Icons.circle,
-            size: 10,
-            color: percentColor,
-          ),
-
-          const SizedBox(width: 4),
-
-          Text(
-            "${percent.round()}%",
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: percentColor,
-            ),
-          ),
-        ],
-      ),
-
-      const SizedBox(height: 2),
-
-      /// Button-Zeile
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          IconButton(
-            icon: const Icon(
-              Icons.edit,
-              size: 18,
-            ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            onPressed: () {
-              editingFilament = f;
-              weightController.text =
-                  f.remainingWeight.toInt().toString();
-              setState(() {});
-            },
-          ),
-
-          const SizedBox(width: 6),
-
-          IconButton(
-            icon: const Icon(
-              Icons.delete,
-              size: 18,
-              color: Colors.red,
-            ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            onPressed: () {
-              appState.removeFilament(f);
-            },
-          ),
-
-        ],
-      ),
-
-    ],
-  ),
-
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-
-                      })
-
-                  ],
-                );
-
-              }).toList(),
+}).toList(),
             ),
           ),
         ],
@@ -939,8 +564,8 @@ Widget _topCard({
                     BoxShadow(
                       color: Colors.black
                           .withOpacity(0.06),
-                      blurRadius: 12,
-                      offset: const Offset(0, 5),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
                     ),
                   ],
       ),

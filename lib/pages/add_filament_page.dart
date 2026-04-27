@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/filament.dart';
 import '../services/filament_catalog_service.dart';
 
@@ -26,6 +27,9 @@ class _AddFilamentPageState
   String? selectedMaterial;
   String? selectedVariant;
   String? selectedColor;
+Color? selectedColorValue;
+
+  final Map<String, Color> preloadColorMap = {};
 
   double? selectedDiameter;
 
@@ -45,9 +49,6 @@ class _AddFilamentPageState
   List<String> materials = [];
   List<String> variants = [];
   List<String> colors = [];
-
-  Map<String, List<Color>>
-      preloadedColorMap = {};
 
   final diameters = [1.75, 2.85, 3.0];
 
@@ -123,10 +124,100 @@ setState(() {
 
     variants = [];
     colors = [];
-    preloadedColorMap.clear();
+    preloadColorMap.clear();
 
     setState(() {});
   }
+
+  Future<void> _addBrandDialog() async {
+
+  final controller =
+      TextEditingController();
+
+  final result =
+    await showDialog<Map<String, dynamic>>(
+
+    context: context,
+
+    builder: (context) {
+
+      return AlertDialog(
+
+        title: const Text(
+            "Neuer Hersteller"),
+
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            labelText:
+                "Herstellername",
+          ),
+          autofocus: true,
+        ),
+
+        actions: [
+
+          TextButton(
+
+            onPressed: () {
+              Navigator.pop(context);
+            },
+
+            child:
+                const Text("Abbrechen"),
+
+          ),
+
+          ElevatedButton(
+
+            onPressed: () {
+
+              final value =
+                  controller.text.trim();
+
+              if (value.isNotEmpty) {
+
+                Navigator.pop(
+                  context,
+                  value,
+                );
+
+              }
+
+            },
+
+            child:
+                const Text("Speichern"),
+
+          ),
+
+        ],
+
+      );
+
+    },
+
+  );
+
+  if (result != null) {
+
+  FilamentCatalogService
+    .addCustomBrand(result["name"]);
+
+  setState(() {
+
+    brands =
+        FilamentCatalogService
+            .getBrands();
+
+    selectedBrand =
+    result["name"];
+
+  });
+
+}
+
+}
 
   void selectMaterial(String material) {
 
@@ -143,7 +234,7 @@ setState(() {
     selectedColor = null;
 
     colors = [];
-    preloadedColorMap.clear();
+    preloadColorMap.clear();
 
     if (materialTemps.containsKey(material)) {
 
@@ -156,6 +247,100 @@ setState(() {
 
     setState(() {});
   }
+
+  Future<void> _addMaterialDialog() async {
+
+  final controller =
+      TextEditingController();
+
+  final result =
+      await showDialog<String>(
+
+    context: context,
+
+    builder: (context) {
+
+      return AlertDialog(
+
+        title: const Text(
+            "Neues Material"),
+
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            labelText: "Materialname",
+          ),
+          autofocus: true,
+        ),
+
+        actions: [
+
+          TextButton(
+
+            onPressed: () {
+              Navigator.pop(context);
+            },
+
+            child:
+                const Text("Abbrechen"),
+
+          ),
+
+          ElevatedButton(
+
+            onPressed: () {
+
+              final value =
+                  controller.text.trim();
+
+              if (value.isNotEmpty) {
+
+                Navigator.pop(
+                  context,
+                  value,
+                );
+
+              }
+
+            },
+
+            child:
+                const Text("Speichern"),
+
+          ),
+
+        ],
+
+      );
+
+    },
+
+  );
+
+  if (result != null) {
+
+    setState(() {
+
+      materials.add(result);
+
+      FilamentCatalogService.addCustomMaterial(
+  selectedBrand!,
+  result,
+);
+
+      materials =
+          materials.toSet().toList();
+
+      materials.sort();
+
+      selectedMaterial =
+          result;
+
+    });
+
+  }
+
+}
 
   void selectVariant(String variant) {
 
@@ -171,7 +356,7 @@ setState(() {
     colors = newColors;
 
     /// Farben vorberechnen
-    preloadedColorMap.clear();
+    preloadColorMap.clear();
 
     for (var c in colors) {
 
@@ -179,17 +364,23 @@ setState(() {
       selectedMaterial != null &&
       selectedVariant != null) {
 
-    preloadedColorMap[c] =
-        FilamentCatalogService.getColorsFromHex(
-      selectedBrand!,
-      selectedMaterial!,
-      selectedVariant!,
-      c,
+    final colorsFromHex =
+    FilamentCatalogService.getColorsFromHex(
+        selectedBrand!,
+        selectedMaterial!,
+        selectedVariant!,
+        c,
     );
+
+if (colorsFromHex.isNotEmpty) {
+    preloadColorMap[c] = colorsFromHex.first;
+} else {
+    preloadColorMap[c] = Colors.grey;
+}
 
   } else {
 
-    preloadedColorMap[c] = [Colors.grey];
+    preloadColorMap[c] = Colors.grey;
 
   }
 
@@ -215,8 +406,10 @@ setState(() {
   /// 🔧 RICHTIG außerhalb platziert
   Widget buildColorItem(String c) {
 
-  final parsedColors =
-      preloadedColorMap[c] ?? [Colors.grey];
+  final List<Color> parsedColors =
+      preloadColorMap.containsKey(c)
+          ? [preloadColorMap[c]!]
+          : [Colors.grey];
 
   return Row(
     mainAxisSize: MainAxisSize.min,
@@ -268,25 +461,51 @@ setState(() {
         ?? 0;
 
     final parsedColors =
-        preloadedColorMap[selectedColor!]
-        ?? [Colors.grey];
+    (selectedColor != null &&
+     preloadColorMap.containsKey(selectedColor))
+        ? [preloadColorMap[selectedColor]!]
+        : [Colors.grey];
 
-        final colorNames = [selectedColor!];
+final List<String> colorNames = [];
 
-    final filament = Filament(
+if (selectedColor != null &&
+    selectedColor!.trim().isNotEmpty) {
+  colorNames.add(selectedColor!.trim());
+}
+
+if (colorNames.isNotEmpty &&
+    colorNames.first == "Unknown" &&
+    selectedColor != null &&
+    selectedColor!.trim().isNotEmpty) {
+
+  colorNames[0] = selectedColor!.trim();
+}
+
+    // DEBUG vor dem Erstellen
+print("DEBUG variant: $selectedVariant");
+print("DEBUG colorNames: $colorNames");
+
+final filament = Filament(
   brand: selectedBrand!,
   material: selectedMaterial!,
-  variant: selectedVariant!,
+
+  variant:
+      (selectedVariant != null &&
+              selectedVariant!.isNotEmpty)
+          ? selectedVariant!
+          : "Standard",
+
   diameter: selectedDiameter ?? 1.75,
   totalWeight: totalWeight,
   remainingWeight: remainingWeight,
   price: price,
+
   nozzleTemp: nozzleTemp ?? 0,
   bedTemp: bedTemp ?? 0,
+
   color: parsedColors.first,
   colors: parsedColors,
 
-  /// 🔥 NEU
   colorNames: colorNames,
 
   colorType:
@@ -294,6 +513,8 @@ setState(() {
           ? "multi"
           : "single",
 );
+
+print("DEBUG colorNames: $colorNames");
 
     widget.onSave(filament);
 
@@ -327,97 +548,362 @@ setState(() {
 
         children: [
 
-          DropdownButtonFormField<String>(
-            value: selectedBrand,
-            hint:
-            const Text("Hersteller"),
+          Row(
+  children: [
 
-            items: brands.map(
-                    (b) =>
-                    DropdownMenuItem(
-                      value: b,
-                      child: Text(b),
-                    )).toList(),
+    Expanded(
+      child: DropdownButtonFormField<String>(
+        value: selectedBrand,
+        hint: const Text("Hersteller"),
 
-            onChanged: (val) {
-              if (val != null) {
-                selectBrand(val);
-              }
-            },
-          ),
+        items: brands.map(
+          (b) =>
+              DropdownMenuItem(
+                value: b,
+                child: Text(b),
+              ),
+        ).toList(),
 
-          const SizedBox(height: 16),
+        onChanged: (val) {
+          if (val != null) {
+            selectBrand(val);
+          }
+        },
+      ),
+    ),
 
-          DropdownButtonFormField<String>(
-            value: selectedMaterial,
-            hint:
-            const Text("Material"),
+    const SizedBox(width: 8),
 
-            items: materials.map(
-                    (m) =>
-                    DropdownMenuItem(
-                      value: m,
-                      child: Text(m),
-                    )).toList(),
+    IconButton(
+      icon: const Icon(Icons.add),
+      onPressed: _addBrandDialog,
+      tooltip: "Neuen Hersteller hinzufügen",
+    ),
 
-            onChanged: (val) {
-              if (val != null) {
-                selectMaterial(val);
-              }
-            },
-          ),
+  ],
+),
 
           const SizedBox(height: 16),
 
-          DropdownButtonFormField<String>(
-            value: selectedVariant,
-            hint:
-            const Text("Variante"),
+          Row(
+  children: [
 
-            items: variants.map(
-                    (v) =>
-                    DropdownMenuItem(
-                      value: v,
-                      child: Text(v),
-                    )).toList(),
+    Expanded(
+      child: DropdownButtonFormField<String>(
+        value: selectedMaterial,
+        hint: const Text("Material"),
 
-            onChanged: (val) {
-              if (val != null) {
-                selectVariant(val);
-              }
-            },
-          ),
+        items: materials.map(
+          (m) =>
+              DropdownMenuItem(
+                value: m,
+                child: Text(m),
+              ),
+        ).toList(),
+
+        onChanged: (val) {
+          if (val != null) {
+            selectMaterial(val);
+          }
+        },
+      ),
+    ),
+
+    const SizedBox(width: 8),
+
+    IconButton(
+      icon: const Icon(Icons.add),
+      onPressed: _addMaterialDialog,
+      tooltip: "Neues Material hinzufügen",
+    ),
+
+  ],
+),
 
           const SizedBox(height: 16),
 
-          DropdownButtonFormField<String>(
-            value: colors.contains(selectedColor)
-                ? selectedColor
-                : null,
+          Row(
+  children: [
+    Expanded(
+      child: DropdownButtonFormField<String>(
+        value: selectedVariant,
+        hint: const Text("Variante"),
+        items: variants.map(
+          (v) =>
+              DropdownMenuItem(
+                value: v,
+                child: Text(v),
+              ),
+        ).toList(),
+        onChanged: (val) {
+          if (val != null) {
+            selectVariant(val);
+          }
+        },
+      ),
+    ),
 
-            decoration:
+    const SizedBox(width: 8),
+
+    IconButton(
+      icon: const Icon(Icons.add),
+      onPressed: () async {
+        final controller = TextEditingController();
+
+        final result = await showDialog<String>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Neue Variante"),
+              content: TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: "Variantenname",
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Abbrechen"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(
+                      context,
+                      controller.text.trim(),
+                    );
+                  },
+                  child: const Text("Speichern"),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (result != null &&
+            result.isNotEmpty &&
+            selectedBrand != null &&
+            selectedMaterial != null) {
+
+          setState(() {
+            variants.add(result);
+
+            FilamentCatalogService.addCustomVariant(
+              selectedBrand!,
+              selectedMaterial!,
+              result,
+            );
+
+            variants =
+                variants.toSet().toList();
+
+            variants.sort();
+
+            selectedVariant =
+                result;
+          });
+        }
+      },
+    ),
+  ],
+),
+
+          const SizedBox(height: 16),
+
+          Row(
+  children: [
+    Expanded(
+      child: DropdownButtonFormField<String>(
+        value: colors.contains(selectedColor)
+            ? selectedColor
+            : null,
+        decoration:
             const InputDecoration(
-              labelText: "Farbe",
+          labelText: "Farbe",
+        ),
+        items: colors.map(
+          (c) =>
+              DropdownMenuItem(
+                value: c,
+                child: buildColorItem(c),
+              ),
+        ).toList(),
+        onChanged: (val) {
+          if (val != null) {
+            setState(() {
+              selectedColor = val;
+            });
+          }
+        },
+      ),
+    ),
+
+    const SizedBox(width: 8),
+
+    IconButton(
+      icon: const Icon(Icons.add),
+      onPressed: () async {
+        final controller =
+            TextEditingController();
+
+            Color pickedColor = Colors.blue;
+
+        final result =
+    await showDialog<Map<String, dynamic>>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title:
+                  const Text("Neue Farbe"),
+              content: Column(
+  mainAxisSize: MainAxisSize.min,
+  children: [
+
+    TextField(
+      controller: controller,
+      decoration: const InputDecoration(
+        hintText: "Farbname",
+      ),
+    ),
+
+    const SizedBox(height: 16),
+
+    // 🎨 Vorschau-Kreis
+    StatefulBuilder(
+      builder: (context, setStateDialog) {
+        return Column(
+          children: [
+
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: selectedColorValue ?? Colors.blue,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey),
+              ),
             ),
 
-            items: colors.map(
-                    (c) =>
-                    DropdownMenuItem(
-                      value: c,
-                      child: buildColorItem(c),
-                    )).toList(),
+            const SizedBox(height: 16),
 
-            onChanged: (val) {
+            ColorPicker(
+  pickerColor: selectedColorValue ?? Colors.blue,
+              onColorChanged: (color) {
+  setStateDialog(() {
+    pickedColor = color;
+    selectedColorValue = color;
+  });
+},
+              enableAlpha: false,
+              displayThumbColor: true,
+            ),
 
-              if (val != null) {
+          ],
+        );
+      },
+    ),
 
-                setState(() {
-                  selectedColor = val;
-                });
+  ],
+),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(
+                        context);
+                  },
+                  child: const Text(
+                      "Abbrechen"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(
+  context,
+  {
+    "name": controller.text.trim(),
+    "color": pickedColor,
+  },
+);
+                  },
+                  child: const Text(
+                      "Speichern"),
+                ),
+              ],
+            );
+          },
+        );
 
-              }
-            },
-          ),
+        if (result != null &&
+    selectedBrand != null &&
+    selectedMaterial != null &&
+    selectedVariant != null) {
+
+  final colorName = result["name"]?.toString();
+  final Color pickedColor = result["color"] as Color;
+
+  if (colorName != null &&
+      colorName.isNotEmpty &&
+      pickedColor != null &&
+      pickedColor is Color) {
+
+    // 🔥 Farbe im Catalog hinzufügen
+FilamentCatalogService.addCustomColor(
+  selectedBrand!,
+  selectedMaterial!,
+  selectedVariant!,
+  colorName,
+  pickedColor,
+);
+
+await FilamentCatalogService.saveCustomColors();
+
+// 🔥 Danach UI aktualisieren
+setState(() {
+
+  // 🔥 Farben neu laden
+  colors =
+      FilamentCatalogService.getColors(
+        selectedBrand!,
+        selectedMaterial!,
+        selectedVariant!,
+      );
+
+  // 🔥 preloadColorMap komplett neu aufbauen
+  preloadColorMap.clear();
+
+  for (var c in colors) {
+
+    final loadedColors =
+        FilamentCatalogService.getColorsFromHex(
+          selectedBrand!,
+          selectedMaterial!,
+          selectedVariant!,
+          c,
+        );
+
+    if (loadedColors.isNotEmpty) {
+      preloadColorMap[c] = loadedColors.first;
+    } else {
+      preloadColorMap[c] = Colors.grey;
+    }
+
+  }
+
+  // 🔥 neue Farbe setzen
+  preloadColorMap[colorName] = pickedColor;
+
+  selectedColor = colorName;
+  selectedColorValue = pickedColor;
+
+});
+
+  }
+}
+      },
+    ),
+  ],
+),
 
           const SizedBox(height: 20),
 

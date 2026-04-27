@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import '../models/filament.dart';
+import '../models/spool.dart';
+import 'package:provider/provider.dart';
+import '../state/app_state.dart';
+import '../services/color_registry.dart';
+import '../services/filament_catalog_service.dart';
 
 class FilamentDetailPage extends StatefulWidget {
   final Filament filament;
@@ -74,9 +79,12 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
   };
 
   String? selectedBrand;
-  String? selectedMaterial;
-  String? selectedVariant;
-  double? selectedDiameter;
+String? selectedMaterial;
+String? selectedVariant;
+String? selectedColor;
+double? selectedDiameter;
+
+List<String> colorNamesList = [];
 
   int? nozzleTemp;
   int? bedTemp;
@@ -91,12 +99,27 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
     final f = widget.filament;
 
+print("DEBUG f.colorNames: ${f.colorNames}");
+
+selectedColor =
+    f.colorNames.isNotEmpty ? f.colorNames.first : null;
+
+colorNamesList =
+    FilamentCatalogService.getColorsForVariant(
+        f.brand,
+        f.material,
+        f.variant,
+    );
+
     /// 🔴 WICHTIG: Werte absichern
 
-    selectedBrand =
-        brands.contains(f.brand)
-            ? f.brand
-            : null;
+    /// Hersteller sicherstellen
+
+if (!brands.contains(f.brand)) {
+  brands.add(f.brand);
+}
+
+selectedBrand = f.brand;
 
     selectedMaterial =
         materials.contains(f.material)
@@ -199,41 +222,73 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
   }
 
-  void save(){
+  void save() {
 
-    final f = widget.filament;
+  final appState =
+      context.read<AppState>();
 
-    f.brand =
-        selectedBrand ?? f.brand;
+  final f = widget.filament;
 
-    f.material =
-        selectedMaterial ?? f.material;
+  /// Basisdaten speichern
 
-    f.variant =
-        selectedVariant ?? f.variant;
+  f.brand =
+      selectedBrand ?? f.brand;
 
-    f.diameter =
-        selectedDiameter ?? f.diameter;
+  f.material =
+      selectedMaterial ?? f.material;
 
-    f.nozzleTemp =
-        nozzleTemp ?? f.nozzleTemp;
+  f.variant =
+      selectedVariant ?? f.variant;
 
-    f.bedTemp =
-        bedTemp ?? f.bedTemp;
+  f.diameter =
+      selectedDiameter ?? f.diameter;
 
-    f.price =
-        double.tryParse(
-            priceController.text)
-            ?? f.price;
+  f.nozzleTemp =
+      nozzleTemp ?? f.nozzleTemp;
 
-    f.remainingWeight =
-        double.tryParse(
-            weightController.text)
-            ?? f.remainingWeight;
+  f.bedTemp =
+      bedTemp ?? f.bedTemp;
 
-    Navigator.pop(context);
+  f.price =
+      double.tryParse(
+          priceController.text)
+      ?? f.price;
 
-  }
+  /// 🧵 Restgewicht aus Spools berechnen
+
+  double remainingWeight =
+      f.spools.fold(
+          0,
+          (sum, spool) =>
+              sum + spool.weight);
+
+  f.remainingWeight =
+    remainingWeight;
+
+f.colorNames =
+    selectedColor != null
+        ? [selectedColor!]
+        : ["Unknown"];
+
+/// Farbe neu berechnen für Punkt
+final detectedColors =
+    ColorRegistry.getColors(
+        f.colorNames.first);
+
+if (detectedColors.isNotEmpty) {
+
+  f.color = detectedColors.first;
+
+  f.colors = detectedColors;
+
+}
+
+/// 🔥 FILAMENT SPEICHERN
+appState.updateFilament(f);
+
+Navigator.pop(context);
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -365,6 +420,31 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
           const SizedBox(height:16),
 
+DropdownButtonFormField<String>(
+  value: colorNamesList.contains(selectedColor)
+    ? selectedColor
+    : null,
+
+  decoration: const InputDecoration(
+    labelText: "Farbe",
+  ),
+
+  items: colorNamesList
+      .map((c) => DropdownMenuItem(
+            value: c,
+            child: Text(c),
+          ))
+      .toList(),
+
+  onChanged: (val) {
+    setState(() {
+      selectedColor = val;
+    });
+  },
+),
+
+          const SizedBox(height:16),
+
           DropdownButtonFormField<double>(
 
             value:
@@ -438,12 +518,503 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 labelText:"Restgewicht (g)"),
           ),
 
-          const SizedBox(height:30),
+          const SizedBox(height: 30),
 
-          ElevatedButton(
-            onPressed: save,
-            child: const Text("Speichern"),
-          )
+/// 🧵 Spulen-Bereich
+
+Text(
+  "Spulen",
+  style: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  ),
+),
+
+const SizedBox(height: 12),
+
+Column(
+  children: widget.filament.spools
+      .asMap()
+      .entries
+      .map((entry) {
+
+    final index = entry.key;
+    final spool = entry.value;
+
+    return Container(
+  margin: const EdgeInsets.only(
+    bottom: 8,
+  ),
+  padding: const EdgeInsets.all(12),
+  decoration: BoxDecoration(
+    borderRadius:
+        BorderRadius.circular(10),
+    color:
+        Colors.grey.shade100,
+  ),
+  child: Row(
+    children: [
+
+      const Icon(
+        Icons.circle,
+        size: 16,
+      ),
+
+      const SizedBox(width: 10),
+
+      Text(
+        "Spool ${index + 1}",
+      ),
+
+      const Spacer(),
+
+      Text(
+        "${spool.weight.toInt()} g",
+        style: const TextStyle(
+          fontWeight:
+              FontWeight.bold,
+        ),
+      ),
+
+      const SizedBox(width: 12),
+
+      /// ✏️ Bearbeiten
+
+      IconButton(
+
+        icon: const Icon(
+          Icons.edit,
+          size: 18,
+        ),
+
+        onPressed: () async {
+
+          final controller =
+              TextEditingController(
+            text:
+                spool.weight
+                    .toInt()
+                    .toString(),
+          );
+
+          final result =
+              await showDialog<double>(
+
+            context: context,
+
+            builder: (context) {
+
+              return AlertDialog(
+
+                title:
+                    const Text(
+                        "Spule bearbeiten"),
+
+                content:
+                    TextField(
+                  controller:
+                      controller,
+                  keyboardType:
+                      TextInputType.number,
+                  decoration:
+                      const InputDecoration(
+                    labelText:
+                        "Gewicht (g)",
+                  ),
+                ),
+
+                actions: [
+
+                  TextButton(
+
+                    onPressed: () {
+
+                      Navigator.pop(
+                          context);
+                    },
+
+                    child:
+                        const Text(
+                            "Abbrechen"),
+
+                  ),
+
+                  ElevatedButton(
+
+                    onPressed: () {
+
+                      final weight =
+                          double.tryParse(
+                              controller.text);
+
+                      if (weight != null &&
+                          weight > 0) {
+
+                        Navigator.pop(
+                            context,
+                            weight);
+                      }
+
+                    },
+
+                    child:
+                        const Text(
+                            "Speichern"),
+
+                  ),
+
+                ],
+
+              );
+
+            },
+
+          );
+
+          if (result != null) {
+
+  setState(() {
+
+    spool.weight =
+        result;
+
+    /// Restgewicht neu berechnen
+
+    double total = 0;
+
+    for (final s
+        in widget.filament.spools) {
+
+      total += s.weight;
+
+    }
+
+    weightController.text =
+        total.toString();
+
+  });
+
+}
+
+        },
+
+      ),
+
+      /// 🗑 Löschen
+
+      IconButton(
+
+  icon: const Icon(
+    Icons.delete,
+    size: 18,
+    color: Colors.red,
+  ),
+
+  onPressed: () async {
+
+    final spools =
+        widget.filament.spools;
+
+    /// 🧵 Wenn letzte Spule
+
+    if (spools.length == 1) {
+
+      final confirm =
+          await showDialog<bool>(
+
+        context: context,
+
+        builder: (context) {
+
+          return AlertDialog(
+
+            title: const Text(
+              "Letzte Spule löschen",
+            ),
+
+            content: const Text(
+              "Dieses Filament enthält danach "
+              "keine Spulen mehr.\n\n"
+              "Filament komplett löschen?",
+            ),
+
+            actions: [
+
+              TextButton(
+
+                onPressed: () {
+
+                  Navigator.pop(
+                      context,
+                      false);
+                },
+
+                child:
+                    const Text(
+                        "Abbrechen"),
+
+              ),
+
+              ElevatedButton(
+
+                style:
+                    ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.red,
+                ),
+
+                onPressed: () {
+
+                  Navigator.pop(
+                      context,
+                      true);
+                },
+
+                child: const Text(
+                  "Löschen & Filament entfernen",
+                ),
+
+              ),
+
+            ],
+
+          );
+
+        },
+
+      );
+
+      if (confirm == true) {
+
+        final appState =
+            context.read<AppState>();
+
+        appState.removeFilament(
+            widget.filament);
+
+        Navigator.pop(context);
+
+      }
+
+    }
+
+    /// 🧵 Normales Löschen
+
+    else {
+
+      final confirm =
+          await showDialog<bool>(
+
+        context: context,
+
+        builder: (context) {
+
+          return AlertDialog(
+
+            title:
+                const Text(
+                    "Spule löschen"),
+
+            content:
+                Text(
+              "Spule ${index + 1} wirklich löschen?",
+            ),
+
+            actions: [
+
+              TextButton(
+
+                onPressed: () {
+
+                  Navigator.pop(
+                      context,
+                      false);
+                },
+
+                child:
+                    const Text(
+                        "Abbrechen"),
+
+              ),
+
+              ElevatedButton(
+
+                style:
+                    ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.red,
+                ),
+
+                onPressed: () {
+
+                  Navigator.pop(
+                      context,
+                      true);
+                },
+
+                child:
+                    const Text(
+                        "Löschen"),
+
+              ),
+
+            ],
+
+          );
+
+        },
+
+      );
+
+      if (confirm == true) {
+
+        setState(() {
+
+          spools.removeAt(index);
+
+          /// Restgewicht neu berechnen
+
+          double total = 0;
+
+          for (final s in spools) {
+
+            total += s.weight;
+
+          }
+
+          weightController.text =
+              total.toString();
+
+        });
+
+      }
+
+    }
+
+  },
+
+),
+
+    ],
+  ),
+);
+
+  }).toList(),
+),
+
+const SizedBox(height: 12),
+
+ElevatedButton.icon(
+
+  onPressed: () async {
+
+    final controller =
+        TextEditingController();
+
+    final result =
+        await showDialog<double>(
+
+      context: context,
+
+      builder: (context) {
+
+        return AlertDialog(
+
+          title:
+              const Text(
+                  "Neue Spule"),
+
+          content:
+              TextField(
+            controller:
+                controller,
+            keyboardType:
+                TextInputType.number,
+            decoration:
+                const InputDecoration(
+              labelText:
+                  "Gewicht (g)",
+            ),
+          ),
+
+          actions: [
+
+            TextButton(
+
+              onPressed: () {
+
+                Navigator.pop(
+                    context);
+              },
+
+              child:
+                  const Text(
+                      "Abbrechen"),
+
+            ),
+
+            ElevatedButton(
+
+              onPressed: () {
+
+                final weight =
+                    double.tryParse(
+                        controller.text);
+
+                if (weight != null &&
+                    weight > 0) {
+
+                  Navigator.pop(
+                      context,
+                      weight);
+                }
+
+              },
+
+              child:
+                  const Text(
+                      "Speichern"),
+
+            ),
+
+          ],
+
+        );
+
+      },
+
+    );
+
+    if (result != null) {
+
+      setState(() {
+
+        widget.filament.spools.add(
+          Spool(
+            weight: result,
+          ),
+        );
+
+      });
+
+    }
+
+  },
+
+  icon:
+      const Icon(Icons.add),
+
+  label:
+      const Text("Spule hinzufügen"),
+
+),
+
+const SizedBox(height: 30),
+
+ElevatedButton(
+  onPressed: save,
+  child: const Text("Speichern"),
+)
 
         ],
 

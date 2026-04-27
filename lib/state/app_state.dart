@@ -39,51 +39,51 @@ class AppState extends ChangeNotifier {
     jobs =
         await StorageService.loadJobs();
 
-    /// 🔥 Alte Filamente reparieren
-    for (var f in filaments) {
+    /*
+/// 🔥 Alte Filamente reparieren
+for (var f in filaments) {
 
-      List<String> detectedNames = [];
+  List<String> detectedNames = [];
 
-      for (var c in f.colors) {
+  for (var c in f.colors) {
 
-        final hex =
-            c.value
-                .toRadixString(16)
-                .substring(2);
+    final hex =
+        c.value
+            .toRadixString(16)
+            .substring(2);
 
-        final name =
-            FilamentCatalogService
-                .findColorNameByHex(hex);
+    final name =
+        FilamentCatalogService
+            .findColorNameByHex(hex);
 
-        if (!detectedNames.contains(name)) {
+    if (!detectedNames.contains(name)) {
 
-          detectedNames.add(name);
-
-        }
-
-      }
-
-      /// 🔥 WICHTIG: Wenn ein echter Name existiert → nur diesen nehmen
-      final validNames =
-          detectedNames
-              .where((n) => n != "Unknown")
-              .toList();
-
-      if (validNames.isNotEmpty) {
-
-        /// Wenn mehrere gleiche → zusammenfassen
-        f.colorNames =
-            validNames
-                .toSet()
-                .toList();
-
-      } else {
-
-        f.colorNames = ["Unknown"];
-
-      }
+      detectedNames.add(name);
 
     }
+
+  }
+
+  final validNames =
+      detectedNames
+          .where((n) => n != "Unknown")
+          .toList();
+
+  if (validNames.isNotEmpty) {
+
+    f.colorNames =
+        validNames
+            .toSet()
+            .toList();
+
+  } else {
+
+    f.colorNames = ["Unknown"];
+
+  }
+
+}
+*/
 
     await saveData();
 

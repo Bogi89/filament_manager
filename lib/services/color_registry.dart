@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 class ColorRegistry {
 
   static String _normalize(String value) {
-    return value
-        .toLowerCase()
-        .trim()
-        .replaceAll("ä", "a")
-        .replaceAll("ö", "o")
-        .replaceAll("ü", "u");
-  }
+  return value
+      .toLowerCase()
+      .trim()
+      .replaceAll("ä", "a")
+      .replaceAll("ö", "o")
+      .replaceAll("ü", "u")
+      .replaceAll("-", " ")
+      .replaceAll("_", " ")
+      .replaceAll(RegExp(r'\s+'), " ");
+}
 
   static Color _detectSingleColor(String name) {
 
     final normalized = _normalize(name);
+
+    print("COLOR DEBUG → name: $name | normalized: $normalized");
 
     /// =========================
     /// BASIC COLORS (DE + EN)
@@ -34,6 +39,36 @@ class ColorRegistry {
     if (normalized.contains("rot") || normalized.contains("red")) {
       return const Color(0xFFE53935);
     }
+
+    // ===== SPEZIELLE BLAUTÖNE =====
+
+if (normalized.contains("pastellblau")) {
+  return const Color(0xFF64B5F6);
+}
+
+if (normalized.contains("hellblau")) {
+  return const Color(0xFF42A5F5);
+}
+
+if (normalized.contains("dunkelblau")) {
+  return const Color(0xFF1565C0);
+}
+
+if (normalized.contains("baby blau")) {
+  return const Color(0xFF81D4FA);
+}
+
+if (normalized.contains("neon blau")) {
+  return const Color(0xFF00E5FF);
+}
+
+if (normalized.contains("pastellpink")) {
+  return const Color(0xFFF8BBD0);
+}
+
+if (normalized.contains("pastellgrun")) {
+  return const Color(0xFFA5D6A7);
+}
 
     if (normalized.contains("blau") || normalized.contains("blue")) {
       return const Color(0xFF1E88E5);
