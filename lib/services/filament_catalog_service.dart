@@ -201,24 +201,29 @@ static void addCustomColor(
     _customColors[brand]![material]![variant] = [];
   }
 
-      /// 🔥 NEU: Farbe mit HEX in Catalog eintragen
+  /// HEX berechnen
+  final hex =
+      pickedColor.value
+          .toRadixString(16)
+          .substring(2)
+          .toUpperCase();
 
-final hex =
-    pickedColor.value
-        .toRadixString(16)
-        .substring(2)
-        .toUpperCase();
+  /// 🔥 NUR den Farbnamen speichern (ohne HEX!)
+  if (!_customColors[brand]![material]![variant]!
+      .contains(color)) {
 
-_customColors[brand]![material]![variant]!
-    .add("$color|$hex");
+    _customColors[brand]![material]![variant]!
+        .add(color);
+  }
 
-final exists = _catalog.any((e) =>
-    e.brand == brand &&
-    e.material == material &&
-    e.variant == variant &&
-    e.color == color);
+  /// HEX im Catalog speichern
+  final exists = _catalog.any((e) =>
+      e.brand == brand &&
+      e.material == material &&
+      e.variant == variant &&
+      e.color == color);
 
-if (!exists) {
+  if (!exists) {
   _catalog.add(
     FilamentCatalogItem(
       brand: brand,
@@ -229,6 +234,9 @@ if (!exists) {
     ),
   );
 }
+
+print("SAVE TRIGGERED");
+saveCustomColors();
 
 }
 
@@ -380,6 +388,8 @@ static Future<void> loadCustomColors() async {
   final jsonString =
       prefs.getString('custom_colors');
 
+      print("RAW JSON: $jsonString");
+
   if (jsonString == null) return;
 
   final Map<String, dynamic> data =
@@ -399,60 +409,46 @@ static Future<void> loadCustomColors() async {
 
         _customColors[brand]![material]![variant] = [];
 
-for (final entry in colors) {
+        for (final entry in colors) {
 
-  if (entry.contains('|')) {
+          if (entry.contains('|')) {
 
-    final parts = entry.split('|');
+            final parts = entry.split('|');
 
-    final name = parts[0];
-    final hex = parts[1];
+            final name = parts[0];
+            final hex = parts[1];
 
-    print("LOAD COLOR: $name -> $hex");
+            print("LOAD COLOR: $name -> $hex");
 
-    _customColors[brand]![material]![variant]!
-        .add(name);
+            _customColors[brand]![material]![variant]!
+                .add(name);
 
-    final exists = _catalog.any((e) =>
-        e.brand == brand &&
-        e.material == material &&
-        e.variant == variant &&
-        e.color == name);
+            final exists = _catalog.any((e) =>
+                e.brand == brand &&
+                e.material == material &&
+                e.variant == variant &&
+                e.color == name);
 
-    if (!exists) {
-      _catalog.add(
-        FilamentCatalogItem(
-          brand: brand,
-          material: material,
-          variant: variant,
-          color: name,
-          hex: hex,
-        ),
-      );
-    }
+            if (!exists) {
+              _catalog.add(
+                FilamentCatalogItem(
+                  brand: brand,
+                  material: material,
+                  variant: variant,
+                  color: name,
+                  hex: hex,
+                ),
+              );
+            }
 
-  } else {
+          } else {
 
-    _customColors[brand]![material]![variant]!
-        .add(entry);
+            _customColors[brand]![material]![variant]!
+                .add(entry);
 
-  }
-}
+          }
 
-            for (final color in colors) {
-
-  // Prüfen ob Farbe schon im Catalog ist
-  final exists = _catalog.any((e) =>
-      e.brand == brand &&
-      e.material == material &&
-      e.variant == variant &&
-      e.color == color);
-
-  if (!exists) {
-
-  }
-
-}     
+        }
 
       });
 
@@ -462,8 +458,10 @@ for (final entry in colors) {
 
 }
 
-/// 🔥 NEU — Custom Colors speichern
+/// 🔥 FIX — Custom Colors korrekt mit HEX speichern
 static Future<void> saveCustomColors() async {
+
+  print("SAVE DATA: $_customColors");
 
   final Map<String, dynamic> data = {};
 
@@ -477,7 +475,42 @@ static Future<void> saveCustomColors() async {
 
       variants.forEach((variant, colors) {
 
-        data[brand][material][variant] = colors;
+        final List<String> savedColors = [];
+
+        for (final colorName in colors) {
+
+          // HEX aus Catalog holen
+          final item = _catalog.firstWhere(
+            (e) =>
+                e.brand == brand &&
+                e.material == material &&
+                e.variant == variant &&
+                e.color == colorName,
+            orElse: () => FilamentCatalogItem(
+              brand: brand,
+              material: material,
+              variant: variant,
+              color: colorName,
+              hex: null,
+            ),
+          );
+
+          if (item.hex != null) {
+
+            savedColors.add(
+              "$colorName|${item.hex}"
+            );
+
+          } else {
+
+            savedColors.add(colorName);
+
+          }
+
+        }
+
+        data[brand][material][variant] =
+            savedColors;
 
       });
 
@@ -487,13 +520,13 @@ static Future<void> saveCustomColors() async {
 
   final jsonString = jsonEncode(data);
 
-final prefs =
-    await SharedPreferences.getInstance();
+  final prefs =
+      await SharedPreferences.getInstance();
 
-await prefs.setString(
+  await prefs.setString(
     'custom_colors',
-    jsonString);
+    jsonString,
+  );
 
 }
-
 }

@@ -11,14 +11,16 @@ import 'services/filament_catalog_service.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await FilamentCatalogService.loadCatalog();
 
+  final appState = AppState();
+  await appState.loadSettings();
+
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AppState()..loadSettings(),
+    ChangeNotifierProvider.value(
+      value: appState,
       child: const MyApp(),
     ),
   );

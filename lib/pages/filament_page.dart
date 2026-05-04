@@ -196,77 +196,44 @@ class _FilamentPageState extends State<FilamentPage> {
         : const Color(0xFFE9EEF5),
 
       appBar: AppBar(
-        title: const Text("Filamente"),
-      ),
+  title: const Text("Filamente"),
 
-      floatingActionButton: Padding(
-  padding: const EdgeInsets.only(
-    bottom: 12,
-    right: 8,
-  ),
-
-  child: SizedBox(
-    height: 56,
-
-    child: ElevatedButton.icon(
-
-      onPressed: () async {
-
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => AddFilamentPage(
-              onSave: (filament) {
-                context.read<AppState>().addFilament(filament);
-              },
+  actions: [
+    Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: ElevatedButton.icon(
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AddFilamentPage(
+                onSave: (filament) {
+                  context.read<AppState>().addFilament(filament);
+                },
+              ),
             ),
+          );
+        },
+        icon: const Icon(Icons.add, size: 20),
+        label: const Text("Filament"),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 10,
           ),
-        );
-
-      },
-
-      icon: const Icon(
-        Icons.add,
-        size: 26,
-      ),
-
-      label: const Text(
-        "Filament",
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
+          backgroundColor:
+              Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF7B61FF)
+                  : const Color(0xFF3B82F6),
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          elevation: 0,
         ),
       ),
-
-      style: ElevatedButton.styleFrom(
-
-  backgroundColor:
-      Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xFF7B61FF) // Dark → Lila
-          : const Color(0xFF3B82F6), // Light → Blau
-
-  foregroundColor: Colors.white,
-
-  elevation: 8,
-
-  padding: const EdgeInsets.symmetric(
-    horizontal: 18,
-  ),
-
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16),
-  ),
-
-  shadowColor:
-      (Theme.of(context).brightness == Brightness.dark
-              ? const Color(0xFF7B61FF)
-              : const Color(0xFF3B82F6))
-          .withOpacity(0.4),
-
-),
-
     ),
-  ),
+  ],
 ),
 
       body: Column(
