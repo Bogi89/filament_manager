@@ -6,12 +6,25 @@ import 'state/app_state.dart';
 import 'pages/main_navigation.dart';
 import 'l10n/app_localizations.dart';
 import 'services/filament_catalog_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'services/hive_test_service.dart';
 
 // 🔥 Neues Theme importieren
 import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  await HiveTestService.saveTestValue(
+  'Sakura Pink',
+);
+
+final loaded =
+    await HiveTestService.loadTestValue();
+
+print('HIVE TEST: $loaded');
 
   await FilamentCatalogService.loadCatalog();
 
