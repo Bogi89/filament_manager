@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'custom_color_service.dart';
 
 class FilamentCatalogItem {
   final String brand;
@@ -62,9 +63,9 @@ static final Map<String, List<String>> _customMaterials = {};
       );
     }
 
-    _loaded = true;
+    await loadCustomColors();
 
-await loadCustomColors();
+_loaded = true;
   }
 
   // ==================== GETTERS ====================

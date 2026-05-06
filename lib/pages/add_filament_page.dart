@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/filament.dart';
 import '../services/filament_catalog_service.dart';
+import '../services/custom_color_service.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;
@@ -85,7 +86,26 @@ Color? selectedColorValue;
   Future<void> loadCatalog() async {
 
     await FilamentCatalogService
-        .loadCatalog();
+    .loadCatalog();
+
+final customColors =
+    await CustomColorService.loadCustomColors();
+
+for (final color in customColors) {
+
+  final name =
+      color['name'].toString();
+
+  final hex =
+      color['hex'].toString();
+
+  preloadColorMap[name] = Color(
+    int.parse(
+      hex.replaceFirst('#', '0xFF'),
+    ),
+  );
+
+}
 
     brands =
     FilamentCatalogService
@@ -854,6 +874,12 @@ FilamentCatalogService.addCustomColor(
   selectedVariant!,
   colorName,
   pickedColor,
+);
+
+await CustomColorService.saveCustomColor(
+  name: colorName,
+  hex:
+      '#${pickedColor.value.toRadixString(16).substring(2).toUpperCase()}',
 );
 
 await FilamentCatalogService.saveCustomColors();

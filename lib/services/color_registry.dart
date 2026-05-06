@@ -172,7 +172,7 @@ if (normalized.contains("pastellgrun")) {
     /// FALLBACK
     /// =========================
 
-    return Colors.grey;
+    return const Color(0xFF9E9E9E);
   }
 
   static List<Color> getColors(String colorName) {
