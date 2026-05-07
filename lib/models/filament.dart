@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'spool.dart';
+import 'filament_color.dart';
 import '../services/color_registry.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,9 @@ class Filament {
   /// 🔥 Farbnamen
   List<String> colorNames;
 
+  /// 🔥 NEU
+List<FilamentColor> filamentColors;
+
   /// 🧵 NEU — Spulenliste
   List<Spool> spools;
 
@@ -51,6 +55,7 @@ class Filament {
     this.colorType = "single",
     List<Color>? colors,
     List<String>? colorNames,
+    List<FilamentColor>? filamentColors,
 
     /// 🧵 optional
     List<Spool>? spools,
@@ -58,6 +63,7 @@ class Filament {
   })  : colors = colors ?? [color],
 
         colorNames = colorNames ?? [],
+        filamentColors = filamentColors ?? [],
 
         /// 🧵 Wenn keine Spulen vorhanden → eine erstellen
         spools = spools ??
@@ -84,6 +90,7 @@ class Filament {
 
     /// Farbnamen laden
     List<String> parsedNames = [];
+    List<FilamentColor> parsedFilamentColors = [];
 
     if (json['colorNames'] != null) {
 
@@ -92,6 +99,18 @@ class Filament {
       }
 
     }
+
+    if (json['filamentColors'] != null) {
+
+  for (var f in json['filamentColors']) {
+
+    parsedFilamentColors.add(
+      FilamentColor.fromJson(f),
+    );
+
+  }
+
+}
 
     /// 🧵 Spulen laden
     List<Spool> parsedSpools = [];
@@ -162,6 +181,9 @@ class Filament {
           )
         : parsedNames,
 
+        filamentColors:
+    parsedFilamentColors,
+
       /// 🧵 Spulen setzen
       spools:
           parsedSpools.isEmpty
@@ -209,6 +231,11 @@ class Filament {
               .toList(),
 
       'colorNames': colorNames,
+
+      'filamentColors':
+    filamentColors
+        .map((f) => f.toJson())
+        .toList(),
 
       /// 🧵 Spulen speichern
       'spools':

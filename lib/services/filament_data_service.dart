@@ -1,7 +1,10 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/filament.dart';
-import 'color_registry.dart';
+import '../models/filament_color.dart';
 
 class FilamentDataService {
   static const String _key = 'filaments';
@@ -17,40 +20,45 @@ class FilamentDataService {
     }
 
     final List<dynamic> decoded = json.decode(jsonString);
-   final filaments =
-    decoded.map((e) => Filament.fromJson(e)).toList();
 
-// 🔴 FIX: Farben in Registry registrieren
+    final filaments =
+        decoded.map((e) => Filament.fromJson(e)).toList();
 
-for (final filament in filaments) {
-  if (filament.colors.isNotEmpty &&
-      filament.colorNames.isNotEmpty) {
+    // 🔥 Migration altes System → neues System
+    for (final filament in filaments) {
+      if (filament.filamentColors.isEmpty &&
+          filament.colors.isNotEmpty &&
+          filament.colorNames.isNotEmpty) {
 
-    for (int i = 0; i < filament.colors.length; i++) {
+        final List<FilamentColor> migratedColors = [];
 
-      final hex = filament.colors[i];
+        for (int i = 0; i < filament.colors.length; i++) {
 
-      String? name;
+          final color = filament.colors[i];
 
-      if (i < filament.colorNames.length) {
-        name = filament.colorNames[i];
-      }
+          String name = 'Unknown';
 
-      if (hex != null && name != null) {
+          if (i < filament.colorNames.length) {
+            name = filament.colorNames[i];
+          }
 
-        final normalizedHex =
-            hex.toUpperCase();
+          final hex =
+              '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
 
-        ColorRegistry.registerColor(
-          normalizedHex,
-          name,
-        );
+          migratedColors.add(
+            FilamentColor(
+              name: name,
+              hex: hex,
+              isCustom: false,
+            ),
+          );
+        }
+
+        filament.filamentColors = migratedColors;
       }
     }
-  }
-}
 
-return filaments;
+    return filaments;
   }
 
   static Future<void> saveFilaments(List<Filament> filaments) async {
