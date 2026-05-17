@@ -3,6 +3,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/filament.dart';
 import '../services/filament_catalog_service.dart';
 import '../services/custom_color_service.dart';
+import '../models/filament_color.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;
@@ -28,9 +29,21 @@ class _AddFilamentPageState
   String? selectedMaterial;
   String? selectedVariant;
   String? selectedColor;
+
+List<FilamentColor> selectedFilamentColors = [];
+
 Color? selectedColorValue;
 
   final Map<String, Color> preloadColorMap = {};
+
+  String buildColorKey(
+  String brand,
+  String material,
+  String variant,
+  String colorName,
+) {
+  return "$brand|$material|$variant|$colorName";
+}
 
   double? selectedDiameter;
 
@@ -386,16 +399,47 @@ setState(() {
 
     final colorsFromHex =
     FilamentCatalogService.getColorsFromHex(
-        selectedBrand!,
-        selectedMaterial!,
-        selectedVariant!,
-        c,
-    );
+  selectedBrand!,
+  selectedMaterial!,
+  selectedVariant!,
+  c,
+);
 
-if (colorsFromHex.isNotEmpty) {
-    preloadColorMap[c] = colorsFromHex.first;
-} else {
-    preloadColorMap[c] = Colors.grey;
+final splitColors =
+    c.split('+')
+        .map((e) => e.trim())
+        .toList();
+
+for (int i = 0; i < splitColors.length; i++) {
+
+  final colorName = splitColors[i];
+
+  if (i < colorsFromHex.length) {
+
+    final key = buildColorKey(
+  selectedBrand!,
+  selectedMaterial!,
+  selectedVariant!,
+  colorName,
+);
+
+preloadColorMap[key] =
+    colorsFromHex[i];
+
+  } else {
+
+    final key = buildColorKey(
+  selectedBrand!,
+  selectedMaterial!,
+  selectedVariant!,
+  colorName,
+);
+
+preloadColorMap[key] =
+    Colors.grey;
+
+  }
+
 }
 
   } else {
@@ -423,13 +467,40 @@ if (colorsFromHex.isNotEmpty) {
     setState(() {});
   }
 
-  /// 🔧 RICHTIG außerhalb platziert
-  Widget buildColorItem(String c) {
+Widget buildAlignedAddButton({
+  required VoidCallback? onPressed,
+}) {
+  return SizedBox(
+    width: 48,
+    height: 48,
+    child: IconButton(
+      onPressed: onPressed,
+      icon: const Icon(Icons.add),
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(
+        minWidth: 48,
+        minHeight: 48,
+      ),
+      splashRadius: 24,
+      tooltip: "Hinzufügen",
+    ),
+  );
+}
 
-  final List<Color> parsedColors =
-      preloadColorMap.containsKey(c)
-          ? [preloadColorMap[c]!]
-          : [Colors.grey];
+Widget buildColorItem(String c) {
+
+  final splitColors =
+    c.split('+')
+        .map((e) => e.trim())
+        .toList();
+
+final parsedColors =
+    FilamentCatalogService.getColorsFromHex(
+  selectedBrand!,
+  selectedMaterial!,
+  selectedVariant!,
+  c,
+);
 
   return Row(
     mainAxisSize: MainAxisSize.min,
@@ -447,9 +518,11 @@ if (colorsFromHex.isNotEmpty) {
         ),
       ),
 
-      Text(
-        c,
-        overflow: TextOverflow.ellipsis,
+      Flexible(
+        child: Text(
+          c,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
 
     ],
@@ -480,11 +553,33 @@ if (colorsFromHex.isNotEmpty) {
             priceController.text)
         ?? 0;
 
-    final parsedColors =
-    (selectedColor != null &&
-     preloadColorMap.containsKey(selectedColor))
-        ? [preloadColorMap[selectedColor]!]
-        : [Colors.grey];
+    final List<Color> parsedColors = [];
+
+if (selectedColor != null) {
+
+  final splitColors =
+      selectedColor!
+          .split('+')
+          .map((e) => e.trim())
+          .toList();
+
+  for (final colorName in splitColors) {
+
+    if (preloadColorMap.containsKey(colorName)) {
+
+      parsedColors.add(
+        preloadColorMap[colorName]!,
+      );
+
+    } else {
+
+      parsedColors.add(Colors.grey);
+
+    }
+
+  }
+
+}
 
 final List<String> colorNames = [];
 
@@ -502,9 +597,6 @@ if (colorNames.isNotEmpty &&
 }
 
     // DEBUG vor dem Erstellen
-print("DEBUG variant: $selectedVariant");
-print("DEBUG colorNames: $colorNames");
-
 final filament = Filament(
   brand: selectedBrand!,
   material: selectedMaterial!,
@@ -523,18 +615,40 @@ final filament = Filament(
   nozzleTemp: nozzleTemp ?? 0,
   bedTemp: bedTemp ?? 0,
 
-  color: parsedColors.first,
-  colors: parsedColors,
+  color:
+    selectedFilamentColors.isNotEmpty
+        ? Color(
+            int.parse(
+              selectedFilamentColors.first.hex
+                  .replaceFirst('#', '0xFF'),
+            ),
+          )
+        : Colors.grey,
 
-  colorNames: colorNames,
+colors:
+    selectedFilamentColors.map((f) {
+
+      return Color(
+        int.parse(
+          f.hex.replaceFirst('#', '0xFF'),
+        ),
+      );
+
+    }).toList(),
+
+colorNames:
+    selectedFilamentColors
+        .map((f) => f.name)
+        .toList(),
+
+filamentColors:
+    selectedFilamentColors,
 
   colorType:
       parsedColors.length > 1
           ? "multi"
           : "single",
 );
-
-print("DEBUG colorNames: $colorNames");
 
     widget.onSave(filament);
 
@@ -562,14 +676,17 @@ print("DEBUG colorNames: $colorNames");
             "Filament hinzufügen"),
       ),
 
-      body: ListView(
+      body: Stack(
+        children: [
+
+    ListView(
         padding:
         const EdgeInsets.all(20),
 
         children: [
 
           Row(
-  children: [
+            children: [
 
     Expanded(
       child: DropdownButtonFormField<String>(
@@ -592,13 +709,11 @@ print("DEBUG colorNames: $colorNames");
       ),
     ),
 
-    const SizedBox(width: 8),
+    buildAlignedAddButton(
+  onPressed: _addBrandDialog,
+),
 
-    IconButton(
-      icon: const Icon(Icons.add),
-      onPressed: _addBrandDialog,
-      tooltip: "Neuen Hersteller hinzufügen",
-    ),
+    const SizedBox(width: 8),
 
   ],
 ),
@@ -629,13 +744,11 @@ print("DEBUG colorNames: $colorNames");
       ),
     ),
 
-    const SizedBox(width: 8),
+    buildAlignedAddButton(
+  onPressed: _addMaterialDialog,
+),
 
-    IconButton(
-      icon: const Icon(Icons.add),
-      onPressed: _addMaterialDialog,
-      tooltip: "Neues Material hinzufügen",
-    ),
+    const SizedBox(width: 8),
 
   ],
 ),
@@ -644,8 +757,9 @@ print("DEBUG colorNames: $colorNames");
 
           Row(
   children: [
-    Expanded(
-      child: DropdownButtonFormField<String>(
+    SizedBox(
+  width: MediaQuery.of(context).size.width - 96,
+  child: DropdownButtonFormField<String>(
         value: selectedVariant,
         hint: const Text("Variante"),
         items: variants.map(
@@ -663,11 +777,8 @@ print("DEBUG colorNames: $colorNames");
       ),
     ),
 
-    const SizedBox(width: 8),
-
-    IconButton(
-      icon: const Icon(Icons.add),
-      onPressed: () async {
+    buildAlignedAddButton(
+  onPressed: () async {
         final controller = TextEditingController();
 
         final result = await showDialog<String>(
@@ -734,8 +845,9 @@ print("DEBUG colorNames: $colorNames");
 
           Row(
   children: [
-    Expanded(
-      child: DropdownButtonFormField<String>(
+    SizedBox(
+  width: MediaQuery.of(context).size.width - 96,
+  child: DropdownButtonFormField<String>(
         value: colors.contains(selectedColor)
             ? selectedColor
             : null,
@@ -751,20 +863,45 @@ print("DEBUG colorNames: $colorNames");
               ),
         ).toList(),
         onChanged: (val) {
-          if (val != null) {
-            setState(() {
-              selectedColor = val;
-            });
-          }
+         if (val != null) {
+
+  setState(() {
+
+    selectedColor = val;
+
+    selectedFilamentColors = [];
+
+    final splitColors =
+        val.split('+')
+            .map((e) => e.trim())
+            .toList();
+
+    for (final colorName in splitColors) {
+
+      final colorValue =
+          preloadColorMap[colorName] ??
+          Colors.grey;
+
+      selectedFilamentColors.add(
+        FilamentColor(
+          name: colorName,
+          hex:
+              '#${colorValue.value.toRadixString(16).substring(2).toUpperCase()}',
+          isCustom: false,
+        ),
+      );
+
+    }
+
+  });
+
+}
         },
       ),
     ),
 
-    const SizedBox(width: 8),
-
-    IconButton(
-      icon: const Icon(Icons.add),
-      onPressed: () async {
+    buildAlignedAddButton(
+  onPressed: () async {
         final controller =
             TextEditingController();
 
@@ -909,7 +1046,30 @@ setState(() {
         );
 
     if (loadedColors.isNotEmpty) {
-      preloadColorMap[c] = loadedColors.first;
+      final splitColors =
+    c.split('+')
+        .map((e) => e.trim())
+        .toList();
+
+for (int i = 0; i < splitColors.length; i++) {
+
+  final colorName = splitColors[i];
+
+  final key = buildColorKey(
+    selectedBrand!,
+    selectedMaterial!,
+    selectedVariant!,
+    colorName,
+  );
+
+  if (i < loadedColors.length) {
+    preloadColorMap[key] =
+        loadedColors[i];
+  } else {
+    preloadColorMap[key] =
+        Colors.grey;
+  }
+}
     } else {
       preloadColorMap[c] = Colors.grey;
     }
@@ -1091,9 +1251,12 @@ Row(
             const Text("Speichern"),
           ),
 
-        ],
-      ),
+          ],
+        ),
 
-    );
+  ],
+),
+
+);
   }
 }

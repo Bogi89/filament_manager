@@ -197,44 +197,29 @@ class _FilamentPageState extends State<FilamentPage> {
 
       appBar: AppBar(
   title: const Text("Filamente"),
+      ),
 
-  actions: [
-    Padding(
-      padding: const EdgeInsets.only(right: 12),
-      child: ElevatedButton.icon(
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => AddFilamentPage(
-                onSave: (filament) {
-                  context.read<AppState>().addFilament(filament);
-                },
-              ),
-            ),
-          );
-        },
-        icon: const Icon(Icons.add, size: 20),
-        label: const Text("Filament"),
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 10,
-          ),
-          backgroundColor:
-              Theme.of(context).brightness == Brightness.dark
-                  ? const Color(0xFF7B61FF)
-                  : const Color(0xFF3B82F6),
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          elevation: 0,
+    floatingActionButton: FloatingActionButton.extended(
+      backgroundColor: const Color(0xFF3B82F6),
+foregroundColor: Colors.white,
+elevation: 6,
+
+  onPressed: () async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => AddFilamentPage(
+          onSave: (filament) {
+            context.read<AppState>().addFilament(filament);
+          },
         ),
       ),
-    ),
-  ],
-),
+    );
+  },
+
+  icon: const Icon(Icons.add),
+  label: const Text("Filament"),
+      ),
 
       body: Column(
         children: [

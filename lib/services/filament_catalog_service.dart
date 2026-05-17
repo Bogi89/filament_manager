@@ -322,7 +322,11 @@ saveCustomColors();
       return [Colors.grey];
     }
 
-    final parts = item.hex!.split('+');
+    final parts = item.hex!
+    .split(RegExp(r'[+,;]'))
+    .map((e) => e.trim())
+    .where((e) => e.isNotEmpty)
+    .toList();
 
     List<Color> result = [];
 
@@ -338,14 +342,19 @@ saveCustomColors();
   }
 
   static Color _hexToColor(String hex) {
-    String clean = hex.replaceAll('#', '').trim();
 
-    if (clean.length == 6) {
-      clean = 'FF$clean';
-    }
+  String clean =
+      hex.replaceAll('#', '').trim();
 
-    return Color(int.parse(clean, radix: 16));
+  if (clean.length == 6) {
+    clean = 'FF$clean';
   }
+
+  final value =
+      int.parse(clean, radix: 16);
+
+  return Color(value);
+}
   
   // ================= HEX → NAME =================
 
