@@ -1174,7 +1174,7 @@ for (int i = 0; i < splitColors.length; i++) {
             },
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
 
 Row(
   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1259,7 +1259,7 @@ Row(
   ],
 ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
 
           TextField(
             controller: totalWeightController,
