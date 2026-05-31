@@ -18,8 +18,6 @@ class ColorRegistry {
 
     final normalized = _normalize(name);
 
-    print("COLOR DEBUG → name: $name | normalized: $normalized");
-
     /// =========================
     /// BASIC COLORS (DE + EN)
     /// =========================

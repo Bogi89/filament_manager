@@ -45,7 +45,7 @@ class FilamentSpoolWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withValues(alpha: 0.15),
                     blurRadius: 6,
                     offset: const Offset(2, 3),
                   ),
@@ -70,7 +70,7 @@ class FilamentSpoolWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    filamentColor.withOpacity(0.9),
+                    filamentColor.withValues(alpha: 0.9),
                     filamentColor,
                   ],
                 ),

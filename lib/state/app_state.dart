@@ -85,8 +85,6 @@ for (var f in filaments) {
 }
 */
 
-    await saveData();
-
     isInitialized = true;
 
     notifyListeners();
@@ -188,53 +186,62 @@ for (var f in filaments) {
   /// ================= FILAMENT =================
 
   void addFilament(Filament filament) {
+  final existingValidNames =
+      filament.colorNames
+          .map((name) => name.trim())
+          .where(
+            (name) =>
+                name.isNotEmpty &&
+                name.toLowerCase() != "unknown",
+          )
+          .toList();
 
-    List<String> detectedNames = [];
+  if (existingValidNames.isNotEmpty) {
+    filament.colorNames =
+        existingValidNames
+            .toSet()
+            .toList();
+  } else {
+    final List<String> detectedNames = [];
 
-    for (var c in filament.colors) {
-
+    for (final color in filament.colors) {
       final hex =
-          c.value
-              .toRadixString(16)
-              .substring(2);
+    color
+        .toARGB32()
+        .toRadixString(16)
+        .substring(2)
+        .toUpperCase();
 
       final name =
           FilamentCatalogService
               .findColorNameByHex(hex);
 
       if (!detectedNames.contains(name)) {
-
         detectedNames.add(name);
-
       }
-
     }
 
     final validNames =
         detectedNames
-            .where((n) => n != "Unknown")
+            .where(
+              (name) =>
+                  name.trim().isNotEmpty &&
+                  name.toLowerCase() != "unknown",
+            )
             .toList();
 
-    if (validNames.isNotEmpty) {
-
-      filament.colorNames =
-          validNames
-              .toSet()
-              .toList();
-
-    } else {
-
-      filament.colorNames =
-          ["Unknown"];
-
-    }
-
-    filaments.add(filament);
-
-    saveData();
-
-    notifyListeners();
+    filament.colorNames =
+        validNames.isNotEmpty
+            ? validNames.toSet().toList()
+            : ["Unknown"];
   }
+
+  filaments.add(filament);
+
+  saveData();
+
+  notifyListeners();
+}
 
   void removeFilament(Filament filament) {
 

@@ -21,11 +21,6 @@ void main() async {
   'Sakura Pink',
 );
 
-final loaded =
-    await HiveTestService.loadTestValue();
-
-print('HIVE TEST: $loaded');
-
   await FilamentCatalogService.loadCatalog();
 
   final appState = AppState();

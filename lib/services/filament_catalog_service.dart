@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'custom_color_service.dart';
 
 class FilamentCatalogItem {
   final String brand;
@@ -186,7 +184,7 @@ static void addCustomColor(
   String material,
   String variant,
   String color,
-  Color pickedColor,
+  String hex,
 ) {
 
   if (!_customColors.containsKey(brand)) {
@@ -201,13 +199,6 @@ static void addCustomColor(
       .containsKey(variant)) {
     _customColors[brand]![material]![variant] = [];
   }
-
-  /// HEX berechnen
-  final hex =
-      pickedColor.value
-          .toRadixString(16)
-          .substring(2)
-          .toUpperCase();
 
   /// 🔥 NUR den Farbnamen speichern (ohne HEX!)
   if (!_customColors[brand]![material]![variant]!
@@ -236,7 +227,6 @@ static void addCustomColor(
   );
 }
 
-print("SAVE TRIGGERED");
 saveCustomColors();
 
 }
@@ -398,8 +388,6 @@ static Future<void> loadCustomColors() async {
   final jsonString =
       prefs.getString('custom_colors');
 
-      print("RAW JSON: $jsonString");
-
   if (jsonString == null) return;
 
   final Map<String, dynamic> data =
@@ -427,8 +415,6 @@ static Future<void> loadCustomColors() async {
 
             final name = parts[0];
             final hex = parts[1];
-
-            print("LOAD COLOR: $name -> $hex");
 
             _customColors[brand]![material]![variant]!
                 .add(name);
@@ -470,8 +456,6 @@ static Future<void> loadCustomColors() async {
 
 /// 🔥 FIX — Custom Colors korrekt mit HEX speichern
 static Future<void> saveCustomColors() async {
-
-  print("SAVE DATA: $_customColors");
 
   final Map<String, dynamic> data = {};
 

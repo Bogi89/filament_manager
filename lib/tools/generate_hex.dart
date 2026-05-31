@@ -31,7 +31,9 @@ void main() {
 
   outputFile.writeAsStringSync(output.join("\n"));
 
-  print("✅ Fertig! Neue Datei: filament_catalog_with_hex.csv");
+  stdout.writeln(
+  "✅ Fertig! Neue Datei: filament_catalog_with_hex.csv",
+);
 }
 
 String detectColor(String name) {

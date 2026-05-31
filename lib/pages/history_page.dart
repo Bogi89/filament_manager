@@ -357,8 +357,9 @@ class _HistoryPageState
                         ).toList(),
                         onChanged: (value) {
 
-                          if (value == null)
-                            return;
+                          if (value == null) {
+  return;
+}
 
                           setState(() {
                             selectedSort =
@@ -392,8 +393,9 @@ class _HistoryPageState
                         ).toList(),
                         onChanged: (value) {
 
-                          if (value == null)
-                            return;
+                          if (value == null) {
+  return;
+}
 
                           setState(() {
                             selectedDateFilter =
@@ -425,8 +427,9 @@ class _HistoryPageState
                         ).toList(),
                         onChanged: (value) {
 
-                          if (value == null)
-                            return;
+                          if (value == null) {
+  return;
+}
 
                           setState(() {
                             selectedMaterial =

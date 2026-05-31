@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/filament.dart';
@@ -12,8 +11,6 @@ class FilamentDataService {
   static Future<List<Filament>> loadFilaments() async {
     final prefs = await SharedPreferences.getInstance();
     final String? jsonString = prefs.getString(_key);
-
-    print("FILAMENT JSON: $jsonString");
 
     if (jsonString == null) {
       return [];
@@ -43,7 +40,7 @@ class FilamentDataService {
           }
 
           final hex =
-              '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
+              '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
 
           migratedColors.add(
             FilamentColor(

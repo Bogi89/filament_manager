@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 import '../models/filament.dart';
 import 'add_filament_page.dart';
-import 'filament_detail_page.dart';
-import '../widgets/filament_spool_icon.dart';
 import '../services/filament_catalog_service.dart';
 import '../widgets/filament_filter_bar.dart';
 import '../widgets/spool_icon.dart';
@@ -175,8 +173,9 @@ class _FilamentPageState extends State<FilamentPage> {
         final matCompare =
             matA.compareTo(matB);
 
-        if(matCompare != 0)
-          return matCompare;
+        if (matCompare != 0) {
+  return matCompare;
+}
 
         return a.variant.compareTo(b.variant);
 
@@ -263,7 +262,7 @@ Container(
     borderRadius: BorderRadius.circular(16),
     boxShadow: [
       BoxShadow(
-        color: Colors.black.withOpacity(0.05),
+        color: Colors.black.withValues(alpha: 0.05),
         blurRadius: 8,
         offset: const Offset(0, 3),
       ),
@@ -442,49 +441,6 @@ Container(
     );
   }
 
-  void _changeWeight(int change, Filament filament){
-
-    final current =
-        double.tryParse(weightController.text)
-            ?? filament.remainingWeight;
-
-    double newValue = current + change;
-
-    if(newValue < 0) newValue = 0;
-
-    if(newValue > filament.totalWeight){
-      newValue = filament.totalWeight;
-    }
-
-    weightController.text = newValue.toInt().toString();
-
-    setState((){});
-  }
-
-  Widget _weightButton(String text, VoidCallback onPressed){
-
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal:2),
-    child: ElevatedButton(
-      onPressed: onPressed,
-      child: Text(text),
-    ),
-  );
-}
-
-String _buildColorNames(Filament f) {
-
-  if (f.colorNames.isEmpty) {
-    return "";
-  }
-
-  /// 🔥 Nur den ersten Namen anzeigen
-  final name = f.colorNames.first;
-
-  return name;
-
-}
-
 Widget _topCard({
   required Widget icon,
   required String value,
@@ -514,11 +470,10 @@ Widget _topCard({
                 ? []
                 : [
                     BoxShadow(
-                      color: Colors.black
-                          .withOpacity(0.06),
-                      blurRadius: 16,
-                      offset: const Offset(0, 6),
-                    ),
+  color: Colors.black.withValues(alpha: 0.06),
+  blurRadius: 16,
+  offset: const Offset(0, 6),
+),
                   ],
       ),
 
@@ -536,10 +491,10 @@ Widget _topCard({
 
             decoration: BoxDecoration(
               color: (color ??
-                      Theme.of(context)
-                          .colorScheme
-                          .primary)
-                  .withOpacity(0.15),
+        Theme.of(context)
+            .colorScheme
+            .primary)
+    .withValues(alpha: 0.15),
 
               borderRadius:
                   BorderRadius.circular(12),

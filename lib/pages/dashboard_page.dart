@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../state/app_state.dart';
 import '../models/filament.dart';
-import '../models/print_job.dart';
 import '../widgets/spool_icon.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -97,8 +96,9 @@ class DashboardPage extends StatelessWidget {
 
     final criticalFilaments =
         filaments.where((f) {
-      if (f.totalWeight == 0)
-        return false;
+      if (f.totalWeight == 0) {
+  return false;
+}
 
       return (f.remainingWeight /
               f.totalWeight) <=
@@ -187,7 +187,7 @@ class DashboardPage extends StatelessWidget {
                       color: isDark
                           ? Colors.orange
                               .shade900
-                              .withOpacity(0.18)
+                              .withValues(alpha: 0.18)
                           : Colors.orange
                               .shade100,
                       borderRadius:
@@ -434,7 +434,6 @@ class DashboardPage extends StatelessWidget {
   required Widget icon,
     required String value,
     required String label,
-    Color? iconColor,
   }) {
     return Card(
       child: Padding(

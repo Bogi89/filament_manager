@@ -68,7 +68,7 @@ class FilamentFilterBar extends StatelessWidget {
             ? []
             : [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: Colors.black.withValues(alpha: 0.04),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -124,7 +124,7 @@ class FilamentFilterBar extends StatelessWidget {
               Expanded(
                 child: DropdownButtonFormField<String>(
 
-                  value: selectedBrand,
+  initialValue: selectedBrand,
 
                   items: brandItems
                       .map(
@@ -156,7 +156,7 @@ class FilamentFilterBar extends StatelessWidget {
               Expanded(
                 child: DropdownButtonFormField<String>(
 
-                  value: selectedMaterial,
+  initialValue: selectedMaterial,
 
                   items: materialItems
                       .map(
@@ -197,7 +197,7 @@ class FilamentFilterBar extends StatelessWidget {
               Expanded(
                 child: DropdownButtonFormField<String>(
 
-                  value: selectedSort,
+  initialValue: selectedSort,
 
                   items: const [
 

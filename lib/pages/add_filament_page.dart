@@ -126,11 +126,6 @@ for (final color in customColors) {
         .toSet()
         .toList();
 
-        print("BRANDS LOADED:");
-for (var b in brands) {
-  print(b);
-}
-
 if (selectedBrand != null &&
     !brands.contains(selectedBrand)) {
 
@@ -489,11 +484,6 @@ Widget buildAlignedAddButton({
 
 Widget buildColorItem(String c) {
 
-  final splitColors =
-    c.split('+')
-        .map((e) => e.trim())
-        .toList();
-
 final parsedColors =
     FilamentCatalogService.getColorsFromHex(
   selectedBrand!,
@@ -553,48 +543,33 @@ final parsedColors =
             priceController.text)
         ?? 0;
 
-    final List<Color> parsedColors = [];
+        final List<Color> parsedColors =
+        FilamentCatalogService.getColorsFromHex(
+      selectedBrand!,
+      selectedMaterial!,
+      selectedVariant!,
+      selectedColor!,
+    );
 
-if (selectedColor != null) {
-
-  final splitColors =
-      selectedColor!
-          .split('+')
-          .map((e) => e.trim())
-          .toList();
-
-  for (final colorName in splitColors) {
-
-    if (preloadColorMap.containsKey(colorName)) {
-
-      parsedColors.add(
-        preloadColorMap[colorName]!,
-      );
-
-    } else {
-
-      parsedColors.add(Colors.grey);
-
-    }
-
-  }
-
-}
-
-final List<String> colorNames = [];
-
-if (selectedColor != null &&
-    selectedColor!.trim().isNotEmpty) {
-  colorNames.add(selectedColor!.trim());
-}
-
-if (colorNames.isNotEmpty &&
-    colorNames.first == "Unknown" &&
-    selectedColor != null &&
-    selectedColor!.trim().isNotEmpty) {
-
-  colorNames[0] = selectedColor!.trim();
-}
+final List<String> colorNames =
+    selectedFilamentColors.isNotEmpty
+        ? selectedFilamentColors
+            .map((f) => f.name.trim())
+            .where(
+              (name) =>
+                  name.isNotEmpty &&
+                  name.toLowerCase() != "unknown",
+            )
+            .toList()
+        : selectedColor != null &&
+                selectedColor!.trim().isNotEmpty &&
+                selectedColor!.trim().toLowerCase() != "unknown"
+            ? selectedColor!
+                .split('+')
+                .map((name) => name.trim())
+                .where((name) => name.isNotEmpty)
+                .toList()
+            : ["Unknown"];
 
     // DEBUG vor dem Erstellen
 final filament = Filament(
@@ -616,33 +591,38 @@ final filament = Filament(
   bedTemp: bedTemp ?? 0,
 
   color:
-    selectedFilamentColors.isNotEmpty
-        ? Color(
-            int.parse(
-              selectedFilamentColors.first.hex
-                  .replaceFirst('#', '0xFF'),
-            ),
-          )
+    parsedColors.isNotEmpty
+        ? parsedColors.first
         : Colors.grey,
 
 colors:
-    selectedFilamentColors.map((f) {
-
-      return Color(
-        int.parse(
-          f.hex.replaceFirst('#', '0xFF'),
-        ),
-      );
-
-    }).toList(),
+    parsedColors.isNotEmpty
+        ? parsedColors
+        : [Colors.grey],
 
 colorNames:
-    selectedFilamentColors
-        .map((f) => f.name)
-        .toList(),
-
-filamentColors:
-    selectedFilamentColors,
+    colorNames.isNotEmpty
+        ? colorNames
+        : selectedColor != null &&
+                selectedColor!.trim().isNotEmpty &&
+                selectedColor!.trim().toLowerCase() != "unknown"
+            ? selectedColor!
+                .split('+')
+                .map((name) => name.trim())
+                .where((name) => name.isNotEmpty)
+                .toList()
+            : ["Unknown"],
+filamentColors: List.generate(
+  parsedColors.length,
+  (index) => FilamentColor(
+    name: colorNames.isNotEmpty
+        ? colorNames.first
+        : "Unknown",
+    hex:
+        '#${parsedColors[index].toARGB32().toRadixString(16).substring(2).toUpperCase()}',
+    isCustom: false,
+  ),
+),
 
   colorType:
       parsedColors.length > 1
@@ -690,7 +670,7 @@ filamentColors:
 
     Expanded(
       child: DropdownButtonFormField<String>(
-        value: selectedBrand,
+        initialValue: selectedBrand,
         hint: const Text("Hersteller"),
 
         items: brands.map(
@@ -725,7 +705,7 @@ filamentColors:
 
     Expanded(
       child: DropdownButtonFormField<String>(
-        value: selectedMaterial,
+        initialValue: selectedMaterial,
         hint: const Text("Material"),
 
         items: materials.map(
@@ -760,7 +740,7 @@ filamentColors:
     SizedBox(
   width: MediaQuery.of(context).size.width - 96,
   child: DropdownButtonFormField<String>(
-        value: selectedVariant,
+        initialValue: selectedVariant,
         hint: const Text("Variante"),
         items: variants.map(
           (v) =>
@@ -848,9 +828,9 @@ filamentColors:
     SizedBox(
   width: MediaQuery.of(context).size.width - 96,
   child: DropdownButtonFormField<String>(
-        value: colors.contains(selectedColor)
-            ? selectedColor
-            : null,
+        initialValue: colors.contains(selectedColor)
+    ? selectedColor
+    : null,
         decoration:
             const InputDecoration(
           labelText: "Farbe",
@@ -871,27 +851,45 @@ filamentColors:
 
     selectedFilamentColors = [];
 
-    final splitColors =
-        val.split('+')
-            .map((e) => e.trim())
+final catalogColors =
+    FilamentCatalogService.getColors(
+  selectedBrand!,
+  selectedMaterial!,
+  selectedVariant!,
+);
+
+final selectedCatalogColor =
+    catalogColors
+        .where(
+          (catalogColor) =>
+              catalogColor.split('|').first.trim() == val.trim(),
+        )
+        .toList();
+
+if (selectedCatalogColor.isNotEmpty) {
+  final parts =
+      selectedCatalogColor.first.split('|');
+
+  if (parts.length > 1) {
+    final hexParts =
+        parts[1]
+            .split('+')
+            .map((hex) => hex.trim())
+            .where((hex) => hex.isNotEmpty)
             .toList();
 
-    for (final colorName in splitColors) {
-
-      final colorValue =
-          preloadColorMap[colorName] ??
-          Colors.grey;
-
-      selectedFilamentColors.add(
-        FilamentColor(
-          name: colorName,
-          hex:
-              '#${colorValue.value.toRadixString(16).substring(2).toUpperCase()}',
-          isCustom: false,
-        ),
-      );
-
-    }
+    selectedFilamentColors =
+        hexParts
+            .map(
+              (hex) => FilamentColor(
+                name: val.trim(),
+                hex: hex.startsWith('#') ? hex : '#$hex',
+                isCustom: false,
+              ),
+            )
+            .toList();
+  }
+}
 
   });
 
@@ -903,9 +901,13 @@ filamentColors:
     buildAlignedAddButton(
   onPressed: () async {
         final controller =
-            TextEditingController();
+    TextEditingController();
 
-            Color pickedColor = Colors.blue;
+final pickedColors = <Color>[
+  selectedColorValue ?? Colors.blue,
+];
+
+int activeColorIndex = 0;
 
         final result =
     await showDialog<Map<String, dynamic>>(
@@ -927,35 +929,81 @@ filamentColors:
 
     const SizedBox(height: 16),
 
-    // 🎨 Vorschau-Kreis
-    StatefulBuilder(
-      builder: (context, setStateDialog) {
-        return Column(
-          children: [
+    // 🎨 Farbauswahl
+StatefulBuilder(
+  builder: (context, setStateDialog) {
+    return Column(
+      children: [
+        Wrap(
+  spacing: 8,
+  runSpacing: 8,
+  alignment: WrapAlignment.center,
+  children: [
+  ...List.generate(
+    pickedColors.length,
+    (index) {
+      final isActive = index == activeColorIndex;
 
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: selectedColorValue ?? Colors.blue,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey),
-              ),
+      return GestureDetector(
+        onTap: () {
+          setStateDialog(() {
+            activeColorIndex = index;
+            selectedColorValue = pickedColors[index];
+          });
+        },
+        child: Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: pickedColors[index],
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isActive ? Colors.white : Colors.grey,
+              width: isActive ? 3 : 1,
             ),
+          ),
+        ),
+      );
+        },
+  ),
+  if (pickedColors.length < 4)
+    GestureDetector(
+      onTap: () {
+        setStateDialog(() {
+          pickedColors.add(Colors.blue);
+          activeColorIndex = pickedColors.length - 1;
+          selectedColorValue = pickedColors[activeColorIndex];
+        });
+      },
+      child: Container(
+        width: 34,
+        height: 34,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.grey),
+        ),
+        child: const Icon(
+          Icons.add,
+          size: 20,
+        ),
+      ),
+    ),
+],
+),
 
-            const SizedBox(height: 16),
+const SizedBox(height: 16),
 
-            ColorPicker(
-  pickerColor: selectedColorValue ?? Colors.blue,
-              onColorChanged: (color) {
-  setStateDialog(() {
-    pickedColor = color;
-    selectedColorValue = color;
-  });
-},
-              enableAlpha: false,
-              displayThumbColor: true,
-            ),
+ColorPicker(
+  pickerColor: pickedColors[activeColorIndex],
+  onColorChanged: (color) {
+    setStateDialog(() {
+      selectedColorValue = color;
+      pickedColors[activeColorIndex] = color;
+    });
+  },
+  enableAlpha: false,
+  displayThumbColor: true,
+),
 
           ],
         );
@@ -978,9 +1026,10 @@ filamentColors:
                     Navigator.pop(
   context,
   {
-    "name": controller.text.trim(),
-    "color": pickedColor,
-  },
+  "name": controller.text.trim(),
+  "color": pickedColors[activeColorIndex],
+  "colors": pickedColors,
+}
 );
                   },
                   child: const Text(
@@ -997,12 +1046,20 @@ filamentColors:
     selectedVariant != null) {
 
   final colorName = result["name"]?.toString();
-  final Color pickedColor = result["color"] as Color;
+final Color pickedColor = result["color"] as Color;
+final List<Color> pickedColorList =
+    List<Color>.from(result["colors"] as List);
+
+    final customHex =
+    pickedColorList
+        .map(
+          (color) =>
+              '#{color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
+        )
+        .join('+');
 
   if (colorName != null &&
-      colorName.isNotEmpty &&
-      pickedColor != null &&
-      pickedColor is Color) {
+    colorName.isNotEmpty) {
 
     // 🔥 Farbe im Catalog hinzufügen
 FilamentCatalogService.addCustomColor(
@@ -1010,13 +1067,12 @@ FilamentCatalogService.addCustomColor(
   selectedMaterial!,
   selectedVariant!,
   colorName,
-  pickedColor,
+  customHex,
 );
 
 await CustomColorService.saveCustomColor(
   name: colorName,
-  hex:
-      '#${pickedColor.value.toRadixString(16).substring(2).toUpperCase()}',
+  hex: customHex,
 );
 
 await FilamentCatalogService.saveCustomColors();
@@ -1094,7 +1150,7 @@ for (int i = 0; i < splitColors.length; i++) {
           const SizedBox(height: 20),
 
           DropdownButtonFormField<double>(
-            value: selectedDiameter,
+            initialValue: selectedDiameter,
             hint:
             const Text("Durchmesser"),
 

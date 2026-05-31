@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../filament_spool_icon.dart';
-import '../../models/filament.dart';
-
 class FilamentSpoolGroupWidget extends StatelessWidget {
 
   final int spoolCount;

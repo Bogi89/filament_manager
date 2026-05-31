@@ -8,7 +8,6 @@ import '../filament_spool_icon.dart';
 import 'filament_hover_card.dart';
 import 'filament_progress_bar.dart';
 import '../../pages/filament_detail_page.dart';
-import 'filament_spool_group_widget.dart';
 import '../spool_count_widget.dart';
 
 class FilamentCard extends StatefulWidget {
@@ -64,28 +63,26 @@ class _FilamentCardState
     setState(() {});
   }
 
-  String _buildColorNames(
+ String _buildColorNames(
   Filament f,
-) {
-  print("DEBUG CARD colorNames: ${f.colorNames}");
+)
+{
 
-  // Keine Farben vorhanden
-  if (f.colorNames.isEmpty) {
+  final validNames =
+      f.colorNames
+          .map((name) => name.trim())
+          .where(
+            (name) =>
+                name.isNotEmpty &&
+                name.toLowerCase() != "unknown",
+          )
+          .toList();
+
+  if (validNames.isEmpty) {
     return "Unknown";
   }
 
-  // Nimm ersten gültigen Namen
-  for (final name in f.colorNames) {
-    final cleaned = name.trim();
-
-    if (cleaned.isNotEmpty &&
-        cleaned.toLowerCase() != "unknown") {
-      return cleaned;
-    }
-  }
-
-  // Falls nur Unknown enthalten
-  return "Unknown";
+  return validNames.join(" + ");
 }
 
   Widget _weightButton(
@@ -179,8 +176,8 @@ final percent =
               isDark
                   ? Colors.transparent
                   : Colors.black
-                      .withOpacity(
-                          0.08),
+                      .withValues(
+                          alpha: 0.08),
 
           shape:
               RoundedRectangleBorder(
@@ -562,8 +559,8 @@ const SizedBox(width: 8),
 
                             color:
                                 percentColor
-                                    .withOpacity(
-                                        0.12),
+                                    .withValues(
+                                        alpha: 0.12),
 
                             borderRadius:
                                 BorderRadius
@@ -648,26 +645,46 @@ const SizedBox(width: 8),
                             ),
 
                             IconButton(
+  icon: const Icon(
+    Icons.delete,
+    size: 18,
+    color: Colors.red,
+  ),
+  onPressed: () async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text("Filament löschen?"),
+          content: Text(
+            "Möchtest du dieses Filament wirklich löschen?\n\n${f.material} ${_buildColorNames(f)}",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false);
+              },
+              child: const Text("Abbrechen"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
+              child: const Text("Löschen"),
+            ),
+          ],
+        );
+      },
+    );
 
-                              icon:
-                                  const Icon(
-                                      Icons
-                                          .delete,
-                                      size:
-                                          18,
-                                      color:
-                                          Colors
-                                              .red),
-
-                              onPressed: () {
-
-                                context
-                                    .read<
-                                        AppState>()
-                                    .removeFilament(
-                                        f);
-                              },
-                            ),
+    if (shouldDelete == true && context.mounted) {
+      context.read<AppState>().removeFilament(f);
+    }
+  },
+),
 
                           ],
                         ),

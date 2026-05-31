@@ -99,8 +99,6 @@ List<String> colorNamesList = [];
 
     final f = widget.filament;
 
-print("DEBUG f.colorNames: ${f.colorNames}");
-
 selectedColor =
     f.colorNames.isNotEmpty ? f.colorNames.first : null;
 
@@ -331,7 +329,7 @@ Navigator.pop(context);
 
           DropdownButtonFormField<String>(
 
-            value:
+            initialValue:
             brands.contains(selectedBrand)
                 ? selectedBrand
                 : null,
@@ -358,7 +356,7 @@ Navigator.pop(context);
 
           DropdownButtonFormField<String>(
 
-            value:
+            initialValue:
             materials.contains(selectedMaterial)
                 ? selectedMaterial
                 : null,
@@ -390,7 +388,7 @@ Navigator.pop(context);
 
           DropdownButtonFormField<String>(
 
-            value:
+            initialValue:
             selectedMaterial!=null &&
                 variantsByMaterial[selectedMaterial]!
                     .contains(selectedVariant)
@@ -421,7 +419,7 @@ Navigator.pop(context);
           const SizedBox(height:16),
 
 DropdownButtonFormField<String>(
-  value: colorNamesList.contains(selectedColor)
+  initialValue: colorNamesList.contains(selectedColor)
     ? selectedColor
     : null,
 
@@ -447,7 +445,7 @@ DropdownButtonFormField<String>(
 
           DropdownButtonFormField<double>(
 
-            value:
+            initialValue:
             diameters.contains(selectedDiameter)
                 ? selectedDiameter
                 : null,
@@ -546,11 +544,13 @@ Column(
     bottom: 8,
   ),
   padding: const EdgeInsets.all(12),
-  decoration: BoxDecoration(
+    decoration: BoxDecoration(
     borderRadius:
         BorderRadius.circular(10),
-    color:
-        Colors.grey.shade100,
+    color: const Color(0xFF1B1B24),
+    border: Border.all(
+      color: Colors.white.withValues(alpha: 0.12)
+    ),
   ),
   child: Row(
     children: [
@@ -784,19 +784,21 @@ Column(
 
       );
 
-      if (confirm == true) {
+      final appState =
+    context.read<AppState>();
 
-        final appState =
-            context.read<AppState>();
+      if (confirm != true) return;
+
+if (!mounted) return;
 
         appState.removeFilament(
             widget.filament);
 
-        Navigator.pop(context);
+        if (!mounted) return;
+
+Navigator.of(context).pop();
 
       }
-
-    }
 
     /// 🧵 Normales Löschen
 
@@ -807,7 +809,7 @@ Column(
 
         context: context,
 
-        builder: (context) {
+        builder: (dialogContext) {
 
           return AlertDialog(
 

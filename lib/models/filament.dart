@@ -3,8 +3,6 @@ import 'dart:math';
 
 import 'spool.dart';
 import 'filament_color.dart';
-import '../services/color_registry.dart';
-import 'package:flutter/material.dart';
 
 class Filament {
 
@@ -221,13 +219,13 @@ List<FilamentColor> filamentColors;
       'nozzleTemp': nozzleTemp,
       'bedTemp': bedTemp,
 
-      'color': color.value,
+      'color': color.toARGB32(),
 
       'colorType': colorType,
 
       'colors':
           colors
-              .map((c) => c.value)
+              .map((c) => c.toARGB32())
               .toList(),
 
       'colorNames': colorNames,

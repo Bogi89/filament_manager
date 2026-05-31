@@ -43,13 +43,12 @@ class SettingsPage extends StatelessWidget {
     final url =
         html.Url.createObjectUrlFromBlob(blob);
 
-    final anchor =
-        html.AnchorElement(href: url)
-          ..setAttribute(
-            "download",
-            "filament_backup.json",
-          )
-          ..click();
+    html.AnchorElement(href: url)
+  ..setAttribute(
+    "download",
+    "filament_backup.json",
+  )
+  ..click();
 
     html.Url.revokeObjectUrl(url);
   }
@@ -116,7 +115,7 @@ class SettingsPage extends StatelessWidget {
 
           appState.saveData();
 
-          appState.notifyListeners();
+          if (!context.mounted) return;
 
           ScaffoldMessenger.of(context)
               .showSnackBar(
@@ -130,6 +129,8 @@ class SettingsPage extends StatelessWidget {
 
         }
         catch (e) {
+
+          if (!context.mounted) return;
 
           ScaffoldMessenger.of(context)
               .showSnackBar(
@@ -175,7 +176,7 @@ class SettingsPage extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          RadioListTile<ThemeMode>(
+          RadioListTile<ThemeMode>.adaptive(
             title: const Text("Hell"),
             value: ThemeMode.light,
             groupValue: appState.themeMode,
@@ -186,7 +187,7 @@ class SettingsPage extends StatelessWidget {
             },
           ),
 
-          RadioListTile<ThemeMode>(
+          RadioListTile<ThemeMode>.adaptive(
             title: const Text("Dunkel"),
             value: ThemeMode.dark,
             groupValue: appState.themeMode,
@@ -222,7 +223,7 @@ class SettingsPage extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          RadioListTile<String>(
+          RadioListTile<String>.adaptive(
             title: const Text("Deutsch"),
             value: 'de',
             groupValue:

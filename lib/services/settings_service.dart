@@ -73,11 +73,13 @@ class SettingsService {
 
     String value = 'system';
 
-    if (mode == ThemeMode.light)
-      value = 'light';
+    if (mode == ThemeMode.light) {
+  value = 'light';
+}
 
-    if (mode == ThemeMode.dark)
-      value = 'dark';
+if (mode == ThemeMode.dark) {
+  value = 'dark';
+}
 
     await prefs.setString(
         _themeKey,

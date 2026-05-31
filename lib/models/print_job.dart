@@ -32,7 +32,7 @@ class PrintJob {
         'filamentBrand': filamentBrand,
         'material': material,
         'variant': variant,
-        'color': color.value,
+        'color': color.toARGB32(),
         'weightUsed': weightUsed,
         'printHours': printHours,
         'totalCost': totalCost,
