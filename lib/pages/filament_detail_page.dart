@@ -186,7 +186,16 @@ selectedBrand = f.brand;
       return const Text("Material auswählen");
     }
 
-    return Column(
+    return Container(
+  padding: const EdgeInsets.symmetric(
+  horizontal: 24,
+  vertical: 18,
+),
+  decoration: BoxDecoration(
+    color: Theme.of(context).cardColor,
+    borderRadius: BorderRadius.circular(16),
+  ),
+  child: Column(
       children: [
 
         Text(label),
@@ -219,10 +228,11 @@ selectedBrand = f.brand;
           ],
         )
 
-      ],
-    );
+            ],
+    ),
+  );
 
-  }
+}
 
   void save() {
 
@@ -322,25 +332,97 @@ Navigator.pop(context);
 
         children: [
 
-          Center(
-            child: Container(
-              width:120,
-              height:120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: filament.color,
-              ),
-              child: const Center(
-                child: CircleAvatar(
-                  radius:25,
-                  backgroundColor:
-                  Colors.white,
+          Container(
+  width: double.infinity,
+  padding: const EdgeInsets.all(20),
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(16),
+    color: Theme.of(context).cardColor,
+  ),
+  child: Row(
+    children: [
+
+      Container(
+        width: 90,
+        height: 90,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: filament.color,
+        ),
+        child: const Center(
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: Colors.white,
+          ),
+        ),
+      ),
+
+      const SizedBox(width: 20),
+
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Row(
+              children: [
+
+                if (filament.colors.isNotEmpty)
+                  Wrap(
+                    spacing: 4,
+                    children: filament.colors.map((color) {
+                      return Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+                const SizedBox(width: 8),
+
+                Text(
+                  filament.brand,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+
+              ],
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              "${filament.material} ${filament.variant}",
+              style: const TextStyle(
+                fontSize: 18,
               ),
             ),
-          ),
 
-          const SizedBox(height:30),
+            const SizedBox(height: 8),
+
+            Text(
+  "${filament.remainingWeight.toInt()} g von ${filament.totalWeight.toInt()} g",
+  style: const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ),
+),
+
+          ],
+        ),
+      ),
+
+    ],
+  ),
+),
+
+const SizedBox(height: 20),
 
           DropdownButtonFormField<String>(
 
@@ -349,9 +431,28 @@ Navigator.pop(context);
                 ? selectedBrand
                 : null,
 
-            decoration:
-            const InputDecoration(
-                labelText:"Hersteller"),
+            decoration: InputDecoration(
+  labelText: "Hersteller",
+
+  contentPadding: const EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 12,
+  ),
+
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
 
             items: brands
                 .map((b)=>DropdownMenuItem(
@@ -376,9 +477,20 @@ Navigator.pop(context);
                 ? selectedMaterial
                 : null,
 
-            decoration:
-            const InputDecoration(
-                labelText:"Material"),
+            decoration: InputDecoration(
+  labelText: "Material",
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
 
             items: materials
                 .map((m)=>DropdownMenuItem(
@@ -410,9 +522,20 @@ Navigator.pop(context);
                 ? selectedVariant
                 : null,
 
-            decoration:
-            const InputDecoration(
-                labelText:"Variante"),
+            decoration: InputDecoration(
+  labelText: "Variante",
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
 
             items:
             selectedMaterial==null
@@ -438,9 +561,20 @@ DropdownButtonFormField<String>(
     ? selectedColor
     : null,
 
-  decoration: const InputDecoration(
-    labelText: "Farbe",
+  decoration: InputDecoration(
+  labelText: "Farbe",
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
   ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
 
   items: colorNamesList
       .map((c) => DropdownMenuItem(
@@ -465,9 +599,20 @@ DropdownButtonFormField<String>(
                 ? selectedDiameter
                 : null,
 
-            decoration:
-            const InputDecoration(
-                labelText:"Durchmesser"),
+            decoration: InputDecoration(
+  labelText: "Durchmesser",
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
 
             items: diameters
                 .map((d)=>DropdownMenuItem(
@@ -515,9 +660,20 @@ DropdownButtonFormField<String>(
             controller: priceController,
             keyboardType:
             TextInputType.number,
-            decoration:
-            const InputDecoration(
-                labelText:"Preis (€)"),
+            decoration: InputDecoration(
+  labelText: "Preis (€)",
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
           ),
 
           const SizedBox(height:16),
@@ -526,9 +682,20 @@ DropdownButtonFormField<String>(
             controller: weightController,
             keyboardType:
             TextInputType.number,
-            decoration:
-            const InputDecoration(
-                labelText:"Restgewicht (g)"),
+            decoration: InputDecoration(
+  labelText: "Restgewicht (g)",
+  filled: true,
+  fillColor: Theme.of(context).cardColor,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16),
+    borderSide: BorderSide(
+      color: Theme.of(context).dividerColor,
+    ),
+  ),
+),
           ),
 
           const SizedBox(height: 30),
@@ -558,7 +725,10 @@ Column(
   margin: const EdgeInsets.only(
     bottom: 8,
   ),
-  padding: const EdgeInsets.all(12),
+  padding: const EdgeInsets.symmetric(
+  horizontal: 16,
+  vertical: 14,
+),
     decoration: BoxDecoration(
     borderRadius:
         BorderRadius.circular(10),
@@ -571,7 +741,7 @@ Column(
     children: [
 
       const Icon(
-        Icons.circle,
+        Icons.album,
         size: 16,
       ),
 
@@ -584,12 +754,12 @@ Column(
       const Spacer(),
 
       Text(
-        "${spool.weight.toInt()} g",
-        style: const TextStyle(
-          fontWeight:
-              FontWeight.bold,
-        ),
-      ),
+  "${spool.weight.toInt()} g",
+  style: const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
       const SizedBox(width: 12),
 
