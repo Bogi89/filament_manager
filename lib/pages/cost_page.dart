@@ -128,10 +128,30 @@ class _CostPageState extends State<CostPage> {
 
     if (subtractFromStock) {
 
-      selectedFilament!.remainingWeight -= usedWeight;
+  double remainingToSubtract = usedWeight;
 
-      widget.onUpdateFilament(selectedFilament!);
+  for (final spool in selectedFilament!.spools) {
+
+    if (remainingToSubtract <= 0) {
+      break;
     }
+
+    if (spool.weight >= remainingToSubtract) {
+
+      spool.weight -= remainingToSubtract;
+      remainingToSubtract = 0;
+
+    } else {
+
+      remainingToSubtract -= spool.weight;
+      spool.weight = 0;
+
+    }
+
+  }
+
+  widget.onUpdateFilament(selectedFilament!);
+}
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Druck gespeichert")),

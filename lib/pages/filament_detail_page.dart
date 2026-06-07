@@ -135,7 +135,11 @@ selectedBrand = f.brand;
     bedTemp = f.bedTemp;
 
     priceController.text = f.price.toString();
-    weightController.text = f.remainingWeight.toString();
+    weightController.text =
+    f.spools.fold(
+      0.0,
+      (sum, spool) => sum + spool.weight,
+    ).toString();
 
     /// Variante absichern
 
@@ -252,15 +256,26 @@ selectedBrand = f.brand;
           priceController.text)
       ?? f.price;
 
+      final manualWeight =
+    double.tryParse(
+        weightController.text);
+
   /// 🧵 Restgewicht aus Spools berechnen
 
-  double remainingWeight =
-      f.spools.fold(
-          0,
-          (sum, spool) =>
-              sum + spool.weight);
+  if (manualWeight != null &&
+    f.spools.isNotEmpty) {
 
-  f.remainingWeight =
+  f.spools.first.weight =
+      manualWeight;
+}
+
+double remainingWeight =
+    f.spools.fold(
+        0,
+        (sum, spool) =>
+            sum + spool.weight);
+
+f.remainingWeight =
     remainingWeight;
 
 f.colorNames =
@@ -547,7 +562,7 @@ Column(
     decoration: BoxDecoration(
     borderRadius:
         BorderRadius.circular(10),
-    color: const Color(0xFF1B1B24),
+    color: Theme.of(context).cardColor,
     border: Border.all(
       color: Colors.white.withValues(alpha: 0.12)
     ),

@@ -461,18 +461,26 @@ const SizedBox(width: 8),
                                           weightController
                                               .text);
 
-                                  if (newWeight !=
-                                      null) {
+                                  if (newWeight != null) {
 
-                                    f.remainingWeight =
-                                        newWeight;
+  if (f.spools.isNotEmpty) {
 
-                                    context
-                                        .read<
-                                            AppState>()
-                                        .updateFilament(
-                                            f);
-                                  }
+    f.spools.first.weight =
+        newWeight;
+
+    f.remainingWeight =
+        f.spools.fold(
+          0.0,
+          (sum, spool) =>
+              sum + spool.weight,
+        );
+  }
+
+  context
+      .read<AppState>()
+      .updateFilament(
+          f);
+}
 
                                   setState(() {
 
@@ -634,11 +642,16 @@ const SizedBox(width: 8),
                                 editingFilament =
                                     f;
 
-                                weightController
-                                        .text =
-                                    f.remainingWeight
-                                        .toInt()
-                                        .toString();
+                                final currentWeight =
+    f.spools.fold<double>(
+      0,
+      (sum, spool) => sum + spool.weight,
+    );
+
+weightController.text =
+    currentWeight
+        .toInt()
+        .toString();
 
                                 setState(() {});
                               },
