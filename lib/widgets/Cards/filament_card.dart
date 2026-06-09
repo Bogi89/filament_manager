@@ -284,20 +284,43 @@ class _FilamentCardState extends State<FilamentCard> {
                                   );
 
                                   if (newWeight != null) {
-                                    double remainingToDistribute = newWeight;
+                                    final currentWeight = f.spools.fold(
+                                      0.0,
+                                      (sum, spool) => sum + spool.weight,
+                                    );
 
-                                    for (final spool in f.spools.reversed) {
-                                      if (remainingToDistribute <= 0) {
-                                        spool.weight = 0;
-                                        continue;
+                                    if (newWeight < currentWeight) {
+                                      double toRemove =
+                                          currentWeight - newWeight;
+
+                                      for (final spool in f.spools) {
+                                        if (toRemove <= 0) break;
+
+                                        if (spool.weight <= toRemove) {
+                                          toRemove -= spool.weight;
+                                          spool.weight = 0;
+                                        } else {
+                                          spool.weight -= toRemove;
+                                          toRemove = 0;
+                                        }
                                       }
+                                    } else if (newWeight > currentWeight) {
+                                      double toAdd = newWeight - currentWeight;
 
-                                      if (spool.weight <=
-                                          remainingToDistribute) {
-                                        remainingToDistribute -= spool.weight;
-                                      } else {
-                                        spool.weight = remainingToDistribute;
-                                        remainingToDistribute = 0;
+                                      for (final spool in f.spools.reversed) {
+                                        if (toAdd <= 0) break;
+
+                                        final freeSpace = 1000.0 - spool.weight;
+
+                                        if (freeSpace <= 0) continue;
+
+                                        if (toAdd >= freeSpace) {
+                                          spool.weight = 1000.0;
+                                          toAdd -= freeSpace;
+                                        } else {
+                                          spool.weight += toAdd;
+                                          toAdd = 0;
+                                        }
                                       }
                                     }
 
