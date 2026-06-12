@@ -134,7 +134,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   Future<void> _addBrandDialog() async {
     final controller = TextEditingController();
 
-    final result = await showDialog<Map<String, dynamic>>(
+    final result = await showDialog<String>(
       context: context,
 
       builder: (context) {
@@ -173,12 +173,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     );
 
     if (result != null) {
-      FilamentCatalogService.addCustomBrand(result["name"]);
+      FilamentCatalogService.addCustomBrand(result);
 
       setState(() {
         brands = FilamentCatalogService.getBrands();
 
-        selectedBrand = result["name"];
+        selectedBrand = result;
       });
     }
   }
@@ -881,7 +881,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                         final customHex = pickedColorList
                             .map(
                               (color) =>
-                                  '#{color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
+                                  '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
                             )
                             .join('+');
 
@@ -1004,8 +1004,58 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                             },
                           ),
 
-                          Text(
-                            "${nozzleTemp != null ? "$nozzleTemp" : "-"} °C",
+                          GestureDetector(
+                            onTap: () async {
+                              final controller = TextEditingController(
+                                text: nozzleTemp?.toString() ?? '',
+                              );
+
+                              final result = await showDialog<String>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Nozzle Temperatur"),
+                                    content: TextField(
+                                      controller: controller,
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        hintText: "Temperatur in °C",
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Abbrechen"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(
+                                            context,
+                                            controller.text.trim(),
+                                          );
+                                        },
+                                        child: const Text("Speichern"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
+                              if (result != null && result.isNotEmpty) {
+                                final value = int.tryParse(result);
+
+                                if (value != null) {
+                                  setState(() {
+                                    nozzleTemp = value;
+                                  });
+                                }
+                              }
+                            },
+                            child: Text(
+                              "${nozzleTemp != null ? "$nozzleTemp" : "-"} °C",
+                            ),
                           ),
 
                           IconButton(
@@ -1036,7 +1086,59 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                             },
                           ),
 
-                          Text("${bedTemp != null ? "$bedTemp" : "-"} °C"),
+                          GestureDetector(
+                            onTap: () async {
+                              final controller = TextEditingController(
+                                text: bedTemp?.toString() ?? '',
+                              );
+
+                              final result = await showDialog<String>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Bed Temperatur"),
+                                    content: TextField(
+                                      controller: controller,
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        hintText: "Temperatur in °C",
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Abbrechen"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(
+                                            context,
+                                            controller.text.trim(),
+                                          );
+                                        },
+                                        child: const Text("Speichern"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
+                              if (result != null && result.isNotEmpty) {
+                                final value = int.tryParse(result);
+
+                                if (value != null) {
+                                  setState(() {
+                                    bedTemp = value;
+                                  });
+                                }
+                              }
+                            },
+                            child: Text(
+                              "${bedTemp != null ? "$bedTemp" : "-"} °C",
+                            ),
+                          ),
 
                           IconButton(
                             icon: const Icon(Icons.add),
