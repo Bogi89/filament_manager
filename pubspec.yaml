@@ -43,7 +43,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   flutter_colorpicker: ^1.0.3
-  dropdown_search: ^7.0.0
+  dropdown_search: ^6.0.2
 
 dev_dependencies:
   flutter_test:
