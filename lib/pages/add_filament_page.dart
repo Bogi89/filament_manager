@@ -321,15 +321,24 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   }
 
   Widget buildAlignedAddButton({required VoidCallback? onPressed}) {
-    return SizedBox(
+    return Container(
       width: 48,
-      height: 48,
+      height: 56,
+      margin: const EdgeInsets.only(left: 8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.white.withOpacity(0.04)
+            : Colors.white,
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white.withOpacity(0.08)
+              : Colors.black.withOpacity(0.05),
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: IconButton(
         onPressed: onPressed,
         icon: const Icon(Icons.add),
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-        splashRadius: 24,
         tooltip: "Hinzufügen",
       ),
     );
@@ -464,6 +473,13 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             padding: const EdgeInsets.all(20),
 
             children: [
+              const Text(
+                "Filament",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+
+              const SizedBox(height: 20),
+
               Row(
                 children: [
                   Expanded(
@@ -493,8 +509,6 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                     ),
                   ),
                   buildAlignedAddButton(onPressed: _addBrandDialog),
-
-                  const SizedBox(width: 8),
                 ],
               ),
 
@@ -530,8 +544,6 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                   ),
 
                   buildAlignedAddButton(onPressed: _addMaterialDialog),
-
-                  const SizedBox(width: 8),
                 ],
               ),
 
@@ -539,8 +551,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
               Row(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 96,
+                  Expanded(
                     child: DropdownSearch<String>(
                       items: (filter, infiniteScrollProps) => variants,
                       selectedItem: selectedVariant,
@@ -632,8 +643,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
               Row(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 96,
+                  Expanded(
                     child: DropdownSearch<String>(
                       items: (filter, infiniteScrollProps) => colors,
                       selectedItem: colors.contains(selectedColor)
@@ -963,6 +973,13 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 ],
               ),
 
+              const SizedBox(height: 32),
+
+              const Text(
+                "Druckeinstellungen",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+
               const SizedBox(height: 20),
 
               DropdownButtonFormField<double>(
@@ -984,175 +1001,258 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 },
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      const Text("Nozzle"),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white.withOpacity(0.02)
+                      : Colors.grey.shade100,
 
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () {
-                              setState(() {
-                                nozzleTemp = (nozzleTemp ?? 0) - 1;
-                              });
-                            },
-                          ),
-
-                          GestureDetector(
-                            onTap: () async {
-                              final controller = TextEditingController(
-                                text: nozzleTemp?.toString() ?? '',
-                              );
-
-                              final result = await showDialog<String>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text("Nozzle Temperatur"),
-                                    content: TextField(
-                                      controller: controller,
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        hintText: "Temperatur in °C",
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Abbrechen"),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                            context,
-                                            controller.text.trim(),
-                                          );
-                                        },
-                                        child: const Text("Speichern"),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-
-                              if (result != null && result.isNotEmpty) {
-                                final value = int.tryParse(result);
-
-                                if (value != null) {
-                                  setState(() {
-                                    nozzleTemp = value;
-                                  });
-                                }
-                              }
-                            },
-                            child: Text(
-                              "${nozzleTemp != null ? "$nozzleTemp" : "-"} °C",
-                            ),
-                          ),
-
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () {
-                              setState(() {
-                                nozzleTemp = (nozzleTemp ?? 0) + 1;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white.withOpacity(0.06)
+                        : Colors.black.withOpacity(0.05),
                   ),
 
-                  Column(
-                    children: [
-                      const Text("Bed"),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Temperaturen",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
 
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () {
-                              setState(() {
-                                bedTemp = (bedTemp ?? 0) - 5;
-                              });
-                            },
+                    const SizedBox(height: 12),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: 180,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white.withOpacity(0.08)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(20),
                           ),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Nozzle",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
 
-                          GestureDetector(
-                            onTap: () async {
-                              final controller = TextEditingController(
-                                text: bedTemp?.toString() ?? '',
-                              );
+                              const SizedBox(height: 12),
 
-                              final result = await showDialog<String>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text("Bed Temperatur"),
-                                    content: TextField(
-                                      controller: controller,
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        hintText: "Temperatur in °C",
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Abbrechen"),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                            context,
-                                            controller.text.trim(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: () {
+                                      setState(() {
+                                        nozzleTemp = (nozzleTemp ?? 0) - 1;
+                                      });
+                                    },
+                                  ),
+
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final controller = TextEditingController(
+                                        text: nozzleTemp?.toString() ?? '',
+                                      );
+
+                                      final result = await showDialog<String>(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                              "Nozzle Temperatur",
+                                            ),
+                                            content: TextField(
+                                              controller: controller,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: const InputDecoration(
+                                                hintText: "Temperatur in °C",
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Abbrechen"),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(
+                                                    context,
+                                                    controller.text.trim(),
+                                                  );
+                                                },
+                                                child: const Text("Speichern"),
+                                              ),
+                                            ],
                                           );
                                         },
-                                        child: const Text("Speichern"),
+                                      );
+
+                                      if (result != null && result.isNotEmpty) {
+                                        final value = int.tryParse(result);
+
+                                        if (value != null) {
+                                          setState(() {
+                                            nozzleTemp = value;
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: Text(
+                                      "${nozzleTemp ?? '-'} °C",
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ],
-                                  );
-                                },
-                              );
+                                    ),
+                                  ),
 
-                              if (result != null && result.isNotEmpty) {
-                                final value = int.tryParse(result);
-
-                                if (value != null) {
-                                  setState(() {
-                                    bedTemp = value;
-                                  });
-                                }
-                              }
-                            },
-                            child: Text(
-                              "${bedTemp != null ? "$bedTemp" : "-"} °C",
-                            ),
+                                  IconButton(
+                                    icon: const Icon(Icons.add),
+                                    onPressed: () {
+                                      setState(() {
+                                        nozzleTemp = (nozzleTemp ?? 0) + 1;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
+                        ),
 
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () {
-                              setState(() {
-                                bedTemp = (bedTemp ?? 0) + 5;
-                              });
-                            },
+                        Container(
+                          width: 180,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white.withOpacity(0.08)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                          child: Column(
+                            children: [
+                              Text(
+                                "Bed",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+
+                              const SizedBox(height: 12),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: () {
+                                      setState(() {
+                                        bedTemp = (bedTemp ?? 0) - 5;
+                                      });
+                                    },
+                                  ),
+
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final controller = TextEditingController(
+                                        text: bedTemp?.toString() ?? '',
+                                      );
+
+                                      final result = await showDialog<String>(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text("Bed Temperatur"),
+                                            content: TextField(
+                                              controller: controller,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: const InputDecoration(
+                                                hintText: "Temperatur in °C",
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Abbrechen"),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(
+                                                    context,
+                                                    controller.text.trim(),
+                                                  );
+                                                },
+                                                child: const Text("Speichern"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+
+                                      if (result != null && result.isNotEmpty) {
+                                        final value = int.tryParse(result);
+
+                                        if (value != null) {
+                                          setState(() {
+                                            bedTemp = value;
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: Text(
+                                      "${bedTemp ?? '-'} °C",
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+
+                                  IconButton(
+                                    icon: const Icon(Icons.add),
+                                    onPressed: () {
+                                      setState(() {
+                                        bedTemp = (bedTemp ?? 0) + 5;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              const Text(
+                "Bestand & Kosten",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
 
               const SizedBox(height: 20),
@@ -1234,7 +1334,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
               TextField(
                 controller: remainingWeightController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: "Restgewicht (g)"),
+                decoration: const InputDecoration(hintText: "Restgewicht (g)"),
               ),
 
               const SizedBox(height: 16),
