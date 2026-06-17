@@ -54,6 +54,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   final priceController = TextEditingController();
 
+  final TextEditingController brandSearchController =
+    TextEditingController();
+
+final TextEditingController materialSearchController =
+    TextEditingController();
+
+final TextEditingController variantSearchController =
+    TextEditingController();
+
+final TextEditingController colorSearchController =
+    TextEditingController();
+
   String? selectedSpoolWeight;
 
   List<String> brands = [];
@@ -513,13 +525,19 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                       items: (filter, infiniteScrollProps) => brands,
                       selectedItem: selectedBrand,
                       popupProps: PopupProps.menu(
-  showSearchBox: false,
-                        searchFieldProps: const TextFieldProps(
-                          decoration: InputDecoration(
-                            hintText: "Hersteller suchen...",
-                            suffixIcon: Icon(Icons.clear),
-                          ),
-                        ),
+  showSearchBox: true,
+                        searchFieldProps: TextFieldProps(
+  controller: brandSearchController,
+  decoration: InputDecoration(
+    hintText: "Hersteller suchen...",
+    suffixIcon: IconButton(
+      icon: const Icon(Icons.clear),
+      onPressed: () {
+        brandSearchController.clear();
+      },
+    ),
+  ),
+),
                       ),
                       decoratorProps: const DropDownDecoratorProps(
                         decoration: InputDecoration(
@@ -548,12 +566,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                       selectedItem: selectedMaterial,
                       popupProps: PopupProps.menu(
                         showSearchBox: true,
-                        searchFieldProps: const TextFieldProps(
-                          decoration: InputDecoration(
-                            hintText: "Material suchen...",
-                            suffixIcon: Icon(Icons.clear),
-                          ),
-                        ),
+                        searchFieldProps: TextFieldProps(
+  controller: materialSearchController,
+  decoration: InputDecoration(
+    hintText: "Material suchen...",
+    suffixIcon: IconButton(
+      icon: const Icon(Icons.clear),
+      onPressed: () {
+        materialSearchController.clear();
+      },
+    ),
+  ),
+),
                       ),
                       decoratorProps: const DropDownDecoratorProps(
                         decoration: InputDecoration(
@@ -583,12 +607,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                       selectedItem: selectedVariant,
                       popupProps: PopupProps.menu(
                         showSearchBox: true,
-                        searchFieldProps: const TextFieldProps(
-                          decoration: InputDecoration(
-                            hintText: "Variante suchen...",
-                            suffixIcon: Icon(Icons.clear),
-                          ),
-                        ),
+                        searchFieldProps: TextFieldProps(
+  controller: variantSearchController,
+  decoration: InputDecoration(
+    hintText: "Variante suchen...",
+    suffixIcon: IconButton(
+      icon: const Icon(Icons.clear),
+      onPressed: () {
+        variantSearchController.clear();
+      },
+    ),
+  ),
+),
                       ),
                       decoratorProps: const DropDownDecoratorProps(
                         decoration: InputDecoration(
@@ -695,12 +725,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                         },
 
                         showSearchBox: true,
-                        searchFieldProps: const TextFieldProps(
-                          decoration: InputDecoration(
-                            hintText: "Farbe suchen...",
-                            suffixIcon: Icon(Icons.clear),
-                          ),
-                        ),
+                        searchFieldProps: TextFieldProps(
+  controller: colorSearchController,
+  decoration: InputDecoration(
+    hintText: "Farbe suchen...",
+    suffixIcon: IconButton(
+      icon: const Icon(Icons.clear),
+      onPressed: () {
+        colorSearchController.clear();
+      },
+    ),
+  ),
+),
                       ),
                       decoratorProps: const DropDownDecoratorProps(
                         decoration: InputDecoration(
