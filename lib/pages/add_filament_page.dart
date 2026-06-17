@@ -184,6 +184,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   }
 
   void selectMaterial(String material) {
+    final stopwatch = Stopwatch()..start();
+
     selectedMaterial = material;
 
     variants = FilamentCatalogService.getVariants(selectedBrand!, material);
@@ -199,6 +201,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
       bedTemp = materialTemps[material]!["bed"];
     }
+
+    debugPrint(
+  'selectMaterial: ${stopwatch.elapsedMilliseconds} ms',
+);
 
     setState(() {});
   }
@@ -370,19 +376,37 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   }
 
   void saveFilament() {
-    if (selectedBrand == null ||
-        selectedMaterial == null ||
-        selectedVariant == null ||
-        selectedColor == null) {
-      return;
-    }
+  final totalWeight = double.tryParse(totalWeightController.text);
 
-    final totalWeight = double.tryParse(totalWeightController.text) ?? 0;
+  final remainingWeight =
+      double.tryParse(remainingWeightController.text);
 
-    final remainingWeight =
-        double.tryParse(remainingWeightController.text) ?? totalWeight;
+  final price = double.tryParse(priceController.text);
 
-    final price = double.tryParse(priceController.text) ?? 0;
+  final hasMissingFields =
+      selectedBrand == null ||
+      selectedMaterial == null ||
+      selectedVariant == null ||
+      selectedColor == null ||
+      selectedDiameter == null ||
+      selectedSpoolWeight == null ||
+      totalWeight == null ||
+      remainingWeight == null ||
+      price == null ||
+      nozzleTemp == null ||
+      bedTemp == null;
+
+  if (hasMissingFields) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Bitte alle Pflichtfelder ausfüllen.',
+        ),
+      ),
+    );
+
+    return;
+  }
 
     final List<Color> parsedColors = FilamentCatalogService.getColorsFromHex(
       selectedBrand!,
@@ -460,6 +484,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('AddFilamentPage rebuild');
+
     if (!catalogLoaded) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -487,7 +513,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                       items: (filter, infiniteScrollProps) => brands,
                       selectedItem: selectedBrand,
                       popupProps: PopupProps.menu(
-                        showSearchBox: true,
+  showSearchBox: false,
                         searchFieldProps: const TextFieldProps(
                           decoration: InputDecoration(
                             hintText: "Hersteller suchen...",
@@ -1034,7 +1060,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 180,
+                          width: 220,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color:
@@ -1053,7 +1079,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                               const SizedBox(height: 12),
 
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
                                     icon: const Icon(Icons.remove),
@@ -1140,7 +1167,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                         ),
 
                         Container(
-                          width: 180,
+                          width: 220,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color:

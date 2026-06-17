@@ -116,7 +116,7 @@ static List<String> getBrands() {
   // doppelte entfernen
   final unique = materials.toSet().toList();
 
-  unique.sort();
+  // unique.sort();
   return unique;
 }
 
@@ -250,7 +250,7 @@ saveCustomColors();
   // doppelte entfernen
   final unique = variants.toSet().toList();
 
-  unique.sort();
+  // unique.sort();
   return unique;
 }
 
@@ -282,7 +282,7 @@ saveCustomColors();
   // doppelte entfernen
   final unique = colors.toSet().toList();
 
-  unique.sort();
+  // unique.sort();
   return unique;
 }
 
