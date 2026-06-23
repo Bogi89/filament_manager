@@ -65,7 +65,7 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
 
-      fillColor: Colors.white,
+      fillColor: const Color(0xFFF8FAFC),
 
       border: OutlineInputBorder(borderRadius: AppRadius.radiusSM),
 
