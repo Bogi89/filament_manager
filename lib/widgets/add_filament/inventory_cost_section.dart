@@ -8,6 +8,7 @@ class InventoryCostSection extends StatefulWidget {
     required this.remainingWeightController,
     required this.priceController,
     required this.onSave,
+    required this.onSpoolWeightChanged,
   });
 
   final String? selectedSpoolWeight;
@@ -15,6 +16,7 @@ class InventoryCostSection extends StatefulWidget {
   final TextEditingController remainingWeightController;
   final TextEditingController priceController;
   final VoidCallback onSave;
+  final ValueChanged<String?> onSpoolWeightChanged;
 
   @override
   State<InventoryCostSection> createState() => _InventoryCostSectionState();
@@ -126,12 +128,16 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
                     this.selectedSpoolWeight = "custom";
                     widget.totalWeightController.text = result;
                   });
+
+                  widget.onSpoolWeightChanged("custom");
                 }
               } else {
                 setState(() {
                   this.selectedSpoolWeight = value;
                   widget.totalWeightController.text = value;
                 });
+
+                widget.onSpoolWeightChanged(value);
               }
             },
           ),

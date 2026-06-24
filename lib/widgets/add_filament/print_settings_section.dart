@@ -8,6 +8,8 @@ class PrintSettingsSection extends StatelessWidget {
     required this.nozzleTemp,
     required this.bedTemp,
     required this.onDiameterChanged,
+    required this.onNozzleTempChanged,
+    required this.onBedTempChanged,
   });
 
   final double? selectedDiameter;
@@ -15,6 +17,16 @@ class PrintSettingsSection extends StatelessWidget {
   final int? nozzleTemp;
   final int? bedTemp;
   final ValueChanged<double?> onDiameterChanged;
+  final ValueChanged<int?> onNozzleTempChanged;
+  final ValueChanged<int?> onBedTempChanged;
+
+  void _increaseNozzle() {
+    onNozzleTempChanged((nozzleTemp ?? 0) + 10);
+  }
+
+  void _decreaseNozzle() {
+    onNozzleTempChanged((nozzleTemp ?? 0) - 10);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +86,125 @@ class PrintSettingsSection extends StatelessWidget {
             child: SizedBox(
               height: 120,
               width: double.infinity,
-              child: Center(
-                child: Text(
-                  "Temperaturen",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Nozzle",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: _decreaseNozzle,
+                            icon: const Icon(Icons.remove),
+                          ),
+
+                          GestureDetector(
+                            onTap: () {
+                              final controller = TextEditingController(
+                                text: nozzleTemp?.toString() ?? '',
+                              );
+
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Nozzle Temperatur"),
+                                    content: TextField(
+                                      controller: controller,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Abbrechen"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          final value = int.tryParse(
+                                            controller.text,
+                                          );
+
+                                          if (value != null) {
+                                            onNozzleTempChanged(value);
+                                          }
+
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Speichern"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text(
+                              "${nozzleTemp ?? '-'}°C",
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+
+                          IconButton(
+                            onPressed: _increaseNozzle,
+                            icon: const Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Bed",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              onBedTempChanged((bedTemp ?? 0) - 5);
+                            },
+                            icon: const Icon(Icons.remove),
+                          ),
+
+                          Text(
+                            "${bedTemp ?? '-'}°C",
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+
+                          IconButton(
+                            onPressed: () {
+                              onBedTempChanged((bedTemp ?? 0) + 5);
+                            },
+                            icon: const Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

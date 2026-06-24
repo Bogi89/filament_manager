@@ -1092,6 +1092,17 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                     selectedDiameter = value;
                   });
                 },
+                onNozzleTempChanged: (value) {
+                  setState(() {
+                    nozzleTemp = value;
+                  });
+                },
+
+                onBedTempChanged: (value) {
+                  setState(() {
+                    bedTemp = value;
+                  });
+                },
               ),
 
               InventoryCostSection(
@@ -1099,6 +1110,13 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 totalWeightController: totalWeightController,
                 remainingWeightController: remainingWeightController,
                 priceController: priceController,
+
+                onSpoolWeightChanged: (value) {
+                  setState(() {
+                    selectedSpoolWeight = value;
+                  });
+                },
+
                 onSave: saveFilament,
               ),
 
