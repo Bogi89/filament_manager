@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'editable_temperature.dart';
 
-class PrintSettingsSection extends StatelessWidget {
+class PrintSettingsSection extends StatefulWidget {
   const PrintSettingsSection({
     super.key,
     required this.selectedDiameter,
@@ -20,14 +21,11 @@ class PrintSettingsSection extends StatelessWidget {
   final ValueChanged<int?> onNozzleTempChanged;
   final ValueChanged<int?> onBedTempChanged;
 
-  void _increaseNozzle() {
-    onNozzleTempChanged((nozzleTemp ?? 0) + 10);
-  }
+  @override
+  State<PrintSettingsSection> createState() => _PrintSettingsSectionState();
+}
 
-  void _decreaseNozzle() {
-    onNozzleTempChanged((nozzleTemp ?? 0) - 10);
-  }
-
+class _PrintSettingsSectionState extends State<PrintSettingsSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,12 +45,12 @@ class PrintSettingsSection extends StatelessWidget {
           const SizedBox(height: 20),
 
           DropdownButtonFormField<double>(
-            initialValue: selectedDiameter,
+            initialValue: widget.selectedDiameter,
             hint: const Text("Durchmesser"),
-            items: diameters
+            items: widget.diameters
                 .map((d) => DropdownMenuItem(value: d, child: Text("$d mm")))
                 .toList(),
-            onChanged: onDiameterChanged,
+            onChanged: widget.onDiameterChanged,
           ),
 
           const SizedBox(height: 24),
@@ -89,120 +87,18 @@ class PrintSettingsSection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Nozzle",
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: _decreaseNozzle,
-                            icon: const Icon(Icons.remove),
-                          ),
-
-                          GestureDetector(
-                            onTap: () {
-                              final controller = TextEditingController(
-                                text: nozzleTemp?.toString() ?? '',
-                              );
-
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text("Nozzle Temperatur"),
-                                    content: TextField(
-                                      controller: controller,
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Abbrechen"),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          final value = int.tryParse(
-                                            controller.text,
-                                          );
-
-                                          if (value != null) {
-                                            onNozzleTempChanged(value);
-                                          }
-
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Speichern"),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            child: Text(
-                              "${nozzleTemp ?? '-'}°C",
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-
-                          IconButton(
-                            onPressed: _increaseNozzle,
-                            icon: const Icon(Icons.add),
-                          ),
-                        ],
-                      ),
-                    ],
+                  EditableTemperature(
+                    title: "Nozzle",
+                    value: widget.nozzleTemp,
+                    step: 10,
+                    onChanged: widget.onNozzleTempChanged,
                   ),
 
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Bed",
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              onBedTempChanged((bedTemp ?? 0) - 5);
-                            },
-                            icon: const Icon(Icons.remove),
-                          ),
-
-                          Text(
-                            "${bedTemp ?? '-'}°C",
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-
-                          IconButton(
-                            onPressed: () {
-                              onBedTempChanged((bedTemp ?? 0) + 5);
-                            },
-                            icon: const Icon(Icons.add),
-                          ),
-                        ],
-                      ),
-                    ],
+                  EditableTemperature(
+                    title: "Bed",
+                    value: widget.bedTemp,
+                    step: 5,
+                    onChanged: widget.onBedTempChanged,
                   ),
                 ],
               ),
