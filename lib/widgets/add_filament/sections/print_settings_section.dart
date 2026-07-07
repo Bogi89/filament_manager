@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'editable_temperature.dart';
+
+import '../editable_temperature.dart';
+import '../section_card.dart';
 
 class PrintSettingsSection extends StatefulWidget {
   const PrintSettingsSection({
@@ -28,22 +30,11 @@ class PrintSettingsSection extends StatefulWidget {
 class _PrintSettingsSectionState extends State<PrintSettingsSection> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24),
-      ),
+    return SectionCard(
+      title: "Druckeinstellungen",
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Druckeinstellungen",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-
-          const SizedBox(height: 20),
-
           DropdownButtonFormField<double>(
             initialValue: widget.selectedDiameter,
             hint: const Text("Durchmesser"),
@@ -55,17 +46,15 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
 
           const SizedBox(height: 24),
 
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               "Temperaturen",
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
 
-          const SizedBox(height: 12),
-
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
 
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -74,7 +63,6 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
                   ? Colors.white.withOpacity(0.02)
                   : const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(20),
-
               border: Border.all(
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white.withOpacity(0.06)
@@ -93,7 +81,6 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
                     step: 10,
                     onChanged: widget.onNozzleTempChanged,
                   ),
-
                   EditableTemperature(
                     title: "Bed",
                     value: widget.bedTemp,

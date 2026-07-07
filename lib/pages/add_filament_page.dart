@@ -5,8 +5,9 @@ import '../models/filament.dart';
 import '../services/filament_catalog_service.dart';
 import '../services/custom_color_service.dart';
 import '../models/filament_color.dart';
-import '../widgets/add_filament/inventory_cost_section.dart';
-import '../widgets/add_filament/print_settings_section.dart';
+import '../widgets/add_filament/sections/inventory_cost_section.dart';
+import '../widgets/add_filament/sections/print_settings_section.dart';
+import '../widgets/add_filament/sections/filament_section.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;

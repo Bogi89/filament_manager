@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../section_card.dart';
+
 class InventoryCostSection extends StatefulWidget {
   const InventoryCostSection({
     super.key,
@@ -33,40 +35,13 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24),
-
-        border: Border.all(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withOpacity(0.06)
-              : Colors.black.withOpacity(0.05),
-        ),
-
-        boxShadow: Theme.of(context).brightness == Brightness.dark
-            ? null
-            : [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-      ),
+    return SectionCard(
+      title: "Bestand & Kosten",
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Bestand & Kosten",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-
-          const SizedBox(height: 20),
-
           DropdownButtonFormField<String>(
-            value: this.selectedSpoolWeight,
+            value: selectedSpoolWeight,
             decoration: const InputDecoration(
               labelText: "Spulengewicht",
               suffixText: "g",
@@ -75,17 +50,17 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
               DropdownMenuItem(
                 value: "custom",
                 child: Text(
-                  this.selectedSpoolWeight == "custom" &&
+                  selectedSpoolWeight == "custom" &&
                           widget.totalWeightController.text.isNotEmpty
                       ? widget.totalWeightController.text
                       : "Benutzerdefiniert...",
                 ),
               ),
-              DropdownMenuItem(value: "250", child: Text("250")),
-              DropdownMenuItem(value: "500", child: Text("500")),
-              DropdownMenuItem(value: "800", child: Text("800")),
-              DropdownMenuItem(value: "1000", child: Text("1000")),
-              DropdownMenuItem(value: "2000", child: Text("2000")),
+              const DropdownMenuItem(value: "250", child: Text("250")),
+              const DropdownMenuItem(value: "500", child: Text("500")),
+              const DropdownMenuItem(value: "800", child: Text("800")),
+              const DropdownMenuItem(value: "1000", child: Text("1000")),
+              const DropdownMenuItem(value: "2000", child: Text("2000")),
             ],
             onChanged: (value) async {
               if (value == null) return;
@@ -107,15 +82,12 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
                       ),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: () => Navigator.pop(context),
                           child: const Text("Abbrechen"),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context, controller.text.trim());
-                          },
+                          onPressed: () =>
+                              Navigator.pop(context, controller.text.trim()),
                           child: const Text("Speichern"),
                         ),
                       ],
@@ -125,7 +97,7 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
 
                 if (result != null && result.isNotEmpty) {
                   setState(() {
-                    this.selectedSpoolWeight = "custom";
+                    selectedSpoolWeight = "custom";
                     widget.totalWeightController.text = result;
                   });
 
@@ -133,7 +105,7 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
                 }
               } else {
                 setState(() {
-                  this.selectedSpoolWeight = value;
+                  selectedSpoolWeight = value;
                   widget.totalWeightController.text = value;
                 });
 

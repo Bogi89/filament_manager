@@ -1,0 +1,14 @@
+--- old_add_filament_page.dart	2026-07-07 06:12:16.796046450 +0000
++++ lib/pages/add_filament_page.dart	2026-07-03 09:42:20.539142499 +0000
+@@ -5,8 +5,9 @@
+ import '../services/filament_catalog_service.dart';
+ import '../services/custom_color_service.dart';
+ import '../models/filament_color.dart';
+-import '../widgets/add_filament/inventory_cost_section.dart';
+-import '../widgets/add_filament/print_settings_section.dart';
++import '../widgets/add_filament/sections/inventory_cost_section.dart';
++import '../widgets/add_filament/sections/print_settings_section.dart';
++import '../widgets/add_filament/sections/filament_section.dart';
+ 
+ class AddFilamentPage extends StatefulWidget {
+   final Filament? existingFilament;
