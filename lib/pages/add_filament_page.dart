@@ -1106,6 +1106,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 },
               ),
 
+              const SizedBox(height: 24),
+
               InventoryCostSection(
                 selectedSpoolWeight: selectedSpoolWeight,
                 totalWeightController: totalWeightController,
