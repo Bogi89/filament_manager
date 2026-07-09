@@ -533,18 +533,26 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                     const SizedBox(width: 24),
 
                     Expanded(
-                      child: Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: Colors.green.withOpacity(0.30),
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text("RECHTS", style: TextStyle(fontSize: 22)),
-                        ),
+                      child: PrintSettingsSection(
+                        selectedDiameter: selectedDiameter,
+                        diameters: diameters,
+                        nozzleTemp: nozzleTemp,
+                        bedTemp: bedTemp,
+                        onDiameterChanged: (value) {
+                          setState(() {
+                            selectedDiameter = value;
+                          });
+                        },
+                        onNozzleTempChanged: (value) {
+                          setState(() {
+                            nozzleTemp = value;
+                          });
+                        },
+                        onBedTempChanged: (value) {
+                          setState(() {
+                            bedTemp = value;
+                          });
+                        },
                       ),
                     ),
                   ],
@@ -1122,31 +1130,6 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                     ),
                   ],
                 ),
-              ),
-
-              const SizedBox(height: 24),
-
-              PrintSettingsSection(
-                selectedDiameter: selectedDiameter,
-                diameters: diameters,
-                nozzleTemp: nozzleTemp,
-                bedTemp: bedTemp,
-                onDiameterChanged: (value) {
-                  setState(() {
-                    selectedDiameter = value;
-                  });
-                },
-                onNozzleTempChanged: (value) {
-                  setState(() {
-                    nozzleTemp = value;
-                  });
-                },
-
-                onBedTempChanged: (value) {
-                  setState(() {
-                    bedTemp = value;
-                  });
-                },
               ),
 
               const SizedBox(height: 24),
