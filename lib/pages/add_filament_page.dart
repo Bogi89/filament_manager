@@ -516,16 +516,35 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 200,
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.08),
+                          color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: Colors.blue.withOpacity(0.30),
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white.withOpacity(0.06)
+                                : Colors.black.withOpacity(0.05),
                           ),
+                          boxShadow:
+                              Theme.of(context).brightness == Brightness.dark
+                              ? null
+                              : [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.03),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                         ),
                         child: const Center(
-                          child: Text("LINKS", style: TextStyle(fontSize: 22)),
+                          child: Text(
+                            "FILAMENT HIER",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),
