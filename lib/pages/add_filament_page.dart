@@ -496,6 +496,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     }
 
     final isMobile = MediaQuery.of(context).size.width < 800;
+    final isDesktop = !isMobile;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Filament hinzufügen")),
@@ -509,6 +510,48 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             ),
 
             children: [
+              if (isDesktop) ...[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.blue.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: Colors.blue.withOpacity(0.30),
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text("LINKS", style: TextStyle(fontSize: 22)),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(width: 24),
+
+                    Expanded(
+                      child: Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: Colors.green.withOpacity(0.30),
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text("RECHTS", style: TextStyle(fontSize: 22)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+              ],
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
