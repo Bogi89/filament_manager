@@ -537,14 +537,61 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                   ),
                                 ],
                         ),
-                        child: const Center(
-                          child: Text(
-                            "FILAMENT HIER",
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Filament",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
+
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownSearch<String>(
+                                    items: (filter, infiniteScrollProps) =>
+                                        brands,
+                                    selectedItem: selectedBrand,
+                                    popupProps: PopupProps.menu(
+                                      showSearchBox: true,
+                                      searchFieldProps: TextFieldProps(
+                                        controller: brandSearchController,
+                                        decoration: InputDecoration(
+                                          hintText: "Hersteller suchen...",
+                                          suffixIcon: IconButton(
+                                            icon: const Icon(Icons.clear),
+                                            onPressed: () {
+                                              brandSearchController.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    decoratorProps:
+                                        const DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            hintText: "Hersteller",
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        selectBrand(value);
+                                      }
+                                    },
+                                  ),
+                                ),
+
+                                buildAlignedAddButton(
+                                  onPressed: _addBrandDialog,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
