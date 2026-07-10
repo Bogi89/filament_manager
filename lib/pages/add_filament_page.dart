@@ -591,6 +591,50 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 16),
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownSearch<String>(
+                                    items: (filter, infiniteScrollProps) =>
+                                        materials,
+                                    selectedItem: selectedMaterial,
+                                    popupProps: PopupProps.menu(
+                                      showSearchBox: true,
+                                      searchFieldProps: TextFieldProps(
+                                        controller: materialSearchController,
+                                        decoration: InputDecoration(
+                                          hintText: "Material suchen...",
+                                          suffixIcon: IconButton(
+                                            icon: const Icon(Icons.clear),
+                                            onPressed: () {
+                                              materialSearchController.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    decoratorProps:
+                                        const DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            hintText: "Material",
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        selectMaterial(value);
+                                      }
+                                    },
+                                  ),
+                                ),
+
+                                buildAlignedAddButton(
+                                  onPressed: _addMaterialDialog,
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
