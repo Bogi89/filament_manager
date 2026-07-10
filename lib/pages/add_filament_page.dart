@@ -635,6 +635,102 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 16),
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownSearch<String>(
+                                    items: (filter, infiniteScrollProps) =>
+                                        variants,
+                                    selectedItem: selectedVariant,
+                                    popupProps: PopupProps.menu(
+                                      showSearchBox: true,
+                                      searchFieldProps: TextFieldProps(
+                                        controller: variantSearchController,
+                                        decoration: InputDecoration(
+                                          hintText: "Variante suchen...",
+                                          suffixIcon: IconButton(
+                                            icon: const Icon(Icons.clear),
+                                            onPressed: () {
+                                              variantSearchController.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    decoratorProps:
+                                        const DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            hintText: "Variante",
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        selectVariant(value);
+                                      }
+                                    },
+                                  ),
+                                ),
+
+                                buildAlignedAddButton(
+                                  onPressed: () async {
+                                    final controller = TextEditingController();
+
+                                    final result = await showDialog<String>(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text("Neue Variante"),
+                                          content: TextField(
+                                            controller: controller,
+                                            decoration: const InputDecoration(
+                                              hintText: "Variantenname",
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text("Abbrechen"),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                  context,
+                                                  controller.text.trim(),
+                                                );
+                                              },
+                                              child: const Text("Speichern"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+
+                                    if (result != null &&
+                                        result.isNotEmpty &&
+                                        selectedBrand != null &&
+                                        selectedMaterial != null) {
+                                      setState(() {
+                                        variants.add(result);
+
+                                        FilamentCatalogService.addCustomVariant(
+                                          selectedBrand!,
+                                          selectedMaterial!,
+                                          result,
+                                        );
+
+                                        variants = variants.toSet().toList();
+                                        variants.sort();
+                                        selectedVariant = result;
+                                      });
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
