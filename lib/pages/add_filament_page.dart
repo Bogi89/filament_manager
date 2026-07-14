@@ -1122,6 +1122,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 8),
                           ],
                         ),
                       ),
