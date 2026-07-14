@@ -41,7 +41,7 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DropdownButtonFormField<String>(
-            value: selectedSpoolWeight,
+            initialValue: selectedSpoolWeight,
             decoration: const InputDecoration(
               labelText: "Spulengewicht",
               suffixText: "g",

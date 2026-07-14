@@ -7,7 +7,6 @@ import '../services/custom_color_service.dart';
 import '../models/filament_color.dart';
 import '../widgets/add_filament/sections/inventory_cost_section.dart';
 import '../widgets/add_filament/sections/print_settings_section.dart';
-import '../widgets/add_filament/sections/filament_section.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;
@@ -343,12 +342,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       margin: const EdgeInsets.only(left: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white.withOpacity(0.04)
+            ? Colors.white.withValues(alpha: 0.04)
             : Colors.white,
         border: Border.all(
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withOpacity(0.08)
-              : Colors.black.withOpacity(0.05),
+              ? Colors.white.withValues(alpha: 0.08)
+              : Colors.black.withValues(alpha: 0.05),
         ),
         borderRadius: BorderRadius.circular(12),
       ),
@@ -523,15 +522,15 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                           border: Border.all(
                             color:
                                 Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white.withOpacity(0.06)
-                                : Colors.black.withOpacity(0.05),
+                                ? Colors.white.withValues(alpha: 0.06)
+                                : Colors.black.withValues(alpha: 0.05),
                           ),
                           boxShadow:
                               Theme.of(context).brightness == Brightness.dark
                               ? null
                               : [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.03),
+                                    color: Colors.black.withValues(alpha: 0.03),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -1166,14 +1165,14 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white.withOpacity(0.06)
-                          : Colors.black.withOpacity(0.05),
+                          ? Colors.white.withValues(alpha: 0.06)
+                          : Colors.black.withValues(alpha: 0.05),
                     ),
                     boxShadow: Theme.of(context).brightness == Brightness.dark
                         ? null
                         : [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.03),
+                              color: Colors.black.withValues(alpha: 0.03),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),

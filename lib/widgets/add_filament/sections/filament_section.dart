@@ -351,16 +351,6 @@ class _FilamentSectionState extends State<FilamentSection> {
     setState(() {});
   }
 
-  void _reloadBrands() {
-    setState(() {
-      brands = FilamentCatalogService.getBrands().toSet().toList();
-
-      if (selectedBrand != null && !brands.contains(selectedBrand)) {
-        selectedBrand = null;
-      }
-    });
-  }
-
   void selectMaterial(String material) {
     selectedMaterial = material;
 
@@ -592,14 +582,14 @@ class _FilamentSectionState extends State<FilamentSection> {
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withOpacity(0.06)
-              : Colors.black.withOpacity(0.05),
+              ? Colors.white.withValues(alpha: 0.06)
+              : Colors.black.withValues(alpha: 0.05),
         ),
         boxShadow: Theme.of(context).brightness == Brightness.dark
             ? null
             : [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
+                  color: Colors.black.withValues(alpha: 0.03),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
