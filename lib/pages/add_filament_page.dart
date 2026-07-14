@@ -1736,6 +1736,34 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
               const SizedBox(height: 24),
 
+              if (isMobile) ...[
+                const SizedBox(height: 24),
+
+                PrintSettingsSection(
+                  selectedDiameter: selectedDiameter,
+                  diameters: diameters,
+                  nozzleTemp: nozzleTemp,
+                  bedTemp: bedTemp,
+                  onDiameterChanged: (value) {
+                    setState(() {
+                      selectedDiameter = value;
+                    });
+                  },
+                  onNozzleTempChanged: (value) {
+                    setState(() {
+                      nozzleTemp = value;
+                    });
+                  },
+                  onBedTempChanged: (value) {
+                    setState(() {
+                      bedTemp = value;
+                    });
+                  },
+                ),
+
+                const SizedBox(height: 24),
+              ],
+
               InventoryCostSection(
                 selectedSpoolWeight: selectedSpoolWeight,
                 totalWeightController: totalWeightController,
