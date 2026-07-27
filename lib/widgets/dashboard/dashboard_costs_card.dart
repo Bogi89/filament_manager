@@ -18,10 +18,11 @@ class DashboardCostsCard extends StatelessWidget {
       children: [
         DashboardCard(
           title: "Druckkosten Gesamt",
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
           child: Center(
             child: Text(
               "${totalPrintCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -30,10 +31,11 @@ class DashboardCostsCard extends StatelessWidget {
 
         DashboardCard(
           title: "Ø Kosten pro Druck",
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
           child: Center(
             child: Text(
               "${avgCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
           ),
         ),

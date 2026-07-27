@@ -21,12 +21,12 @@ class DashboardWarningCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
         color: isDark
             ? Colors.orange.shade900.withValues(alpha: 0.12)
             : const Color(0xFFFFF8E8),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: isDark
               ? Colors.orange.shade700.withValues(alpha: 0.35)
@@ -41,7 +41,7 @@ class DashboardWarningCard extends StatelessWidget {
             color: Colors.orange.shade600,
           ),
 
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
 
           Expanded(
             child: Text(

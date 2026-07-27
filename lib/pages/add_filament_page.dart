@@ -7,6 +7,7 @@ import '../services/custom_color_service.dart';
 import '../models/filament_color.dart';
 import '../widgets/add_filament/sections/inventory_cost_section.dart';
 import '../widgets/add_filament/sections/print_settings_section.dart';
+import '../widgets/common/page_header.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;
@@ -494,10 +495,14 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = MediaQuery.of(context).size.width < 1000;
     final isDesktop = !isMobile;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : const Color(0xFFE9EEF5),
+
       appBar: AppBar(title: const Text("Filament hinzufügen")),
 
       body: Stack(

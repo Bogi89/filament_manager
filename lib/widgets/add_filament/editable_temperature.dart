@@ -26,7 +26,7 @@ class _EditableTemperatureState extends State<EditableTemperature> {
   bool _editing = false;
 
   static const _textStyle = TextStyle(
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.w600,
     height: 1.0,
   );
@@ -114,8 +114,13 @@ class _EditableTemperatureState extends State<EditableTemperature> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 48,
+              width: 36,
+              height: 36,
               child: IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                iconSize: 20,
+                splashRadius: 20,
                 icon: const Icon(Icons.remove),
                 onPressed: () {
                   widget.onChanged((widget.value ?? 0) - widget.step);
@@ -124,7 +129,7 @@ class _EditableTemperatureState extends State<EditableTemperature> {
             ),
 
             SizedBox(
-              width: 92,
+              width: 76,
               height: 28,
               child: Center(
                 child: !_editing
@@ -180,8 +185,13 @@ class _EditableTemperatureState extends State<EditableTemperature> {
             ),
 
             SizedBox(
-              width: 48,
+              width: 36,
+              height: 36,
               child: IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                iconSize: 20,
+                splashRadius: 20,
                 icon: const Icon(Icons.add),
                 onPressed: () {
                   widget.onChanged((widget.value ?? 0) + widget.step);

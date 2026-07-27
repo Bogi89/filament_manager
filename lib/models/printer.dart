@@ -1,15 +1,16 @@
 class Printer {
-
   String name;
   String brand;
   double averageWatt;
   String notes;
+  bool isCustom;
 
   Printer({
     required this.name,
     required this.brand,
     required this.averageWatt,
     this.notes = "",
+    this.isCustom = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -18,6 +19,7 @@ class Printer {
       'brand': brand,
       'averageWatt': averageWatt,
       'notes': notes,
+      'isCustom': isCustom,
     };
   }
 
@@ -27,6 +29,7 @@ class Printer {
       brand: json['brand'],
       averageWatt: (json['averageWatt'] as num).toDouble(),
       notes: json['notes'] ?? "",
+      isCustom: json['isCustom'] ?? false,
     );
   }
 

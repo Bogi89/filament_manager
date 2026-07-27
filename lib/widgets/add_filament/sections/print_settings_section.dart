@@ -73,7 +73,7 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
               height: 120,
               width: double.infinity,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   EditableTemperature(
                     title: "Nozzle",
@@ -81,6 +81,9 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
                     step: 10,
                     onChanged: widget.onNozzleTempChanged,
                   ),
+
+                  const SizedBox(width: 16),
+
                   EditableTemperature(
                     title: "Bed",
                     value: widget.bedTemp,

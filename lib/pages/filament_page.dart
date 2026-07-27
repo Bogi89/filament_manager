@@ -8,6 +8,7 @@ import '../services/filament_catalog_service.dart';
 import '../widgets/filament_filter_bar.dart';
 import '../widgets/spool_icon.dart';
 import '../widgets/Cards/filament_brand_section.dart';
+import '../widgets/common/page_header.dart';
 
 class FilamentPage extends StatefulWidget {
   const FilamentPage({super.key});
@@ -160,8 +161,6 @@ class _FilamentPageState extends State<FilamentPage> {
           ? Colors.black
           : const Color(0xFFE9EEF5),
 
-      appBar: AppBar(title: const Text("Filamente")),
-
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: const Color(0xFF3B82F6),
         foregroundColor: Colors.white,
@@ -186,8 +185,10 @@ class _FilamentPageState extends State<FilamentPage> {
 
       body: Column(
         children: [
+          const PageHeader(title: "Filamente"),
+
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
             child: Row(
               children: [
                 _topCard(
@@ -360,11 +361,17 @@ class _FilamentPageState extends State<FilamentPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(20),
 
           color: Theme.of(context).brightness == Brightness.dark
               ? Colors.grey.shade900
               : Colors.white,
+
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.06)
+                : Colors.black.withValues(alpha: 0.05),
+          ),
 
           boxShadow: Theme.of(context).brightness == Brightness.dark
               ? []

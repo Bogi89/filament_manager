@@ -5,7 +5,7 @@ import '../../models/filament.dart';
 import '../../state/app_state.dart';
 
 import '../filament_spool_icon.dart';
-import 'filament_hover_card.dart';
+import '../common/app_hover_card.dart';
 import 'filament_progress_bar.dart';
 import '../../pages/filament_detail_page.dart';
 import '../spool_count_widget.dart';
@@ -97,7 +97,7 @@ class _FilamentCardState extends State<FilamentCard> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-      child: FilamentHoverCard(
+      child: AppHoverCard(
         child: Card(
           color: isDark ? null : Colors.white,
 

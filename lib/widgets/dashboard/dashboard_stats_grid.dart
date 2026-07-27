@@ -29,6 +29,7 @@ class DashboardStatsGrid extends StatelessWidget {
                 icon: const SpoolIcon(size: 24),
                 value: "${filaments.length}",
                 label: "Filamente",
+                iconBackgroundColor: const Color(0xFFE8F0FF),
               ),
             ),
 
@@ -39,6 +40,7 @@ class DashboardStatsGrid extends StatelessWidget {
                 icon: const Icon(Icons.warning, color: Colors.red),
                 value: "${criticalFilaments.length}",
                 label: "Kritisch",
+                iconBackgroundColor: const Color(0xFFFFE8E8),
               ),
             ),
           ],
@@ -53,6 +55,7 @@ class DashboardStatsGrid extends StatelessWidget {
                 icon: const Icon(Icons.print),
                 value: "${jobs.length}",
                 label: "Druckjobs",
+                iconBackgroundColor: const Color(0xFFEAF8EC),
               ),
             ),
 
@@ -63,6 +66,7 @@ class DashboardStatsGrid extends StatelessWidget {
                 icon: const Icon(Icons.scale),
                 value: "${printedWeight.toStringAsFixed(0)} g",
                 label: "Gedruckt",
+                iconBackgroundColor: const Color(0xFFFFF3E4),
               ),
             ),
           ],
