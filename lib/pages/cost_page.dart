@@ -153,6 +153,11 @@ class _CostPageState extends State<CostPage> {
         }
       }
 
+      selectedFilament!.remainingWeight = selectedFilament!.spools.fold(
+        0.0,
+        (sum, spool) => sum + spool.weight,
+      );
+
       widget.onUpdateFilament(selectedFilament!);
     }
 
@@ -455,6 +460,9 @@ class _CostPageState extends State<CostPage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(
+      "Filamente: ${widget.filaments.map((f) => "${f.brand}: ${f.remainingWeight}g").join(", ")}",
+    );
     final formattedDate =
         "${selectedDate.day.toString().padLeft(2, '0')}."
         "${selectedDate.month.toString().padLeft(2, '0')}."
@@ -554,7 +562,7 @@ class _CostPageState extends State<CostPage> {
                           selectedFilament = val;
                         });
 
-                        spoolWeightController.text = val.totalWeight
+                        spoolWeightController.text = val.remainingWeight
                             .toStringAsFixed(0);
 
                         spoolPriceController.text = val.price.toStringAsFixed(
@@ -810,7 +818,7 @@ class _CostPageState extends State<CostPage> {
                                 selectedFilament = val;
                               });
 
-                              spoolWeightController.text = val.totalWeight
+                              spoolWeightController.text = val.remainingWeight
                                   .toStringAsFixed(0);
 
                               spoolPriceController.text = val.price
