@@ -514,6 +514,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             ),
 
             children: [
+              const PageHeader(title: "Filament hinzufügen"),
+
+              const SizedBox(height: 24),
+
               if (isDesktop) ...[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
