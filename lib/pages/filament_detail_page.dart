@@ -465,7 +465,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             },
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 16),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -486,45 +486,57 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             ],
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 16),
 
-          TextField(
-            controller: priceController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: "Preis (€)",
-              filled: true,
-              fillColor: Theme.of(context).cardColor,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Preis (€)",
+                    filled: true,
+                    fillColor: Theme.of(context).cardColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
+
+              const SizedBox(width: 16),
+
+              Expanded(
+                child: TextField(
+                  controller: weightController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Restgewicht (g)",
+                    filled: true,
+                    fillColor: Theme.of(context).cardColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
 
           const SizedBox(height: 16),
-
-          TextField(
-            controller: weightController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: "Restgewicht (g)",
-              filled: true,
-              fillColor: Theme.of(context).cardColor,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 30),
 
           /// 🧵 Spulen-Bereich
           Text(
