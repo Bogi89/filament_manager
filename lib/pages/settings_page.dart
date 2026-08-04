@@ -187,7 +187,11 @@ class SettingsPage extends StatelessWidget {
                   RadioListTile<String>.adaptive(
                     title: Row(
                       children: [
-                        Image.asset('assets/flags/de.png', width: 24, height: 16),
+                        Image.asset(
+                          'assets/flags/de.png',
+                          width: 24,
+                          height: 16,
+                        ),
                         const SizedBox(width: 10),
                         const Text("Deutsch"),
                       ],
@@ -203,16 +207,16 @@ class SettingsPage extends StatelessWidget {
 
                   RadioListTile<String>(
                     title: Row(
-  children: [
-    Image.asset(
-      'assets/flags/en.png',
-      width: 24,
-      height: 16,
-    ),
-    const SizedBox(width: 10),
-    const Text("English"),
-  ],
-),
+                      children: [
+                        Image.asset(
+                          'assets/flags/en.png',
+                          width: 24,
+                          height: 16,
+                        ),
+                        const SizedBox(width: 10),
+                        const Text("English"),
+                      ],
+                    ),
                     value: 'en',
                     groupValue: appState.locale.languageCode,
                     onChanged: (value) {
@@ -511,6 +515,46 @@ class SettingsPage extends StatelessWidget {
                         ),
                       );
                     },
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          AppHoverCard(
+            child: ExpandableSettingsCard(
+              title: "Konto",
+              icon: Icons.person_outline,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.login),
+                    title: const Text("Anmelden"),
+                    subtitle: const Text(
+                      "Mit einem bestehenden Konto anmelden.",
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {},
+                  ),
+
+                  const Divider(),
+
+                  ListTile(
+                    leading: const Icon(Icons.person_add_alt_1),
+                    title: const Text("Konto erstellen"),
+                    subtitle: const Text("Ein neues Benutzerkonto erstellen."),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {},
+                  ),
+
+                  const Divider(),
+
+                  ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text("Abmelden"),
+                    subtitle: const Text("Vom aktuellen Konto abmelden."),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {},
                   ),
                 ],
               ),
