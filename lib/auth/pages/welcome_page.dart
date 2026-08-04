@@ -23,7 +23,14 @@ class WelcomePage extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               child: Column(
                 children: [
-                  const FlutterLogo(size: 90),
+                  Image.asset(
+  'assets/logo/logo.png',
+  width: 110,
+  height: 110,
+  errorBuilder: (context, error, stackTrace) {
+    return const FlutterLogo(size: 110);
+  },
+),
 
                   const SizedBox(height: 20),
 
