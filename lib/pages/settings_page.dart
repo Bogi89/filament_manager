@@ -187,7 +187,7 @@ class SettingsPage extends StatelessWidget {
                   RadioListTile<String>.adaptive(
                     title: Row(
                       children: [
-                        Image.asset('lib/flags/de.png', width: 24, height: 16),
+                        Image.asset('assets/flags/de.png', width: 24, height: 16),
                         const SizedBox(width: 10),
                         const Text("Deutsch"),
                       ],
@@ -202,7 +202,17 @@ class SettingsPage extends StatelessWidget {
                   ),
 
                   RadioListTile<String>(
-                    title: const Text("English"),
+                    title: Row(
+  children: [
+    Image.asset(
+      'assets/flags/en.png',
+      width: 24,
+      height: 16,
+    ),
+    const SizedBox(width: 10),
+    const Text("English"),
+  ],
+),
                     value: 'en',
                     groupValue: appState.locale.languageCode,
                     onChanged: (value) {
