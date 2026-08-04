@@ -3,35 +3,31 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'state/app_state.dart';
-import 'pages/main_navigation.dart';
 import 'l10n/app_localizations.dart';
 import 'services/filament_catalog_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'services/hive_test_service.dart';
+import 'auth/pages/auth_gate.dart';
 
 // 🔥 Neues Theme importieren
 import 'theme/app_theme.dart';
+import 'auth/services/guest_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
 
-  await HiveTestService.saveTestValue(
-  'Sakura Pink',
-);
+  await HiveTestService.saveTestValue('Sakura Pink');
 
   await FilamentCatalogService.loadCatalog();
+
+  await GuestService.disableGuestMode();
 
   final appState = AppState();
   await appState.loadSettings();
 
-  runApp(
-    ChangeNotifierProvider.value(
-      value: appState,
-      child: const MyApp(),
-    ),
-  );
+  runApp(ChangeNotifierProvider.value(value: appState, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final appState = Provider.of<AppState>(context);
 
     return MaterialApp(
@@ -62,7 +57,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
 
-      home: const MainNavigation(),
+      home: const AuthGate(),
     );
   }
 }

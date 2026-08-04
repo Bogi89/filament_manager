@@ -5,6 +5,9 @@ import 'dart:html' as html;
 import '../widgets/common/page_header.dart';
 import '../widgets/common/app_hover_card.dart';
 import '../widgets/settings/expandable_settings_card.dart';
+import '../legal/privacy_policy_page.dart';
+import '../legal/imprint_page.dart';
+import '../legal/terms_of_service_page.dart';
 
 import '../state/app_state.dart';
 import '../models/filament.dart';
@@ -465,7 +468,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Datenschutzerklärung"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      _openUrl(AppLinks.privacyPolicy);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PrivacyPolicyPage(),
+                        ),
+                      );
                     },
                   ),
 
@@ -474,7 +482,10 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Impressum"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      _openUrl(AppLinks.imprint);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ImprintPage()),
+                      );
                     },
                   ),
 
@@ -483,7 +494,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Nutzungsbedingungen"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      _openUrl(AppLinks.termsOfService);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const TermsOfServicePage(),
+                        ),
+                      );
                     },
                   ),
                 ],
