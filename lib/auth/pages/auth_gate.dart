@@ -15,6 +15,8 @@ class AuthGate extends StatefulWidget {
 class _AuthGateState extends State<AuthGate> {
   bool _loading = true;
   bool _guestMode = false;
+  bool _trialExpired = false;
+  DateTime? _guestStartDate;
 
   @override
   void initState() {
@@ -24,11 +26,17 @@ class _AuthGateState extends State<AuthGate> {
 
   Future<void> _loadState() async {
     final guestEnabled = await GuestService.isGuestModeEnabled();
+    final guestStartDate = await GuestService.getGuestStartDate();
+    final trialExpired =
+        guestStartDate != null &&
+        DateTime.now().difference(guestStartDate).inDays >= 7;
 
     if (!mounted) return;
 
     setState(() {
       _guestMode = guestEnabled;
+      _guestStartDate = guestStartDate;
+      _trialExpired = trialExpired;
       _loading = false;
     });
   }
@@ -39,8 +47,12 @@ class _AuthGateState extends State<AuthGate> {
       return const SplashPage();
     }
 
-    if (_guestMode) {
+    if (_guestMode && !_trialExpired) {
       return const MainNavigation();
+    }
+
+    if (_guestMode && _trialExpired) {
+      return const WelcomePage();
     }
 
     return const WelcomePage();

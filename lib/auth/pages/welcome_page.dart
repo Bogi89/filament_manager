@@ -5,6 +5,8 @@ import '../widgets/login_card.dart';
 import '../widgets/register_card.dart';
 import '../services/guest_service.dart';
 import '../../pages/main_navigation.dart';
+import 'login_page.dart';
+import 'register_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -24,13 +26,13 @@ class WelcomePage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-  'assets/logo/logo.png',
-  width: 110,
-  height: 110,
-  errorBuilder: (context, error, stackTrace) {
-    return const FlutterLogo(size: 110);
-  },
-),
+                    'assets/logo/logo.png',
+                    width: 110,
+                    height: 110,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const FlutterLogo(size: 110);
+                    },
+                  ),
 
                   const SizedBox(height: 20),
 
@@ -93,11 +95,23 @@ class WelcomePage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  LoginCard(onPressed: () {}),
+                  LoginCard(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const LoginPage()),
+                      );
+                    },
+                  ),
 
                   const SizedBox(height: 20),
 
-                  RegisterCard(onPressed: () {}),
+                  RegisterCard(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const RegisterPage()),
+                      );
+                    },
+                  ),
 
                   const SizedBox(height: 32),
 

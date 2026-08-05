@@ -4,12 +4,16 @@ class LegalPageTemplate extends StatelessWidget {
   final String title;
   final String lastUpdated;
   final Widget child;
+  final IconData? icon;
+  final String? description;
 
   const LegalPageTemplate({
     super.key,
     required this.title,
     required this.lastUpdated,
     required this.child,
+    this.icon,
+    this.description,
   });
 
   @override
@@ -18,7 +22,9 @@ class LegalPageTemplate extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : const Color(0xFFE9EEF5),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -27,19 +33,49 @@ class LegalPageTemplate extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 900),
               child: Card(
                 elevation: 0,
+                color: theme.cardColor,
+                clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
-                        title,
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        children: [
+                          if (icon != null)
+                            Icon(
+                              icon,
+                              size: 56,
+                              color: theme.colorScheme.primary,
+                            ),
+
+                          if (icon != null) const SizedBox(height: 16),
+
+                          Text(
+                            title,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          if (description != null) ...[
+                            const SizedBox(height: 12),
+
+                            Text(
+                              description!,
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.75,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
 
                       const SizedBox(height: 8),
@@ -54,6 +90,12 @@ class LegalPageTemplate extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 24),
+
+                      const SizedBox(height: 32),
+
+                      const Divider(),
+
+                      const SizedBox(height: 32),
 
                       child,
 

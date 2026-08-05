@@ -12,6 +12,7 @@ import 'auth/pages/auth_gate.dart';
 // 🔥 Neues Theme importieren
 import 'theme/app_theme.dart';
 import 'auth/services/guest_service.dart';
+import 'auth/services/auth_loading_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,15 @@ void main() async {
   final appState = AppState();
   await appState.loadSettings();
 
-  runApp(ChangeNotifierProvider.value(value: appState, child: const MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: appState),
+        ChangeNotifierProvider(create: (_) => AuthLoadingService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

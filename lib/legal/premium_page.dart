@@ -3,84 +3,27 @@ import 'package:flutter/material.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
-class TermsOfServicePage extends StatelessWidget {
-  const TermsOfServicePage({super.key});
+class PremiumPage extends StatelessWidget {
+  const PremiumPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const LegalPageTemplate(
-      title: 'Nutzungsbedingungen',
+      title: 'Premium & Abonnement',
       lastUpdated: 'August 2026',
       child: Column(
         children: [
           LegalInfoCard(
-            icon: Icons.description_outlined,
-            title: 'Geltungsbereich',
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('Nutzung der App'),
-                  subtitle: Text(
-                    'Diese Nutzungsbedingungen gelten für die Nutzung des Filament Managers auf allen unterstützten Plattformen.',
-                  ),
-                ),
-
-                Divider(),
-
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('Zustimmung'),
-                  subtitle: Text(
-                    'Mit der Nutzung der App erklärst du dich mit diesen Nutzungsbedingungen einverstanden.',
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          LegalInfoCard(
-            icon: Icons.person_outline,
-            title: 'Pflichten des Nutzers',
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('Verantwortung'),
-                  subtitle: Text(
-                    'Der Nutzer ist für die von ihm eingegebenen Daten selbst verantwortlich.',
-                  ),
-                ),
-
-                Divider(),
-
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('Missbrauch'),
-                  subtitle: Text(
-                    'Die App darf nicht missbräuchlich oder zur Durchführung rechtswidriger Handlungen verwendet werden.',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          LegalInfoCard(
             icon: Icons.workspace_premium_outlined,
-            title: 'Lizenzen & Nutzungsrechte',
+            title: 'Premium-Mitgliedschaft',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Urheberrechte'),
+                  title: Text('Premium'),
                   subtitle: Text(
-                    'Alle Rechte an der App, ihrem Design und ihren Inhalten verbleiben beim Entwickler.',
+                    'Der Filament Manager kann sieben Tage kostenlos getestet werden. Anschließend ist für die weitere Nutzung eine Premium-Mitgliedschaft erforderlich.',
                   ),
                 ),
 
@@ -88,9 +31,9 @@ class TermsOfServicePage extends StatelessWidget {
 
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Keine Weitergabe'),
+                  title: Text('Testphase'),
                   subtitle: Text(
-                    'Die App darf ohne ausdrückliche Zustimmung nicht kopiert, verändert oder weiterverbreitet werden, soweit dies gesetzlich nicht erlaubt ist.',
+                    'Während der siebentägigen Testphase stehen sämtliche Funktionen uneingeschränkt zur Verfügung.',
                   ),
                 ),
               ],
@@ -100,16 +43,54 @@ class TermsOfServicePage extends StatelessWidget {
           const SizedBox(height: 20),
 
           LegalInfoCard(
-            icon: Icons.update_outlined,
-            title: 'Änderungen',
+            icon: Icons.payments_outlined,
+            title: 'Abrechnung',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Aktualisierung der Bedingungen'),
+                  title: Text('Zahlungsabwicklung'),
                   subtitle: Text(
-                    'Die Nutzungsbedingungen können bei neuen Funktionen oder gesetzlichen Änderungen angepasst werden.',
+                    'Auf Android erfolgt die Zahlungsabwicklung über Google Play. Für die Web-Version erfolgt sie über die offizielle Website mit PayPal.',
+                  ),
+                ),
+
+                Divider(),
+
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Plattformen'),
+                  subtitle: Text(
+                    'Auf Android erfolgt der Abschluss über Google Play. Für die Web-Version kann Premium über die offizielle Website mit PayPal erworben werden.',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          LegalInfoCard(
+            icon: Icons.star_outline,
+            title: 'Testphase & Premium',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('7-Tage-Test'),
+                  subtitle: Text(
+                    'Neue Nutzer können den Filament Manager sieben Tage kostenlos testen.',
+                  ),
+                ),
+
+                Divider(),
+
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Nach Ablauf'),
+                  subtitle: Text(
+                    'Nach Ablauf der Testphase ist eine Premium-Mitgliedschaft erforderlich, um die App weiter nutzen zu können.',
                   ),
                 ),
               ],
@@ -119,16 +100,26 @@ class TermsOfServicePage extends StatelessWidget {
           const SizedBox(height: 20),
 
           LegalInfoCard(
-            icon: Icons.gavel_outlined,
-            title: 'Schlussbestimmungen',
+            icon: Icons.event_available_outlined,
+            title: 'Mitgliedschaft',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Geltendes Recht'),
+                  title: Text('Laufzeiten'),
                   subtitle: Text(
-                    'Es gilt das jeweils anwendbare Recht am Sitz des Anbieters, soweit gesetzlich zulässig.',
+                    'Premium wird als monatliche oder jährliche Mitgliedschaft angeboten.',
+                  ),
+                ),
+
+                Divider(),
+
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Kündigung'),
+                  subtitle: Text(
+                    'Eine Kündigung ist jederzeit zum Ende der jeweiligen Laufzeit möglich.',
                   ),
                 ),
               ],

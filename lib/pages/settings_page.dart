@@ -8,12 +8,24 @@ import '../widgets/settings/expandable_settings_card.dart';
 import '../legal/privacy_policy_page.dart';
 import '../legal/imprint_page.dart';
 import '../legal/terms_of_service_page.dart';
+import '../legal/premium_page.dart';
+import '../legal/withdrawal_page.dart';
+import '../legal/consumer_information_page.dart';
+import '../legal/liability_page.dart';
+import '../legal/copyright_page.dart';
+import '../legal/image_credits_page.dart';
+import 'help_first_steps_page.dart';
 
 import '../state/app_state.dart';
 import '../models/filament.dart';
 import '../models/print_job.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'help_add_filament_page.dart';
+import 'help_print_job_page.dart';
+import 'help_statistics_page.dart';
+import 'help_backup_page.dart';
+import 'whats_new_page.dart';
 
 import '../constants/app_links.dart';
 
@@ -400,7 +412,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Erste Schritte"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HelpFirstStepsPage(),
+                        ),
+                      );
                     },
                   ),
 
@@ -409,7 +426,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Filament hinzufügen"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HelpAddFilamentPage(),
+                        ),
+                      );
                     },
                   ),
 
@@ -418,7 +440,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Druckauftrag erstellen"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HelpPrintJobPage(),
+                        ),
+                      );
                     },
                   ),
 
@@ -427,7 +454,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Statistiken verstehen"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HelpStatisticsPage(),
+                        ),
+                      );
                     },
                   ),
 
@@ -436,7 +468,12 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Backup & Wiederherstellung"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HelpBackupPage(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -463,7 +500,10 @@ class SettingsPage extends StatelessWidget {
                     title: const Text("Versionsverlauf"),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const WhatsNewPage()),
+                      );
                     },
                   ),
                 ],
@@ -512,6 +552,88 @@ class SettingsPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) => const TermsOfServicePage(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.workspace_premium_outlined),
+                    title: const Text("Premium & Abonnement"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const PremiumPage()),
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.assignment_return_outlined),
+                    title: const Text("Widerrufsbelehrung"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const WithdrawalPage(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.info_outline),
+                    title: const Text("Verbraucherinformationen"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ConsumerInformationPage(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.gpp_good_outlined),
+                    title: const Text("Haftung"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const LiabilityPage(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.copyright_outlined),
+                    title: const Text("Urheberrecht"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const CopyrightPage(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.image_outlined),
+                    title: const Text("Bildnachweise"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ImageCreditsPage(),
                         ),
                       );
                     },
@@ -578,8 +700,16 @@ class SettingsPage extends StatelessWidget {
                   const ListTile(
                     leading: Icon(Icons.person_outline),
                     title: Text("Entwickler"),
-                    subtitle: Text("Robin"),
+                    subtitle: Text("Robin P."),
                   ),
+
+                  const ListTile(
+                    leading: Icon(Icons.memory_outlined),
+                    title: Text("Technologie"),
+                    subtitle: Text("Flutter • Firebase"),
+                  ),
+
+                  const Divider(),
 
                   const Divider(),
 
