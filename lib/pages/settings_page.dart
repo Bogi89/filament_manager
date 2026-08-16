@@ -26,6 +26,8 @@ import 'help_print_job_page.dart';
 import 'help_statistics_page.dart';
 import 'help_backup_page.dart';
 import 'whats_new_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../auth/services/guest_service.dart';
 
 import '../constants/app_links.dart';
 
@@ -672,12 +674,33 @@ class SettingsPage extends StatelessWidget {
                   const Divider(),
 
                   ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text("Abmelden"),
-                    subtitle: const Text("Vom aktuellen Konto abmelden."),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
-                  ),
+  leading: const Icon(Icons.logout),
+  title: const Text("Abmelden"),
+  subtitle: const Text("Vom aktuellen Konto abmelden."),
+  trailing: const Icon(Icons.chevron_right),
+  onTap: () async {
+  try {
+    await GuestService.disableGuestMode();
+    await FirebaseAuth.instance.signOut();
+
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Erfolgreich abgemeldet.'),
+      ),
+    );
+  } catch (e) {
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Abmelden fehlgeschlagen: $e'),
+      ),
+    );
+  }
+},
+),
                 ],
               ),
             ),

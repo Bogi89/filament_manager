@@ -1,7 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../pages/main_navigation.dart';
 
-class VerifyEmailPage extends StatelessWidget {
+class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
+
+  @override
+  State<VerifyEmailPage> createState() => _VerifyEmailPageState();
+}
+
+class _VerifyEmailPageState extends State<VerifyEmailPage> {
+
+  Future<void> _checkEmailVerification() async {
+  final user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    return;
+  }
+
+  await user.reload();
+
+  final updatedUser = FirebaseAuth.instance.currentUser;
+
+  if (updatedUser?.emailVerified == true) {
+    if (!mounted) return;
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (_) => const MainNavigation(),
+      ),
+      (route) => false,
+    );
+  } else {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'E-Mail wurde noch nicht bestätigt.',
+        ),
+      ),
+    );
+  }
+}
+
+Future<void> _sendVerificationEmail() async {
+  final user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    return;
+  }
+
+  await user.sendEmailVerification();
+
+  if (!mounted) return;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text(
+        'Bestätigungs-E-Mail wurde erneut gesendet.',
+      ),
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +106,7 @@ class VerifyEmailPage extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   FilledButton.icon(
-                    onPressed: () {},
+  onPressed: _checkEmailVerification,
                     icon: const Icon(Icons.refresh),
                     label: const Text('Erneut prüfen'),
                   ),
@@ -53,7 +114,7 @@ class VerifyEmailPage extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: _sendVerificationEmail,
                     icon: const Icon(Icons.mail_outline),
                     label: const Text('E-Mail erneut senden'),
                   ),

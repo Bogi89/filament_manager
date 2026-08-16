@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/main_navigation.dart';
@@ -17,16 +20,28 @@ class _AuthGateState extends State<AuthGate> {
   bool _guestMode = false;
   bool _trialExpired = false;
   DateTime? _guestStartDate;
+  User? _firebaseUser;
+
+  StreamSubscription<User?>? _authSubscription;
 
   @override
   void initState() {
     super.initState();
+
     _loadState();
+
+    _authSubscription =
+    FirebaseAuth.instance.authStateChanges().listen((user) async {
+  await _loadState();
+});
   }
 
   Future<void> _loadState() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
     final guestEnabled = await GuestService.isGuestModeEnabled();
     final guestStartDate = await GuestService.getGuestStartDate();
+
     final trialExpired =
         guestStartDate != null &&
         DateTime.now().difference(guestStartDate).inDays >= 7;
@@ -34,6 +49,7 @@ class _AuthGateState extends State<AuthGate> {
     if (!mounted) return;
 
     setState(() {
+      _firebaseUser = firebaseUser;
       _guestMode = guestEnabled;
       _guestStartDate = guestStartDate;
       _trialExpired = trialExpired;
@@ -42,9 +58,19 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_loading) {
       return const SplashPage();
+    }
+
+    if (_firebaseUser != null) {
+      return const MainNavigation();
     }
 
     if (_guestMode && !_trialExpired) {

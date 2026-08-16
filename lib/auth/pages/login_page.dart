@@ -4,6 +4,7 @@ import 'forgot_password_page.dart';
 import '../services/auth_validator.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_loading_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,18 +27,41 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _login() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    final email = _emailController.text.trim();
-    final password = _passwordController.text;
-
-    debugPrint('Login: $email');
-
-    // Firebase Login wird hier später ergänzt.
+  Future<void> _login() async {
+  if (!_formKey.currentState!.validate()) {
+    return;
   }
+
+  final email = _emailController.text.trim();
+  final password = _passwordController.text;
+
+  final loadingService = context.read<AuthLoadingService>();
+
+  try {
+    loadingService.startLoading();
+
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    if (!mounted) return;
+
+    Navigator.of(context).pop();
+  } on FirebaseAuthException catch (e) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          e.message ?? 'Anmeldung fehlgeschlagen.',
+        ),
+      ),
+    );
+  } finally {
+    loadingService.stopLoading();
+  }
+}
 
   @override
   Widget build(BuildContext context) {

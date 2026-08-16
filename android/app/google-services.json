@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "304336909121",
+    "project_id": "filament-manager-7d123",
+    "storage_bucket": "filament-manager-7d123.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304336909121:android:35b2e4bab9edf95f8da7c0",
+        "android_client_info": {
+          "package_name": "com.example.filament_manager_v2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhu6Dg8khtWtyyUPd5QvB_RGqhT1AKAT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

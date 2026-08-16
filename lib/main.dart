@@ -13,17 +13,21 @@ import 'auth/pages/auth_gate.dart';
 import 'theme/app_theme.dart';
 import 'auth/services/guest_service.dart';
 import 'auth/services/auth_loading_service.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await Hive.initFlutter();
 
   await HiveTestService.saveTestValue('Sakura Pink');
 
   await FilamentCatalogService.loadCatalog();
-
-  await GuestService.disableGuestMode();
 
   final appState = AppState();
   await appState.loadSettings();

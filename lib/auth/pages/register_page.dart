@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../services/auth_validator.dart';
 import 'verify_email_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -27,17 +28,48 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _register() {
-    if (!_formKey.currentState!.validate()) {
-      return;
+  Future<void> _register() async {
+  if (!_formKey.currentState!.validate()) {
+    return;
+  }
+
+  try {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+
+    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+
+    if (!mounted) return;
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const VerifyEmailPage(),
+      ),
+    );
+  } on FirebaseAuthException catch (e) {
+    String message = 'Registrierung fehlgeschlagen';
+
+    if (e.code == 'email-already-in-use') {
+      message = 'Diese E-Mail-Adresse wird bereits verwendet.';
     }
 
-    // Firebase-Registrierung wird hier später ergänzt.
+    if (e.code == 'weak-password') {
+      message = 'Das Passwort ist zu schwach.';
+    }
 
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => const VerifyEmailPage()));
+    if (e.code == 'invalid-email') {
+      message = 'Die E-Mail-Adresse ist ungültig.';
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
