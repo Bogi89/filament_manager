@@ -54,6 +54,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.14.4
   hive_generator: ^2.0.1
   build_runner: ^2.4.8
 
@@ -81,6 +82,19 @@ flutter:
     - assets/images/
     - assets/flags/
     - assets/logo/
+
+flutter_launcher_icons:
+  android: true
+  web:
+    generate: true
+    image_path: "assets/logo/logo_1024.png"
+    background_color: "#000000"
+    theme_color: "#000000"
+  windows:
+    generate: true
+    image_path: "assets/logo/logo_1024.png"
+  image_path: "assets/logo/logo_1024.png"
+  
 
   # To add assets to your application, add an assets section, like this:
   # assets:
