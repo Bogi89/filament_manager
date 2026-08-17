@@ -5,6 +5,7 @@ import '../services/auth_validator.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_loading_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../pages/main_navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -47,7 +48,12 @@ class _LoginPageState extends State<LoginPage> {
 
     if (!mounted) return;
 
-    Navigator.of(context).pop();
+Navigator.of(context).pushAndRemoveUntil(
+  MaterialPageRoute(
+    builder: (_) => const MainNavigation(),
+  ),
+  (route) => false,
+);
   } on FirebaseAuthException catch (e) {
     if (!mounted) return;
 
