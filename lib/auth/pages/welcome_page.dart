@@ -26,7 +26,7 @@ class WelcomePage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/logo/logo.png',
+                    'assets/logo/logo_256.png',
                     width: 110,
                     height: 110,
                     errorBuilder: (context, error, stackTrace) {
