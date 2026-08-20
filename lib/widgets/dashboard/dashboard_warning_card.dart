@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/filament.dart';
 
 class DashboardWarningCard extends StatelessWidget {
@@ -19,6 +20,8 @@ class DashboardWarningCard extends StatelessWidget {
     if (criticalFilaments.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -40,17 +43,20 @@ class DashboardWarningCard extends StatelessWidget {
             size: 22,
             color: Colors.orange.shade600,
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Text(
-              "${criticalFilaments.length} Filament(e) kritisch",
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              l10n.criticalFilaments(criticalFilaments.length),
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-
-          TextButton(onPressed: onDetails, child: const Text("Details")),
+          TextButton(
+            onPressed: onDetails,
+            child: Text(l10n.details),
+          ),
         ],
       ),
     );

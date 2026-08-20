@@ -2,6 +2,7 @@
   "@@locale": "en",
   "dashboard": "Dashboard",
   "filament": "Filament",
+  "filaments": "Filaments",
   "cost": "Costs",
   "history": "History",
   "statistics": "Statistics",
@@ -12,5 +13,418 @@
   "dark": "Dark",
   "system": "System",
   "german": "German",
-  "english": "English"
+  "english": "English",
+  "critical": "Critical",
+  "criticalFilaments": "Critical Filaments",
+  "filter": "Filter",
+  "close": "Close",
+
+  "warningFilament": "Filament Warning",
+  "warningBelow": "Warning below {percent}%",
+  "@warningBelow": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+
+  "backup": "Backup",
+  "backupExport": "Export Backup",
+  "backupImport": "Import Backup",
+  "backupSaveDialog": "Save Backup",
+  "backupCreated": "Backup created",
+  "backupLoaded": "Backup loaded successfully",
+  "backupLoadError": "Error loading backup",
+  "backupDescription": "Exports and imports filaments and print jobs.",
+
+  "support": "Support",
+  "errorReportSubject": "Error Report FilaLog",
+  "sendFeedback": "Send Feedback",
+  "reportError": "Report an error",
+  "rateApp": "Rate App",
+  "contact": "Contact",
+  "contactSubject": "Support FilaLog",
+
+  "help": "Help",
+  "firstSteps": "Getting Started",
+  "addFilament": "Add Filament",
+  "createPrintJob": "Create Print Job",
+  "understandStatistics": "Understanding Statistics",
+  "backupAndRestore": "Backup & Restore",
+
+  "helpFirstStepsTitle": "Getting Started",
+  "helpFirstStepsIntroduction": "Welcome to FilaLog. This guide will help you get started and explains the most important features of the app.",
+  "helpFirstStepsFilamentTitle": "1. Add Filament",
+  "helpFirstStepsFilamentContent": "First, add your first filament. All other features are based on your filament inventory.",
+  "helpFirstStepsPrintTitle": "2. Create a Print Job",
+  "helpFirstStepsPrintContent": "Next, create a print job. Filament consumption is calculated automatically and deducted from your inventory.",
+  "helpFirstStepsStatisticsTitle": "3. Use Statistics",
+  "helpFirstStepsStatisticsContent": "The statistics section gives you an overview of your consumption, costs, and print history.",
+  "helpFirstStepsBackupTitle": "4. Create a Backup",
+  "helpFirstStepsBackupContent": "Create regular backups of your data so that your filament inventory and print history are always protected.",
+  "helpFirstStepsTip": "Tip: Start with a few filaments. This helps you get familiar with the app quickly and keeps everything easy to manage.",
+
+  "helpAddFilamentTitle": "Add Filament",
+  "helpAddFilamentIntroduction": "This page explains how to correctly add a new filament and which information is required.",
+  "helpAddFilamentNewTitle": "Add a New Filament",
+  "helpAddFilamentNewContent": "Open the filament section and tap the button to add a new filament.",
+  "helpAddFilamentSelectTitle": "Select Filament",
+  "helpAddFilamentSelectContent": "Select the manufacturer, material, variant, and color. Many values are automatically filled in from the filament catalog.",
+  "helpAddFilamentSettingsTitle": "Print Settings",
+  "helpAddFilamentSettingsContent": "Check the diameter as well as nozzle and bed temperature. These values are automatically suggested based on the material.",
+  "helpAddFilamentStockTitle": "Stock and Costs",
+  "helpAddFilamentStockContent": "Set the spool weight, current stock, and purchase price. These details are later used for cost calculation and inventory management.",
+  "helpAddFilamentTip": "Tip: Use the integrated filament catalog whenever possible. This automatically fills in many fields and helps prevent input errors.",
+
+  "helpPrintJobTitle": "Create a Print Job",
+  "helpPrintJobIntroduction": "A print job allows you to document your prints while filament consumption is calculated automatically.",
+  "helpPrintJobNewTitle": "Create a New Print Job",
+  "helpPrintJobNewContent": "Open the \"History\" section and create a new print job.",
+  "helpPrintJobFilamentTitle": "Select Filament",
+  "helpPrintJobFilamentContent": "Select the filament used from your inventory. Only available filaments can be used.",
+  "helpPrintJobUsageTitle": "Enter Consumption",
+  "helpPrintJobUsageContent": "Enter how many grams of filament were used. The inventory will then be updated automatically.",
+  "helpPrintJobInfoTitle": "Print Information",
+  "helpPrintJobInfoContent": "Optionally, you can save the print duration, printer, notes, or other information to keep track of your prints later.",
+  "helpPrintJobTip": "Tip: Enter your print jobs as soon as possible after printing. This keeps your inventory and statistics up to date.",
+
+  "helpStatisticsTitle": "Understanding Statistics",
+  "helpStatisticsIntroduction": "The statistics show you an overview of your filament consumption, your print jobs, and the resulting costs.",
+  "helpStatisticsUsageTitle": "Consumption",
+  "helpStatisticsUsageContent": "Here you can see how much filament has been used in total and which materials are used most frequently.",
+  "helpStatisticsCostsTitle": "Costs",
+  "helpStatisticsCostsContent": "The cost overview calculates your material costs based on the stored filament price and actual consumption.",
+  "helpStatisticsHistoryTitle": "Print History",
+  "helpStatisticsHistoryContent": "All completed print jobs are automatically included in your statistics.",
+  "helpStatisticsAnalysisTitle": "Analysis",
+  "helpStatisticsAnalysisContent": "Use the charts and overviews to analyze consumption, costs, and material usage over time.",
+  "helpStatisticsTip": "Tip: The more complete your print jobs are, the more accurate your statistics will be.",
+
+  "helpBackupTitle": "Backup & Restore",
+  "helpBackupIntroduction": "With a backup, you can save your filaments, print jobs, and settings and restore them later.",
+  "helpBackupCreateTitle": "Create a Backup",
+  "helpBackupCreateContent": "Create regular backups of your data to prevent any information from being lost.",
+  "helpBackupRestoreTitle": "Restore a Backup",
+  "helpBackupRestoreContent": "Select a previously created backup file to import your data back into FilaLog.",
+  "helpBackupFileTitle": "Backup File",
+  "helpBackupFileContent": "Keep your backup files in a safe place, such as a cloud service or an external storage device.",
+  "helpBackupRegularTitle": "Back Up Regularly",
+  "helpBackupRegularContent": "Create an up-to-date backup especially before making major changes or updating the app.",
+  "helpBackupTip": "Tip: With regular backups, you can restore your data at any time without any problems.",
+
+  "whatsNew": "What's New",
+  "version10": "Version 1.0",
+  "firstOfficialRelease": "First Official Release",
+  "versionHistory": "Version History",
+  "whatsNewIntroduction": "Here you can find the new features and improvements introduced in each version of FilaLog.",
+  "whatsNewVersion100": "Version 1.0.0",
+  "whatsNewVersion100Content": "• First official release\n• Filament management\n• Print history\n• Cost calculation\n• Statistics\n• Backup & Restore\n• User account\n• Guest mode\n• Help section\n• Legal information",
+  "whatsNewTip": "New features will be added here after each update, so you can always keep track of all changes.",
+
+  "legal": "Legal",
+"legalLastUpdated": "Last updated",
+"legalLastUpdatedValue": "August 2026",
+"legalAllRightsReserved": "All rights reserved.",
+
+  "privacyPolicy": "Privacy Policy",
+  "privacyPolicyUpdated": "August 2026",
+  "privacyPolicyResponsible": "Data Controller",
+  "privacyPolicyResponsibleLabel": "Responsible",
+  "privacyPolicyResponsibleName": "Robin",
+  "privacyPolicyContact": "Contact",
+  "privacyPolicyContactMissing": "Will be added before release",
+
+  "privacyPolicyStoredDataTitle": "What data is stored?",
+  "privacyPolicyLocalDataTitle": "Locally stored data",
+  "privacyPolicyLocalDataContent": "Filaments, print jobs, settings, and statistics are stored locally on your device.",
+  "privacyPolicyNoSharingTitle": "No data sharing",
+  "privacyPolicyNoSharingContent": "No personal data is shared with third parties unless this is required for the use of the app.",
+
+  "privacyPolicyAccountTitle": "Guest Mode & User Account",
+  "privacyPolicyGuestModeTitle": "Guest Mode",
+  "privacyPolicyGuestModeContent": "The app can be used in guest mode without registration. The data remains stored exclusively on the device.",
+  "privacyPolicyUserAccountTitle": "User Account",
+    "termsOfService": "Terms of Service",
+  "termsOfServiceScope": "Scope",
+  "termsOfServiceAppUsageTitle": "Use of the App",
+  "termsOfServiceAppUsageContent": "These Terms of Service apply to the use of FilaLog on all supported platforms.",
+  "termsOfServiceAgreementTitle": "Agreement",
+  "termsOfServiceAgreementContent": "By using the app, you agree to these Terms of Service.",
+
+  "termsOfServiceUserObligations": "User Obligations",
+  "termsOfServiceResponsibilityTitle": "Responsibility",
+  "termsOfServiceResponsibilityContent": "The user is responsible for the data they enter into the app.",
+  "termsOfServiceMisuseTitle": "Misuse",
+  "termsOfServiceMisuseContent": "The app must not be misused or used to carry out unlawful activities.",
+
+  "termsOfServiceLicensesRights": "Licenses & Usage Rights",
+  "termsOfServiceCopyrightTitle": "Copyright",
+  "termsOfServiceCopyrightContent": "All rights to the app, its design, and its content remain with the developer.",
+  "termsOfServiceNoDistributionTitle": "No Distribution",
+  "termsOfServiceNoDistributionContent": "The app may not be copied, modified, or redistributed without express permission, unless permitted by law.",
+
+  "termsOfServiceChanges": "Changes",
+  "termsOfServiceUpdatesTitle": "Updates to the Terms",
+  "termsOfServiceUpdatesContent": "The Terms of Service may be updated when new features are introduced or when required by changes in applicable law.",
+
+  "termsOfServiceFinalProvisions": "Final Provisions",
+  "termsOfServiceApplicableLawTitle": "Applicable Law",
+  "termsOfServiceApplicableLawContent": "The applicable law at the provider's place of business shall apply, to the extent permitted by law.",
+  "privacyPolicyUserAccountContent": "When using a user account, data may be synchronized with supported devices in the future.",
+
+  "privacyPolicyRightsTitle": "Your Rights",
+  "privacyPolicyRightsLabel": "Data Protection Rights",
+  "privacyPolicyRightsContent": "You have the right to access, correct, delete, and restrict the processing of your personal data within the scope of applicable data protection laws.",
+
+  "privacyPolicyQuestionsTitle": "Questions About Data Protection",
+  "privacyPolicyQuestionsContactTitle": "Contact",
+  "privacyPolicyQuestionsContactContent": "If you have questions about data protection, you can contact us using the contact details provided in the legal notice.",
+
+  "imprint": "Legal Notice",
+  "imprintProviderDetailsTitle": "Provider Information",
+  "imprintAppNameLabel": "App Name",
+  "imprintAppNameValue": "FilaLog",
+  "imprintDeveloperLabel": "Developer",
+  "imprintDeveloperValue": "Robin",
+  "imprintAddressLabel": "Address",
+  "imprintAddressValue": "Will be added before release",
+
+  "imprintContactTitle": "Contact",
+  "imprintEmailLabel": "Email",
+  "imprintEmailValue": "support@deine-domain.de",
+  "imprintWebsiteLabel": "Website",
+  "imprintWebsiteValue": "https://deine-domain.de",
+
+  "imprintCompanyInformationTitle": "Company Information",
+  "imprintCompanyFormLabel": "Legal Form",
+  "imprintCompanyFormValue": "Will be added before release",
+  "imprintBusinessPurposeLabel": "Business Purpose",
+  "imprintBusinessPurposeValue": "Provision of an application for managing 3D printing filament.",
+
+  "imprintLegalNotesTitle": "Legal Information",
+  "imprintLiabilityLabel": "Liability",
+  "imprintLiabilityContent": "For more information, please visit the \"Liability\" page.",
+  "imprintCopyrightLabel": "Copyright",
+  "imprintCopyrightContent": "For more information, please visit the \"Copyright\" page.",
+
+  "termsOfService": "Terms of Service",
+    "premiumSubscription": "Premium & Subscription",
+
+  "premiumMembershipTitle": "Premium Membership",
+  "premiumTitle": "Premium",
+  "premiumContent": "FilaLog can be tested free of charge for seven days. After that, a Premium membership is required to continue using the app.",
+  "premiumTrialTitle": "Trial Period",
+  "premiumTrialContent": "All features are available without restrictions during the seven-day trial period.",
+
+  "premiumBillingTitle": "Billing",
+  "premiumPaymentProcessingTitle": "Payment Processing",
+  "premiumPaymentProcessingContent": "On Android, payments are processed through Google Play. For the web version, payments are processed through the official website using PayPal.",
+  "premiumPlatformsTitle": "Platforms",
+  "premiumPlatformsContent": "On Android, the Premium membership is purchased through Google Play. For the web version, Premium can be purchased through the official website using PayPal.",
+
+  "premiumTrialAndPremiumTitle": "Trial Period & Premium",
+  "premiumSevenDayTrialTitle": "7-Day Trial",
+  "premiumSevenDayTrialContent": "New users can test FilaLog free of charge for seven days.",
+  "premiumAfterTrialTitle": "After the Trial",
+  "premiumAfterTrialContent": "After the trial period ends, a Premium membership is required to continue using FilaLog.",
+
+  "premiumMembershipTermsTitle": "Membership",
+  "premiumDurationTitle": "Subscription Periods",
+  "premiumDurationContent": "Premium is offered as a monthly or annual membership.",
+  "premiumCancellationTitle": "Cancellation",
+  "premiumCancellationContent": "The membership can be cancelled at any time effective at the end of the current subscription period.",
+  "withdrawal": "Right of Withdrawal",
+
+"withdrawalRightTitle": "Right of Withdrawal",
+"withdrawalPeriodTitle": "Withdrawal Period",
+"withdrawalPeriodContent": "Consumers generally have the right to withdraw from a contract within fourteen days.",
+"withdrawalReasonTitle": "No Reason Required",
+"withdrawalReasonContent": "The right of withdrawal may be exercised within the statutory withdrawal period without stating any reason.",
+
+"withdrawalExerciseTitle": "Exercising the Right of Withdrawal",
+"withdrawalDeclarationTitle": "Clear Declaration",
+"withdrawalDeclarationContent": "To exercise the right of withdrawal, a clear declaration expressing the decision to withdraw from the contract is required.",
+"withdrawalDeadlineTitle": "Meeting the Deadline",
+"withdrawalDeadlineContent": "To meet the withdrawal deadline, it is sufficient to send the declaration before the withdrawal period expires.",
+
+"withdrawalPremiumTitle": "Premium & Digital Services",
+"withdrawalDigitalServiceTitle": "Digital Service",
+"withdrawalDigitalServiceContent": "The Premium membership provides access to additional digital features and services offered by FilaLog.",
+"withdrawalEarlyExpiryTitle": "Early Start of the Service",
+"withdrawalEarlyExpiryContent": "An early start of the provision of digital services or a possible loss of the right of withdrawal is subject to the applicable legal requirements and the information provided when the contract is concluded.",
+
+"withdrawalInformationTitle": "Further Information",
+"withdrawalPurchaseInfoTitle": "Information at Checkout",
+"withdrawalPurchaseInfoContent": "Before completing a Premium membership, the legally required information regarding the right of withdrawal and the processing of the contract is provided for the respective purchase.",
+
+"consumerInformation": "Consumer Information",
+"consumerProviderTitle": "Provider",
+"consumerResponsibleTitle": "Responsible Party",
+"consumerResponsibleContent": "Information about the provider can be found in the legal notice.",
+"consumerContactTitle": "Contact",
+"consumerContactContent": "Questions can be submitted at any time using the contact details provided in the legal notice.",
+
+"consumerContractTitle": "Contract Information",
+"consumerPremiumTitle": "Premium Membership",
+"consumerPremiumContent": "Before completing a Premium membership, all essential information regarding the price, duration and payment method is provided.",
+"consumerContractConclusionTitle": "Conclusion of Contract",
+"consumerContractConclusionContent": "The contract is concluded only after the respective purchase process has been successfully completed.",
+
+"consumerSupportTitle": "Support",
+"consumerHelpTitle": "Help",
+"consumerHelpContent": "If you have any questions or problems, support is available through the official contact options.",
+  "liability": "Liability",
+  "liabilityTitle": "Liability",
+"liabilityContentTitle": "Liability for Content",
+"liabilityCareTitle": "Due Care",
+"liabilityCareContent": "The content provided by FilaLog is created with due care and reviewed regularly.",
+"liabilityNoWarrantyTitle": "No Warranty",
+"liabilityNoWarrantyContent": "Despite careful preparation, no guarantee can be given regarding the accuracy, completeness or timeliness of all information provided.",
+
+"liabilityExternalContentTitle": "External Content",
+"liabilityExternalLinksTitle": "Links and External Services",
+"liabilityExternalLinksContent": "The respective operators are responsible for the content of external websites or services referenced within FilaLog.",
+
+"liabilityUsageTitle": "Notice on Use",
+"liabilityGeneralInformationTitle": "General Information",
+"liabilityGeneralInformationContent": "The information provided in FilaLog is intended to support the management and organization of filament and 3D printing-related data.",
+
+  "copyright": "Copyright",
+"copyrightRightsTitle": "Copyright",
+"copyrightAppTitle": "App",
+"copyrightAppContent": "FilaLog and all associated content, designs and source code are protected by copyright.",
+"copyrightUsageTitle": "Use",
+"copyrightUsageContent": "Reproduction, publication or distribution is not permitted without express permission.",
+
+"copyrightGraphicsContentTitle": "Graphics & Content",
+"copyrightOwnContentTitle": "Original Content",
+"copyrightOwnContentContent": "Original graphics, texts and logos are protected by the developer's copyright.",
+"copyrightThirdPartyTitle": "Third-Party Content",
+"copyrightThirdPartyContent": "Third-party content is used in accordance with the respective applicable licenses.",
+
+"copyrightLicenseNoticeTitle": "License Notice",
+"copyrightOpenSourceTitle": "Open Source",
+"copyrightOpenSourceContent": "Open-source components are used in accordance with their respective licenses.",
+
+"imageCredits": "Image Credits",
+"imageCredits": "Image Credits",
+"imageCreditsGraphicsTitle": "Graphics Used",
+"imageCreditsOwnGraphicsTitle": "Original Graphics",
+"imageCreditsOwnGraphicsContent": "All self-created graphics, logos and illustrations are protected by the developer's copyright.",
+"imageCreditsAppIconsTitle": "App Icons",
+"imageCreditsAppIconsContent": "The icons used are from the official Flutter Material Icons.",
+
+"imageCreditsColorsDesignTitle": "Colors & Design",
+"imageCreditsInterfaceTitle": "User Interface",
+"imageCreditsInterfaceContent": "The design of FilaLog was independently developed.",
+"imageCreditsBrandsTitle": "Brands",
+"imageCreditsBrandsContent": "Brand names and manufacturer designations remain the property of their respective owners.",
+
+"imageCreditsNoticeTitle": "Notice",
+"imageCreditsUpdateTitle": "Updates",
+"imageCreditsUpdateContent": "If additional images or external graphics are used in the future, the corresponding image credits will be added here.",
+
+  "account": "Account",
+"email": "Email",
+"password": "Password",
+
+"signIn": "Sign In",
+"signInFailed": "Sign in failed.",
+"signInSubtitle": "Sign in with an existing account.",
+"welcomeBack": "Welcome Back",
+"loginSubtitle": "Sign in with your user account.",
+"forgotPassword": "Forgot password?",
+
+"resetPassword": "Reset Password",
+"resetPasswordSubtitle": "Enter your email address. We will send you a link to reset your password.",
+"sendingResetLink": "Sending link...",
+"sendResetLink": "Send Link",
+
+"signingIn": "Signing in...",
+
+"createAccount": "Create Account",
+"createAccountSubtitle": "Create a new user account.",
+
+"registerAppBarTitle": "Create Account",
+"registerTitle": "New User Account",
+"registerSubtitle": "Create your personal user account.",
+"repeatPassword": "Repeat Password",
+"registerButton": "Create Account",
+"or": "or",
+"continueWithGoogle": "Continue with Google",
+
+"registrationFailed": "Registration failed.",
+"emailAlreadyInUse": "This email address is already in use.",
+"weakPassword": "The password is too weak.",
+"invalidEmail": "The email address is invalid.",
+
+"signOut": "Sign Out",
+"signOutSubtitle": "Sign out of the current account.",
+"signOutFailed": "Sign out failed: {error}",
+"@signOutFailed": {
+  "placeholders": {
+    "error": {
+      "type": "String"
+    }
+  }
+},
+
+  "about": "About",
+  "appName": "FilaLog",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+
+  "developer": "Developer",
+  "technology": "Technology",
+  "website": "Website",
+  "thankYou": "Thank You",
+  "thankYouMessage": "Thank you for using FilaLog.",
+  "openSourceLicenses": "Open-Source Licenses",
+
+  "feedbackMailGreeting": "Hello,\n\n",
+  "feedbackMailDescription": "I have the following feedback or suggestion for improvement:\n\n",
+  "errorReportMailGreeting": "Hello,\n\n",
+  "errorReportMailDescription": "I found the following error.\n\n",
+  "appVersionLabel": "App Version:",
+  "deviceLabel": "Device:",
+  "browserLabel": "Browser (Web):",
+  "descriptionLabel": "Description:",
+  "stepsToReproduceLabel": "Steps to Reproduce:",
+  "supportMailGreeting": "Hello,\n\n",
+  "supportMailDescription": "I need help with the following topic.\n\n",
+  "thankYouMail": "Thank you.",
+
+"dashboard": "Dashboard",
+"criticalFilaments": "{count} critical filament(s)",
+"@criticalFilaments": {
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"details": "Details",
+"close": "Close",
+
+"totalInventory": "Total Inventory",
+"inventoryValue": "Inventory Value",
+
+"filaments": "Filaments",
+"critical": "Critical",
+"printJobs": "Print Jobs",
+"printed": "Printed",
+
+"totalPrintCosts": "Total Print Costs",
+"averageCostPerPrint": "Avg. Cost per Print",
+
+"quickActions": "Quick Actions",
+"addFilament": "Add Filament",
+"calculatePrint": "Calculate Print"
 }

@@ -1,36 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../state/app_state.dart';
+import '../l10n/app_localizations.dart';
 import '../models/filament.dart';
-import '../widgets/dashboard/dashboard_overview_card.dart';
+import '../state/app_state.dart';
+import '../widgets/common/page_header.dart';
 import '../widgets/dashboard/dashboard_costs_card.dart';
+import '../widgets/dashboard/dashboard_overview_card.dart';
+import '../widgets/dashboard/dashboard_quick_actions.dart';
 import '../widgets/dashboard/dashboard_stats_grid.dart';
 import '../widgets/dashboard/dashboard_warning_card.dart';
-import '../widgets/dashboard/dashboard_quick_actions.dart';
-import '../widgets/common/page_header.dart';
 
 class DashboardPage extends StatelessWidget {
   final Function(int) onNavigate;
 
-  const DashboardPage({super.key, required this.onNavigate});
+  const DashboardPage({
+    super.key,
+    required this.onNavigate,
+  });
 
   void _showCriticalDialog(
     BuildContext context,
     List<Filament> criticalFilaments,
   ) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Kritische Filamente"),
+          title: Text(
+            l10n.criticalFilaments(criticalFilaments.length),
+          ),
           content: SizedBox(
             width: 420,
             child: ListView(
               shrinkWrap: true,
               children: criticalFilaments.map((f) {
-                final percent = ((f.remainingWeight / f.totalWeight) * 100)
-                    .round();
+                final percent =
+                    ((f.remainingWeight / f.totalWeight) * 100).round();
 
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
@@ -63,19 +71,16 @@ class DashboardPage extends StatelessWidget {
                                   fontSize: 15,
                                 ),
                               ),
-
                               const SizedBox(height: 2),
-
                               Text(
                                 f.variant.isNotEmpty
-                                    ? "${f.material} ${f.variant}"
+                                    ? '${f.material} ${f.variant}'
                                     : f.material,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
                         ),
-
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
@@ -86,7 +91,7 @@ class DashboardPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            "$percent%",
+                            '$percent%',
                             style: const TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
@@ -101,17 +106,17 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           actionsPadding: const EdgeInsets.fromLTRB(
-  24,
-  0,
-  24,
-  20,
-),
-actions: [
-  TextButton(
-    onPressed: () => Navigator.pop(context),
-    child: const Text("Schließen"),
-  ),
-],
+            24,
+            0,
+            24,
+            20,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.close),
+            ),
+          ],
         );
       },
     );
@@ -119,12 +124,11 @@ actions: [
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final appState = context.watch<AppState>();
 
     final filaments = appState.filaments;
-
     final jobs = appState.jobs;
-
     final warning = appState.warningPercent / 100;
 
     final criticalFilaments = filaments.where((f) {
@@ -135,21 +139,29 @@ actions: [
       return (f.remainingWeight / f.totalWeight) <= warning;
     }).toList();
 
-    double totalWeight = filaments.fold(
+    final double totalWeight = filaments.fold(
       0.0,
       (sum, f) => sum + f.remainingWeight,
     );
 
-    double totalValue = filaments.fold(
+    final double totalValue = filaments.fold(
       0.0,
       (sum, f) => sum + (f.remainingWeight / 1000 * f.price),
     );
 
-    double printedWeight = jobs.fold(0.0, (sum, j) => sum + j.weightUsed);
+    final double printedWeight = jobs.fold(
+      0.0,
+      (sum, j) => sum + j.weightUsed,
+    );
 
-    double totalPrintCost = jobs.fold(0.0, (sum, j) => sum + j.totalCost);
+    final double totalPrintCost = jobs.fold(
+      0.0,
+      (sum, j) => sum + j.totalCost,
+    );
 
-    double avgCost = jobs.isEmpty ? 0 : totalPrintCost / jobs.length;
+    final double avgCost = jobs.isEmpty
+        ? 0.0
+        : totalPrintCost / jobs.length;
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -159,52 +171,41 @@ actions: [
           : const Color(0xFFE9EEF5),
       child: Column(
         children: [
-          const PageHeader(title: "Dashboard"),
-
+          PageHeader(
+            title: l10n.dashboard,
+          ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
-                /// 🔥 Neue kompakte Warnleiste
                 DashboardWarningCard(
                   isDark: isDark,
                   criticalFilaments: criticalFilaments,
                   onDetails: () =>
                       _showCriticalDialog(context, criticalFilaments),
                 ),
-
                 const SizedBox(height: 16),
-
                 DashboardOverviewCard(
                   totalWeight: totalWeight,
                   totalValue: totalValue,
                 ),
-
                 const SizedBox(height: 12),
-
                 DashboardStatsGrid(
                   filaments: filaments,
                   jobs: jobs,
                   criticalFilaments: criticalFilaments,
                   printedWeight: printedWeight,
                 ),
-
                 const SizedBox(height: 12),
-
-                /// Kosten
                 DashboardCostsCard(
                   totalPrintCost: totalPrintCost,
                   avgCost: avgCost,
                 ),
-
                 const SizedBox(height: 16),
-
-                /// Schnellaktionen
                 DashboardQuickActions(
                   onAddFilament: () => onNavigate(1),
                   onCalculate: () => onNavigate(2),
                 ),
-
                 const SizedBox(height: 16),
               ],
             ),

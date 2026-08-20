@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/filament.dart';
 import '../spool_icon.dart';
 import 'dashboard_stat_card.dart';
@@ -20,6 +21,8 @@ class DashboardStatsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Row(
@@ -28,7 +31,7 @@ class DashboardStatsGrid extends StatelessWidget {
               child: DashboardStatCard(
                 icon: const SpoolIcon(size: 24),
                 value: "${filaments.length}",
-                label: "Filamente",
+                label: l10n.filaments,
                 iconBackgroundColor: const Color(0xFFE8F0FF),
               ),
             ),
@@ -39,7 +42,7 @@ class DashboardStatsGrid extends StatelessWidget {
               child: DashboardStatCard(
                 icon: const Icon(Icons.warning, color: Colors.red),
                 value: "${criticalFilaments.length}",
-                label: "Kritisch",
+                label: l10n.critical,
                 iconBackgroundColor: const Color(0xFFFFE8E8),
               ),
             ),
@@ -54,7 +57,7 @@ class DashboardStatsGrid extends StatelessWidget {
               child: DashboardStatCard(
                 icon: const Icon(Icons.print),
                 value: "${jobs.length}",
-                label: "Druckjobs",
+                label: l10n.printJobs,
                 iconBackgroundColor: const Color(0xFFEAF8EC),
               ),
             ),
@@ -65,7 +68,7 @@ class DashboardStatsGrid extends StatelessWidget {
               child: DashboardStatCard(
                 icon: const Icon(Icons.scale),
                 value: "${printedWeight.toStringAsFixed(0)} g",
-                label: "Gedruckt",
+                label: l10n.printed,
                 iconBackgroundColor: const Color(0xFFFFF3E4),
               ),
             ),

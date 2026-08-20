@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PrintJob {
-
   String projectName;
 
   String filamentBrand;
@@ -41,15 +40,19 @@ class PrintJob {
 
   factory PrintJob.fromJson(Map<String, dynamic> json) {
     return PrintJob(
-      projectName: json['projectName'] ?? "",
-      filamentBrand: json['filamentBrand'],
-      material: json['material'],
-      variant: json['variant'],
-      color: Color(json['color']),
-      weightUsed: json['weightUsed'],
-      printHours: json['printHours'],
-      totalCost: json['totalCost'],
-      date: DateTime.parse(json['date']),
+      projectName: json['projectName']?.toString() ?? '',
+      filamentBrand: json['filamentBrand']?.toString() ?? '',
+      material: json['material']?.toString() ?? '',
+      variant: json['variant']?.toString() ?? '',
+      color: Color(
+        (json['color'] as num).toInt(),
+      ),
+      weightUsed: (json['weightUsed'] as num).toDouble(),
+      printHours: (json['printHours'] as num).toDouble(),
+      totalCost: (json['totalCost'] as num).toDouble(),
+      date: DateTime.parse(
+        json['date'].toString(),
+      ),
     );
   }
 }

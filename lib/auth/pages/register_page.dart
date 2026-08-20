@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_validator.dart';
 import 'verify_email_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../l10n/app_localizations.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -33,50 +34,55 @@ class _RegisterPageState extends State<RegisterPage> {
     return;
   }
 
-  try {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
+  final l10n = AppLocalizations.of(context)!;
 
-    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+try {
+  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: _emailController.text.trim(),
+    password: _passwordController.text.trim(),
+  );
 
-    if (!mounted) return;
+  await FirebaseAuth.instance.currentUser?.sendEmailVerification();
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const VerifyEmailPage(),
-      ),
-    );
-  } on FirebaseAuthException catch (e) {
-    String message = 'Registrierung fehlgeschlagen';
+  if (!mounted) return;
 
-    if (e.code == 'email-already-in-use') {
-      message = 'Diese E-Mail-Adresse wird bereits verwendet.';
-    }
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => const VerifyEmailPage(),
+    ),
+  );
+} on FirebaseAuthException catch (e) {
+  String message = l10n.registrationFailed;
 
-    if (e.code == 'weak-password') {
-      message = 'Das Passwort ist zu schwach.';
-    }
-
-    if (e.code == 'invalid-email') {
-      message = 'Die E-Mail-Adresse ist ungültig.';
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+  if (e.code == 'email-already-in-use') {
+    message = l10n.emailAlreadyInUse;
   }
+
+  if (e.code == 'weak-password') {
+    message = l10n.weakPassword;
+  }
+
+  if (e.code == 'invalid-email') {
+    message = l10n.invalidEmail;
+  }
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+    ),
+  );
+}
 }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+Widget build(BuildContext context) {
+  final theme = Theme.of(context);
+  final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Konto erstellen')),
+      appBar: AppBar(
+  title: Text(l10n.registerAppBarTitle),
+),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -97,36 +103,36 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 24),
 
                     Text(
-                      'Neues Benutzerkonto',
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+  l10n.registerTitle,
+  textAlign: TextAlign.center,
+  style: theme.textTheme.headlineSmall?.copyWith(
+    fontWeight: FontWeight.bold,
+  ),
+),
 
                     const SizedBox(height: 8),
 
                     Text(
-                      'Erstelle dein persönliches Benutzerkonto.',
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyLarge,
-                    ),
+  l10n.registerSubtitle,
+  textAlign: TextAlign.center,
+  style: theme.textTheme.bodyLarge,
+),
 
                     const SizedBox(height: 32),
 
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      onFieldSubmitted: (_) =>
-                          FocusScope.of(context).nextFocus(),
-                      autofillHints: const [AutofillHints.email],
-                      decoration: const InputDecoration(
-                        labelText: 'E-Mail',
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
-                      validator: AuthValidator.validateEmail,
-                    ),
+                   TextFormField(
+  controller: _emailController,
+  keyboardType: TextInputType.emailAddress,
+  textInputAction: TextInputAction.next,
+  onFieldSubmitted: (_) =>
+      FocusScope.of(context).nextFocus(),
+  autofillHints: const [AutofillHints.email],
+  decoration: InputDecoration(
+    labelText: l10n.email,
+    prefixIcon: const Icon(Icons.email_outlined),
+  ),
+  validator: AuthValidator.validateEmail,
+),
 
                     const SizedBox(height: 20),
 
@@ -138,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           FocusScope.of(context).nextFocus(),
                       autofillHints: const [AutofillHints.newPassword],
                       decoration: InputDecoration(
-                        labelText: 'Passwort',
+                        labelText: l10n.password,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -164,7 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       textInputAction: TextInputAction.done,
                       onFieldSubmitted: (_) => _register(),
                       decoration: InputDecoration(
-                        labelText: 'Passwort wiederholen',
+                        labelText: l10n.repeatPassword,
                         prefixIcon: const Icon(Icons.lock_reset),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -194,28 +200,28 @@ class _RegisterPageState extends State<RegisterPage> {
                         FilledButton.icon(
                           onPressed: _register,
                           icon: const Icon(Icons.person_add_alt_1),
-                          label: const Text('Konto erstellen'),
+                          label: Text(l10n.registerButton),
                         ),
 
                         const SizedBox(height: 24),
 
                         Row(
-                          children: const [
-                            Expanded(child: Divider()),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              child: Text('oder'),
-                            ),
-                            Expanded(child: Divider()),
-                          ],
-                        ),
+  children: [
+    const Expanded(child: Divider()),
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Text(l10n.or),
+    ),
+    const Expanded(child: Divider()),
+  ],
+),
 
                         const SizedBox(height: 24),
 
                         OutlinedButton.icon(
                           onPressed: () {},
                           icon: const Icon(Icons.g_mobiledata, size: 28),
-                          label: const Text('Mit Google fortfahren'),
+                          label: Text(l10n.continueWithGoogle),
                         ),
                       ],
                     ),

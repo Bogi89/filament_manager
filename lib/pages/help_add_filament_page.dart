@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/common/help_page_template.dart';
 
 class HelpAddFilamentPage extends StatelessWidget {
@@ -7,43 +8,37 @@ class HelpAddFilamentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HelpPageTemplate(
-      title: 'Filament hinzufügen',
+    return HelpPageTemplate(
+      title: AppLocalizations.of(context)!.helpAddFilamentTitle,
       introduction:
-          'Auf dieser Seite erfährst du, wie du ein neues Filament korrekt anlegst und welche Informationen dafür benötigt werden.',
-
+          AppLocalizations.of(context)!.helpAddFilamentIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.add_circle_outline,
-          title: 'Neues Filament anlegen',
+          title: AppLocalizations.of(context)!.helpAddFilamentNewTitle,
           content:
-              'Öffne den Filamentbereich und tippe auf die Schaltfläche zum Hinzufügen eines neuen Filaments.',
+              AppLocalizations.of(context)!.helpAddFilamentNewContent,
         ),
-
         HelpSectionCard(
           icon: Icons.category_outlined,
-          title: 'Filament auswählen',
+          title: AppLocalizations.of(context)!.helpAddFilamentSelectTitle,
           content:
-              'Wähle Hersteller, Material, Variante und Farbe aus. Viele Werte werden automatisch aus dem Filamentkatalog übernommen.',
+              AppLocalizations.of(context)!.helpAddFilamentSelectContent,
         ),
-
         HelpSectionCard(
           icon: Icons.settings_outlined,
-          title: 'Druckeinstellungen',
+          title: AppLocalizations.of(context)!.helpAddFilamentSettingsTitle,
           content:
-              'Kontrolliere Durchmesser sowie Düsen- und Betttemperatur. Diese Werte werden abhängig vom Material automatisch vorgeschlagen.',
+              AppLocalizations.of(context)!.helpAddFilamentSettingsContent,
         ),
-
         HelpSectionCard(
           icon: Icons.inventory_2_outlined,
-          title: 'Bestand und Kosten',
+          title: AppLocalizations.of(context)!.helpAddFilamentStockTitle,
           content:
-              'Lege das Spulengewicht, den aktuellen Bestand und den Kaufpreis fest. Diese Angaben werden später für Kostenberechnung und Lagerverwaltung verwendet.',
+              AppLocalizations.of(context)!.helpAddFilamentStockContent,
         ),
-
         HelpTipCard(
-          text:
-              'Tipp: Nutze möglichst den integrierten Filamentkatalog. Dadurch werden viele Eingaben automatisch ausgefüllt und Eingabefehler vermieden.',
+          text: AppLocalizations.of(context)!.helpAddFilamentTip,
         ),
       ],
     );

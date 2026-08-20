@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,32 +9,32 @@ class TermsOfServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Nutzungsbedingungen',
-      lastUpdated: 'August 2026',
+    final localizations = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: localizations.termsOfService,
+      lastUpdated: localizations.legalLastUpdatedValue,
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.description_outlined,
-            title: 'Geltungsbereich',
+            title: localizations.termsOfServiceScope,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Nutzung der App'),
+                  title: Text(localizations.termsOfServiceAppUsageTitle),
                   subtitle: Text(
-                    'Diese Nutzungsbedingungen gelten für die Nutzung des Filament Managers auf allen unterstützten Plattformen.',
+                    localizations.termsOfServiceAppUsageContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Zustimmung'),
+                  title: Text(localizations.termsOfServiceAgreementTitle),
                   subtitle: Text(
-                    'Mit der Nutzung der App erklärst du dich mit diesen Nutzungsbedingungen einverstanden.',
+                    localizations.termsOfServiceAgreementContent,
                   ),
                 ),
               ],
@@ -44,53 +45,50 @@ class TermsOfServicePage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.person_outline,
-            title: 'Pflichten des Nutzers',
+            title: localizations.termsOfServiceUserObligations,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Verantwortung'),
+                  title: Text(localizations.termsOfServiceResponsibilityTitle),
                   subtitle: Text(
-                    'Der Nutzer ist für die von ihm eingegebenen Daten selbst verantwortlich.',
+                    localizations.termsOfServiceResponsibilityContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Missbrauch'),
+                  title: Text(localizations.termsOfServiceMisuseTitle),
                   subtitle: Text(
-                    'Die App darf nicht missbräuchlich oder zur Durchführung rechtswidriger Handlungen verwendet werden.',
+                    localizations.termsOfServiceMisuseContent,
                   ),
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.workspace_premium_outlined,
-            title: 'Lizenzen & Nutzungsrechte',
+            title: localizations.termsOfServiceLicensesRights,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Urheberrechte'),
+                  title: Text(localizations.termsOfServiceCopyrightTitle),
                   subtitle: Text(
-                    'Alle Rechte an der App, ihrem Design und ihren Inhalten verbleiben beim Entwickler.',
+                    localizations.termsOfServiceCopyrightContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Keine Weitergabe'),
+                  title: Text(localizations.termsOfServiceNoDistributionTitle),
                   subtitle: Text(
-                    'Die App darf ohne ausdrückliche Zustimmung nicht kopiert, verändert oder weiterverbreitet werden, soweit dies gesetzlich nicht erlaubt ist.',
+                    localizations.termsOfServiceNoDistributionContent,
                   ),
                 ),
               ],
@@ -101,15 +99,17 @@ class TermsOfServicePage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.update_outlined,
-            title: 'Änderungen',
+            title: localizations.termsOfServiceChanges,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Aktualisierung der Bedingungen'),
+                  title: Text(
+                    localizations.termsOfServiceUpdatesTitle,
+                  ),
                   subtitle: Text(
-                    'Die Nutzungsbedingungen können bei neuen Funktionen oder gesetzlichen Änderungen angepasst werden.',
+                    localizations.termsOfServiceUpdatesContent,
                   ),
                 ),
               ],
@@ -120,15 +120,17 @@ class TermsOfServicePage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.gavel_outlined,
-            title: 'Schlussbestimmungen',
+            title: localizations.termsOfServiceFinalProvisions,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Geltendes Recht'),
+                  title: Text(
+                    localizations.termsOfServiceApplicableLawTitle,
+                  ),
                   subtitle: Text(
-                    'Es gilt das jeweils anwendbare Recht am Sitz des Anbieters, soweit gesetzlich zulässig.',
+                    localizations.termsOfServiceApplicableLawContent,
                   ),
                 ),
               ],

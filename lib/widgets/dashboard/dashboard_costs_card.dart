@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'dashboard_card.dart';
 
 class DashboardCostsCard extends StatelessWidget {
@@ -14,15 +15,20 @@ class DashboardCostsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         DashboardCard(
-          title: "Druckkosten Gesamt",
+          title: l10n.totalPrintCosts,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
           child: Center(
             child: Text(
               "${totalPrintCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -30,12 +36,15 @@ class DashboardCostsCard extends StatelessWidget {
         const SizedBox(height: 12),
 
         DashboardCard(
-          title: "Ø Kosten pro Druck",
+          title: l10n.averageCostPerPrint,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
           child: Center(
             child: Text(
               "${avgCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

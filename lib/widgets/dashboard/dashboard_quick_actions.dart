@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class DashboardQuickActions extends StatelessWidget {
   const DashboardQuickActions({
     super.key,
@@ -12,10 +14,15 @@ class DashboardQuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Schnellaktionen", style: Theme.of(context).textTheme.titleSmall),
+        Text(
+          l10n.quickActions,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
 
         const SizedBox(height: 16),
 
@@ -40,7 +47,7 @@ class DashboardQuickActions extends StatelessWidget {
                 ),
                 onPressed: onAddFilament,
                 icon: const Icon(Icons.add),
-                label: const Text("Filament hinzufügen"),
+                label: Text(l10n.addFilament),
               ),
             ),
 
@@ -65,7 +72,7 @@ class DashboardQuickActions extends StatelessWidget {
                 ),
                 onPressed: onCalculate,
                 icon: const Icon(Icons.calculate),
-                label: const Text("Druck berechnen"),
+                label: Text(l10n.calculatePrint),
               ),
             ),
           ],

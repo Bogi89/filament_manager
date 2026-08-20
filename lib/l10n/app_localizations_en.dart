@@ -15,6 +15,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filament => 'Filament';
 
   @override
+  String get filaments => 'Filaments';
+
+  @override
   String get cost => 'Costs';
 
   @override
@@ -46,4 +49,963 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get english => 'English';
+
+  @override
+  String get critical => 'Critical';
+
+  @override
+  String criticalFilaments(int count) {
+    return '$count critical filament(s)';
+  }
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get warningFilament => 'Filament Warning';
+
+  @override
+  String warningBelow(String percent) {
+    return 'Warning below $percent%';
+  }
+
+  @override
+  String get backup => 'Backup';
+
+  @override
+  String get backupExport => 'Export Backup';
+
+  @override
+  String get backupImport => 'Import Backup';
+
+  @override
+  String get backupSaveDialog => 'Save Backup';
+
+  @override
+  String get backupCreated => 'Backup created';
+
+  @override
+  String get backupLoaded => 'Backup loaded successfully';
+
+  @override
+  String get backupLoadError => 'Error loading backup';
+
+  @override
+  String get backupDescription => 'Exports and imports filaments and print jobs.';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get errorReportSubject => 'Error Report FilaLog';
+
+  @override
+  String get sendFeedback => 'Send Feedback';
+
+  @override
+  String get reportError => 'Report an error';
+
+  @override
+  String get rateApp => 'Rate App';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get contactSubject => 'Support FilaLog';
+
+  @override
+  String get help => 'Help';
+
+  @override
+  String get firstSteps => 'Getting Started';
+
+  @override
+  String get addFilament => 'Add Filament';
+
+  @override
+  String get createPrintJob => 'Create Print Job';
+
+  @override
+  String get understandStatistics => 'Understanding Statistics';
+
+  @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get helpFirstStepsTitle => 'Getting Started';
+
+  @override
+  String get helpFirstStepsIntroduction => 'Welcome to FilaLog. This guide will help you get started and explains the most important features of the app.';
+
+  @override
+  String get helpFirstStepsFilamentTitle => '1. Add Filament';
+
+  @override
+  String get helpFirstStepsFilamentContent => 'First, add your first filament. All other features are based on your filament inventory.';
+
+  @override
+  String get helpFirstStepsPrintTitle => '2. Create a Print Job';
+
+  @override
+  String get helpFirstStepsPrintContent => 'Next, create a print job. Filament consumption is calculated automatically and deducted from your inventory.';
+
+  @override
+  String get helpFirstStepsStatisticsTitle => '3. Use Statistics';
+
+  @override
+  String get helpFirstStepsStatisticsContent => 'The statistics section gives you an overview of your consumption, costs, and print history.';
+
+  @override
+  String get helpFirstStepsBackupTitle => '4. Create a Backup';
+
+  @override
+  String get helpFirstStepsBackupContent => 'Create regular backups of your data so that your filament inventory and print history are always protected.';
+
+  @override
+  String get helpFirstStepsTip => 'Tip: Start with a few filaments. This helps you get familiar with the app quickly and keeps everything easy to manage.';
+
+  @override
+  String get helpAddFilamentTitle => 'Add Filament';
+
+  @override
+  String get helpAddFilamentIntroduction => 'This page explains how to correctly add a new filament and which information is required.';
+
+  @override
+  String get helpAddFilamentNewTitle => 'Add a New Filament';
+
+  @override
+  String get helpAddFilamentNewContent => 'Open the filament section and tap the button to add a new filament.';
+
+  @override
+  String get helpAddFilamentSelectTitle => 'Select Filament';
+
+  @override
+  String get helpAddFilamentSelectContent => 'Select the manufacturer, material, variant, and color. Many values are automatically filled in from the filament catalog.';
+
+  @override
+  String get helpAddFilamentSettingsTitle => 'Print Settings';
+
+  @override
+  String get helpAddFilamentSettingsContent => 'Check the diameter as well as nozzle and bed temperature. These values are automatically suggested based on the material.';
+
+  @override
+  String get helpAddFilamentStockTitle => 'Stock and Costs';
+
+  @override
+  String get helpAddFilamentStockContent => 'Set the spool weight, current stock, and purchase price. These details are later used for cost calculation and inventory management.';
+
+  @override
+  String get helpAddFilamentTip => 'Tip: Use the integrated filament catalog whenever possible. This automatically fills in many fields and helps prevent input errors.';
+
+  @override
+  String get helpPrintJobTitle => 'Create a Print Job';
+
+  @override
+  String get helpPrintJobIntroduction => 'A print job allows you to document your prints while filament consumption is calculated automatically.';
+
+  @override
+  String get helpPrintJobNewTitle => 'Create a New Print Job';
+
+  @override
+  String get helpPrintJobNewContent => 'Open the \"History\" section and create a new print job.';
+
+  @override
+  String get helpPrintJobFilamentTitle => 'Select Filament';
+
+  @override
+  String get helpPrintJobFilamentContent => 'Select the filament used from your inventory. Only available filaments can be used.';
+
+  @override
+  String get helpPrintJobUsageTitle => 'Enter Consumption';
+
+  @override
+  String get helpPrintJobUsageContent => 'Enter how many grams of filament were used. The inventory will then be updated automatically.';
+
+  @override
+  String get helpPrintJobInfoTitle => 'Print Information';
+
+  @override
+  String get helpPrintJobInfoContent => 'Optionally, you can save the print duration, printer, notes, or other information to keep track of your prints later.';
+
+  @override
+  String get helpPrintJobTip => 'Tip: Enter your print jobs as soon as possible after printing. This keeps your inventory and statistics up to date.';
+
+  @override
+  String get helpStatisticsTitle => 'Understanding Statistics';
+
+  @override
+  String get helpStatisticsIntroduction => 'The statistics show you an overview of your filament consumption, your print jobs, and the resulting costs.';
+
+  @override
+  String get helpStatisticsUsageTitle => 'Consumption';
+
+  @override
+  String get helpStatisticsUsageContent => 'Here you can see how much filament has been used in total and which materials are used most frequently.';
+
+  @override
+  String get helpStatisticsCostsTitle => 'Costs';
+
+  @override
+  String get helpStatisticsCostsContent => 'The cost overview calculates your material costs based on the stored filament price and actual consumption.';
+
+  @override
+  String get helpStatisticsHistoryTitle => 'Print History';
+
+  @override
+  String get helpStatisticsHistoryContent => 'All completed print jobs are automatically included in your statistics.';
+
+  @override
+  String get helpStatisticsAnalysisTitle => 'Analysis';
+
+  @override
+  String get helpStatisticsAnalysisContent => 'Use the charts and overviews to analyze consumption, costs, and material usage over time.';
+
+  @override
+  String get helpStatisticsTip => 'Tip: The more complete your print jobs are, the more accurate your statistics will be.';
+
+  @override
+  String get helpBackupTitle => 'Backup & Restore';
+
+  @override
+  String get helpBackupIntroduction => 'With a backup, you can save your filaments, print jobs, and settings and restore them later.';
+
+  @override
+  String get helpBackupCreateTitle => 'Create a Backup';
+
+  @override
+  String get helpBackupCreateContent => 'Create regular backups of your data to prevent any information from being lost.';
+
+  @override
+  String get helpBackupRestoreTitle => 'Restore a Backup';
+
+  @override
+  String get helpBackupRestoreContent => 'Select a previously created backup file to import your data back into FilaLog.';
+
+  @override
+  String get helpBackupFileTitle => 'Backup File';
+
+  @override
+  String get helpBackupFileContent => 'Keep your backup files in a safe place, such as a cloud service or an external storage device.';
+
+  @override
+  String get helpBackupRegularTitle => 'Back Up Regularly';
+
+  @override
+  String get helpBackupRegularContent => 'Create an up-to-date backup especially before making major changes or updating the app.';
+
+  @override
+  String get helpBackupTip => 'Tip: With regular backups, you can restore your data at any time without any problems.';
+
+  @override
+  String get whatsNew => 'What\'s New';
+
+  @override
+  String get version10 => 'Version 1.0';
+
+  @override
+  String get firstOfficialRelease => 'First Official Release';
+
+  @override
+  String get versionHistory => 'Version History';
+
+  @override
+  String get whatsNewIntroduction => 'Here you can find the new features and improvements introduced in each version of FilaLog.';
+
+  @override
+  String get whatsNewVersion100 => 'Version 1.0.0';
+
+  @override
+  String get whatsNewVersion100Content => '• First official release\n• Filament management\n• Print history\n• Cost calculation\n• Statistics\n• Backup & Restore\n• User account\n• Guest mode\n• Help section\n• Legal information';
+
+  @override
+  String get whatsNewTip => 'New features will be added here after each update, so you can always keep track of all changes.';
+
+  @override
+  String get legal => 'Legal';
+
+  @override
+  String get legalLastUpdated => 'Last updated';
+
+  @override
+  String get legalLastUpdatedValue => 'August 2026';
+
+  @override
+  String get legalAllRightsReserved => 'All rights reserved.';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyUpdated => 'August 2026';
+
+  @override
+  String get privacyPolicyResponsible => 'Data Controller';
+
+  @override
+  String get privacyPolicyResponsibleLabel => 'Responsible';
+
+  @override
+  String get privacyPolicyResponsibleName => 'Robin';
+
+  @override
+  String get privacyPolicyContact => 'Contact';
+
+  @override
+  String get privacyPolicyContactMissing => 'Will be added before release';
+
+  @override
+  String get privacyPolicyStoredDataTitle => 'What data is stored?';
+
+  @override
+  String get privacyPolicyLocalDataTitle => 'Locally stored data';
+
+  @override
+  String get privacyPolicyLocalDataContent => 'Filaments, print jobs, settings, and statistics are stored locally on your device.';
+
+  @override
+  String get privacyPolicyNoSharingTitle => 'No data sharing';
+
+  @override
+  String get privacyPolicyNoSharingContent => 'No personal data is shared with third parties unless this is required for the use of the app.';
+
+  @override
+  String get privacyPolicyAccountTitle => 'Guest Mode & User Account';
+
+  @override
+  String get privacyPolicyGuestModeTitle => 'Guest Mode';
+
+  @override
+  String get privacyPolicyGuestModeContent => 'The app can be used in guest mode without registration. The data remains stored exclusively on the device.';
+
+  @override
+  String get privacyPolicyUserAccountTitle => 'User Account';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get termsOfServiceScope => 'Scope';
+
+  @override
+  String get termsOfServiceAppUsageTitle => 'Use of the App';
+
+  @override
+  String get termsOfServiceAppUsageContent => 'These Terms of Service apply to the use of FilaLog on all supported platforms.';
+
+  @override
+  String get termsOfServiceAgreementTitle => 'Agreement';
+
+  @override
+  String get termsOfServiceAgreementContent => 'By using the app, you agree to these Terms of Service.';
+
+  @override
+  String get termsOfServiceUserObligations => 'User Obligations';
+
+  @override
+  String get termsOfServiceResponsibilityTitle => 'Responsibility';
+
+  @override
+  String get termsOfServiceResponsibilityContent => 'The user is responsible for the data they enter into the app.';
+
+  @override
+  String get termsOfServiceMisuseTitle => 'Misuse';
+
+  @override
+  String get termsOfServiceMisuseContent => 'The app must not be misused or used to carry out unlawful activities.';
+
+  @override
+  String get termsOfServiceLicensesRights => 'Licenses & Usage Rights';
+
+  @override
+  String get termsOfServiceCopyrightTitle => 'Copyright';
+
+  @override
+  String get termsOfServiceCopyrightContent => 'All rights to the app, its design, and its content remain with the developer.';
+
+  @override
+  String get termsOfServiceNoDistributionTitle => 'No Distribution';
+
+  @override
+  String get termsOfServiceNoDistributionContent => 'The app may not be copied, modified, or redistributed without express permission, unless permitted by law.';
+
+  @override
+  String get termsOfServiceChanges => 'Changes';
+
+  @override
+  String get termsOfServiceUpdatesTitle => 'Updates to the Terms';
+
+  @override
+  String get termsOfServiceUpdatesContent => 'The Terms of Service may be updated when new features are introduced or when required by changes in applicable law.';
+
+  @override
+  String get termsOfServiceFinalProvisions => 'Final Provisions';
+
+  @override
+  String get termsOfServiceApplicableLawTitle => 'Applicable Law';
+
+  @override
+  String get termsOfServiceApplicableLawContent => 'The applicable law at the provider\'s place of business shall apply, to the extent permitted by law.';
+
+  @override
+  String get privacyPolicyUserAccountContent => 'When using a user account, data may be synchronized with supported devices in the future.';
+
+  @override
+  String get privacyPolicyRightsTitle => 'Your Rights';
+
+  @override
+  String get privacyPolicyRightsLabel => 'Data Protection Rights';
+
+  @override
+  String get privacyPolicyRightsContent => 'You have the right to access, correct, delete, and restrict the processing of your personal data within the scope of applicable data protection laws.';
+
+  @override
+  String get privacyPolicyQuestionsTitle => 'Questions About Data Protection';
+
+  @override
+  String get privacyPolicyQuestionsContactTitle => 'Contact';
+
+  @override
+  String get privacyPolicyQuestionsContactContent => 'If you have questions about data protection, you can contact us using the contact details provided in the legal notice.';
+
+  @override
+  String get imprint => 'Legal Notice';
+
+  @override
+  String get imprintProviderDetailsTitle => 'Provider Information';
+
+  @override
+  String get imprintAppNameLabel => 'App Name';
+
+  @override
+  String get imprintAppNameValue => 'FilaLog';
+
+  @override
+  String get imprintDeveloperLabel => 'Developer';
+
+  @override
+  String get imprintDeveloperValue => 'Robin';
+
+  @override
+  String get imprintAddressLabel => 'Address';
+
+  @override
+  String get imprintAddressValue => 'Will be added before release';
+
+  @override
+  String get imprintContactTitle => 'Contact';
+
+  @override
+  String get imprintEmailLabel => 'Email';
+
+  @override
+  String get imprintEmailValue => 'support@deine-domain.de';
+
+  @override
+  String get imprintWebsiteLabel => 'Website';
+
+  @override
+  String get imprintWebsiteValue => 'https://deine-domain.de';
+
+  @override
+  String get imprintCompanyInformationTitle => 'Company Information';
+
+  @override
+  String get imprintCompanyFormLabel => 'Legal Form';
+
+  @override
+  String get imprintCompanyFormValue => 'Will be added before release';
+
+  @override
+  String get imprintBusinessPurposeLabel => 'Business Purpose';
+
+  @override
+  String get imprintBusinessPurposeValue => 'Provision of an application for managing 3D printing filament.';
+
+  @override
+  String get imprintLegalNotesTitle => 'Legal Information';
+
+  @override
+  String get imprintLiabilityLabel => 'Liability';
+
+  @override
+  String get imprintLiabilityContent => 'For more information, please visit the \"Liability\" page.';
+
+  @override
+  String get imprintCopyrightLabel => 'Copyright';
+
+  @override
+  String get imprintCopyrightContent => 'For more information, please visit the \"Copyright\" page.';
+
+  @override
+  String get premiumSubscription => 'Premium & Subscription';
+
+  @override
+  String get premiumMembershipTitle => 'Premium Membership';
+
+  @override
+  String get premiumTitle => 'Premium';
+
+  @override
+  String get premiumContent => 'FilaLog can be tested free of charge for seven days. After that, a Premium membership is required to continue using the app.';
+
+  @override
+  String get premiumTrialTitle => 'Trial Period';
+
+  @override
+  String get premiumTrialContent => 'All features are available without restrictions during the seven-day trial period.';
+
+  @override
+  String get premiumBillingTitle => 'Billing';
+
+  @override
+  String get premiumPaymentProcessingTitle => 'Payment Processing';
+
+  @override
+  String get premiumPaymentProcessingContent => 'On Android, payments are processed through Google Play. For the web version, payments are processed through the official website using PayPal.';
+
+  @override
+  String get premiumPlatformsTitle => 'Platforms';
+
+  @override
+  String get premiumPlatformsContent => 'On Android, the Premium membership is purchased through Google Play. For the web version, Premium can be purchased through the official website using PayPal.';
+
+  @override
+  String get premiumTrialAndPremiumTitle => 'Trial Period & Premium';
+
+  @override
+  String get premiumSevenDayTrialTitle => '7-Day Trial';
+
+  @override
+  String get premiumSevenDayTrialContent => 'New users can test FilaLog free of charge for seven days.';
+
+  @override
+  String get premiumAfterTrialTitle => 'After the Trial';
+
+  @override
+  String get premiumAfterTrialContent => 'After the trial period ends, a Premium membership is required to continue using FilaLog.';
+
+  @override
+  String get premiumMembershipTermsTitle => 'Membership';
+
+  @override
+  String get premiumDurationTitle => 'Subscription Periods';
+
+  @override
+  String get premiumDurationContent => 'Premium is offered as a monthly or annual membership.';
+
+  @override
+  String get premiumCancellationTitle => 'Cancellation';
+
+  @override
+  String get premiumCancellationContent => 'The membership can be cancelled at any time effective at the end of the current subscription period.';
+
+  @override
+  String get withdrawal => 'Right of Withdrawal';
+
+  @override
+  String get withdrawalRightTitle => 'Right of Withdrawal';
+
+  @override
+  String get withdrawalPeriodTitle => 'Withdrawal Period';
+
+  @override
+  String get withdrawalPeriodContent => 'Consumers generally have the right to withdraw from a contract within fourteen days.';
+
+  @override
+  String get withdrawalReasonTitle => 'No Reason Required';
+
+  @override
+  String get withdrawalReasonContent => 'The right of withdrawal may be exercised within the statutory withdrawal period without stating any reason.';
+
+  @override
+  String get withdrawalExerciseTitle => 'Exercising the Right of Withdrawal';
+
+  @override
+  String get withdrawalDeclarationTitle => 'Clear Declaration';
+
+  @override
+  String get withdrawalDeclarationContent => 'To exercise the right of withdrawal, a clear declaration expressing the decision to withdraw from the contract is required.';
+
+  @override
+  String get withdrawalDeadlineTitle => 'Meeting the Deadline';
+
+  @override
+  String get withdrawalDeadlineContent => 'To meet the withdrawal deadline, it is sufficient to send the declaration before the withdrawal period expires.';
+
+  @override
+  String get withdrawalPremiumTitle => 'Premium & Digital Services';
+
+  @override
+  String get withdrawalDigitalServiceTitle => 'Digital Service';
+
+  @override
+  String get withdrawalDigitalServiceContent => 'The Premium membership provides access to additional digital features and services offered by FilaLog.';
+
+  @override
+  String get withdrawalEarlyExpiryTitle => 'Early Start of the Service';
+
+  @override
+  String get withdrawalEarlyExpiryContent => 'An early start of the provision of digital services or a possible loss of the right of withdrawal is subject to the applicable legal requirements and the information provided when the contract is concluded.';
+
+  @override
+  String get withdrawalInformationTitle => 'Further Information';
+
+  @override
+  String get withdrawalPurchaseInfoTitle => 'Information at Checkout';
+
+  @override
+  String get withdrawalPurchaseInfoContent => 'Before completing a Premium membership, the legally required information regarding the right of withdrawal and the processing of the contract is provided for the respective purchase.';
+
+  @override
+  String get consumerInformation => 'Consumer Information';
+
+  @override
+  String get consumerProviderTitle => 'Provider';
+
+  @override
+  String get consumerResponsibleTitle => 'Responsible Party';
+
+  @override
+  String get consumerResponsibleContent => 'Information about the provider can be found in the legal notice.';
+
+  @override
+  String get consumerContactTitle => 'Contact';
+
+  @override
+  String get consumerContactContent => 'Questions can be submitted at any time using the contact details provided in the legal notice.';
+
+  @override
+  String get consumerContractTitle => 'Contract Information';
+
+  @override
+  String get consumerPremiumTitle => 'Premium Membership';
+
+  @override
+  String get consumerPremiumContent => 'Before completing a Premium membership, all essential information regarding the price, duration and payment method is provided.';
+
+  @override
+  String get consumerContractConclusionTitle => 'Conclusion of Contract';
+
+  @override
+  String get consumerContractConclusionContent => 'The contract is concluded only after the respective purchase process has been successfully completed.';
+
+  @override
+  String get consumerSupportTitle => 'Support';
+
+  @override
+  String get consumerHelpTitle => 'Help';
+
+  @override
+  String get consumerHelpContent => 'If you have any questions or problems, support is available through the official contact options.';
+
+  @override
+  String get liability => 'Liability';
+
+  @override
+  String get liabilityTitle => 'Liability';
+
+  @override
+  String get liabilityContentTitle => 'Liability for Content';
+
+  @override
+  String get liabilityCareTitle => 'Due Care';
+
+  @override
+  String get liabilityCareContent => 'The content provided by FilaLog is created with due care and reviewed regularly.';
+
+  @override
+  String get liabilityNoWarrantyTitle => 'No Warranty';
+
+  @override
+  String get liabilityNoWarrantyContent => 'Despite careful preparation, no guarantee can be given regarding the accuracy, completeness or timeliness of all information provided.';
+
+  @override
+  String get liabilityExternalContentTitle => 'External Content';
+
+  @override
+  String get liabilityExternalLinksTitle => 'Links and External Services';
+
+  @override
+  String get liabilityExternalLinksContent => 'The respective operators are responsible for the content of external websites or services referenced within FilaLog.';
+
+  @override
+  String get liabilityUsageTitle => 'Notice on Use';
+
+  @override
+  String get liabilityGeneralInformationTitle => 'General Information';
+
+  @override
+  String get liabilityGeneralInformationContent => 'The information provided in FilaLog is intended to support the management and organization of filament and 3D printing-related data.';
+
+  @override
+  String get copyright => 'Copyright';
+
+  @override
+  String get copyrightRightsTitle => 'Copyright';
+
+  @override
+  String get copyrightAppTitle => 'App';
+
+  @override
+  String get copyrightAppContent => 'FilaLog and all associated content, designs and source code are protected by copyright.';
+
+  @override
+  String get copyrightUsageTitle => 'Use';
+
+  @override
+  String get copyrightUsageContent => 'Reproduction, publication or distribution is not permitted without express permission.';
+
+  @override
+  String get copyrightGraphicsContentTitle => 'Graphics & Content';
+
+  @override
+  String get copyrightOwnContentTitle => 'Original Content';
+
+  @override
+  String get copyrightOwnContentContent => 'Original graphics, texts and logos are protected by the developer\'s copyright.';
+
+  @override
+  String get copyrightThirdPartyTitle => 'Third-Party Content';
+
+  @override
+  String get copyrightThirdPartyContent => 'Third-party content is used in accordance with the respective applicable licenses.';
+
+  @override
+  String get copyrightLicenseNoticeTitle => 'License Notice';
+
+  @override
+  String get copyrightOpenSourceTitle => 'Open Source';
+
+  @override
+  String get copyrightOpenSourceContent => 'Open-source components are used in accordance with their respective licenses.';
+
+  @override
+  String get imageCredits => 'Image Credits';
+
+  @override
+  String get imageCreditsGraphicsTitle => 'Graphics Used';
+
+  @override
+  String get imageCreditsOwnGraphicsTitle => 'Original Graphics';
+
+  @override
+  String get imageCreditsOwnGraphicsContent => 'All self-created graphics, logos and illustrations are protected by the developer\'s copyright.';
+
+  @override
+  String get imageCreditsAppIconsTitle => 'App Icons';
+
+  @override
+  String get imageCreditsAppIconsContent => 'The icons used are from the official Flutter Material Icons.';
+
+  @override
+  String get imageCreditsColorsDesignTitle => 'Colors & Design';
+
+  @override
+  String get imageCreditsInterfaceTitle => 'User Interface';
+
+  @override
+  String get imageCreditsInterfaceContent => 'The design of FilaLog was independently developed.';
+
+  @override
+  String get imageCreditsBrandsTitle => 'Brands';
+
+  @override
+  String get imageCreditsBrandsContent => 'Brand names and manufacturer designations remain the property of their respective owners.';
+
+  @override
+  String get imageCreditsNoticeTitle => 'Notice';
+
+  @override
+  String get imageCreditsUpdateTitle => 'Updates';
+
+  @override
+  String get imageCreditsUpdateContent => 'If additional images or external graphics are used in the future, the corresponding image credits will be added here.';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signInFailed => 'Sign in failed.';
+
+  @override
+  String get signInSubtitle => 'Sign in with an existing account.';
+
+  @override
+  String get welcomeBack => 'Welcome Back';
+
+  @override
+  String get loginSubtitle => 'Sign in with your user account.';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get resetPasswordSubtitle => 'Enter your email address. We will send you a link to reset your password.';
+
+  @override
+  String get sendingResetLink => 'Sending link...';
+
+  @override
+  String get sendResetLink => 'Send Link';
+
+  @override
+  String get signingIn => 'Signing in...';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get createAccountSubtitle => 'Create a new user account.';
+
+  @override
+  String get registerAppBarTitle => 'Create Account';
+
+  @override
+  String get registerTitle => 'New User Account';
+
+  @override
+  String get registerSubtitle => 'Create your personal user account.';
+
+  @override
+  String get repeatPassword => 'Repeat Password';
+
+  @override
+  String get registerButton => 'Create Account';
+
+  @override
+  String get or => 'or';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get registrationFailed => 'Registration failed.';
+
+  @override
+  String get emailAlreadyInUse => 'This email address is already in use.';
+
+  @override
+  String get weakPassword => 'The password is too weak.';
+
+  @override
+  String get invalidEmail => 'The email address is invalid.';
+
+  @override
+  String get signOut => 'Sign Out';
+
+  @override
+  String get signOutSubtitle => 'Sign out of the current account.';
+
+  @override
+  String signOutFailed(String error) {
+    return 'Sign out failed: $error';
+  }
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get appName => 'FilaLog';
+
+  @override
+  String version(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get developer => 'Developer';
+
+  @override
+  String get technology => 'Technology';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get thankYou => 'Thank You';
+
+  @override
+  String get thankYouMessage => 'Thank you for using FilaLog.';
+
+  @override
+  String get openSourceLicenses => 'Open-Source Licenses';
+
+  @override
+  String get feedbackMailGreeting => 'Hello,\n\n';
+
+  @override
+  String get feedbackMailDescription => 'I have the following feedback or suggestion for improvement:\n\n';
+
+  @override
+  String get errorReportMailGreeting => 'Hello,\n\n';
+
+  @override
+  String get errorReportMailDescription => 'I found the following error.\n\n';
+
+  @override
+  String get appVersionLabel => 'App Version:';
+
+  @override
+  String get deviceLabel => 'Device:';
+
+  @override
+  String get browserLabel => 'Browser (Web):';
+
+  @override
+  String get descriptionLabel => 'Description:';
+
+  @override
+  String get stepsToReproduceLabel => 'Steps to Reproduce:';
+
+  @override
+  String get supportMailGreeting => 'Hello,\n\n';
+
+  @override
+  String get supportMailDescription => 'I need help with the following topic.\n\n';
+
+  @override
+  String get thankYouMail => 'Thank you.';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get totalInventory => 'Total Inventory';
+
+  @override
+  String get inventoryValue => 'Inventory Value';
+
+  @override
+  String get printJobs => 'Print Jobs';
+
+  @override
+  String get printed => 'Printed';
+
+  @override
+  String get totalPrintCosts => 'Total Print Costs';
+
+  @override
+  String get averageCostPerPrint => 'Avg. Cost per Print';
+
+  @override
+  String get quickActions => 'Quick Actions';
+
+  @override
+  String get calculatePrint => 'Calculate Print';
 }

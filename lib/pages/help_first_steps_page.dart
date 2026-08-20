@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/common/help_page_template.dart';
 
 class HelpFirstStepsPage extends StatelessWidget {
@@ -7,43 +8,42 @@ class HelpFirstStepsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HelpPageTemplate(
-      title: 'Erste Schritte',
+    return HelpPageTemplate(
+      title: AppLocalizations.of(context)!.helpFirstStepsTitle,
       introduction:
-          'Willkommen beim Filament Manager. Diese Anleitung hilft dir beim Einstieg und erklärt die wichtigsten Funktionen der App.',
-
+    AppLocalizations.of(context)!.helpFirstStepsIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.inventory_2_outlined,
-          title: '1. Filament hinzufügen',
+          title: AppLocalizations.of(context)!.helpFirstStepsFilamentTitle,
           content:
-              'Lege zunächst dein erstes Filament an. Alle weiteren Funktionen bauen auf deinen Filamentbestand auf.',
+    AppLocalizations.of(context)!.helpFirstStepsFilamentContent,
         ),
 
         HelpSectionCard(
           icon: Icons.print_outlined,
-          title: '2. Druckauftrag erstellen',
+          title: AppLocalizations.of(context)!.helpFirstStepsPrintTitle,
           content:
-              'Erstelle anschließend einen Druckauftrag. Der Filamentverbrauch wird automatisch berechnet und vom Bestand abgezogen.',
+    AppLocalizations.of(context)!.helpFirstStepsPrintContent,
         ),
 
         HelpSectionCard(
           icon: Icons.bar_chart_outlined,
-          title: '3. Statistiken nutzen',
+          title: AppLocalizations.of(context)!.helpFirstStepsStatisticsTitle,
           content:
-              'Im Statistikbereich erhältst du einen Überblick über deinen Verbrauch, deine Kosten und deine Druckhistorie.',
+    AppLocalizations.of(context)!.helpFirstStepsStatisticsContent,
         ),
 
         HelpSectionCard(
           icon: Icons.backup_outlined,
-          title: '4. Backup erstellen',
+          title: AppLocalizations.of(context)!.helpFirstStepsBackupTitle,
           content:
-              'Erstelle regelmäßig ein Backup deiner Daten, damit dein Filamentbestand und deine Druckhistorie jederzeit gesichert sind.',
+    AppLocalizations.of(context)!.helpFirstStepsBackupContent,
         ),
 
         HelpTipCard(
           text:
-              'Tipp: Beginne mit wenigen Filamenten. So lernst du die App schnell kennen und behältst jederzeit den Überblick.',
+    AppLocalizations.of(context)!.helpFirstStepsTip,
         ),
       ],
     );

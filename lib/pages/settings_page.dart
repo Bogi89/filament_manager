@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'dart:html' as html;
+import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import '../widgets/common/page_header.dart';
 import '../widgets/common/app_hover_card.dart';
 import '../widgets/settings/expandable_settings_card.dart';
@@ -29,6 +30,9 @@ import 'whats_new_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/services/guest_service.dart';
 import '../auth/pages/welcome_page.dart';
+import '../auth/pages/login_page.dart';
+import '../auth/pages/register_page.dart';
+import '../l10n/app_localizations.dart';
 
 import '../constants/app_links.dart';
 
@@ -39,91 +43,89 @@ class SettingsPage extends StatelessWidget {
 
   /// 🔹 EXPORT BACKUP
 
-  void _exportBackup(AppState appState) {
-    final Map<String, dynamic> backupData = {
-      "filaments": appState.filaments.map((f) => f.toJson()).toList(),
+Future<void> _exportBackup(AppState appState) async {
+  final Map<String, dynamic> backupData = {
+    "filaments": appState.filaments.map((f) => f.toJson()).toList(),
+    "jobs": appState.jobs.map((j) => j.toJson()).toList(),
+    "exportDate": DateTime.now().toIso8601String(),
+  };
 
-      "jobs": appState.jobs.map((j) => j.toJson()).toList(),
+  final jsonString = const JsonEncoder.withIndent('  ').convert(backupData);
+  final bytes = Uint8List.fromList(utf8.encode(jsonString));
 
-      "exportDate": DateTime.now().toIso8601String(),
-    };
-
-    final jsonString = const JsonEncoder.withIndent('  ').convert(backupData);
-
-    final bytes = utf8.encode(jsonString);
-
-    final blob = html.Blob([bytes]);
-
-    final url = html.Url.createObjectUrlFromBlob(blob);
-
-    html.AnchorElement(href: url)
-      ..setAttribute("download", "filament_backup.json")
-      ..click();
-
-    html.Url.revokeObjectUrl(url);
-  }
+  await FilePicker.saveFile(
+    dialogTitle: 'Backup speichern',
+    fileName: 'filament_backup.json',
+    type: FileType.custom,
+    allowedExtensions: ['json'],
+    bytes: bytes,
+  );
+}
 
   /// 🔹 IMPORT BACKUP
 
-  void _importBackup(BuildContext context, AppState appState) {
-    final uploadInput = html.FileUploadInputElement();
+Future<void> _importBackup(
+  BuildContext context,
+  AppState appState,
+) async {
+  try {
+    final result = await FilePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+      withData: true,
+    );
 
-    uploadInput.accept = ".json";
+    if (result == null || result.files.isEmpty) {
+      return;
+    }
 
-    uploadInput.click();
+    final file = result.files.first;
+    final bytes = file.bytes;
 
-    uploadInput.onChange.listen((event) {
-      final file = uploadInput.files?.first;
+    if (bytes == null) {
+      throw Exception('Datei konnte nicht gelesen werden.');
+    }
 
-      if (file == null) return;
+    final jsonString = utf8.decode(bytes);
+    final jsonData = jsonDecode(jsonString);
 
-      final reader = html.FileReader();
+    final List<Filament> loadedFilaments =
+        (jsonData["filaments"] as List)
+            .map((e) => Filament.fromJson(e))
+            .toList();
 
-      reader.readAsText(file);
+    final List<PrintJob> loadedJobs =
+        (jsonData["jobs"] as List)
+            .map((e) => PrintJob.fromJson(e))
+            .toList();
 
-      reader.onLoadEnd.listen((event) {
-        try {
-          final jsonData = jsonDecode(reader.result as String);
+    appState.filaments
+      ..clear()
+      ..addAll(loadedFilaments);
 
-          /// Filamente laden
+    appState.jobs
+      ..clear()
+      ..addAll(loadedJobs);
 
-          final List<Filament> loadedFilaments = (jsonData["filaments"] as List)
-              .map((e) => Filament.fromJson(e))
-              .toList();
+    appState.saveData();
 
-          /// Jobs laden
+    if (!context.mounted) return;
 
-          final List<PrintJob> loadedJobs = (jsonData["jobs"] as List)
-              .map((e) => PrintJob.fromJson(e))
-              .toList();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Backup erfolgreich geladen"),
+      ),
+    );
+  } catch (e) {
+    if (!context.mounted) return;
 
-          /// Bestehende Daten ersetzen
-
-          appState.filaments
-            ..clear()
-            ..addAll(loadedFilaments);
-
-          appState.jobs
-            ..clear()
-            ..addAll(loadedJobs);
-
-          appState.saveData();
-
-          if (!context.mounted) return;
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Backup erfolgreich geladen")),
-          );
-        } catch (e) {
-          if (!context.mounted) return;
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Fehler beim Laden des Backups")),
-          );
-        }
-      });
-    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fehler beim Laden des Backups"),
+      ),
+    );
   }
+}
 
   Future<void> _openUrl(String url) async {
     final uri = Uri.parse(url);
@@ -135,6 +137,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final appState = Provider.of<AppState>(context);
 
     return Scaffold(
@@ -195,7 +198,7 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Sprache",
+              title: AppLocalizations.of(context)!.language,
               icon: Icons.language,
               child: Column(
                 children: [
@@ -208,7 +211,7 @@ class SettingsPage extends StatelessWidget {
                           height: 16,
                         ),
                         const SizedBox(width: 10),
-                        const Text("Deutsch"),
+                        Text(AppLocalizations.of(context)!.german)
                       ],
                     ),
                     value: 'de',
@@ -229,7 +232,7 @@ class SettingsPage extends StatelessWidget {
                           height: 16,
                         ),
                         const SizedBox(width: 10),
-                        const Text("English"),
+                        Text(AppLocalizations.of(context)!.english)
                       ],
                     ),
                     value: 'en',
@@ -247,13 +250,15 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Warnung Filament",
+              title: AppLocalizations.of(context)!.warningFilament,
               icon: Icons.warning_amber_rounded,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Warnung unter ${appState.warningPercent.toStringAsFixed(0)} %",
+                    AppLocalizations.of(context)!.warningBelow(
+  appState.warningPercent.toStringAsFixed(0),
+),
                   ),
 
                   const SizedBox(height: 12),
@@ -275,14 +280,14 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Backup",
+              title: AppLocalizations.of(context)!.backup,
               icon: Icons.backup_outlined,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton.icon(
                     icon: const Icon(Icons.download),
-                    label: const Text("Backup exportieren"),
+                    label: Text(AppLocalizations.of(context)!.backupExport),
                     onPressed: () {
                       _exportBackup(appState);
 
@@ -296,7 +301,7 @@ class SettingsPage extends StatelessWidget {
 
                   ElevatedButton.icon(
                     icon: const Icon(Icons.upload),
-                    label: const Text("Backup importieren"),
+                    label: Text(AppLocalizations.of(context)!.backupImport),
                     onPressed: () {
                       _importBackup(context, appState);
                     },
@@ -304,10 +309,13 @@ class SettingsPage extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  const Text(
-                    "Exportiert und importiert Filamente und Druckjobs.",
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
+                  Text(
+  AppLocalizations.of(context)!.backupDescription,
+  style: const TextStyle(
+    color: Colors.grey,
+    fontSize: 12,
+  ),
+),
                 ],
               ),
             ),
@@ -315,24 +323,24 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Support",
+              title: AppLocalizations.of(context)!.support,
               icon: Icons.support_agent,
               child: Column(
                 children: [
                   ListTile(
                     leading: const Icon(Icons.feedback_outlined),
-                    title: const Text("Feedback senden"),
+                    title: Text(AppLocalizations.of(context)!.sendFeedback),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       final subject = Uri.encodeComponent(
-                        'Feedback Filament Manager',
+                        'Feedback FilaLog',
                       );
 
                       final body = Uri.encodeComponent(
-                        'Hallo Robin,\n\n'
-                        'ich habe folgendes Feedback oder einen Verbesserungsvorschlag:\n\n'
-                        '----------------------------------------\n\n',
-                      );
+  '${AppLocalizations.of(context)!.feedbackMailGreeting}'
+  '${AppLocalizations.of(context)!.feedbackMailDescription}'
+  '----------------------------------------\n\n',
+);
 
                       _openUrl(
                         'mailto:${AppLinks.supportMail}?subject=$subject&body=$body',
@@ -342,24 +350,23 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.bug_report_outlined),
-                    title: const Text("Fehler melden"),
+                    title: Text(AppLocalizations.of(context)!.reportError),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      final subject = Uri.encodeComponent(
-                        'Fehlerbericht Filament Manager',
-                      );
+  final subject = Uri.encodeComponent(
+  AppLocalizations.of(context)!.errorReportSubject,
+);
 
                       final body = Uri.encodeComponent(
-                        'Hallo,\n\n'
-                        'ich habe folgenden Fehler gefunden.\n\n'
-                        '----------------------------------------\n\n'
-                        'App-Version:\n\n'
-                        'Gerät:\n\n'
-                        'Browser (bei Web):\n\n'
-                        'Beschreibung:\n\n'
-                        'Schritte zum Nachstellen:\n\n'
-                        '----------------------------------------\n',
-                      );
+  '${AppLocalizations.of(context)!.errorReportMailGreeting}'
+  '${AppLocalizations.of(context)!.errorReportMailDescription}'
+  '${AppLocalizations.of(context)!.appVersionLabel}\n\n'
+  '${AppLocalizations.of(context)!.deviceLabel}\n\n'
+  '${AppLocalizations.of(context)!.browserLabel}\n\n'
+  '${AppLocalizations.of(context)!.descriptionLabel}\n\n'
+  '${AppLocalizations.of(context)!.stepsToReproduceLabel}\n\n'
+  '----------------------------------------\n',
+);
 
                       _openUrl(
                         'mailto:${AppLinks.supportMail}?subject=$subject&body=$body',
@@ -369,7 +376,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.star_outline),
-                    title: const Text("App bewerten"),
+                    title: Text(AppLocalizations.of(context)!.rateApp),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       // TODO
@@ -378,21 +385,21 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.mail_outline),
-                    title: const Text("Kontakt"),
+                    title: Text(AppLocalizations.of(context)!.contact),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       final subject = Uri.encodeComponent(
-                        'Support Filament Manager',
-                      );
+  AppLocalizations.of(context)!.contactSubject,
+);
 
                       final body = Uri.encodeComponent(
-                        'Hallo,\n\n'
-                        'ich benötige Hilfe bei folgendem Thema.\n\n'
-                        '----------------------------------------\n\n'
-                        'Beschreibung:\n\n'
-                        '----------------------------------------\n\n'
-                        'Vielen Dank.',
-                      );
+  '${AppLocalizations.of(context)!.supportMailGreeting}'
+  '${AppLocalizations.of(context)!.supportMailDescription}'
+  '----------------------------------------\n\n'
+  '${AppLocalizations.of(context)!.descriptionLabel}\n\n'
+  '----------------------------------------\n\n'
+  '${AppLocalizations.of(context)!.thankYouMail}',
+);
 
                       _openUrl(
                         'mailto:${AppLinks.supportMail}?subject=$subject&body=$body',
@@ -406,13 +413,13 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Hilfe",
+              title: AppLocalizations.of(context)!.help,
               icon: Icons.help_outline,
               child: Column(
                 children: [
                   ListTile(
                     leading: const Icon(Icons.play_circle_outline),
-                    title: const Text("Erste Schritte"),
+                    title: Text(AppLocalizations.of(context)!.firstSteps),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -426,7 +433,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.inventory_2_outlined),
-                    title: const Text("Filament hinzufügen"),
+                    title: Text(AppLocalizations.of(context)!.addFilament),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -440,7 +447,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.print_outlined),
-                    title: const Text("Druckauftrag erstellen"),
+                    title: Text(AppLocalizations.of(context)!.createPrintJob),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -454,7 +461,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.bar_chart_outlined),
-                    title: const Text("Statistiken verstehen"),
+                    title: Text(AppLocalizations.of(context)!.understandStatistics),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -468,7 +475,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.backup_outlined),
-                    title: const Text("Backup & Wiederherstellung"),
+                    title: Text(AppLocalizations.of(context)!.backupAndRestore),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -486,21 +493,21 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Was ist neu",
+              title: AppLocalizations.of(context)!.whatsNew,
               icon: Icons.new_releases_outlined,
               child: Column(
                 children: [
                   ListTile(
                     leading: const Icon(Icons.rocket_launch_outlined),
-                    title: const Text("Version 1.0"),
-                    subtitle: const Text("Erstes offizielles Release"),
+                    title: Text(AppLocalizations.of(context)!.version10),
+                    subtitle: Text(AppLocalizations.of(context)!.firstOfficialRelease),
                   ),
 
                   const Divider(height: 1),
 
                   ListTile(
                     leading: const Icon(Icons.update_outlined),
-                    title: const Text("Versionsverlauf"),
+                    title: Text(AppLocalizations.of(context)!.versionHistory),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -516,13 +523,13 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Rechtliches",
+              title: AppLocalizations.of(context)!.legal,
               icon: Icons.gavel_outlined,
               child: Column(
                 children: [
                   ListTile(
                     leading: const Icon(Icons.privacy_tip_outlined),
-                    title: const Text("Datenschutzerklärung"),
+                    title: Text(AppLocalizations.of(context)!.privacyPolicy),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -536,7 +543,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.description_outlined),
-                    title: const Text("Impressum"),
+                    title: Text(AppLocalizations.of(context)!.imprint),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -548,7 +555,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.article_outlined),
-                    title: const Text("Nutzungsbedingungen"),
+                    title: Text(AppLocalizations.of(context)!.termsOfService),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -562,7 +569,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.workspace_premium_outlined),
-                    title: const Text("Premium & Abonnement"),
+                    title: Text(AppLocalizations.of(context)!.premiumSubscription),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -574,7 +581,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.assignment_return_outlined),
-                    title: const Text("Widerrufsbelehrung"),
+                    title: Text(AppLocalizations.of(context)!.withdrawal),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -588,7 +595,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.info_outline),
-                    title: const Text("Verbraucherinformationen"),
+                    title: Text(AppLocalizations.of(context)!.consumerInformation),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -602,7 +609,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.gpp_good_outlined),
-                    title: const Text("Haftung"),
+                    title: Text(AppLocalizations.of(context)!.liability),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -616,7 +623,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.copyright_outlined),
-                    title: const Text("Urheberrecht"),
+                    title: Text(AppLocalizations.of(context)!.copyright),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -630,7 +637,7 @@ class SettingsPage extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.image_outlined),
-                    title: const Text("Bildnachweise"),
+                    title: Text(AppLocalizations.of(context)!.imageCredits),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -648,36 +655,46 @@ class SettingsPage extends StatelessWidget {
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Konto",
+              title: l10n.account,
               icon: Icons.person_outline,
               child: Column(
                 children: [
                   ListTile(
                     leading: const Icon(Icons.login),
-                    title: const Text("Anmelden"),
-                    subtitle: const Text(
-                      "Mit einem bestehenden Konto anmelden.",
-                    ),
+                    title: Text(l10n.signIn),
+subtitle: Text(l10n.signInSubtitle),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => const LoginPage(),
+    ),
+  );
+},
                   ),
 
                   const Divider(),
 
                   ListTile(
                     leading: const Icon(Icons.person_add_alt_1),
-                    title: const Text("Konto erstellen"),
-                    subtitle: const Text("Ein neues Benutzerkonto erstellen."),
+                    title: Text(l10n.createAccount),
+subtitle: Text(l10n.createAccountSubtitle),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => const RegisterPage(),
+    ),
+  );
+},
                   ),
 
                   const Divider(),
 
                   ListTile(
   leading: const Icon(Icons.logout),
-  title: const Text('Abmelden'),
-  subtitle: const Text('Vom aktuellen Konto abmelden.'),
+  title: Text(l10n.signOut),
+subtitle: Text(l10n.signOutSubtitle),
   trailing: const Icon(Icons.chevron_right),
   onTap: () async {
   try {
@@ -700,7 +717,9 @@ class SettingsPage extends StatelessWidget {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Abmelden fehlgeschlagen: $e'),
+        content: Text(
+  l10n.signOutFailed(e.toString()),
+),
       ),
     );
   }
@@ -712,69 +731,67 @@ class SettingsPage extends StatelessWidget {
           ),
 
           AppHoverCard(
-            child: ExpandableSettingsCard(
-              title: "Über",
-              icon: Icons.info_outline,
-              child: Column(
-                children: [
-                  const ListTile(
-                    leading: Icon(Icons.apps),
-                    title: Text("Filament Manager"),
-                    subtitle: Text("Version 1.0.0"),
-                  ),
+  child: ExpandableSettingsCard(
+    title: l10n.about,
+    icon: Icons.info_outline,
+    child: Column(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.apps),
+          title: const Text("FilaLog"),
+          subtitle: Text(l10n.version("1.0.0")),
+        ),
 
-                  const Divider(),
+        const Divider(),
 
-                  const ListTile(
-                    leading: Icon(Icons.person_outline),
-                    title: Text("Entwickler"),
-                    subtitle: Text("Robin P."),
-                  ),
+        ListTile(
+          leading: const Icon(Icons.person_outline),
+          title: Text(l10n.developer),
+          subtitle: const Text("Robin P."),
+        ),
 
-                  const ListTile(
-                    leading: Icon(Icons.memory_outlined),
-                    title: Text("Technologie"),
-                    subtitle: Text("Flutter • Firebase"),
-                  ),
+        ListTile(
+          leading: const Icon(Icons.memory_outlined),
+          title: Text(l10n.technology),
+          subtitle: const Text("Flutter • Firebase"),
+        ),
 
-                  const Divider(),
+        const Divider(),
 
-                  const Divider(),
+        ListTile(
+          leading: const Icon(Icons.language),
+          title: Text(l10n.website),
+          subtitle: const Text("filament-manager.web.app"),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            _openUrl(AppLinks.website);
+          },
+        ),
 
-                  ListTile(
-                    leading: const Icon(Icons.language),
-                    title: const Text("Website"),
-                    subtitle: const Text("filament-manager.web.app"),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      _openUrl(AppLinks.website);
-                    },
-                  ),
+        const Divider(),
 
-                  const Divider(),
-
-                  const ListTile(
-                    leading: Icon(Icons.favorite_outline),
-                    title: Text("Vielen Dank"),
-                    subtitle: Text(
-                      "Vielen Dank, dass du den Filament Manager verwendest.",
-                    ),
-                  ),
-
-                  const Divider(),
-
-                  ListTile(
-                    leading: const Icon(Icons.description_outlined),
-                    title: const Text("Open-Source-Lizenzen"),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      showLicensePage(context: context);
-                    },
-                  ),
-                ],
-              ),
-            ),
+        ListTile(
+          leading: const Icon(Icons.favorite_outline),
+          title: Text(l10n.thankYou),
+          subtitle: Text(
+            l10n.thankYouMessage
           ),
+        ),
+
+        const Divider(),
+
+        ListTile(
+          leading: const Icon(Icons.description_outlined),
+          title: Text(l10n.openSourceLicenses),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            showLicensePage(context: context);
+          },
+        ),
+      ],
+    ),
+  ),
+),
         ],
       ),
     );

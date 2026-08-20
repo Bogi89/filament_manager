@@ -460,9 +460,6 @@ class _CostPageState extends State<CostPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-      "Filamente: ${widget.filaments.map((f) => "${f.brand}: ${f.remainingWeight}g").join(", ")}",
-    );
     final formattedDate =
         "${selectedDate.day.toString().padLeft(2, '0')}."
         "${selectedDate.month.toString().padLeft(2, '0')}."

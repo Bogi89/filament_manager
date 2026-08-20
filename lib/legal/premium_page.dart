@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,33 +9,29 @@ class PremiumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Premium & Abonnement',
-      lastUpdated: 'August 2026',
+    final localizations = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: localizations.premiumSubscription,
+      lastUpdated: localizations.legalLastUpdatedValue,
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.workspace_premium_outlined,
-            title: 'Premium-Mitgliedschaft',
+            title: localizations.premiumMembershipTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Premium'),
-                  subtitle: Text(
-                    'Der Filament Manager kann sieben Tage kostenlos getestet werden. Anschließend ist für die weitere Nutzung eine Premium-Mitgliedschaft erforderlich.',
-                  ),
+                  title: Text(localizations.premiumTitle),
+                  subtitle: Text(localizations.premiumContent),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Testphase'),
-                  subtitle: Text(
-                    'Während der siebentägigen Testphase stehen sämtliche Funktionen uneingeschränkt zur Verfügung.',
-                  ),
+                  title: Text(localizations.premiumTrialTitle),
+                  subtitle: Text(localizations.premiumTrialContent),
                 ),
               ],
             ),
@@ -44,54 +41,47 @@ class PremiumPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.payments_outlined,
-            title: 'Abrechnung',
+            title: localizations.premiumBillingTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Zahlungsabwicklung'),
+                  title: Text(localizations.premiumPaymentProcessingTitle),
                   subtitle: Text(
-                    'Auf Android erfolgt die Zahlungsabwicklung über Google Play. Für die Web-Version erfolgt sie über die offizielle Website mit PayPal.',
+                    localizations.premiumPaymentProcessingContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Plattformen'),
-                  subtitle: Text(
-                    'Auf Android erfolgt der Abschluss über Google Play. Für die Web-Version kann Premium über die offizielle Website mit PayPal erworben werden.',
-                  ),
+                  title: Text(localizations.premiumPlatformsTitle),
+                  subtitle: Text(localizations.premiumPlatformsContent),
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.star_outline,
-            title: 'Testphase & Premium',
+            title: localizations.premiumTrialAndPremiumTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('7-Tage-Test'),
+                  title: Text(localizations.premiumSevenDayTrialTitle),
                   subtitle: Text(
-                    'Neue Nutzer können den Filament Manager sieben Tage kostenlos testen.',
+                    localizations.premiumSevenDayTrialContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Nach Ablauf'),
-                  subtitle: Text(
-                    'Nach Ablauf der Testphase ist eine Premium-Mitgliedschaft erforderlich, um die App weiter nutzen zu können.',
-                  ),
+                  title: Text(localizations.premiumAfterTrialTitle),
+                  subtitle: Text(localizations.premiumAfterTrialContent),
                 ),
               ],
             ),
@@ -101,26 +91,20 @@ class PremiumPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.event_available_outlined,
-            title: 'Mitgliedschaft',
+            title: localizations.premiumMembershipTermsTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Laufzeiten'),
-                  subtitle: Text(
-                    'Premium wird als monatliche oder jährliche Mitgliedschaft angeboten.',
-                  ),
+                  title: Text(localizations.premiumDurationTitle),
+                  subtitle: Text(localizations.premiumDurationContent),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Kündigung'),
-                  subtitle: Text(
-                    'Eine Kündigung ist jederzeit zum Ende der jeweiligen Laufzeit möglich.',
-                  ),
+                  title: Text(localizations.premiumCancellationTitle),
+                  subtitle: Text(localizations.premiumCancellationContent),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'dashboard_card.dart';
 
 class DashboardOverviewCard extends StatelessWidget {
@@ -14,8 +15,10 @@ class DashboardOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return DashboardCard(
-      title: "Gesamtbestand",
+      title: l10n.totalInventory,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Center(
         child: Column(
@@ -23,13 +26,17 @@ class DashboardOverviewCard extends StatelessWidget {
           children: [
             Text(
               "${(totalWeight / 1000).toStringAsFixed(2)} kg",
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-
             const SizedBox(height: 12),
-
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 8,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white.withValues(alpha: 0.05)
@@ -40,16 +47,12 @@ class DashboardOverviewCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.inventory_2_outlined, size: 18),
-
                   const SizedBox(width: 8),
-
                   Text(
-                    "Lagerwert",
+                    l10n.inventoryValue,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
-
                   const SizedBox(width: 8),
-
                   Text(
                     "${totalValue.toStringAsFixed(2)} €",
                     style: const TextStyle(fontWeight: FontWeight.w700),

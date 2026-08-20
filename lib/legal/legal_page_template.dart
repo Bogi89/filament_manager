@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 class LegalPageTemplate extends StatelessWidget {
   final String title;
   final String lastUpdated;
@@ -19,6 +21,7 @@ class LegalPageTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -64,7 +67,6 @@ class LegalPageTemplate extends StatelessWidget {
 
                           if (description != null) ...[
                             const SizedBox(height: 12),
-
                             Text(
                               description!,
                               textAlign: TextAlign.center,
@@ -81,7 +83,7 @@ class LegalPageTemplate extends StatelessWidget {
                       const SizedBox(height: 8),
 
                       Text(
-                        'Letzte Aktualisierung: $lastUpdated',
+                        '${localizations.legalLastUpdated}: $lastUpdated',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurface.withValues(
                             alpha: 0.7,
@@ -109,7 +111,7 @@ class LegalPageTemplate extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Filament Manager',
+                              'FilaLog',
                               style: theme.textTheme.titleMedium,
                             ),
                             const SizedBox(height: 4),
@@ -119,7 +121,7 @@ class LegalPageTemplate extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '© 2026 Robin\nAlle Rechte vorbehalten.',
+                              '© 2026 Robin\n${localizations.legalAllRightsReserved}',
                               textAlign: TextAlign.center,
                               style: theme.textTheme.bodySmall,
                             ),

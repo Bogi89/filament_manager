@@ -9,6 +9,7 @@ import 'history_page.dart';
 import 'statistics_page.dart';
 import 'settings_page.dart';
 import '../widgets/spool_icon.dart';
+import '../l10n/app_localizations.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -31,6 +32,7 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
 
     final appState = context.watch<AppState>();
+final l10n = AppLocalizations.of(context)!;
 
     final pages = [
 
@@ -107,32 +109,32 @@ class _MainNavigationState extends State<MainNavigation> {
 
               BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard),
-                label: "Dashboard",
+                label: l10n.dashboard,
               ),
 
               BottomNavigationBarItem(
   icon: SpoolIcon(size: 26),
-  label: 'Filament',
+  label: l10n.filament,
 ),
 
               BottomNavigationBarItem(
                 icon: Icon(Icons.euro),
-                label: "Kosten",
+                label: l10n.cost,
               ),
 
               BottomNavigationBarItem(
                 icon: Icon(Icons.history),
-                label: "Historie",
+                label: l10n.history,
               ),
 
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart),
-                label: "Statistik",
+                label: l10n.statistics,
               ),
 
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: "Settings",
+                label: l10n.settings,
               ),
 
             ],

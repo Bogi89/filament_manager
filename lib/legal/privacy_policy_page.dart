@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -7,29 +9,29 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Datenschutzerklärung',
-      lastUpdated: 'August 2026',
+    final l10n = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: l10n.privacyPolicy,
+      lastUpdated: l10n.privacyPolicyUpdated,
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.admin_panel_settings_outlined,
-            title: 'Verantwortlicher',
+            title: l10n.privacyPolicyResponsible,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Verantwortlich'),
-                  subtitle: Text('Robin'),
+                  title: Text(l10n.privacyPolicyResponsibleLabel),
+                  subtitle: Text(l10n.privacyPolicyResponsibleName),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Kontakt'),
-                  subtitle: Text('Wird vor Release ergänzt'),
+                  title: Text(l10n.privacyPolicyContact),
+                  subtitle: Text(l10n.privacyPolicyContactMissing),
                 ),
               ],
             ),
@@ -39,54 +41,43 @@ class PrivacyPolicyPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.storage_outlined,
-            title: 'Welche Daten werden gespeichert?',
+            title: l10n.privacyPolicyStoredDataTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Lokal gespeicherte Daten'),
-                  subtitle: Text(
-                    'Filamente, Druckaufträge, Einstellungen und Statistiken werden lokal auf deinem Gerät gespeichert.',
-                  ),
+                  title: Text(l10n.privacyPolicyLocalDataTitle),
+                  subtitle: Text(l10n.privacyPolicyLocalDataContent),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Keine Weitergabe'),
-                  subtitle: Text(
-                    'Es erfolgt keine Weitergabe personenbezogener Daten an Dritte, sofern dies nicht für die Nutzung der App erforderlich ist.',
-                  ),
+                  title: Text(l10n.privacyPolicyNoSharingTitle),
+                  subtitle: Text(l10n.privacyPolicyNoSharingContent),
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.person_outline,
-            title: 'Gastmodus & Benutzerkonto',
+            title: l10n.privacyPolicyAccountTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Gastmodus'),
-                  subtitle: Text(
-                    'Die Nutzung der App ist im Gastmodus ohne Registrierung möglich. Die Daten bleiben ausschließlich auf dem Gerät gespeichert.',
-                  ),
+                  title: Text(l10n.privacyPolicyGuestModeTitle),
+                  subtitle: Text(l10n.privacyPolicyGuestModeContent),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Benutzerkonto'),
-                  subtitle: Text(
-                    'Bei Verwendung eines Benutzerkontos können Daten zukünftig mit unterstützten Geräten synchronisiert werden.',
-                  ),
+                  title: Text(l10n.privacyPolicyUserAccountTitle),
+                  subtitle: Text(l10n.privacyPolicyUserAccountContent),
                 ),
               ],
             ),
@@ -96,16 +87,14 @@ class PrivacyPolicyPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.lock_outline,
-            title: 'Deine Rechte',
+            title: l10n.privacyPolicyRightsTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Datenschutzrechte'),
-                  subtitle: Text(
-                    'Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung deiner personenbezogenen Daten im Rahmen der geltenden Datenschutzgesetze.',
-                  ),
+                  title: Text(l10n.privacyPolicyRightsLabel),
+                  subtitle: Text(l10n.privacyPolicyRightsContent),
                 ),
               ],
             ),
@@ -115,15 +104,15 @@ class PrivacyPolicyPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.contact_support_outlined,
-            title: 'Fragen zum Datenschutz',
+            title: l10n.privacyPolicyQuestionsTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Kontakt'),
+                  title: Text(l10n.privacyPolicyQuestionsContactTitle),
                   subtitle: Text(
-                    'Bei Fragen zum Datenschutz kannst du uns über die im Impressum angegebenen Kontaktdaten erreichen.',
+                    l10n.privacyPolicyQuestionsContactContent,
                   ),
                 ),
               ],

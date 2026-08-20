@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/common/help_page_template.dart';
 
 class HelpPrintJobPage extends StatelessWidget {
@@ -7,43 +8,37 @@ class HelpPrintJobPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HelpPageTemplate(
-      title: 'Druckauftrag erstellen',
+    return HelpPageTemplate(
+      title: AppLocalizations.of(context)!.helpPrintJobTitle,
       introduction:
-          'Mit einem Druckauftrag dokumentierst du deine Drucke und der Filamentverbrauch wird automatisch berechnet.',
-
+          AppLocalizations.of(context)!.helpPrintJobIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.playlist_add_outlined,
-          title: 'Neuen Druckauftrag erstellen',
+          title: AppLocalizations.of(context)!.helpPrintJobNewTitle,
           content:
-              'Öffne den Bereich "Historie" und lege einen neuen Druckauftrag an.',
+              AppLocalizations.of(context)!.helpPrintJobNewContent,
         ),
-
         HelpSectionCard(
           icon: Icons.inventory_2_outlined,
-          title: 'Filament auswählen',
+          title: AppLocalizations.of(context)!.helpPrintJobFilamentTitle,
           content:
-              'Wähle das verwendete Filament aus deinem Bestand aus. Nur vorhandene Filamente können verwendet werden.',
+              AppLocalizations.of(context)!.helpPrintJobFilamentContent,
         ),
-
         HelpSectionCard(
           icon: Icons.scale_outlined,
-          title: 'Verbrauch eingeben',
+          title: AppLocalizations.of(context)!.helpPrintJobUsageTitle,
           content:
-              'Gib an, wie viele Gramm Filament verbraucht wurden. Der Bestand wird anschließend automatisch aktualisiert.',
+              AppLocalizations.of(context)!.helpPrintJobUsageContent,
         ),
-
         HelpSectionCard(
           icon: Icons.receipt_long_outlined,
-          title: 'Druckinformationen',
+          title: AppLocalizations.of(context)!.helpPrintJobInfoTitle,
           content:
-              'Optional kannst du Druckdauer, Drucker, Notizen oder weitere Informationen speichern, um später den Überblick zu behalten.',
+              AppLocalizations.of(context)!.helpPrintJobInfoContent,
         ),
-
         HelpTipCard(
-          text:
-              'Tipp: Trage deine Druckaufträge möglichst direkt nach dem Druck ein. So bleiben Bestand und Statistiken immer aktuell.',
+          text: AppLocalizations.of(context)!.helpPrintJobTip,
         ),
       ],
     );

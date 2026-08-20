@@ -37,7 +37,7 @@ class WelcomePage extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   Text(
-                    'Filament Manager',
+                    'FilaLog',
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -69,7 +69,10 @@ class WelcomePage extends StatelessWidget {
                         icon: Icons.print_outlined,
                         label: 'Druckaufträge',
                       ),
-                      _FeatureChip(icon: Icons.euro_outlined, label: 'Kosten'),
+                      _FeatureChip(
+                        icon: Icons.euro_outlined,
+                        label: 'Kosten',
+                      ),
                       _FeatureChip(
                         icon: Icons.bar_chart_outlined,
                         label: 'Statistiken',
@@ -98,7 +101,9 @@ class WelcomePage extends StatelessWidget {
                   LoginCard(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const LoginPage()),
+                        MaterialPageRoute(
+                          builder: (_) => const LoginPage(),
+                        ),
                       );
                     },
                   ),
@@ -108,7 +113,9 @@ class WelcomePage extends StatelessWidget {
                   RegisterCard(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const RegisterPage()),
+                        MaterialPageRoute(
+                          builder: (_) => const RegisterPage(),
+                        ),
                       );
                     },
                   ),
@@ -147,10 +154,16 @@ class _FeatureChip extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _FeatureChip({required this.icon, required this.label});
+  const _FeatureChip({
+    required this.icon,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Chip(avatar: Icon(icon, size: 18), label: Text(label));
+    return Chip(
+      avatar: Icon(icon, size: 18),
+      label: Text(label),
+    );
   }
 }

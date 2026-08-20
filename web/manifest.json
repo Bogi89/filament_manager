@@ -1,11 +1,11 @@
 {
-    "name": "filament_manager_v2",
-    "short_name": "filament_manager_v2",
+    "name": "FilaLog",
+    "short_name": "FilaLog",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
-    "description": "A new Flutter project.",
+    "description": "FilaLog – Smart Filament Management für den 3D-Druck.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

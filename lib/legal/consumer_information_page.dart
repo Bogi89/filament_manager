@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,32 +9,32 @@ class ConsumerInformationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Verbraucherinformationen',
-      lastUpdated: 'August 2026',
+    final localizations = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: localizations.consumerInformation,
+      lastUpdated: localizations.legalLastUpdatedValue,
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.info_outline,
-            title: 'Anbieter',
+            title: localizations.consumerProviderTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Verantwortlicher'),
+                  title: Text(localizations.consumerResponsibleTitle),
                   subtitle: Text(
-                    'Die Angaben zum Anbieter befinden sich im Impressum.',
+                    localizations.consumerResponsibleContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Kontakt'),
+                  title: Text(localizations.consumerContactTitle),
                   subtitle: Text(
-                    'Fragen können jederzeit über die im Impressum angegebenen Kontaktdaten gestellt werden.',
+                    localizations.consumerContactContent,
                   ),
                 ),
               ],
@@ -44,25 +45,25 @@ class ConsumerInformationPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.receipt_long_outlined,
-            title: 'Vertragsinformationen',
+            title: localizations.consumerContractTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Premium-Mitgliedschaft'),
+                  title: Text(localizations.consumerPremiumTitle),
                   subtitle: Text(
-                    'Vor Abschluss einer Premium-Mitgliedschaft werden alle wesentlichen Informationen zu Preis, Laufzeit und Zahlungsweise angezeigt.',
+                    localizations.consumerPremiumContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Vertragsschluss'),
+                  title: Text(
+                    localizations.consumerContractConclusionTitle,
+                  ),
                   subtitle: Text(
-                    'Der Vertrag kommt erst mit erfolgreichem Abschluss des jeweiligen Kaufvorgangs zustande.',
+                    localizations.consumerContractConclusionContent,
                   ),
                 ),
               ],
@@ -73,15 +74,15 @@ class ConsumerInformationPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.support_agent_outlined,
-            title: 'Support',
+            title: localizations.consumerSupportTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Hilfe'),
+                  title: Text(localizations.consumerHelpTitle),
                   subtitle: Text(
-                    'Bei Fragen oder Problemen steht der Support über die offiziellen Kontaktmöglichkeiten zur Verfügung.',
+                    localizations.consumerHelpContent,
                   ),
                 ),
               ],

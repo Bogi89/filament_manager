@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,80 +9,82 @@ class CopyrightPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Urheberrecht',
+    final l10n = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: l10n.copyright,
       lastUpdated: 'August 2026',
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.copyright_outlined,
-            title: 'Urheberrechte',
+            title: l10n.copyrightRightsTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('App'),
+                  title: Text(l10n.copyrightAppTitle),
                   subtitle: Text(
-                    'Der Filament Manager sowie sämtliche Inhalte, Designs und Quelltexte sind urheberrechtlich geschützt.',
+                    l10n.copyrightAppContent,
                   ),
                 ),
 
-                Divider(),
+                const Divider(),
 
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Nutzung'),
+                  title: Text(l10n.copyrightUsageTitle),
                   subtitle: Text(
-                    'Eine Vervielfältigung, Veröffentlichung oder Weitergabe ist ohne ausdrückliche Zustimmung nicht gestattet.',
+                    l10n.copyrightUsageContent,
                   ),
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.image_outlined,
-            title: 'Grafiken & Inhalte',
+            title: l10n.copyrightGraphicsContentTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Eigene Inhalte'),
+                  title: Text(l10n.copyrightOwnContentTitle),
                   subtitle: Text(
-                    'Eigene Grafiken, Texte und Logos unterliegen dem Urheberrecht des Entwicklers.',
+                    l10n.copyrightOwnContentContent,
                   ),
                 ),
 
-                Divider(),
+                const Divider(),
 
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Drittanbieter'),
+                  title: Text(l10n.copyrightThirdPartyTitle),
                   subtitle: Text(
-                    'Verwendete Inhalte Dritter werden entsprechend ihrer jeweiligen Lizenz eingesetzt.',
+                    l10n.copyrightThirdPartyContent,
                   ),
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.gavel_outlined,
-            title: 'Lizenzhinweis',
+            title: l10n.copyrightLicenseNoticeTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Open-Source'),
+                  title: Text(l10n.copyrightOpenSourceTitle),
                   subtitle: Text(
-                    'Open-Source-Komponenten werden entsprechend ihrer jeweiligen Lizenz verwendet.',
+                    l10n.copyrightOpenSourceContent,
                   ),
                 ),
               ],

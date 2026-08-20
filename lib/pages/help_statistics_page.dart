@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/common/help_page_template.dart';
 
 class HelpStatisticsPage extends StatelessWidget {
@@ -7,43 +8,37 @@ class HelpStatisticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HelpPageTemplate(
-      title: 'Statistiken verstehen',
+    return HelpPageTemplate(
+      title: AppLocalizations.of(context)!.helpStatisticsTitle,
       introduction:
-          'Die Statistik zeigt dir eine Übersicht über deinen Filamentverbrauch, deine Druckaufträge und die entstandenen Kosten.',
-
+          AppLocalizations.of(context)!.helpStatisticsIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.bar_chart_outlined,
-          title: 'Verbrauch',
+          title: AppLocalizations.of(context)!.helpStatisticsUsageTitle,
           content:
-              'Hier siehst du, wie viel Filament insgesamt verbraucht wurde und welche Materialien am häufigsten verwendet werden.',
+              AppLocalizations.of(context)!.helpStatisticsUsageContent,
         ),
-
         HelpSectionCard(
           icon: Icons.euro_outlined,
-          title: 'Kosten',
+          title: AppLocalizations.of(context)!.helpStatisticsCostsTitle,
           content:
-              'Die Kostenübersicht berechnet deine Materialkosten anhand des hinterlegten Filamentpreises und des tatsächlichen Verbrauchs.',
+              AppLocalizations.of(context)!.helpStatisticsCostsContent,
         ),
-
         HelpSectionCard(
           icon: Icons.history_outlined,
-          title: 'Druckhistorie',
+          title: AppLocalizations.of(context)!.helpStatisticsHistoryTitle,
           content:
-              'Alle abgeschlossenen Druckaufträge fließen automatisch in deine Statistiken ein.',
+              AppLocalizations.of(context)!.helpStatisticsHistoryContent,
         ),
-
         HelpSectionCard(
           icon: Icons.analytics_outlined,
-          title: 'Auswertungen',
+          title: AppLocalizations.of(context)!.helpStatisticsAnalysisTitle,
           content:
-              'Nutze die Diagramme und Übersichten, um Verbrauch, Kosten und Materialeinsatz langfristig auszuwerten.',
+              AppLocalizations.of(context)!.helpStatisticsAnalysisContent,
         ),
-
         HelpTipCard(
-          text:
-              'Tipp: Je vollständiger deine Druckaufträge gepflegt sind, desto genauer werden die Statistiken.',
+          text: AppLocalizations.of(context)!.helpStatisticsTip,
         ),
       ],
     );

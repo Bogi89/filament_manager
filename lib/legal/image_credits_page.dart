@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,80 +9,82 @@ class ImageCreditsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Bildnachweise',
+    final l10n = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: l10n.imageCredits,
       lastUpdated: 'August 2026',
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.image_outlined,
-            title: 'Verwendete Grafiken',
+            title: l10n.imageCreditsGraphicsTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Eigene Grafiken'),
+                  title: Text(l10n.imageCreditsOwnGraphicsTitle),
                   subtitle: Text(
-                    'Alle selbst erstellten Grafiken, Logos und Illustrationen unterliegen dem Urheberrecht des Entwicklers.',
+                    l10n.imageCreditsOwnGraphicsContent,
                   ),
                 ),
 
-                Divider(),
+                const Divider(),
 
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('App-Icons'),
+                  title: Text(l10n.imageCreditsAppIconsTitle),
                   subtitle: Text(
-                    'Verwendete Icons stammen aus den offiziellen Flutter Material Icons.',
+                    l10n.imageCreditsAppIconsContent,
                   ),
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.palette_outlined,
-            title: 'Farben & Design',
+            title: l10n.imageCreditsColorsDesignTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Benutzeroberfläche'),
+                  title: Text(l10n.imageCreditsInterfaceTitle),
                   subtitle: Text(
-                    'Das Design des Filament Managers wurde eigenständig entwickelt.',
+                    l10n.imageCreditsInterfaceContent,
                   ),
                 ),
 
-                Divider(),
+                const Divider(),
 
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Marken'),
+                  title: Text(l10n.imageCreditsBrandsTitle),
                   subtitle: Text(
-                    'Markennamen und Herstellerbezeichnungen bleiben Eigentum ihrer jeweiligen Inhaber.',
+                    l10n.imageCreditsBrandsContent,
                   ),
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.info_outline,
-            title: 'Hinweis',
+            title: l10n.imageCreditsNoticeTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Aktualisierung'),
+                  title: Text(l10n.imageCreditsUpdateTitle),
                   subtitle: Text(
-                    'Sollten künftig weitere Bilder oder externe Grafiken verwendet werden, werden deren Bildnachweise an dieser Stelle ergänzt.',
+                    l10n.imageCreditsUpdateContent,
                   ),
                 ),
               ],

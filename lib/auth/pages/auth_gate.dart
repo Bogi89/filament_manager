@@ -16,6 +16,8 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
+  static const Duration _minimumSplashDuration = Duration(milliseconds: 1200);
+
   bool _loading = true;
   bool _guestMode = false;
   bool _trialExpired = false;
@@ -28,12 +30,30 @@ class _AuthGateState extends State<AuthGate> {
   void initState() {
     super.initState();
 
-    _loadState();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    final stopwatch = Stopwatch()..start();
+
+    await _loadState();
+
+    final remaining = _minimumSplashDuration - stopwatch.elapsed;
+
+    if (remaining > Duration.zero) {
+      await Future<void>.delayed(remaining);
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _loading = false;
+    });
 
     _authSubscription =
-    FirebaseAuth.instance.authStateChanges().listen((user) async {
-  await _loadState();
-});
+        FirebaseAuth.instance.authStateChanges().listen((user) async {
+      await _loadState();
+    });
   }
 
   Future<void> _loadState() async {
@@ -53,7 +73,6 @@ class _AuthGateState extends State<AuthGate> {
       _guestMode = guestEnabled;
       _guestStartDate = guestStartDate;
       _trialExpired = trialExpired;
-      _loading = false;
     });
   }
 

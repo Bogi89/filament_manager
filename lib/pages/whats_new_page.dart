@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/common/help_page_template.dart';
 
 class WhatsNewPage extends StatelessWidget {
@@ -7,31 +8,19 @@ class WhatsNewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HelpPageTemplate(
-      title: 'Was ist neu',
+    return HelpPageTemplate(
+      title: AppLocalizations.of(context)!.whatsNew,
       introduction:
-          'Hier findest du die Neuerungen und Verbesserungen jeder Version des Filament Managers.',
-
+          AppLocalizations.of(context)!.whatsNewIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.new_releases_outlined,
-          title: 'Version 1.0.0',
+          title: AppLocalizations.of(context)!.whatsNewVersion100,
           content:
-              '• Erste offizielle Veröffentlichung\n'
-              '• Filamentverwaltung\n'
-              '• Druckhistorie\n'
-              '• Kostenberechnung\n'
-              '• Statistiken\n'
-              '• Backup & Wiederherstellung\n'
-              '• Benutzerkonto\n'
-              '• Gastmodus\n'
-              '• Hilfebereich\n'
-              '• Rechtliche Informationen',
+              AppLocalizations.of(context)!.whatsNewVersion100Content,
         ),
-
         HelpTipCard(
-          text:
-              'Neue Funktionen werden nach jedem Update hier ergänzt. So behältst du jederzeit den Überblick über alle Änderungen.',
+          text: AppLocalizations.of(context)!.whatsNewTip,
         ),
       ],
     );

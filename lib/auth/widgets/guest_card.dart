@@ -17,7 +17,10 @@ class GuestCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.person_outline, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.person_outline,
+                  color: theme.colorScheme.primary,
+                ),
                 const SizedBox(width: 10),
                 Text(
                   'Gastmodus',
@@ -31,7 +34,7 @@ class GuestCard extends StatelessWidget {
             const SizedBox(height: 18),
 
             Text(
-              'Testen Sie den Filament Manager 7 Tage kostenlos und ohne Registrierung.',
+              'Testen Sie FilaLog 7 Tage kostenlos und ohne Registrierung.',
               style: theme.textTheme.bodyLarge,
             ),
 

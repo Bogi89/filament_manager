@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../services/auth_loading_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../pages/main_navigation.dart';
+import '../../l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,53 +30,56 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
-  if (!_formKey.currentState!.validate()) {
-    return;
-  }
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-  final email = _emailController.text.trim();
-  final password = _passwordController.text;
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
 
-  final loadingService = context.read<AuthLoadingService>();
+    final loadingService = context.read<AuthLoadingService>();
 
-  try {
-    loadingService.startLoading();
+    try {
+      loadingService.startLoading();
 
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-Navigator.of(context).pushAndRemoveUntil(
-  MaterialPageRoute(
-    builder: (_) => const MainNavigation(),
-  ),
-  (route) => false,
-);
-  } on FirebaseAuthException catch (e) {
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          e.message ?? 'Anmeldung fehlgeschlagen.',
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => const MainNavigation(),
         ),
-      ),
-    );
-  } finally {
-    loadingService.stopLoading();
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+  e.message ?? AppLocalizations.of(context)!.signInFailed,
+),
+        ),
+      );
+    } finally {
+      loadingService.stopLoading();
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final loadingService = context.watch<AuthLoadingService>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Anmelden')),
+      appBar: AppBar(
+  title: Text(l10n.signIn),
+),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -96,7 +100,7 @@ Navigator.of(context).pushAndRemoveUntil(
                     const SizedBox(height: 24),
 
                     Text(
-                      'Willkommen zurück',
+                      l10n.welcomeBack,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -106,7 +110,7 @@ Navigator.of(context).pushAndRemoveUntil(
                     const SizedBox(height: 8),
 
                     Text(
-                      'Melde dich mit deinem Benutzerkonto an.',
+                      l10n.loginSubtitle,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyLarge,
                     ),
@@ -119,10 +123,12 @@ Navigator.of(context).pushAndRemoveUntil(
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) =>
                           FocusScope.of(context).nextFocus(),
-                      autofillHints: const [AutofillHints.email],
-                      decoration: const InputDecoration(
-                        labelText: 'E-Mail',
-                        prefixIcon: Icon(Icons.email_outlined),
+                      autofillHints: const [
+                        AutofillHints.email,
+                      ],
+                      decoration: InputDecoration(
+                        labelText: l10n.email,
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                       validator: AuthValidator.validateEmail,
                     ),
@@ -134,9 +140,11 @@ Navigator.of(context).pushAndRemoveUntil(
                       obscureText: _obscurePassword,
                       textInputAction: TextInputAction.done,
                       onFieldSubmitted: (_) => _login(),
-                      autofillHints: const [AutofillHints.password],
+                      autofillHints: const [
+                        AutofillHints.password,
+                      ],
                       decoration: InputDecoration(
-                        labelText: 'Passwort',
+                        labelText: l10n.password,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -162,11 +170,14 @@ Navigator.of(context).pushAndRemoveUntil(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => const ForgotPasswordPage(),
+                              builder: (_) =>
+                                  const ForgotPasswordPage(),
                             ),
                           );
                         },
-                        child: const Text('Passwort vergessen?'),
+                        child: Text(
+                          l10n.forgotPassword,
+                        ),
                       ),
                     ),
 
@@ -200,21 +211,27 @@ Navigator.of(context).pushAndRemoveUntil(
                               : const Icon(Icons.login),
                           label: Text(
                             loadingService.loading
-                                ? 'Anmeldung...'
-                                : 'Anmelden',
+                                ? l10n.signingIn
+                                : l10n.signIn,
                           ),
                         ),
 
                         const SizedBox(height: 24),
 
                         Row(
-                          children: const [
-                            Expanded(child: Divider()),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              child: Text('oder'),
+                          children: [
+                            const Expanded(
+                              child: Divider(),
                             ),
-                            Expanded(child: Divider()),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              child: Text(l10n.or),
+                            ),
+                            const Expanded(
+                              child: Divider(),
+                            ),
                           ],
                         ),
 
@@ -222,8 +239,13 @@ Navigator.of(context).pushAndRemoveUntil(
 
                         OutlinedButton.icon(
                           onPressed: () {},
-                          icon: const Icon(Icons.g_mobiledata, size: 28),
-                          label: const Text('Mit Google fortfahren'),
+                          icon: const Icon(
+                            Icons.g_mobiledata,
+                            size: 28,
+                          ),
+                          label: Text(
+                            l10n.continueWithGoogle,
+                          ),
                         ),
                       ],
                     ),

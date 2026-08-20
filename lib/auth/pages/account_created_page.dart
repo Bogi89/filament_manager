@@ -45,7 +45,7 @@ class AccountCreatedPage extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   Text(
-                    'Bitte bestätige jetzt deine E-Mail-Adresse. Anschließend kannst du dich anmelden und den Filament Manager nutzen.',
+                    'Bitte bestätige jetzt deine E-Mail-Adresse. Anschließend kannst du dich anmelden und FilaLog nutzen.',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium,
                   ),

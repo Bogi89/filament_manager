@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,51 +9,99 @@ class WithdrawalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Widerrufsbelehrung',
-      lastUpdated: 'August 2026',
+    final localizations = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: localizations.withdrawal,
+      lastUpdated: localizations.legalLastUpdatedValue,
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.assignment_return_outlined,
-            title: 'Widerrufsrecht',
+            title: localizations.withdrawalRightTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Digitale Inhalte'),
+                  title: Text(localizations.withdrawalPeriodTitle),
                   subtitle: Text(
-                    'Premium-Mitgliedschaften stellen digitale Inhalte bzw. digitale Dienstleistungen dar.',
+                    localizations.withdrawalPeriodContent,
                   ),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Beginn der Nutzung'),
+                  title: Text(localizations.withdrawalReasonTitle),
                   subtitle: Text(
-                    'Mit Beginn der Nutzung der Premium-Mitgliedschaft kann das gesetzliche Widerrufsrecht nach den geltenden gesetzlichen Bestimmungen erlöschen.',
+                    localizations.withdrawalReasonContent,
                   ),
                 ),
               ],
             ),
           ),
-
           const SizedBox(height: 20),
-
           LegalInfoCard(
-            icon: Icons.info_outline,
-            title: 'Hinweis',
+            icon: Icons.assignment_return_outlined,
+            title: localizations.withdrawalExerciseTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Weitere Informationen'),
+                  title: Text(localizations.withdrawalDeclarationTitle),
                   subtitle: Text(
-                    'Vor Abschluss einer Premium-Mitgliedschaft werden alle gesetzlich erforderlichen Informationen zum Widerrufsrecht bereitgestellt.',
+                    localizations.withdrawalDeclarationContent,
+                  ),
+                ),
+                const Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(localizations.withdrawalDeadlineTitle),
+                  subtitle: Text(
+                    localizations.withdrawalDeadlineContent,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          LegalInfoCard(
+            icon: Icons.workspace_premium_outlined,
+            title: localizations.withdrawalPremiumTitle,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(localizations.withdrawalDigitalServiceTitle),
+                  subtitle: Text(
+                    localizations.withdrawalDigitalServiceContent,
+                  ),
+                ),
+                const Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(localizations.withdrawalEarlyExpiryTitle),
+                  subtitle: Text(
+                    localizations.withdrawalEarlyExpiryContent,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          LegalInfoCard(
+            icon: Icons.info_outline,
+            title: localizations.withdrawalInformationTitle,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(localizations.withdrawalPurchaseInfoTitle),
+                  subtitle: Text(
+                    localizations.withdrawalPurchaseInfoContent,
                   ),
                 ),
               ],

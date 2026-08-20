@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth_loading_service.dart';
+import '../../l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -22,10 +23,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final loadingService = context.watch<AuthLoadingService>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Passwort vergessen')),
+      appBar: AppBar(
+        title: Text(l10n.forgotPassword),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -44,7 +48,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   const SizedBox(height: 24),
 
                   Text(
-                    'Passwort zurücksetzen',
+                    l10n.resetPassword,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -54,7 +58,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   const SizedBox(height: 8),
 
                   Text(
-                    'Gib deine E-Mail-Adresse ein. Wir senden dir einen Link zum Zurücksetzen deines Passworts.',
+                    l10n.resetPasswordSubtitle,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyLarge,
                   ),
@@ -64,9 +68,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   TextField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: 'E-Mail',
-                      prefixIcon: Icon(Icons.email_outlined),
+                    textInputAction: TextInputAction.done,
+                    autofillHints: const [
+                      AutofillHints.email,
+                    ],
+                    decoration: InputDecoration(
+                      labelText: l10n.email,
+                      prefixIcon: const Icon(
+                        Icons.email_outlined,
+                      ),
                     ),
                   ),
 
@@ -78,7 +88,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         : () async {
                             loadingService.startLoading();
 
-                            await Future.delayed(const Duration(seconds: 2));
+                            await Future.delayed(
+                              const Duration(seconds: 2),
+                            );
 
                             loadingService.stopLoading();
                           },
@@ -86,13 +98,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
                           )
                         : const Icon(Icons.send),
                     label: Text(
                       loadingService.loading
-                          ? 'Link wird gesendet...'
-                          : 'Link senden',
+                          ? l10n.sendingResetLink
+                          : l10n.sendResetLink,
                     ),
                   ),
                 ],

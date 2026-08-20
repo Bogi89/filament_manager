@@ -33,10 +33,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -63,6 +60,15 @@ class DefaultFirebaseOptions {
     appId: '1:304336909121:android:35b2e4bab9edf95f8da7c0',
     messagingSenderId: '304336909121',
     projectId: 'filament-manager-7d123',
+    storageBucket: 'filament-manager-7d123.firebasestorage.app',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCs4_Ty9eEbzzAfxZgI7uGW5Flhne7hFrk',
+    appId: '1:304336909121:web:10c10f85655b29428da7c0',
+    messagingSenderId: '304336909121',
+    projectId: 'filament-manager-7d123',
+    authDomain: 'filament-manager-7d123.firebaseapp.com',
     storageBucket: 'filament-manager-7d123.firebasestorage.app',
   );
 }

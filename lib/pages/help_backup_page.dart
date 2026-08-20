@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/common/help_page_template.dart';
 
 class HelpBackupPage extends StatelessWidget {
@@ -7,43 +8,37 @@ class HelpBackupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HelpPageTemplate(
-      title: 'Backup & Wiederherstellung',
+    return HelpPageTemplate(
+      title: AppLocalizations.of(context)!.helpBackupTitle,
       introduction:
-          'Mit einem Backup kannst du deine Filamente, Druckaufträge und Einstellungen sichern und später wiederherstellen.',
-
+          AppLocalizations.of(context)!.helpBackupIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.backup_outlined,
-          title: 'Backup erstellen',
+          title: AppLocalizations.of(context)!.helpBackupCreateTitle,
           content:
-              'Erstelle regelmäßig ein Backup deiner Daten, damit keine Informationen verloren gehen.',
+              AppLocalizations.of(context)!.helpBackupCreateContent,
         ),
-
         HelpSectionCard(
           icon: Icons.restore_outlined,
-          title: 'Backup wiederherstellen',
+          title: AppLocalizations.of(context)!.helpBackupRestoreTitle,
           content:
-              'Wähle eine zuvor erstellte Sicherungsdatei aus, um deine Daten wieder in den Filament Manager zu importieren.',
+              AppLocalizations.of(context)!.helpBackupRestoreContent,
         ),
-
         HelpSectionCard(
           icon: Icons.folder_outlined,
-          title: 'Sicherungsdatei',
+          title: AppLocalizations.of(context)!.helpBackupFileTitle,
           content:
-              'Bewahre deine Backup-Dateien an einem sicheren Ort auf, beispielsweise in einer Cloud oder auf einem externen Datenträger.',
+              AppLocalizations.of(context)!.helpBackupFileContent,
         ),
-
         HelpSectionCard(
           icon: Icons.update_outlined,
-          title: 'Regelmäßig sichern',
+          title: AppLocalizations.of(context)!.helpBackupRegularTitle,
           content:
-              'Erstelle besonders vor größeren Änderungen oder App-Updates ein aktuelles Backup.',
+              AppLocalizations.of(context)!.helpBackupRegularContent,
         ),
-
         HelpTipCard(
-          text:
-              'Tipp: Mit regelmäßigen Backups kannst du deine Daten jederzeit problemlos wiederherstellen.',
+          text: AppLocalizations.of(context)!.helpBackupTip,
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'legal_page_template.dart';
 import 'widgets/legal_info_card.dart';
 
@@ -8,87 +9,81 @@ class ImprintPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LegalPageTemplate(
-      title: 'Impressum',
+    final localizations = AppLocalizations.of(context)!;
+
+    return LegalPageTemplate(
+      title: localizations.imprint,
       lastUpdated: 'August 2026',
       child: Column(
         children: [
           LegalInfoCard(
             icon: Icons.person_outline,
-            title: 'Angaben zum Anbieter',
+            title: localizations.imprintProviderDetailsTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('App-Name'),
-                  subtitle: Text('Filament Manager (Arbeitstitel)'),
+                  title: Text(localizations.imprintAppNameLabel),
+                  subtitle: Text(localizations.imprintAppNameValue),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Entwickler'),
-                  subtitle: Text('Robin'),
+                  title: Text(localizations.imprintDeveloperLabel),
+                  subtitle: Text(localizations.imprintDeveloperValue),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Anschrift'),
-                  subtitle: Text('Wird vor Release ergänzt'),
+                  title: Text(localizations.imprintAddressLabel),
+                  subtitle: Text(localizations.imprintAddressValue),
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.email_outlined,
-            title: 'Kontakt',
+            title: localizations.imprintContactTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('E-Mail'),
-                  subtitle: Text('support@deine-domain.de'),
+                  title: Text(localizations.imprintEmailLabel),
+                  subtitle: Text(localizations.imprintEmailValue),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Website'),
-                  subtitle: Text('https://deine-domain.de'),
+                  title: Text(localizations.imprintWebsiteLabel),
+                  subtitle: Text(localizations.imprintWebsiteValue),
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 20),
 
           LegalInfoCard(
             icon: Icons.business_outlined,
-            title: 'Unternehmensinformationen',
+            title: localizations.imprintCompanyInformationTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Unternehmensform'),
-                  subtitle: Text('Wird vor Release ergänzt'),
+                  title: Text(localizations.imprintCompanyFormLabel),
+                  subtitle: Text(localizations.imprintCompanyFormValue),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Unternehmensgegenstand'),
-                  subtitle: Text(
-                    'Bereitstellung einer Anwendung zur Verwaltung von 3D-Druck-Filamenten.',
-                  ),
+                  title: Text(localizations.imprintBusinessPurposeLabel),
+                  subtitle: Text(localizations.imprintBusinessPurposeValue),
                 ),
               ],
             ),
@@ -98,26 +93,20 @@ class ImprintPage extends StatelessWidget {
 
           LegalInfoCard(
             icon: Icons.gavel_outlined,
-            title: 'Rechtliche Hinweise',
+            title: localizations.imprintLegalNotesTitle,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Haftung'),
-                  subtitle: Text(
-                    'Weitere Informationen findest du auf der Seite „Haftung“.',
-                  ),
+                  title: Text(localizations.imprintLiabilityLabel),
+                  subtitle: Text(localizations.imprintLiabilityContent),
                 ),
-
-                Divider(),
-
+                const Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Urheberrecht'),
-                  subtitle: Text(
-                    'Weitere Informationen findest du auf der Seite „Urheberrecht“.',
-                  ),
+                  title: Text(localizations.imprintCopyrightLabel),
+                  subtitle: Text(localizations.imprintCopyrightContent),
                 ),
               ],
             ),

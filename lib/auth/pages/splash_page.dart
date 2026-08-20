@@ -17,18 +17,18 @@ class SplashPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-  'assets/logo/splash_logo.png',
-  width: 110,
-  height: 110,
-  errorBuilder: (context, error, stackTrace) {
-    return const FlutterLogo(size: 110);
-  },
-),
+                  'assets/logo/splash_logo.png',
+                  width: 110,
+                  height: 110,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const FlutterLogo(size: 110);
+                  },
+                ),
 
                 const SizedBox(height: 30),
 
                 Text(
-                  'Filament Manager',
+                  'FilaLog',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
