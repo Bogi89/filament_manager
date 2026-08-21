@@ -1,132 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsService {
+import '../models/filament_sort_mode.dart';
 
+class SettingsService {
   static const String _themeKey = 'themeMode';
   static const String _languageKey = 'languageCode';
   static const String _warningKey = 'warningPercent';
-
-  /// 🔥 NEU
   static const String _sortKey = 'sortMode';
 
-  /// LOAD SETTINGS
+  /// ================= LOAD SETTINGS =================
 
   static Future<Map<String, dynamic>> loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
 
-    final prefs =
-        await SharedPreferences.getInstance();
+    final themeString = prefs.getString(_themeKey);
 
-    final themeString =
-        prefs.getString(_themeKey);
-
-    final languageCode =
-        prefs.getString(_languageKey);
+    final languageCode = prefs.getString(_languageKey);
 
     final warningPercent =
         prefs.getDouble(_warningKey) ?? 20;
 
-    /// 🔥 NEU
+    final storedSortMode =
+        prefs.getString(_sortKey);
 
     final sortMode =
-        prefs.getString(_sortKey) ?? "Material";
+        filamentSortModeFromStorageValue(
+      storedSortMode,
+    );
 
-    ThemeMode themeMode =
-        ThemeMode.system;
+    ThemeMode themeMode = ThemeMode.system;
 
     if (themeString == 'light') {
       themeMode = ThemeMode.light;
-    }
-    else if (themeString == 'dark') {
+    } else if (themeString == 'dark') {
       themeMode = ThemeMode.dark;
     }
 
-    Locale locale =
-        const Locale('de');
+    Locale locale = const Locale('de');
 
     if (languageCode != null) {
       locale = Locale(languageCode);
     }
 
     return {
-
       'themeMode': themeMode,
-
       'locale': locale,
-
       'warningPercent': warningPercent,
-
-      /// 🔥 NEU
-
       'sortMode': sortMode,
-
     };
   }
 
-  /// SAVE THEME
+  /// ================= SAVE THEME =================
 
   static Future<void> saveThemeMode(
-      ThemeMode mode) async {
-
+    ThemeMode mode,
+  ) async {
     final prefs =
         await SharedPreferences.getInstance();
 
     String value = 'system';
 
     if (mode == ThemeMode.light) {
-  value = 'light';
-}
-
-if (mode == ThemeMode.dark) {
-  value = 'dark';
-}
+      value = 'light';
+    } else if (mode == ThemeMode.dark) {
+      value = 'dark';
+    }
 
     await prefs.setString(
-        _themeKey,
-        value,
+      _themeKey,
+      value,
     );
   }
 
-  /// SAVE LANGUAGE
+  /// ================= SAVE LANGUAGE =================
 
   static Future<void> saveLocale(
-      Locale locale) async {
-
+    Locale locale,
+  ) async {
     final prefs =
         await SharedPreferences.getInstance();
 
     await prefs.setString(
-        _languageKey,
-        locale.languageCode,
+      _languageKey,
+      locale.languageCode,
     );
   }
 
-  /// SAVE WARNING
+  /// ================= SAVE WARNING =================
 
   static Future<void> saveWarningPercent(
-      double percent) async {
-
+    double percent,
+  ) async {
     final prefs =
         await SharedPreferences.getInstance();
 
     await prefs.setDouble(
-        _warningKey,
-        percent,
+      _warningKey,
+      percent,
     );
   }
 
-  /// 🔥 NEU — SORT MODE
+  /// ================= SAVE SORT MODE =================
 
   static Future<void> saveSortMode(
-      String mode) async {
-
+    FilamentSortMode mode,
+  ) async {
     final prefs =
         await SharedPreferences.getInstance();
 
     await prefs.setString(
-        _sortKey,
-        mode,
+      _sortKey,
+      mode.storageValue,
     );
   }
-
 }

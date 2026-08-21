@@ -4,6 +4,7 @@ import '../models/spool.dart';
 import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 import '../services/filament_catalog_service.dart';
+import '../l10n/app_localizations.dart';
 
 class FilamentDetailPage extends StatefulWidget {
   final Filament filament;
@@ -125,8 +126,10 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     int step,
   ) {
     if (value == null) {
-      return const Text("Material auswählen");
-    }
+  return Text(
+    AppLocalizations.of(context)!.selectMaterial,
+  );
+}
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
@@ -213,11 +216,14 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final filament = widget.filament;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Filament bearbeiten")),
-
+     appBar: AppBar(
+  title: Text(l10n.editFilament),
+),
       body: ListView(
         padding: const EdgeInsets.all(20),
 
@@ -291,12 +297,15 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                       const SizedBox(height: 8),
 
                       Text(
-                        "${filament.remainingWeight.toInt()} g von ${filament.totalWeight.toInt()} g",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+  l10n.remainingWeightOfTotal(
+    filament.remainingWeight.toInt(),
+    filament.totalWeight.toInt(),
+  ),
+  style: const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ),
+),
                     ],
                   ),
                 ),
@@ -310,7 +319,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             initialValue: brands.contains(selectedBrand) ? selectedBrand : null,
 
             decoration: InputDecoration(
-              labelText: "Hersteller",
+              labelText: l10n.manufacturer,
 
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
@@ -347,7 +356,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 : null,
 
             decoration: InputDecoration(
-              labelText: "Material",
+              labelText: l10n.material,
               filled: true,
               fillColor: Theme.of(context).cardColor,
               border: OutlineInputBorder(
@@ -382,7 +391,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 : null,
 
             decoration: InputDecoration(
-              labelText: "Variante",
+              labelText: l10n.variant,
               filled: true,
               fillColor: Theme.of(context).cardColor,
               border: OutlineInputBorder(
@@ -413,7 +422,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 : null,
 
             decoration: InputDecoration(
-              labelText: "Farbe",
+              labelText: l10n.color,
               filled: true,
               fillColor: Theme.of(context).cardColor,
               border: OutlineInputBorder(
@@ -444,7 +453,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 : null,
 
             decoration: InputDecoration(
-              labelText: "Durchmesser",
+              labelText: l10n.diameter,
               filled: true,
               fillColor: Theme.of(context).cardColor,
               border: OutlineInputBorder(
@@ -471,14 +480,14 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               temperatureSelector(
-                "Nozzle",
+                l10n.nozzle,
                 nozzleTemp,
                 (v) => setState(() => nozzleTemp = v),
                 1,
               ),
 
               temperatureSelector(
-                "Bed",
+                l10n.bed,
                 bedTemp,
                 (v) => setState(() => bedTemp = v),
                 5,
@@ -495,7 +504,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                   controller: priceController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: "Preis (€)",
+                    labelText: l10n.price,
                     filled: true,
                     fillColor: Theme.of(context).cardColor,
                     border: OutlineInputBorder(
@@ -518,7 +527,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                   controller: weightController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: "Restgewicht (g)",
+                    labelText: l10n.remainingWeight,
                     filled: true,
                     fillColor: Theme.of(context).cardColor,
                     border: OutlineInputBorder(
@@ -540,7 +549,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
           /// 🧵 Spulen-Bereich
           Text(
-            "Spulen",
+            l10n.spools,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
 
@@ -570,7 +579,9 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                     const SizedBox(width: 10),
 
-                    Text("Spool ${index + 1}"),
+                    Text(
+  l10n.spoolNumber(index + 1),
+),
 
                     const Spacer(),
 
@@ -598,14 +609,14 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text("Spule bearbeiten"),
+                              title: Text(l10n.editSpool),
 
                               content: TextField(
                                 controller: controller,
                                 keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  labelText: "Gewicht (g)",
-                                ),
+                                decoration: InputDecoration(
+  labelText: l10n.weight,
+),
                               ),
 
                               actions: [
@@ -614,7 +625,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                     Navigator.pop(context);
                                   },
 
-                                  child: const Text("Abbrechen"),
+                                  child: Text(l10n.cancel),
                                 ),
 
                                 ElevatedButton(
@@ -628,7 +639,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                     }
                                   },
 
-                                  child: const Text("Speichern"),
+                                  child: Text(l10n.save),
                                 ),
                               ],
                             );
@@ -672,13 +683,11 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text("Letzte Spule löschen"),
+                                title: Text(l10n.deleteLastSpool),
 
-                                content: const Text(
-                                  "Dieses Filament enthält danach "
-                                  "keine Spulen mehr.\n\n"
-                                  "Filament komplett löschen?",
-                                ),
+                               content: Text(
+  l10n.deleteLastSpoolWarning,
+),
 
                                 actions: [
                                   TextButton(
@@ -686,7 +695,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                       Navigator.pop(context, false);
                                     },
 
-                                    child: const Text("Abbrechen"),
+                                    child: Text(l10n.cancel),
                                   ),
 
                                   ElevatedButton(
@@ -698,9 +707,9 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                       Navigator.pop(context, true);
                                     },
 
-                                    child: const Text(
-                                      "Löschen & Filament entfernen",
-                                    ),
+                                    child: Text(
+  l10n.deleteAndRemoveFilament,
+),
                                   ),
                                 ],
                               );
@@ -726,11 +735,11 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                             builder: (dialogContext) {
                               return AlertDialog(
-                                title: const Text("Spule löschen"),
+                                title: Text(l10n.deleteSpool),
 
                                 content: Text(
-                                  "Spule ${index + 1} wirklich löschen?",
-                                ),
+  l10n.deleteSpoolConfirmation(index + 1),
+),
 
                                 actions: [
                                   TextButton(
@@ -738,7 +747,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                       Navigator.pop(context, false);
                                     },
 
-                                    child: const Text("Abbrechen"),
+                                    child: Text(l10n.cancel),
                                   ),
 
                                   ElevatedButton(
@@ -750,7 +759,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                       Navigator.pop(context, true);
                                     },
 
-                                    child: const Text("Löschen"),
+                                    child: Text(l10n.delete),
                                   ),
                                 ],
                               );
@@ -792,14 +801,14 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text("Neue Spule"),
+                    title: Text(l10n.newSpool),
 
                     content: TextField(
                       controller: controller,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: "Gewicht (g)",
-                      ),
+                      decoration: InputDecoration(
+  labelText: l10n.weight,
+),
                     ),
 
                     actions: [
@@ -808,7 +817,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                           Navigator.pop(context);
                         },
 
-                        child: const Text("Abbrechen"),
+                        child: Text(l10n.cancel),
                       ),
 
                       ElevatedButton(
@@ -820,7 +829,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                           }
                         },
 
-                        child: const Text("Speichern"),
+                        child: Text(l10n.save),
                       ),
                     ],
                   );
@@ -845,12 +854,15 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             },
             icon: const Icon(Icons.add),
 
-            label: const Text("Spule hinzufügen"),
+            label: Text(l10n.addSpool),
           ),
 
           const SizedBox(height: 30),
 
-          ElevatedButton(onPressed: save, child: const Text("Speichern")),
+          ElevatedButton(
+  onPressed: save,
+  child: Text(l10n.save),
+),
         ],
       ),
     );

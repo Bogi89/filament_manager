@@ -203,6 +203,198 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get close;
 
+  /// No description provided for @searchFilament.
+  ///
+  /// In en, this message translates to:
+  /// **'Search filament...'**
+  String get searchFilament;
+
+  /// No description provided for @manufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer'**
+  String get manufacturer;
+
+  /// No description provided for @material.
+  ///
+  /// In en, this message translates to:
+  /// **'Material'**
+  String get material;
+
+  /// No description provided for @editFilament.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit filament'**
+  String get editFilament;
+
+  /// No description provided for @variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Variant'**
+  String get variant;
+
+  /// No description provided for @color.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get color;
+
+  /// No description provided for @diameter.
+  ///
+  /// In en, this message translates to:
+  /// **'Diameter'**
+  String get diameter;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get price;
+
+  /// No description provided for @remainingWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining weight'**
+  String get remainingWeight;
+
+  /// No description provided for @spools.
+  ///
+  /// In en, this message translates to:
+  /// **'Spools'**
+  String get spools;
+
+  /// No description provided for @editSpool.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit spool'**
+  String get editSpool;
+
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weight;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @deleteLastSpool.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete last spool'**
+  String get deleteLastSpool;
+
+  /// No description provided for @deleteSpool.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete spool'**
+  String get deleteSpool;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @newSpool.
+  ///
+  /// In en, this message translates to:
+  /// **'New spool'**
+  String get newSpool;
+
+  /// No description provided for @addSpool.
+  ///
+  /// In en, this message translates to:
+  /// **'Add spool'**
+  String get addSpool;
+
+  /// No description provided for @selectMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Select material'**
+  String get selectMaterial;
+
+  /// No description provided for @nozzle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nozzle'**
+  String get nozzle;
+
+  /// No description provided for @bed.
+  ///
+  /// In en, this message translates to:
+  /// **'Bed'**
+  String get bed;
+
+  /// No description provided for @spoolNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Spool {number}'**
+  String spoolNumber(int number);
+
+  /// No description provided for @remainingWeightOfTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{remainingWeight} g of {totalWeight} g'**
+  String remainingWeightOfTotal(int remainingWeight, int totalWeight);
+
+  /// No description provided for @deleteAndRemoveFilament.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete & remove filament'**
+  String get deleteAndRemoveFilament;
+
+  /// No description provided for @deleteLastSpoolWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This filament will no longer contain any spools.\n\nDelete filament completely?'**
+  String get deleteLastSpoolWarning;
+
+  /// No description provided for @deleteSpoolConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Really delete spool {number}?'**
+  String deleteSpoolConfirmation(int number);
+
+  /// No description provided for @sort.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sort;
+
+  /// No description provided for @sortByMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'By material'**
+  String get sortByMaterial;
+
+  /// No description provided for @sortByRemainingWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'By remaining weight'**
+  String get sortByRemainingWeight;
+
+  /// No description provided for @sortByName.
+  ///
+  /// In en, this message translates to:
+  /// **'By name'**
+  String get sortByName;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
   /// No description provided for @warningFilament.
   ///
   /// In en, this message translates to:
@@ -2072,14 +2264,476 @@ abstract class AppLocalizations {
   /// No description provided for @quickActions.
   ///
   /// In en, this message translates to:
-  /// **'Quick Actions'**
+  /// **'Quick actions'**
   String get quickActions;
 
   /// No description provided for @calculatePrint.
   ///
   /// In en, this message translates to:
-  /// **'Calculate Print'**
+  /// **'Calculate print'**
   String get calculatePrint;
+
+  /// No description provided for @newManufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'New manufacturer'**
+  String get newManufacturer;
+
+  /// No description provided for @manufacturerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer name'**
+  String get manufacturerName;
+
+  /// No description provided for @newMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'New material'**
+  String get newMaterial;
+
+  /// No description provided for @materialName.
+  ///
+  /// In en, this message translates to:
+  /// **'Material name'**
+  String get materialName;
+
+  /// No description provided for @newVariant.
+  ///
+  /// In en, this message translates to:
+  /// **'New variant'**
+  String get newVariant;
+
+  /// No description provided for @variantName.
+  ///
+  /// In en, this message translates to:
+  /// **'Variant name'**
+  String get variantName;
+
+  /// No description provided for @newColor.
+  ///
+  /// In en, this message translates to:
+  /// **'New color'**
+  String get newColor;
+
+  /// No description provided for @colorName.
+  ///
+  /// In en, this message translates to:
+  /// **'Color name'**
+  String get colorName;
+
+  /// No description provided for @searchManufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Search manufacturer...'**
+  String get searchManufacturer;
+
+  /// No description provided for @searchMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Search material...'**
+  String get searchMaterial;
+
+  /// No description provided for @searchVariant.
+  ///
+  /// In en, this message translates to:
+  /// **'Search variant...'**
+  String get searchVariant;
+
+  /// No description provided for @searchColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Search color...'**
+  String get searchColor;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @fillAllRequiredFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all required fields.'**
+  String get fillAllRequiredFields;
+
+  /// No description provided for @temperatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperatures'**
+  String get temperatures;
+
+  /// No description provided for @inventoryAndCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Inventory & Cost'**
+  String get inventoryAndCost;
+
+  /// No description provided for @spoolWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Spool weight'**
+  String get spoolWeight;
+
+  /// No description provided for @custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom...'**
+  String get custom;
+
+  /// No description provided for @weightInGrams.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight in g'**
+  String get weightInGrams;
+
+  /// No description provided for @printSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Print Settings'**
+  String get printSettings;
+
+  /// No description provided for @printSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Print saved'**
+  String get printSaved;
+
+  /// No description provided for @addPrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Add printer'**
+  String get addPrinter;
+
+  /// No description provided for @editPrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit printer'**
+  String get editPrinter;
+
+  /// No description provided for @printerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Printer name'**
+  String get printerName;
+
+  /// No description provided for @averageWatt.
+  ///
+  /// In en, this message translates to:
+  /// **'Average power'**
+  String get averageWatt;
+
+  /// No description provided for @enterPrinterNameAndWatt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a printer name and power.'**
+  String get enterPrinterNameAndWatt;
+
+  /// No description provided for @managePrinters.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage printers'**
+  String get managePrinters;
+
+  /// No description provided for @noCustomPrinters.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom printers available.'**
+  String get noCustomPrinters;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @deletePrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete printer'**
+  String get deletePrinter;
+
+  /// No description provided for @confirmDeletePrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Really delete printer {printerName}?'**
+  String confirmDeletePrinter(String printerName);
+
+  /// No description provided for @searchPrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Search printer...'**
+  String get searchPrinter;
+
+  /// No description provided for @calculateCosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate costs'**
+  String get calculateCosts;
+
+  /// No description provided for @project.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get project;
+
+  /// No description provided for @projectName.
+  ///
+  /// In en, this message translates to:
+  /// **'Project name'**
+  String get projectName;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @selectFilament.
+  ///
+  /// In en, this message translates to:
+  /// **'Select filament'**
+  String get selectFilament;
+
+  /// No description provided for @selectPrinter.
+  ///
+  /// In en, this message translates to:
+  /// **'Select printer'**
+  String get selectPrinter;
+
+  /// No description provided for @calculation.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculation'**
+  String get calculation;
+
+  /// No description provided for @watt.
+  ///
+  /// In en, this message translates to:
+  /// **'Watts'**
+  String get watt;
+
+  /// No description provided for @objectWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Object weight'**
+  String get objectWeight;
+
+  /// No description provided for @printTimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Print time in minutes'**
+  String get printTimeMinutes;
+
+  /// No description provided for @spoolPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Spool price'**
+  String get spoolPrice;
+
+  /// No description provided for @electricityCostPerKwh.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity cost per kWh'**
+  String get electricityCostPerKwh;
+
+  /// No description provided for @subtractFromStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Deduct from inventory'**
+  String get subtractFromStock;
+
+  /// No description provided for @filamentCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Filament cost'**
+  String get filamentCost;
+
+  /// No description provided for @electricityCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity cost'**
+  String get electricityCost;
+
+  /// No description provided for @totalCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total cost'**
+  String get totalCost;
+
+  /// No description provided for @usageByMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage by material'**
+  String get usageByMaterial;
+
+  /// No description provided for @usageByMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage by month'**
+  String get usageByMonth;
+
+  /// No description provided for @costsByMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs by material'**
+  String get costsByMaterial;
+
+  /// No description provided for @costsByMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs by month'**
+  String get costsByMonth;
+
+  /// No description provided for @overallOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall overview'**
+  String get overallOverview;
+
+  /// No description provided for @printTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Print time'**
+  String get printTime;
+
+  /// No description provided for @costs.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs'**
+  String get costs;
+
+  /// No description provided for @averagePerPrint.
+  ///
+  /// In en, this message translates to:
+  /// **'Average per print'**
+  String get averagePerPrint;
+
+  /// No description provided for @topMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Top material'**
+  String get topMaterial;
+
+  /// No description provided for @usageByMaterialWithUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage by material (g)'**
+  String get usageByMaterialWithUnit;
+
+  /// No description provided for @usageByMonthWithUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage by month (g)'**
+  String get usageByMonthWithUnit;
+
+  /// No description provided for @costsByMaterialWithUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs by material (€)'**
+  String get costsByMaterialWithUnit;
+
+  /// No description provided for @costsByMonthWithUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs by month (€)'**
+  String get costsByMonthWithUnit;
+
+  /// No description provided for @noPrintData.
+  ///
+  /// In en, this message translates to:
+  /// **'No print data available.'**
+  String get noPrintData;
+
+  /// No description provided for @sortByDateNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Date (newest → oldest)'**
+  String get sortByDateNewest;
+
+  /// No description provided for @sortByDateOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'Date (oldest → newest)'**
+  String get sortByDateOldest;
+
+  /// No description provided for @sortByCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost'**
+  String get sortByCost;
+
+  /// No description provided for @sortByWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get sortByWeight;
+
+  /// No description provided for @sortByProjectName.
+  ///
+  /// In en, this message translates to:
+  /// **'Project name'**
+  String get sortByProjectName;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @thisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get thisWeek;
+
+  /// No description provided for @thisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get thisMonth;
+
+  /// No description provided for @thisYear.
+  ///
+  /// In en, this message translates to:
+  /// **'This year'**
+  String get thisYear;
+
+  /// No description provided for @printHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Print History'**
+  String get printHistory;
+
+  /// No description provided for @searchProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Search project...'**
+  String get searchProject;
+
+  /// No description provided for @resetFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset filters'**
+  String get resetFilters;
+
+  /// No description provided for @noPrintsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No print jobs available.'**
+  String get noPrintsAvailable;
+
+  /// No description provided for @historyJobs.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} job(s)'**
+  String historyJobs(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../models/filament.dart';
+import '../models/filament_sort_mode.dart';
 import '../models/print_job.dart';
 
 import '../services/settings_service.dart';
@@ -20,7 +21,8 @@ class AppState extends ChangeNotifier {
 
   double warningPercent = 20;
 
-  String sortMode = "Material";
+  FilamentSortMode sortMode =
+      FilamentSortMode.material;
 
   bool isInitialized = false;
 
@@ -60,7 +62,9 @@ class AppState extends ChangeNotifier {
 
   /// ================= AUTH / DATENSYNC =================
 
-  Future<void> _handleAuthStateChanged(User? user) async {
+  Future<void> _handleAuthStateChanged(
+    User? user,
+  ) async {
     if (!isInitialized || _isDisposed) {
       return;
     }
@@ -101,22 +105,6 @@ class AppState extends ChangeNotifier {
       final cloudData =
           await FirestoreService.loadData();
 
-      /// --------------------------------
-      /// Cloud-Daten vorhanden
-      /// --------------------------------
-      ///
-      /// Der Benutzer besitzt bereits
-      /// einen Cloud-Datenbestand.
-      ///
-      /// Dieser hat immer Vorrang vor
-      /// eventuell noch vorhandenen lokalen
-      /// Gastdaten.
-      ///
-      /// Nach erfolgreichem Laden werden die
-      /// lokalen Gastdaten entfernt, damit sie
-      /// nach einem späteren Logout nicht wieder
-      /// angezeigt werden.
-
       if (cloudData != null) {
         filaments = cloudData.filaments;
         jobs = cloudData.jobs;
@@ -125,17 +113,6 @@ class AppState extends ChangeNotifier {
 
         return;
       }
-
-      /// --------------------------------
-      /// Noch keine Cloud-Daten vorhanden
-      /// --------------------------------
-      ///
-      /// Das ist beispielsweise der Fall,
-      /// wenn ein Benutzer gerade neu
-      /// registriert wurde.
-      ///
-      /// Vorhandene Gastdaten werden einmalig
-      /// in das neue Benutzerkonto übernommen.
 
       final localFilaments =
           await StorageService.loadFilaments();
@@ -150,38 +127,17 @@ class AppState extends ChangeNotifier {
           localFilaments.isNotEmpty ||
           localJobs.isNotEmpty;
 
-      /// --------------------------------
-      /// Keine Gastdaten vorhanden
-      /// --------------------------------
-
       if (!hasLocalData) {
         return;
       }
-
-      /// --------------------------------
-      /// Gastdaten in die Cloud übernehmen
-      /// --------------------------------
 
       await FirestoreService.saveData(
         filaments: filaments,
         jobs: jobs,
       );
 
-      /// --------------------------------
-      /// Gastdaten nach erfolgreicher
-      /// Cloud-Übernahme lokal löschen
-      /// --------------------------------
-
       await StorageService.clearLocalData();
     } catch (_) {
-      /*
-       * Falls die Cloud vorübergehend nicht
-       * erreichbar ist, bleiben die lokalen
-       * Daten erhalten.
-       *
-       * Nur wenn kein Benutzer angemeldet ist,
-       * werden die lokalen Daten erneut geladen.
-       */
       if (FirebaseAuth.instance.currentUser == null) {
         await _loadLocalData();
       }
@@ -243,7 +199,9 @@ class AppState extends ChangeNotifier {
 
   /// ================= SETTINGS =================
 
-  void setLocale(Locale newLocale) async {
+  void setLocale(
+    Locale newLocale,
+  ) async {
     locale = newLocale;
 
     await SettingsService.saveLocale(
@@ -278,7 +236,7 @@ class AppState extends ChangeNotifier {
   }
 
   void setSortMode(
-    String mode,
+    FilamentSortMode mode,
   ) async {
     sortMode = mode;
 
@@ -333,7 +291,7 @@ class AppState extends ChangeNotifier {
               (name) =>
                   name.isNotEmpty &&
                   name.toLowerCase() !=
-                      "unknown",
+                      'unknown',
             )
             .toList();
 
@@ -375,7 +333,7 @@ class AppState extends ChangeNotifier {
                         .trim()
                         .isNotEmpty &&
                     name.toLowerCase() !=
-                        "unknown",
+                        'unknown',
               )
               .toList();
 
@@ -384,7 +342,7 @@ class AppState extends ChangeNotifier {
               ? validNames
                   .toSet()
                   .toList()
-              : ["Unknown"];
+              : ['Unknown'];
     }
 
     filaments.add(filament);

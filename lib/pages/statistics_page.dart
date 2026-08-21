@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import '../models/print_job.dart';
+import 'package:filament_manager_v2/l10n/app_localizations.dart';
+
 import '../models/filament.dart';
-import '../widgets/common/page_header.dart';
+import '../models/print_job.dart';
 import '../widgets/common/app_card.dart';
-import 'package:filament_manager_v2/widgets/statistics/statistics_summary_card.dart';
+import '../widgets/common/page_header.dart';
 import '../widgets/statistics/statistics_selector.dart';
+import '../widgets/statistics/statistics_summary_card.dart';
 
 class StatisticsPage extends StatefulWidget {
   final List<PrintJob> jobs;
@@ -21,6 +23,11 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsPageState extends State<StatisticsPage> {
+  static const String _materialUsageSection = 'material_usage';
+  static const String _monthlyUsageSection = 'monthly_usage';
+  static const String _materialCostSection = 'material_cost';
+  static const String _monthlyCostSection = 'monthly_cost';
+
   double totalWeight = 0;
   double totalCost = 0;
   double totalHours = 0;
@@ -30,14 +37,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
   Map<String, double> monthlyUsage = {};
   Map<String, double> monthlyCost = {};
 
-  String _selectedSection = 'Verbrauch pro Material';
-
-  final List<String> _sections = [
-    'Verbrauch pro Material',
-    'Verbrauch pro Monat',
-    'Kosten pro Material',
-    'Kosten pro Monat',
-  ];
+  String _selectedSection = _materialUsageSection;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
   }
 
   void _calculateStats() {
-    for (var job in widget.jobs) {
+    for (final job in widget.jobs) {
       totalWeight += job.weightUsed;
       totalCost += job.totalCost;
       totalHours += job.printHours;
@@ -58,7 +58,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           (materialCost[job.material] ?? 0) + job.totalCost;
 
       final month =
-          "${job.date.year}-${job.date.month.toString().padLeft(2, '0')}";
+          '${job.date.year}-${job.date.month.toString().padLeft(2, '0')}';
 
       monthlyUsage[month] = (monthlyUsage[month] ?? 0) + job.weightUsed;
 
@@ -76,29 +76,41 @@ class _StatisticsPageState extends State<StatisticsPage> {
       if (i > 0 && (number.length - i) % 3 == 0) {
         buffer.write('.');
       }
+
       buffer.write(number[i]);
     }
 
     return buffer.toString();
   }
 
-  String _formatWeight(double value) => "${_formatNumber(value)} g";
+  String _formatWeight(double value) => '${_formatNumber(value)} g';
 
-  String _formatHours(double value) => "${_formatNumber(value)} h";
+  String _formatHours(double value) => '${_formatNumber(value)} h';
 
   String _formatCurrency(double value) =>
-      "${value.toStringAsFixed(2).replaceAll('.', ',')} €";
+      '${value.toStringAsFixed(2).replaceAll('.', ',')} €';
+
+  Map<String, String> _sectionLabels(AppLocalizations l10n) {
+    return {
+      _materialUsageSection: l10n.usageByMaterial,
+      _monthlyUsageSection: l10n.usageByMonth,
+      _materialCostSection: l10n.costsByMaterial,
+      _monthlyCostSection: l10n.costsByMonth,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final sectionLabels = _sectionLabels(l10n);
+
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.dark
           ? Colors.black
           : const Color(0xFFE9EEF5),
       body: Column(
         children: [
-          const PageHeader(title: "Statistik"),
-
+          PageHeader(title: l10n.statistics),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(16),
@@ -108,34 +120,34 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   materialCount: materialUsage.length,
                   totalWeight: totalWeight,
                 ),
-
                 const SizedBox(height: 12),
-
-                _buildOverview(),
-
+                _buildOverview(l10n),
                 const SizedBox(height: 12),
-
-                _buildAverage(),
-
+                _buildAverage(l10n),
                 const SizedBox(height: 12),
-
-                _buildTopMaterial(),
-
+                _buildTopMaterial(l10n),
                 const SizedBox(height: 12),
-
                 StatisticsSelector(
-                  value: _selectedSection,
-                  items: _sections,
+                  value: sectionLabels[_selectedSection]!,
+                  items: sectionLabels.values.toList(),
                   onChanged: (value) {
+                    final selectedSection = sectionLabels.entries
+                        .firstWhere(
+                          (entry) => entry.value == value,
+                          orElse: () => const MapEntry(
+                            _materialUsageSection,
+                            '',
+                          ),
+                        )
+                        .key;
+
                     setState(() {
-                      _selectedSection = value;
+                      _selectedSection = selectedSection;
                     });
                   },
                 ),
-
                 const SizedBox(height: 16),
-
-                _buildSelectedSection(),
+                _buildSelectedSection(l10n),
               ],
             ),
           ),
@@ -144,41 +156,40 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  Widget _buildOverview() {
+  Widget _buildOverview(AppLocalizations l10n) {
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Gesamtübersicht",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Text(
+            l10n.overallOverview,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-
           const SizedBox(height: 16),
-
           Row(
             children: [
               Expanded(
                 child: _buildOverviewItem(
                   Icons.scale_rounded,
                   _formatWeight(totalWeight),
-                  "Gewicht",
+                  l10n.weight,
                 ),
               ),
-
               Expanded(
                 child: _buildOverviewItem(
                   Icons.schedule_rounded,
                   _formatHours(totalHours),
-                  "Druckzeit",
+                  l10n.printTime,
                 ),
               ),
-
               Expanded(
                 child: _buildOverviewItem(
                   Icons.euro_rounded,
                   _formatCurrency(totalCost),
-                  "Kosten",
+                  l10n.costs,
                 ),
               ),
             ],
@@ -188,7 +199,11 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  Widget _buildOverviewItem(IconData icon, String value, String label) {
+  Widget _buildOverviewItem(
+    IconData icon,
+    String value,
+    String label,
+  ) {
     Color iconColor;
 
     switch (icon) {
@@ -211,28 +226,34 @@ class _StatisticsPageState extends State<StatisticsPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 20, color: iconColor),
-
+        Icon(
+          icon,
+          size: 20,
+          color: iconColor,
+        ),
         const SizedBox(height: 6),
-
         Text(
           value,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
           textAlign: TextAlign.center,
         ),
-
         const SizedBox(height: 2),
-
         Text(
           label,
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey.shade600,
+          ),
           textAlign: TextAlign.center,
         ),
       ],
     );
   }
 
-  Widget _buildAverage() {
+  Widget _buildAverage(AppLocalizations l10n) {
     if (widget.jobs.isEmpty) {
       return const SizedBox();
     }
@@ -245,36 +266,35 @@ class _StatisticsPageState extends State<StatisticsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Durchschnitt pro Druck",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Text(
+            l10n.averagePerPrint,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-
           const SizedBox(height: 16),
-
           Row(
             children: [
               Expanded(
                 child: _buildOverviewItem(
                   Icons.scale_rounded,
                   _formatWeight(avgWeight),
-                  "Gewicht",
+                  l10n.weight,
                 ),
               ),
-
               Expanded(
                 child: _buildOverviewItem(
                   Icons.schedule_rounded,
                   _formatHours(avgHours),
-                  "Druckzeit",
+                  l10n.printTime,
                 ),
               ),
-
               Expanded(
                 child: _buildOverviewItem(
                   Icons.euro_rounded,
                   _formatCurrency(avgCost),
-                  "Kosten",
+                  l10n.costs,
                 ),
               ),
             ],
@@ -284,7 +304,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  Widget _buildTopMaterial() {
+  Widget _buildTopMaterial(AppLocalizations l10n) {
     if (materialUsage.isEmpty) {
       return const SizedBox();
     }
@@ -293,28 +313,39 @@ class _StatisticsPageState extends State<StatisticsPage> {
       (a, b) => a.value > b.value ? a : b,
     );
 
-    final percentage = totalWeight > 0 ? (top.value / totalWeight) * 100 : 0.0;
+    final percentage =
+        totalWeight > 0 ? (top.value / totalWeight) * 100 : 0.0;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 16,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [Color(0xFF6D3FD3), Color(0xFFD73AF5)],
+          colors: [
+            Color(0xFF6D3FD3),
+            Color(0xFFD73AF5),
+          ],
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.emoji_events_rounded, color: Colors.white, size: 20),
-              SizedBox(width: 8),
+              const Icon(
+                Icons.emoji_events_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
               Text(
-                "Top Material",
-                style: TextStyle(
+                l10n.topMaterial,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 15,
@@ -322,9 +353,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               ),
             ],
           ),
-
           const SizedBox(height: 14),
-
           Text(
             top.key,
             style: const TextStyle(
@@ -333,27 +362,25 @@ class _StatisticsPageState extends State<StatisticsPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 4),
-
           Text(
-            "${_formatWeight(top.value)} • ${percentage.toStringAsFixed(1)} %",
+            '${_formatWeight(top.value)} • ${percentage.toStringAsFixed(1)} %',
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 15,
               fontWeight: FontWeight.w500,
             ),
           ),
-
           const SizedBox(height: 12),
-
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: LinearProgressIndicator(
               value: percentage / 100,
               minHeight: 6,
               backgroundColor: Colors.white24,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Colors.white,
+              ),
             ),
           ),
         ],
@@ -361,36 +388,55 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  Widget _buildMaterialUsage() {
+  Widget _buildMaterialUsage(AppLocalizations l10n) {
     return _buildProgressSection(
-      "Verbrauch pro Material (g)",
+      l10n.usageByMaterialWithUnit,
       materialUsage,
-      "g",
+      'g',
+      l10n,
     );
   }
 
-  Widget _buildMonthlyUsage() {
-    return _buildProgressSection("Verbrauch pro Monat (g)", monthlyUsage, "g");
+  Widget _buildMonthlyUsage(AppLocalizations l10n) {
+    return _buildProgressSection(
+      l10n.usageByMonthWithUnit,
+      monthlyUsage,
+      'g',
+      l10n,
+    );
   }
 
-  Widget _buildMaterialCost() {
-    return _buildProgressSection("Kosten pro Material (€)", materialCost, "€");
+  Widget _buildMaterialCost(AppLocalizations l10n) {
+    return _buildProgressSection(
+      l10n.costsByMaterialWithUnit,
+      materialCost,
+      '€',
+      l10n,
+    );
   }
 
-  Widget _buildMonthlyCost() {
-    return _buildProgressSection("Kosten pro Monat (€)", monthlyCost, "€");
+  Widget _buildMonthlyCost(AppLocalizations l10n) {
+    return _buildProgressSection(
+      l10n.costsByMonthWithUnit,
+      monthlyCost,
+      '€',
+      l10n,
+    );
   }
 
   Widget _buildProgressSection(
     String title,
     Map<String, double> data,
     String unit,
+    AppLocalizations l10n,
   ) {
     if (data.isEmpty) {
-      return const Text("Noch keine Druckdaten");
+      return Text(l10n.noPrintData);
     }
 
-    final maxValue = data.values.reduce((a, b) => a > b ? a : b);
+    final maxValue = data.values.reduce(
+      (a, b) => a > b ? a : b,
+    );
 
     return AppCard(
       child: Column(
@@ -398,11 +444,12 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-
           const SizedBox(height: 16),
-
           ...data.entries.map((entry) {
             final percent = entry.value / maxValue;
 
@@ -422,13 +469,12 @@ class _StatisticsPageState extends State<StatisticsPage> {
                           ),
                         ),
                       ),
-
                       Text(
-                        unit == "€"
+                        unit == '€'
                             ? _formatCurrency(entry.value)
-                            : unit == "h"
-                            ? _formatHours(entry.value)
-                            : _formatWeight(entry.value),
+                            : unit == 'h'
+                                ? _formatHours(entry.value)
+                                : _formatWeight(entry.value),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade700,
@@ -437,9 +483,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 8),
-
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: LinearProgressIndicator(
@@ -462,22 +506,22 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  Widget _buildSelectedSection() {
+  Widget _buildSelectedSection(AppLocalizations l10n) {
     switch (_selectedSection) {
-      case 'Verbrauch pro Material':
-        return _buildMaterialUsage();
+      case _materialUsageSection:
+        return _buildMaterialUsage(l10n);
 
-      case 'Verbrauch pro Monat':
-        return _buildMonthlyUsage();
+      case _monthlyUsageSection:
+        return _buildMonthlyUsage(l10n);
 
-      case 'Kosten pro Material':
-        return _buildMaterialCost();
+      case _materialCostSection:
+        return _buildMaterialCost(l10n);
 
-      case 'Kosten pro Monat':
-        return _buildMonthlyCost();
+      case _monthlyCostSection:
+        return _buildMonthlyCost(l10n);
 
       default:
-        return _buildMaterialUsage();
+        return _buildMaterialUsage(l10n);
     }
   }
 }

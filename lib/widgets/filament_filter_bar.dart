@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../models/filament_sort_mode.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_colors.dart';
+import '../l10n/app_localizations.dart';
 
 class FilamentFilterBar extends StatelessWidget {
-
   final TextEditingController searchController;
 
   final List<String> brandItems;
@@ -13,11 +14,11 @@ class FilamentFilterBar extends StatelessWidget {
 
   final String? selectedBrand;
   final String? selectedMaterial;
-  final String selectedSort;
+  final FilamentSortMode selectedSort;
 
   final Function(String?) onBrandChanged;
   final Function(String?) onMaterialChanged;
-  final Function(String?) onSortChanged;
+  final Function(FilamentSortMode?) onSortChanged;
 
   final VoidCallback onReset;
   final Function(String) onSearchChanged;
@@ -39,8 +40,9 @@ class FilamentFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final brightness = Theme.of(context).brightness;
+    final l10n = AppLocalizations.of(context)!;
+    final brightness =
+        Theme.of(context).brightness;
 
     final surfaceColor =
         brightness == Brightness.dark
@@ -53,224 +55,210 @@ class FilamentFilterBar extends StatelessWidget {
             : AppColors.backgroundLight;
 
     return Container(
-
       margin: AppSpacing.horizontalLG,
-
       padding: AppSpacing.paddingLG,
-
       decoration: BoxDecoration(
-
         color: surfaceColor,
-
         borderRadius: AppRadius.radiusMD,
-
         boxShadow: brightness == Brightness.dark
             ? []
             : [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
+                  color: Colors.black.withValues(
+                    alpha: 0.04,
+                  ),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
               ],
       ),
-
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
-
-          /// 🔎 Titel
-
           Text(
-            "Filter",
-            style: Theme.of(context).textTheme.titleMedium,
+  l10n.filter,
+  style: Theme.of(context).textTheme.titleMedium,
+),
+
+          SizedBox(
+            height: AppSpacing.md,
           ),
 
-          SizedBox(height: AppSpacing.md),
-
-          /// 🔍 Suche
-
           TextField(
-
             controller: searchController,
-
             onChanged: onSearchChanged,
-
             decoration: InputDecoration(
-
-              hintText: "Filament suchen...",
-
-              prefixIcon: const Icon(Icons.search),
-
+              hintText: l10n.searchFilament,
+              prefixIcon:
+                  const Icon(Icons.search),
               filled: true,
-
               fillColor: fillColor,
-
               border: OutlineInputBorder(
-                borderRadius: AppRadius.radiusMD,
+                borderRadius:
+                    AppRadius.radiusMD,
                 borderSide: BorderSide.none,
               ),
-
             ),
           ),
 
-          SizedBox(height: AppSpacing.lg),
-
-          /// Reihe 1
+          SizedBox(
+            height: AppSpacing.lg,
+          ),
 
           Row(
             children: [
-
               Expanded(
-                child: DropdownButtonFormField<String>(
-
-  initialValue: selectedBrand,
-
+                child:
+                    DropdownButtonFormField<String>(
+                  initialValue:
+                      selectedBrand,
                   items: brandItems
                       .map(
-                        (brand) => DropdownMenuItem(
+                        (brand) =>
+                            DropdownMenuItem(
                           value: brand,
                           child: Text(brand),
                         ),
                       )
                       .toList(),
-
-                  decoration: InputDecoration(
-                    labelText: "Hersteller",
-
+                  decoration:
+                      InputDecoration(
+                    labelText: l10n.manufacturer,
                     filled: true,
                     fillColor: fillColor,
-
-                    border: OutlineInputBorder(
-                      borderRadius: AppRadius.radiusMD,
-                      borderSide: BorderSide.none,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          AppRadius.radiusMD,
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
-
-                  onChanged: onBrandChanged,
+                  onChanged:
+                      onBrandChanged,
                 ),
               ),
 
-              SizedBox(width: AppSpacing.md),
+              SizedBox(
+                width: AppSpacing.md,
+              ),
 
               Expanded(
-                child: DropdownButtonFormField<String>(
-
-  initialValue: selectedMaterial,
-
+                child:
+                    DropdownButtonFormField<String>(
+                  initialValue:
+                      selectedMaterial,
                   items: materialItems
                       .map(
                         (material) =>
                             DropdownMenuItem(
                           value: material,
-                          child: Text(material),
+                          child:
+                              Text(material),
                         ),
                       )
                       .toList(),
-
-                  decoration: InputDecoration(
-                    labelText: "Material",
-
+                  decoration:
+                      InputDecoration(
+                    labelText: l10n.material,
                     filled: true,
                     fillColor: fillColor,
-
-                    border: OutlineInputBorder(
-                      borderRadius: AppRadius.radiusMD,
-                      borderSide: BorderSide.none,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          AppRadius.radiusMD,
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
-
-                  onChanged: onMaterialChanged,
+                  onChanged:
+                      onMaterialChanged,
                 ),
               ),
-
             ],
           ),
 
-          SizedBox(height: AppSpacing.lg),
-
-          /// Reihe 2
+          SizedBox(
+            height: AppSpacing.lg,
+          ),
 
           Row(
             children: [
-
               Expanded(
-                child: DropdownButtonFormField<String>(
-
-  initialValue: selectedSort,
-
-                  items: const [
-
+                child:
+                    DropdownButtonFormField<
+                        FilamentSortMode>(
+                  initialValue:
+                      selectedSort,
+                  items: [
                     DropdownMenuItem(
-                      value: "Material",
-                      child: Text("Nach Material"),
-                    ),
-
+  value: FilamentSortMode.material,
+  child: Text(l10n.sortByMaterial),
+),
                     DropdownMenuItem(
-                      value: "Restgewicht",
-                      child: Text("Nach Restgewicht"),
-                    ),
-
+  value: FilamentSortMode.remainingWeight,
+  child: Text(
+    l10n.sortByRemainingWeight,
+  ),
+),
                     DropdownMenuItem(
-                      value: "Name",
-                      child: Text("Nach Name"),
-                    ),
-
+  value: FilamentSortMode.name,
+  child: Text(l10n.sortByName),
+),
                   ],
-
-                  decoration: InputDecoration(
-                    labelText: "Sortieren",
-
+                  decoration:
+                      InputDecoration(
+                    labelText: l10n.sort,
                     filled: true,
                     fillColor: fillColor,
-
-                    border: OutlineInputBorder(
-                      borderRadius: AppRadius.radiusMD,
-                      borderSide: BorderSide.none,
+                    border:
+                        OutlineInputBorder(
+                      borderRadius:
+                          AppRadius.radiusMD,
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
-
-                  onChanged: onSortChanged,
+                  onChanged:
+                      onSortChanged,
                 ),
               ),
 
-              SizedBox(width: AppSpacing.md),
-
-              /// Reset Button (jetzt Secondary!)
+              SizedBox(
+                width: AppSpacing.md,
+              ),
 
               Expanded(
                 child: SizedBox(
                   height: 56,
-
-                  child: OutlinedButton.icon(
-
+                  child:
+                      OutlinedButton.icon(
                     onPressed: onReset,
-
-                    icon: const Icon(Icons.refresh),
-
-                    label: const Text("Zurücksetzen"),
-
-                    style: OutlinedButton.styleFrom(
-
-                      foregroundColor: AppColors.primary,
-
+                    icon:
+                        const Icon(Icons.refresh),
+                    label: Text(
+  l10n.reset,
+),
+                    style:
+                        OutlinedButton.styleFrom(
+                      foregroundColor:
+                          AppColors.primary,
                       side: BorderSide(
-                        color: AppColors.primary,
+                        color:
+                            AppColors.primary,
                       ),
-
-                      shape: RoundedRectangleBorder(
+                      shape:
+                          RoundedRectangleBorder(
                         borderRadius:
                             AppRadius.radiusMD,
                       ),
-
                     ),
                   ),
                 ),
               ),
-
             ],
           ),
-
         ],
       ),
     );

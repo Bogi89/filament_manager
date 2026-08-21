@@ -8,6 +8,7 @@ import '../models/filament_color.dart';
 import '../widgets/add_filament/sections/inventory_cost_section.dart';
 import '../widgets/add_filament/sections/print_settings_section.dart';
 import '../widgets/common/page_header.dart';
+import '../l10n/app_localizations.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;
@@ -143,137 +144,126 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     setState(() {});
   }
 
-  Future<void> _addBrandDialog() async {
-    final controller = TextEditingController();
-
-    final result = await showDialog<String>(
-      context: context,
-
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Neuer Hersteller"),
-
-          content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(labelText: "Herstellername"),
-            autofocus: true,
-          ),
-
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-
-              child: const Text("Abbrechen"),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                final value = controller.text.trim();
-
-                if (value.isNotEmpty) {
-                  Navigator.pop(context, value);
-                }
-              },
-
-              child: const Text("Speichern"),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (result != null) {
-      FilamentCatalogService.addCustomBrand(result);
-
-      setState(() {
-        brands = FilamentCatalogService.getBrands();
-
-        selectedBrand = result;
-      });
-    }
-  }
-
   void selectMaterial(String material) {
-    final stopwatch = Stopwatch()..start();
+  selectedMaterial = material;
 
-    selectedMaterial = material;
+  variants = FilamentCatalogService.getVariants(
+    selectedBrand!,
+    material,
+  );
 
-    variants = FilamentCatalogService.getVariants(selectedBrand!, material);
+  selectedVariant = null;
+  selectedColor = null;
 
-    selectedVariant = null;
-    selectedColor = null;
+  colors = [];
+  selectedFilamentColors = [];
+  preloadColorMap.clear();
 
-    colors = [];
-    preloadColorMap.clear();
+  setState(() {});
+}
 
-    if (materialTemps.containsKey(material)) {
-      nozzleTemp = materialTemps[material]!["nozzle"];
+  Future<void> _addBrandDialog() async {
+  final controller = TextEditingController();
+  final l10n = AppLocalizations.of(context)!;
 
-      bedTemp = materialTemps[material]!["bed"];
-    }
+  final result = await showDialog<String>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(l10n.newManufacturer),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: l10n.manufacturerName,
+          ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(l10n.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final value = controller.text.trim();
 
-    debugPrint('selectMaterial: ${stopwatch.elapsedMilliseconds} ms');
+              if (value.isNotEmpty) {
+                Navigator.pop(context, value);
+              }
+            },
+            child: Text(l10n.save),
+          ),
+        ],
+      );
+    },
+  );
 
-    setState(() {});
+  if (result != null) {
+    FilamentCatalogService.addCustomBrand(result);
+
+    setState(() {
+      brands = FilamentCatalogService.getBrands();
+      selectedBrand = result;
+    });
   }
+}
 
   Future<void> _addMaterialDialog() async {
-    final controller = TextEditingController();
+  final controller = TextEditingController();
+  final l10n = AppLocalizations.of(context)!;
 
-    final result = await showDialog<String>(
-      context: context,
-
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Neues Material"),
-
-          content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(labelText: "Materialname"),
-            autofocus: true,
+  final result = await showDialog<String>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(l10n.newMaterial),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: l10n.materialName,
           ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(l10n.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final value = controller.text.trim();
 
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              if (value.isNotEmpty) {
+                Navigator.pop(context, value);
+              }
+            },
+            child: Text(l10n.save),
+          ),
+        ],
+      );
+    },
+  );
 
-              child: const Text("Abbrechen"),
-            ),
+  if (result != null) {
+    setState(() {
+      materials.add(result);
 
-            ElevatedButton(
-              onPressed: () {
-                final value = controller.text.trim();
+      FilamentCatalogService.addCustomMaterial(
+        selectedBrand!,
+        result,
+      );
 
-                if (value.isNotEmpty) {
-                  Navigator.pop(context, value);
-                }
-              },
+      materials = materials.toSet().toList();
+      materials.sort();
 
-              child: const Text("Speichern"),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (result != null) {
-      setState(() {
-        materials.add(result);
-
-        FilamentCatalogService.addCustomMaterial(selectedBrand!, result);
-
-        materials = materials.toSet().toList();
-
-        materials.sort();
-
-        selectedMaterial = result;
-      });
-    }
+      selectedMaterial = result;
+    });
   }
+}
 
   void selectVariant(String variant) {
     selectedVariant = variant;
@@ -337,7 +327,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   }
 
   Widget buildAlignedAddButton({required VoidCallback? onPressed}) {
-    return Container(
+  final l10n = AppLocalizations.of(context)!;
+
+  return Container(
       width: 48,
       height: 56,
       margin: const EdgeInsets.only(left: 8),
@@ -355,7 +347,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       child: IconButton(
         onPressed: onPressed,
         icon: const Icon(Icons.add),
-        tooltip: "Hinzufügen",
+        tooltip: l10n.add,
       ),
     );
   }
@@ -386,7 +378,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   }
 
   void saveFilament() {
-    final totalWeight = double.tryParse(totalWeightController.text);
+  final l10n = AppLocalizations.of(context)!;
+
+  final totalWeight = double.tryParse(totalWeightController.text);
 
     final remainingWeight = double.tryParse(remainingWeightController.text);
 
@@ -407,7 +401,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
     if (hasMissingFields) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bitte alle Pflichtfelder ausfüllen.')),
+        SnackBar(
+  content: Text(l10n.fillAllRequiredFields),
+),
       );
 
       return;
@@ -489,7 +485,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('AddFilamentPage rebuild');
+  final l10n = AppLocalizations.of(context)!;
+
+  debugPrint('AddFilamentPage rebuild');
 
     if (!catalogLoaded) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -503,7 +501,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
           ? Colors.black
           : const Color(0xFFE9EEF5),
 
-      appBar: AppBar(title: const Text("Filament hinzufügen")),
+      appBar: AppBar(title: Text(l10n.addFilament)),
 
       body: Stack(
         children: [
@@ -514,7 +512,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
             ),
 
             children: [
-              const PageHeader(title: "Filament hinzufügen"),
+              PageHeader(title: l10n.addFilament),
 
               const SizedBox(height: 24),
 
@@ -548,9 +546,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Filament",
-                              style: TextStyle(
+                            Text(
+  l10n.filament,
+  style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -569,7 +567,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       searchFieldProps: TextFieldProps(
                                         controller: brandSearchController,
                                         decoration: InputDecoration(
-                                          hintText: "Hersteller suchen...",
+                                          hintText: l10n.searchManufacturer,
                                           suffixIcon: IconButton(
                                             icon: const Icon(Icons.clear),
                                             onPressed: () {
@@ -580,12 +578,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       ),
                                     ),
                                     decoratorProps:
-                                        const DropDownDecoratorProps(
-                                          decoration: InputDecoration(
-                                            hintText: "Hersteller",
-                                            border: OutlineInputBorder(),
-                                          ),
-                                        ),
+    DropDownDecoratorProps(
+      decoration: InputDecoration(
+        hintText: l10n.manufacturer,
+        border: const OutlineInputBorder(),
+      ),
+    ),
                                     onChanged: (value) {
                                       if (value != null) {
                                         selectBrand(value);
@@ -613,7 +611,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       searchFieldProps: TextFieldProps(
                                         controller: materialSearchController,
                                         decoration: InputDecoration(
-                                          hintText: "Material suchen...",
+                                          hintText: l10n.searchMaterial,
                                           suffixIcon: IconButton(
                                             icon: const Icon(Icons.clear),
                                             onPressed: () {
@@ -624,12 +622,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       ),
                                     ),
                                     decoratorProps:
-                                        const DropDownDecoratorProps(
-                                          decoration: InputDecoration(
-                                            hintText: "Material",
-                                            border: OutlineInputBorder(),
-                                          ),
-                                        ),
+    DropDownDecoratorProps(
+      decoration: InputDecoration(
+        hintText: l10n.material,
+        border: const OutlineInputBorder(),
+      ),
+    ),
                                     onChanged: (value) {
                                       if (value != null) {
                                         selectMaterial(value);
@@ -657,7 +655,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       searchFieldProps: TextFieldProps(
                                         controller: variantSearchController,
                                         decoration: InputDecoration(
-                                          hintText: "Variante suchen...",
+                                          hintText: l10n.searchVariant,
                                           suffixIcon: IconButton(
                                             icon: const Icon(Icons.clear),
                                             onPressed: () {
@@ -668,12 +666,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       ),
                                     ),
                                     decoratorProps:
-                                        const DropDownDecoratorProps(
-                                          decoration: InputDecoration(
-                                            hintText: "Variante",
-                                            border: OutlineInputBorder(),
-                                          ),
-                                        ),
+    DropDownDecoratorProps(
+      decoration: InputDecoration(
+        hintText: l10n.variant,
+        border: const OutlineInputBorder(),
+      ),
+    ),
                                     onChanged: (value) {
                                       if (value != null) {
                                         selectVariant(value);
@@ -690,18 +688,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: const Text("Neue Variante"),
+                                          title: Text(l10n.newVariant),
                                           content: TextField(
                                             controller: controller,
-                                            decoration: const InputDecoration(
-                                              hintText: "Variantenname",
-                                            ),
+                                            decoration: InputDecoration(
+  hintText: l10n.variantName,
+),
                                           ),
                                           actions: [
                                             TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context),
-                                              child: const Text("Abbrechen"),
+                                              child: Text(l10n.cancel),
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
@@ -710,7 +708,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                                   controller.text.trim(),
                                                 );
                                               },
-                                              child: const Text("Speichern"),
+                                              child: Text(l10n.save),
                                             ),
                                           ],
                                         );
@@ -780,7 +778,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       searchFieldProps: TextFieldProps(
                                         controller: colorSearchController,
                                         decoration: InputDecoration(
-                                          hintText: "Farbe suchen...",
+                                          hintText: l10n.searchColor,
                                           suffixIcon: IconButton(
                                             icon: const Icon(Icons.clear),
                                             onPressed: () {
@@ -791,12 +789,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       ),
                                     ),
                                     decoratorProps:
-                                        const DropDownDecoratorProps(
-                                          decoration: InputDecoration(
-                                            labelText: "Farbe",
-                                            border: OutlineInputBorder(),
-                                          ),
-                                        ),
+    DropDownDecoratorProps(
+      decoration: InputDecoration(
+        labelText: l10n.color,
+        border: const OutlineInputBorder(),
+      ),
+    ),
                                     onChanged: (val) {
                                       if (val != null) {
                                         setState(() {
@@ -870,16 +868,15 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: const Text("Neue Farbe"),
+                                          title: Text(l10n.newColor),
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               TextField(
                                                 controller: controller,
-                                                decoration:
-                                                    const InputDecoration(
-                                                      hintText: "Farbname",
-                                                    ),
+                                                decoration: InputDecoration(
+  hintText: l10n.colorName,
+),
                                               ),
 
                                               const SizedBox(height: 16),
@@ -1004,7 +1001,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
-                                              child: const Text("Abbrechen"),
+                                              child: Text(l10n.cancel),
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
@@ -1016,7 +1013,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                                   "colors": pickedColors,
                                                 });
                                               },
-                                              child: const Text("Speichern"),
+                                              child: Text(l10n.save),
                                             ),
                                           ],
                                         );
@@ -1190,9 +1187,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Filament",
-                        style: TextStyle(
+                      Text(
+  l10n.filament,
+  style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -1211,7 +1208,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 searchFieldProps: TextFieldProps(
                                   controller: brandSearchController,
                                   decoration: InputDecoration(
-                                    hintText: "Hersteller suchen...",
+                                    hintText: l10n.searchManufacturer,
                                     suffixIcon: IconButton(
                                       icon: const Icon(Icons.clear),
                                       onPressed: () {
@@ -1221,12 +1218,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                   ),
                                 ),
                               ),
-                              decoratorProps: const DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  hintText: "Hersteller",
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
+                              decoratorProps: DropDownDecoratorProps(
+  decoration: InputDecoration(
+    hintText: l10n.manufacturer,
+    border: const OutlineInputBorder(),
+  ),
+),
                               onChanged: (value) {
                                 if (value != null) {
                                   selectBrand(value);
@@ -1251,7 +1248,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 searchFieldProps: TextFieldProps(
                                   controller: materialSearchController,
                                   decoration: InputDecoration(
-                                    hintText: "Material suchen...",
+                                    hintText: l10n.searchMaterial,
                                     suffixIcon: IconButton(
                                       icon: const Icon(Icons.clear),
                                       onPressed: () {
@@ -1261,12 +1258,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                   ),
                                 ),
                               ),
-                              decoratorProps: const DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  hintText: "Material",
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
+                              decoratorProps: DropDownDecoratorProps(
+  decoration: InputDecoration(
+    hintText: l10n.material,
+    border: const OutlineInputBorder(),
+  ),
+),
                               onChanged: (value) {
                                 if (value != null) {
                                   selectMaterial(value);
@@ -1292,7 +1289,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 searchFieldProps: TextFieldProps(
                                   controller: variantSearchController,
                                   decoration: InputDecoration(
-                                    hintText: "Variante suchen...",
+                                    hintText: l10n.searchVariant,
                                     suffixIcon: IconButton(
                                       icon: const Icon(Icons.clear),
                                       onPressed: () {
@@ -1302,12 +1299,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                   ),
                                 ),
                               ),
-                              decoratorProps: const DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  hintText: "Variante",
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
+                              decoratorProps: DropDownDecoratorProps(
+  decoration: InputDecoration(
+    hintText: l10n.variant,
+    border: const OutlineInputBorder(),
+  ),
+),
                               onChanged: (value) {
                                 if (value != null) {
                                   selectVariant(value);
@@ -1324,19 +1321,19 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: const Text("Neue Variante"),
+                                    title: Text(l10n.newVariant),
                                     content: TextField(
                                       controller: controller,
-                                      decoration: const InputDecoration(
-                                        hintText: "Variantenname",
-                                      ),
+                                      decoration: InputDecoration(
+  hintText: l10n.variantName,
+),
                                     ),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text("Abbrechen"),
+                                        child: Text(l10n.cancel),
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
@@ -1345,7 +1342,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                             controller.text.trim(),
                                           );
                                         },
-                                        child: const Text("Speichern"),
+                                        child: Text(l10n.save),
                                       ),
                                     ],
                                   );
@@ -1411,7 +1408,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 searchFieldProps: TextFieldProps(
                                   controller: colorSearchController,
                                   decoration: InputDecoration(
-                                    hintText: "Farbe suchen...",
+                                    hintText: l10n.searchColor,
                                     suffixIcon: IconButton(
                                       icon: const Icon(Icons.clear),
                                       onPressed: () {
@@ -1421,12 +1418,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                   ),
                                 ),
                               ),
-                              decoratorProps: const DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  labelText: "Farbe",
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
+                              decoratorProps: DropDownDecoratorProps(
+  decoration: InputDecoration(
+    labelText: l10n.color,
+    border: const OutlineInputBorder(),
+  ),
+),
                               onChanged: (val) {
                                 if (val != null) {
                                   setState(() {
@@ -1496,15 +1493,15 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: const Text("Neue Farbe"),
+                                    title: Text(l10n.newColor),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         TextField(
                                           controller: controller,
-                                          decoration: const InputDecoration(
-                                            hintText: "Farbname",
-                                          ),
+                                          decoration: InputDecoration(
+  hintText: l10n.colorName,
+),
                                         ),
 
                                         const SizedBox(height: 16),
@@ -1622,7 +1619,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text("Abbrechen"),
+                                        child: Text(l10n.cancel),
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
@@ -1633,7 +1630,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                             "colors": pickedColors,
                                           });
                                         },
-                                        child: const Text("Speichern"),
+                                        child: Text(l10n.save),
                                       ),
                                     ],
                                   );

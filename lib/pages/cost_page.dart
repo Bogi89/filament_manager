@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../l10n/app_localizations.dart';
 import '../models/filament.dart';
 import '../models/print_job.dart';
 import '../models/printer.dart';
@@ -110,6 +112,8 @@ class _CostPageState extends State<CostPage> {
   }
 
   void save() {
+    final l10n = AppLocalizations.of(context)!;
+
     if (selectedFilament == null) return;
 
     final usedWeight =
@@ -163,7 +167,7 @@ class _CostPageState extends State<CostPage> {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text("Druck gespeichert")));
+    ).showSnackBar(SnackBar(content: Text(l10n.printSaved)));
 
     projectController.clear();
 
@@ -171,6 +175,7 @@ class _CostPageState extends State<CostPage> {
   }
 
   Future<void> showAddPrinterDialog([Printer? printer]) async {
+    final l10n = AppLocalizations.of(context)!;
     if (printer == null) {
       newPrinterNameController.clear();
       newPrinterWattController.clear();
@@ -184,7 +189,7 @@ class _CostPageState extends State<CostPage> {
       builder: (context) {
         return AlertDialog(
           title: Text(
-            printer == null ? "Neuen Drucker hinzufügen" : "Drucker bearbeiten",
+            printer == null ? l10n.addPrinter : l10n.editPrinter,
           ),
           content: SizedBox(
             width: 400,
@@ -193,7 +198,7 @@ class _CostPageState extends State<CostPage> {
               children: [
                 TextField(
                   controller: newPrinterNameController,
-                  decoration: const InputDecoration(labelText: "Druckername"),
+                  decoration: InputDecoration(labelText: l10n.printerName),
                 ),
 
                 const SizedBox(height: 16),
@@ -201,8 +206,8 @@ class _CostPageState extends State<CostPage> {
                 TextField(
                   controller: newPrinterWattController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: "Durchschnittliche Watt",
+                  decoration: InputDecoration(
+                    labelText: l10n.averageWatt,
                   ),
                 ),
               ],
@@ -211,7 +216,7 @@ class _CostPageState extends State<CostPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Abbrechen"),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -223,8 +228,8 @@ class _CostPageState extends State<CostPage> {
 
                 if (name.isEmpty || watt == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Bitte Druckername und Watt eingeben."),
+                    SnackBar(
+                      content: Text(l10n.enterPrinterNameAndWatt),
                     ),
                   );
                   return;
@@ -252,7 +257,7 @@ class _CostPageState extends State<CostPage> {
 
                 Navigator.pop(context);
               },
-              child: const Text("Speichern"),
+              child: Text(l10n.save),
             ),
           ],
         );
@@ -274,6 +279,7 @@ class _CostPageState extends State<CostPage> {
   }
 
   Future<void> showPrinterManagerDialog() async {
+    final l10n = AppLocalizations.of(context)!;
     final customPrinters = printers
         .where((printer) => printer.isCustom)
         .toList();
@@ -282,14 +288,14 @@ class _CostPageState extends State<CostPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Drucker verwalten"),
+          title: Text(l10n.managePrinters),
           content: SizedBox(
             width: 500,
             child: customPrinters.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(16),
+                ? Padding(
+                    padding: const EdgeInsets.all(16),
                     child: Text(
-                      "Es wurden noch keine eigenen Drucker angelegt.",
+                      l10n.noCustomPrinters,
                     ),
                   )
                 : ListView.builder(
@@ -316,7 +322,7 @@ class _CostPageState extends State<CostPage> {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.edit_outlined),
-                                tooltip: "Bearbeiten",
+                                tooltip: l10n.edit,
                                 onPressed: () async {
                                   Navigator.pop(context);
 
@@ -337,26 +343,26 @@ class _CostPageState extends State<CostPage> {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete_outline),
-                                tooltip: "Löschen",
+                                tooltip: l10n.delete,
                                 onPressed: () async {
                                   final shouldDelete = await showDialog<bool>(
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: const Text("Drucker löschen"),
+                                        title: Text(l10n.deletePrinter),
                                         content: Text(
-                                          'Soll "${printer.name}" wirklich gelöscht werden?',
+                                          l10n.confirmDeletePrinter(printer.name),
                                         ),
                                         actions: [
                                           TextButton(
                                             onPressed: () =>
                                                 Navigator.pop(context, false),
-                                            child: const Text("Abbrechen"),
+                                            child: Text(l10n.cancel),
                                           ),
                                           ElevatedButton(
                                             onPressed: () =>
                                                 Navigator.pop(context, true),
-                                            child: const Text("Löschen"),
+                                            child: Text(l10n.delete),
                                           ),
                                         ],
                                       );
@@ -395,7 +401,7 @@ class _CostPageState extends State<CostPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Schließen"),
+              child: Text(l10n.close),
             ),
           ],
         );
@@ -460,10 +466,10 @@ class _CostPageState extends State<CostPage> {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate =
-        "${selectedDate.day.toString().padLeft(2, '0')}."
-        "${selectedDate.month.toString().padLeft(2, '0')}."
-        "${selectedDate.year}";
+    final l10n = AppLocalizations.of(context)!;
+    final formattedDate = MaterialLocalizations.of(context).formatMediumDate(
+      selectedDate,
+    );
 
     final isMobile = MediaQuery.of(context).size.width < 1000;
 
@@ -477,7 +483,7 @@ class _CostPageState extends State<CostPage> {
 
           child: ListView(
             children: [
-              PageHeader(title: "Kosten berechnen"),
+              PageHeader(title: l10n.calculateCosts),
 
               Container(
                 padding: const EdgeInsets.all(20),
@@ -502,8 +508,8 @@ class _CostPageState extends State<CostPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Projekt",
+                    Text(
+                      l10n.project,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -512,14 +518,14 @@ class _CostPageState extends State<CostPage> {
 
                     const SizedBox(height: 20),
 
-                    field("Projektname", projectController),
+                    field(l10n.projectName, projectController),
 
                     /// 📅 NEU — Datum Feld
                     TextFormField(
                       readOnly: true,
                       controller: TextEditingController(text: formattedDate),
-                      decoration: const InputDecoration(
-                        labelText: "Datum",
+                      decoration: InputDecoration(
+                        labelText: l10n.date,
                         border: OutlineInputBorder(),
                         suffixIcon: Icon(Icons.calendar_today),
                       ),
@@ -529,8 +535,8 @@ class _CostPageState extends State<CostPage> {
                     const SizedBox(height: 10),
 
                     DropdownButtonFormField<Filament>(
-                      decoration: const InputDecoration(
-                        labelText: "Filament auswählen",
+                      decoration: InputDecoration(
+                        labelText: l10n.selectFilament,
                       ),
 
                       items: widget.filaments.map((f) {
@@ -571,8 +577,8 @@ class _CostPageState extends State<CostPage> {
                     const SizedBox(height: 10),
 
                     DropdownButtonFormField<Printer>(
-                      decoration: const InputDecoration(
-                        labelText: "Drucker auswählen",
+                      decoration: InputDecoration(
+                        labelText: l10n.selectPrinter,
                       ),
                       items: printers
                           .map(
@@ -622,8 +628,8 @@ class _CostPageState extends State<CostPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Berechnung",
+                    Text(
+                      l10n.calculation,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -632,13 +638,13 @@ class _CostPageState extends State<CostPage> {
 
                     const SizedBox(height: 20),
 
-                    numberField("Watt", wattController),
-                    numberField("Objektgewicht (g)", objectWeightController),
-                    numberField("Druckzeit (Minuten)", printTimeController),
-                    numberField("Spulengewicht (g)", spoolWeightController),
-                    numberField("Spulenpreis (€)", spoolPriceController),
+                    numberField(l10n.watt, wattController),
+                    numberField(l10n.objectWeight, objectWeightController),
+                    numberField(l10n.printTimeMinutes, printTimeController),
+                    numberField(l10n.spoolWeight, spoolWeightController),
+                    numberField(l10n.spoolPrice, spoolPriceController),
                     numberField(
-                      "Stromkosten pro kWh",
+                      l10n.electricityCostPerKwh,
                       electricityPriceController,
                     ),
                   ],
@@ -660,8 +666,8 @@ class _CostPageState extends State<CostPage> {
                     horizontal: 20,
                     vertical: 4,
                   ),
-                  title: const Text(
-                    "Vom Lager abziehen",
+                  title: Text(
+                    l10n.subtractFromStock,
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   value: subtractFromStock,
@@ -677,7 +683,7 @@ class _CostPageState extends State<CostPage> {
 
               ElevatedButton(
                 onPressed: calculate,
-                child: const Text("Kosten berechnen"),
+                child: Text(l10n.calculateCosts),
               ),
 
               const SizedBox(height: 20),
@@ -689,7 +695,7 @@ class _CostPageState extends State<CostPage> {
                       Expanded(
                         child: _buildResultCard(
                           context,
-                          title: "Filamentkosten",
+                          title: l10n.filamentCost,
                           value: "${filamentCost.toStringAsFixed(2)} €",
                         ),
                       ),
@@ -699,7 +705,7 @@ class _CostPageState extends State<CostPage> {
                       Expanded(
                         child: _buildResultCard(
                           context,
-                          title: "Stromkosten",
+                          title: l10n.electricityCost,
                           value: "${electricityCost.toStringAsFixed(2)} €",
                         ),
                       ),
@@ -710,7 +716,7 @@ class _CostPageState extends State<CostPage> {
 
                   _buildResultCard(
                     context,
-                    title: "Gesamtkosten",
+                    title: l10n.totalCost,
                     value: "${totalCost.toStringAsFixed(2)} €",
                     isTotal: true,
                   ),
@@ -719,7 +725,7 @@ class _CostPageState extends State<CostPage> {
 
               const SizedBox(height: 20),
 
-              ElevatedButton(onPressed: save, child: const Text("Speichern")),
+              ElevatedButton(onPressed: save, child: Text(l10n.save)),
             ],
           ),
         ), // Padding Mobile
@@ -734,7 +740,7 @@ class _CostPageState extends State<CostPage> {
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: ListView(
           children: [
-            const PageHeader(title: "Kosten berechnen"),
+            PageHeader(title: l10n.calculateCosts),
 
             const SizedBox(height: 24),
 
@@ -757,8 +763,8 @@ class _CostPageState extends State<CostPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Projekt",
+                          Text(
+                            l10n.project,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -767,7 +773,7 @@ class _CostPageState extends State<CostPage> {
 
                           const SizedBox(height: 20),
 
-                          field("Projektname", projectController),
+                          field(l10n.projectName, projectController),
 
                           const SizedBox(height: 10),
 
@@ -776,8 +782,8 @@ class _CostPageState extends State<CostPage> {
                             controller: TextEditingController(
                               text: formattedDate,
                             ),
-                            decoration: const InputDecoration(
-                              labelText: "Datum",
+                            decoration: InputDecoration(
+                              labelText: l10n.date,
                               border: OutlineInputBorder(),
                               suffixIcon: Icon(Icons.calendar_today),
                             ),
@@ -787,8 +793,8 @@ class _CostPageState extends State<CostPage> {
                           const SizedBox(height: 12),
 
                           DropdownButtonFormField<Filament>(
-                            decoration: const InputDecoration(
-                              labelText: "Filament auswählen",
+                            decoration: InputDecoration(
+                              labelText: l10n.selectFilament,
                             ),
                             items: widget.filaments.map((f) {
                               final percent =
@@ -850,11 +856,11 @@ class _CostPageState extends State<CostPage> {
 
                               return "${printer.brand} ${printer.name}";
                             },
-                            decoratorProps: const DropDownDecoratorProps(
-                              decoration: InputDecoration(
-                                labelText: "Drucker auswählen",
-                              ),
-                            ),
+                            decoratorProps: DropDownDecoratorProps(
+  decoration: InputDecoration(
+    labelText: l10n.selectPrinter,
+  ),
+),
                             popupProps: PopupProps.menu(
                               showSearchBox: true,
                               itemBuilder:
@@ -870,7 +876,7 @@ class _CostPageState extends State<CostPage> {
                                               icon: const Icon(
                                                 Icons.edit_outlined,
                                               ),
-                                              tooltip: "Bearbeiten",
+                                              tooltip: l10n.edit,
                                               onPressed: () async {
                                                 Navigator.pop(context);
 
@@ -888,9 +894,9 @@ class _CostPageState extends State<CostPage> {
                                           : null,
                                     );
                                   },
-                              searchFieldProps: const TextFieldProps(
+                              searchFieldProps: TextFieldProps(
                                 decoration: InputDecoration(
-                                  hintText: "Drucker suchen...",
+                                  hintText: l10n.searchPrinter,
                                 ),
                               ),
                               containerBuilder: (context, popupWidget) {
@@ -915,7 +921,7 @@ class _CostPageState extends State<CostPage> {
                                             Navigator.pop(context);
                                             showAddPrinterDialog();
                                           },
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.symmetric(
                                               horizontal: 16,
                                               vertical: 14,
@@ -928,7 +934,7 @@ class _CostPageState extends State<CostPage> {
                                                 ),
                                                 SizedBox(width: 12),
                                                 Text(
-                                                  "Neuen Drucker hinzufügen",
+                                                  l10n.addPrinter,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -964,7 +970,7 @@ class _CostPageState extends State<CostPage> {
                                               showPrinterManagerDialog();
                                             }
                                           },
-                                          child: const Padding(
+                                          child: Padding(
                                             padding: EdgeInsets.symmetric(
                                               horizontal: 16,
                                               vertical: 14,
@@ -977,7 +983,7 @@ class _CostPageState extends State<CostPage> {
                                                 ),
                                                 SizedBox(width: 12),
                                                 Text(
-                                                  "Drucker verwalten",
+                                                  l10n.managePrinters,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -1028,8 +1034,8 @@ class _CostPageState extends State<CostPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Berechnung",
+                          Text(
+                            l10n.calculation,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -1038,35 +1044,35 @@ class _CostPageState extends State<CostPage> {
 
                           const SizedBox(height: 20),
 
-                          numberField("Watt", wattController),
+                          numberField(l10n.watt, wattController),
 
                           const SizedBox(height: 10),
 
                           numberField(
-                            "Objektgewicht (g)",
+                            l10n.objectWeight,
                             objectWeightController,
                           ),
 
                           const SizedBox(height: 10),
 
                           numberField(
-                            "Druckzeit (Minuten)",
+                            l10n.printTimeMinutes,
                             printTimeController,
                           ),
                           const SizedBox(height: 10),
 
                           numberField(
-                            "Spulengewicht (g)",
+                            l10n.spoolWeight,
                             spoolWeightController,
                           ),
                           const SizedBox(height: 10),
 
-                          numberField("Spulenpreis (€)", spoolPriceController),
+                          numberField(l10n.spoolPrice, spoolPriceController),
 
                           const SizedBox(height: 10),
 
                           numberField(
-                            "Stromkosten pro kWh",
+                            l10n.electricityCostPerKwh,
                             electricityPriceController,
                           ),
                         ],
@@ -1093,8 +1099,8 @@ class _CostPageState extends State<CostPage> {
                   horizontal: 20,
                   vertical: 4,
                 ),
-                title: const Text(
-                  "Vom Lager abziehen",
+                title: Text(
+                  l10n.subtractFromStock,
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 value: subtractFromStock,
@@ -1111,7 +1117,7 @@ class _CostPageState extends State<CostPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: calculate,
-                child: const Text("Kosten berechnen"),
+                child: Text(l10n.calculateCosts),
               ),
             ),
             const SizedBox(height: 24),
@@ -1132,8 +1138,8 @@ class _CostPageState extends State<CostPage> {
                     ),
                     child: Column(
                       children: [
-                        const Text(
-                          "Filamentkosten",
+                        Text(
+                          l10n.filamentCost,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -1169,8 +1175,8 @@ class _CostPageState extends State<CostPage> {
                     ),
                     child: Column(
                       children: [
-                        const Text(
-                          "Stromkosten",
+                        Text(
+                          l10n.electricityCost,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -1206,8 +1212,8 @@ class _CostPageState extends State<CostPage> {
                     ),
                     child: Column(
                       children: [
-                        const Text(
-                          "Gesamtkosten",
+                        Text(
+                          l10n.totalCost,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -1234,7 +1240,7 @@ class _CostPageState extends State<CostPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: save,
-                child: const Text("Speichern"),
+                child: Text(l10n.save),
               ),
             ),
           ],

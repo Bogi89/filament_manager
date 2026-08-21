@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../editable_temperature.dart';
 import '../section_card.dart';
 
@@ -30,14 +31,16 @@ class PrintSettingsSection extends StatefulWidget {
 class _PrintSettingsSectionState extends State<PrintSettingsSection> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SectionCard(
-      title: "Druckeinstellungen",
+      title: l10n.printSettings,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DropdownButtonFormField<double>(
             initialValue: widget.selectedDiameter,
-            hint: const Text("Durchmesser"),
+            hint: Text(l10n.diameter),
             items: widget.diameters
                 .map((d) => DropdownMenuItem(value: d, child: Text("$d mm")))
                 .toList(),
@@ -49,7 +52,7 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              "Temperaturen",
+              l10n.temperatures,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -76,7 +79,7 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   EditableTemperature(
-                    title: "Nozzle",
+                    title: l10n.nozzle,
                     value: widget.nozzleTemp,
                     step: 10,
                     onChanged: widget.onNozzleTempChanged,
@@ -85,7 +88,7 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
                   const SizedBox(width: 16),
 
                   EditableTemperature(
-                    title: "Bed",
+                    title: l10n.bed,
                     value: widget.bedTemp,
                     step: 5,
                     onChanged: widget.onBedTempChanged,

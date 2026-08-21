@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../section_card.dart';
 
 class InventoryCostSection extends StatefulWidget {
@@ -35,17 +36,19 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SectionCard(
-      title: "Bestand & Kosten",
+      title: l10n.inventoryAndCost,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DropdownButtonFormField<String>(
             initialValue: selectedSpoolWeight,
-            decoration: const InputDecoration(
-              labelText: "Spulengewicht",
-              suffixText: "g",
-            ),
+            decoration: InputDecoration(
+  labelText: l10n.spoolWeight,
+  suffixText: "g",
+),
             items: [
               DropdownMenuItem(
                 value: "custom",
@@ -53,7 +56,7 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
                   selectedSpoolWeight == "custom" &&
                           widget.totalWeightController.text.isNotEmpty
                       ? widget.totalWeightController.text
-                      : "Benutzerdefiniert...",
+                      : l10n.custom,
                 ),
               ),
               const DropdownMenuItem(value: "250", child: Text("250")),
@@ -72,23 +75,23 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: const Text("Spulengewicht"),
+                      title: Text(l10n.spoolWeight),
                       content: TextField(
                         controller: controller,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          hintText: "Gewicht in g",
-                        ),
+                        decoration: InputDecoration(
+  hintText: l10n.weightInGrams,
+),
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text("Abbrechen"),
+                          child: Text(l10n.cancel),
                         ),
                         ElevatedButton(
                           onPressed: () =>
                               Navigator.pop(context, controller.text.trim()),
-                          child: const Text("Speichern"),
+                          child: Text(l10n.save),
                         ),
                       ],
                     );
@@ -119,10 +122,10 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
           TextField(
             controller: widget.remainingWeightController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: "Restgewicht",
-              suffixText: "g",
-            ),
+            decoration: InputDecoration(
+  labelText: l10n.remainingWeight,
+  suffixText: "g",
+),
           ),
 
           const SizedBox(height: 16),
@@ -130,10 +133,10 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
           TextField(
             controller: widget.priceController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
-              labelText: "Preis",
-              suffixText: "€",
-            ),
+            decoration: InputDecoration(
+  labelText: l10n.price,
+  suffixText: "€",
+),
           ),
 
           const SizedBox(height: 30),
@@ -144,7 +147,7 @@ class _InventoryCostSectionState extends State<InventoryCostSection> {
             child: ElevatedButton.icon(
               onPressed: widget.onSave,
               icon: const Icon(Icons.save_rounded),
-              label: const Text("Speichern"),
+              label: Text(l10n.save),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),

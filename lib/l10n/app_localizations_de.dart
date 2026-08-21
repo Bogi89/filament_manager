@@ -65,6 +65,108 @@ class AppLocalizationsDe extends AppLocalizations {
   String get close => 'Schließen';
 
   @override
+  String get searchFilament => 'Filament suchen...';
+
+  @override
+  String get manufacturer => 'Hersteller';
+
+  @override
+  String get material => 'Material';
+
+  @override
+  String get editFilament => 'Filament bearbeiten';
+
+  @override
+  String get variant => 'Variante';
+
+  @override
+  String get color => 'Farbe';
+
+  @override
+  String get diameter => 'Durchmesser';
+
+  @override
+  String get price => 'Preis';
+
+  @override
+  String get remainingWeight => 'Restgewicht';
+
+  @override
+  String get spools => 'Spulen';
+
+  @override
+  String get editSpool => 'Spule bearbeiten';
+
+  @override
+  String get weight => 'Gewicht';
+
+  @override
+  String get cancel => 'Abbrechen';
+
+  @override
+  String get save => 'Speichern';
+
+  @override
+  String get deleteLastSpool => 'Letzte Spule löschen';
+
+  @override
+  String get deleteSpool => 'Spule löschen';
+
+  @override
+  String get delete => 'Löschen';
+
+  @override
+  String get newSpool => 'Neue Spule';
+
+  @override
+  String get addSpool => 'Spule hinzufügen';
+
+  @override
+  String get selectMaterial => 'Material auswählen';
+
+  @override
+  String get nozzle => 'Düse';
+
+  @override
+  String get bed => 'Bett';
+
+  @override
+  String spoolNumber(int number) {
+    return 'Spule $number';
+  }
+
+  @override
+  String remainingWeightOfTotal(int remainingWeight, int totalWeight) {
+    return '$remainingWeight g von $totalWeight g';
+  }
+
+  @override
+  String get deleteAndRemoveFilament => 'Löschen & Filament entfernen';
+
+  @override
+  String get deleteLastSpoolWarning => 'Dieses Filament enthält danach keine Spulen mehr.\n\nFilament komplett löschen?';
+
+  @override
+  String deleteSpoolConfirmation(int number) {
+    return 'Spule $number wirklich löschen?';
+  }
+
+  @override
+  String get sort => 'Sortieren';
+
+  @override
+  String get sortByMaterial => 'Nach Material';
+
+  @override
+  String get sortByRemainingWeight => 'Nach Restgewicht';
+
+  @override
+  String get sortByName => 'Nach Name';
+
+  @override
+  String get reset => 'Zurücksetzen';
+
+  @override
   String get warningFilament => 'Warnung Filament';
 
   @override
@@ -1008,4 +1110,239 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get calculatePrint => 'Druck berechnen';
+
+  @override
+  String get newManufacturer => 'Neuer Hersteller';
+
+  @override
+  String get manufacturerName => 'Herstellername';
+
+  @override
+  String get newMaterial => 'Neues Material';
+
+  @override
+  String get materialName => 'Materialname';
+
+  @override
+  String get newVariant => 'Neue Variante';
+
+  @override
+  String get variantName => 'Variantenname';
+
+  @override
+  String get newColor => 'Neue Farbe';
+
+  @override
+  String get colorName => 'Farbname';
+
+  @override
+  String get searchManufacturer => 'Hersteller suchen...';
+
+  @override
+  String get searchMaterial => 'Material suchen...';
+
+  @override
+  String get searchVariant => 'Variante suchen...';
+
+  @override
+  String get searchColor => 'Farbe suchen...';
+
+  @override
+  String get add => 'Hinzufügen';
+
+  @override
+  String get fillAllRequiredFields => 'Bitte alle Pflichtfelder ausfüllen.';
+
+  @override
+  String get temperatures => 'Temperaturen';
+
+  @override
+  String get inventoryAndCost => 'Bestand & Kosten';
+
+  @override
+  String get spoolWeight => 'Spulengewicht';
+
+  @override
+  String get custom => 'Benutzerdefiniert...';
+
+  @override
+  String get weightInGrams => 'Gewicht in g';
+
+  @override
+  String get printSettings => 'Druckeinstellungen';
+
+  @override
+  String get printSaved => 'Druck gespeichert';
+
+  @override
+  String get addPrinter => 'Drucker hinzufügen';
+
+  @override
+  String get editPrinter => 'Drucker bearbeiten';
+
+  @override
+  String get printerName => 'Druckername';
+
+  @override
+  String get averageWatt => 'Durchschnittliche Leistung';
+
+  @override
+  String get enterPrinterNameAndWatt => 'Bitte Druckername und Leistung eingeben.';
+
+  @override
+  String get managePrinters => 'Drucker verwalten';
+
+  @override
+  String get noCustomPrinters => 'Keine eigenen Drucker vorhanden.';
+
+  @override
+  String get edit => 'Bearbeiten';
+
+  @override
+  String get deletePrinter => 'Drucker löschen';
+
+  @override
+  String confirmDeletePrinter(String printerName) {
+    return 'Drucker $printerName wirklich löschen?';
+  }
+
+  @override
+  String get searchPrinter => 'Drucker suchen...';
+
+  @override
+  String get calculateCosts => 'Kosten berechnen';
+
+  @override
+  String get project => 'Projekt';
+
+  @override
+  String get projectName => 'Projektname';
+
+  @override
+  String get date => 'Datum';
+
+  @override
+  String get selectFilament => 'Filament auswählen';
+
+  @override
+  String get selectPrinter => 'Drucker auswählen';
+
+  @override
+  String get calculation => 'Berechnung';
+
+  @override
+  String get watt => 'Watt';
+
+  @override
+  String get objectWeight => 'Objektgewicht';
+
+  @override
+  String get printTimeMinutes => 'Druckzeit in Minuten';
+
+  @override
+  String get spoolPrice => 'Spulenpreis';
+
+  @override
+  String get electricityCostPerKwh => 'Stromkosten pro kWh';
+
+  @override
+  String get subtractFromStock => 'Vom Bestand abziehen';
+
+  @override
+  String get filamentCost => 'Filamentkosten';
+
+  @override
+  String get electricityCost => 'Stromkosten';
+
+  @override
+  String get totalCost => 'Gesamtkosten';
+
+  @override
+  String get usageByMaterial => 'Verbrauch nach Material';
+
+  @override
+  String get usageByMonth => 'Verbrauch nach Monat';
+
+  @override
+  String get costsByMaterial => 'Kosten nach Material';
+
+  @override
+  String get costsByMonth => 'Kosten nach Monat';
+
+  @override
+  String get overallOverview => 'Gesamtübersicht';
+
+  @override
+  String get printTime => 'Druckzeit';
+
+  @override
+  String get costs => 'Kosten';
+
+  @override
+  String get averagePerPrint => 'Durchschnitt pro Druck';
+
+  @override
+  String get topMaterial => 'Top-Material';
+
+  @override
+  String get usageByMaterialWithUnit => 'Verbrauch nach Material (g)';
+
+  @override
+  String get usageByMonthWithUnit => 'Verbrauch nach Monat (g)';
+
+  @override
+  String get costsByMaterialWithUnit => 'Kosten nach Material (€)';
+
+  @override
+  String get costsByMonthWithUnit => 'Kosten nach Monat (€)';
+
+  @override
+  String get noPrintData => 'Keine Druckdaten vorhanden.';
+
+  @override
+  String get sortByDateNewest => 'Datum (neu → alt)';
+
+  @override
+  String get sortByDateOldest => 'Datum (alt → neu)';
+
+  @override
+  String get sortByCost => 'Kosten';
+
+  @override
+  String get sortByWeight => 'Gewicht';
+
+  @override
+  String get sortByProjectName => 'Projektname';
+
+  @override
+  String get all => 'Alle';
+
+  @override
+  String get today => 'Heute';
+
+  @override
+  String get thisWeek => 'Diese Woche';
+
+  @override
+  String get thisMonth => 'Dieser Monat';
+
+  @override
+  String get thisYear => 'Dieses Jahr';
+
+  @override
+  String get printHistory => 'Druckhistorie';
+
+  @override
+  String get searchProject => 'Projekt suchen...';
+
+  @override
+  String get resetFilters => 'Filter zurücksetzen';
+
+  @override
+  String get noPrintsAvailable => 'Keine Druckaufträge vorhanden.';
+
+  @override
+  String historyJobs(int count) {
+    return '$count Auftrag(e)';
+  }
 }

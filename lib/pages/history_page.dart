@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../l10n/app_localizations.dart';
 import '../models/print_job.dart';
-import 'print_job_detail_page.dart';
-import '../widgets/common/page_header.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/common/app_hover_card.dart';
+import '../widgets/common/page_header.dart';
+import 'print_job_detail_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum SortOption { dateDesc, dateAsc, cost, weight, name }
 
@@ -12,7 +15,10 @@ enum DateFilterOption { all, today, week, month, year }
 class HistoryPage extends StatefulWidget {
   final List<PrintJob> jobs;
 
-  const HistoryPage({super.key, required this.jobs});
+  const HistoryPage({
+    super.key,
+    required this.jobs,
+  });
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
@@ -23,11 +29,11 @@ class _HistoryPageState extends State<HistoryPage> {
 
   DateFilterOption selectedDateFilter = DateFilterOption.all;
 
-  String selectedMaterial = "Alle";
+  String? selectedMaterial;
 
   final TextEditingController searchController = TextEditingController();
 
-  String searchText = "";
+  String searchText = '';
 
   final Set<String> expandedMonths = {};
 
@@ -38,7 +44,9 @@ class _HistoryPageState extends State<HistoryPage> {
 
     final savedMonths = prefs.getStringList(expandedMonthsKey) ?? [];
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       expandedMonths
@@ -50,7 +58,10 @@ class _HistoryPageState extends State<HistoryPage> {
   Future<void> _saveExpandedMonths() async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setStringList(expandedMonthsKey, expandedMonths.toList());
+    await prefs.setStringList(
+      expandedMonthsKey,
+      expandedMonths.toList(),
+    );
   }
 
   @override
@@ -59,12 +70,21 @@ class _HistoryPageState extends State<HistoryPage> {
     _loadExpandedMonths();
   }
 
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   List<String> getMaterials() {
-    final materials = widget.jobs.map((j) => j.material).toSet().toList();
+    final materials = widget.jobs
+        .map((job) => job.material)
+        .toSet()
+        .toList();
 
     materials.sort();
 
-    return ["Alle", ...materials];
+    return materials;
   }
 
   void resetFilters() {
@@ -73,18 +93,16 @@ class _HistoryPageState extends State<HistoryPage> {
 
       selectedDateFilter = DateFilterOption.all;
 
-      selectedMaterial = "Alle";
+      selectedMaterial = null;
 
       searchController.clear();
 
-      searchText = "";
+      searchText = '';
     });
   }
 
   List<PrintJob> getProcessedJobs() {
     List<PrintJob> list = List.from(widget.jobs);
-
-    /// 🔍 SUCHE
 
     if (searchText.isNotEmpty) {
       final query = searchText.toLowerCase();
@@ -94,15 +112,11 @@ class _HistoryPageState extends State<HistoryPage> {
       }).toList();
     }
 
-    /// 🧪 MATERIAL
-
-    if (selectedMaterial != "Alle") {
+    if (selectedMaterial != null) {
       list = list.where((job) {
         return job.material == selectedMaterial;
       }).toList();
     }
-
-    /// 📅 DATUM FILTER
 
     final now = DateTime.now();
 
@@ -117,44 +131,55 @@ class _HistoryPageState extends State<HistoryPage> {
               job.date.day == now.day;
 
         case DateFilterOption.week:
-          final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+          final startOfWeek = now.subtract(
+            Duration(days: now.weekday - 1),
+          );
 
           return job.date.isAfter(
-            startOfWeek.subtract(const Duration(days: 1)),
+            startOfWeek.subtract(
+              const Duration(days: 1),
+            ),
           );
 
         case DateFilterOption.month:
-          return job.date.year == now.year && job.date.month == now.month;
+          return job.date.year == now.year &&
+              job.date.month == now.month;
 
         case DateFilterOption.year:
           return job.date.year == now.year;
       }
     }).toList();
 
-    /// 📊 SORTIERUNG
-
     switch (selectedSort) {
       case SortOption.dateDesc:
-        list.sort((a, b) => b.date.compareTo(a.date));
+        list.sort(
+          (a, b) => b.date.compareTo(a.date),
+        );
         break;
 
       case SortOption.dateAsc:
-        list.sort((a, b) => a.date.compareTo(b.date));
+        list.sort(
+          (a, b) => a.date.compareTo(b.date),
+        );
         break;
 
       case SortOption.cost:
-        list.sort((a, b) => b.totalCost.compareTo(a.totalCost));
+        list.sort(
+          (a, b) => b.totalCost.compareTo(a.totalCost),
+        );
         break;
 
       case SortOption.weight:
-        list.sort((a, b) => b.weightUsed.compareTo(a.weightUsed));
+        list.sort(
+          (a, b) => b.weightUsed.compareTo(a.weightUsed),
+        );
         break;
 
       case SortOption.name:
         list.sort(
           (a, b) => a.projectName.toLowerCase().compareTo(
-            b.projectName.toLowerCase(),
-          ),
+                b.projectName.toLowerCase(),
+              ),
         );
         break;
     }
@@ -162,13 +187,20 @@ class _HistoryPageState extends State<HistoryPage> {
     return list;
   }
 
-  Map<String, List<PrintJob>> groupByMonth(List<PrintJob> jobs) {
+  Map<String, List<PrintJob>> groupByMonth(
+    List<PrintJob> jobs,
+    String localeName,
+  ) {
     final Map<String, List<PrintJob>> grouped = {};
 
-    for (var job in jobs) {
-      final key = "${_getMonthName(job.date.month)} ${job.date.year}";
+    for (final job in jobs) {
+      final key =
+          '${_getMonthName(job.date.month, localeName)} ${job.date.year}';
 
-      grouped.putIfAbsent(key, () => []);
+      grouped.putIfAbsent(
+        key,
+        () => [],
+      );
 
       grouped[key]!.add(job);
     }
@@ -176,68 +208,69 @@ class _HistoryPageState extends State<HistoryPage> {
     return grouped;
   }
 
-  String _getMonthName(int month) {
-    const months = [
-      "Januar",
-      "Februar",
-      "März",
-      "April",
-      "Mai",
-      "Juni",
-      "Juli",
-      "August",
-      "September",
-      "Oktober",
-      "November",
-      "Dezember",
-    ];
-
-    return months[month - 1];
+  String _getMonthName(
+    int month,
+    String localeName,
+  ) {
+    return DateFormat.MMMM(localeName).format(
+      DateTime(2000, month),
+    );
   }
 
-  String getSortLabel(SortOption option) {
+  String getSortLabel(
+    AppLocalizations l10n,
+    SortOption option,
+  ) {
     switch (option) {
       case SortOption.dateDesc:
-        return "Datum (neu → alt)";
+        return l10n.sortByDateNewest;
 
       case SortOption.dateAsc:
-        return "Datum (alt → neu)";
+        return l10n.sortByDateOldest;
 
       case SortOption.cost:
-        return "Kosten";
+        return l10n.sortByCost;
 
       case SortOption.weight:
-        return "Gewicht";
+        return l10n.sortByWeight;
 
       case SortOption.name:
-        return "Projektname";
+        return l10n.sortByProjectName;
     }
   }
 
-  String getDateFilterLabel(DateFilterOption option) {
+  String getDateFilterLabel(
+    AppLocalizations l10n,
+    DateFilterOption option,
+  ) {
     switch (option) {
       case DateFilterOption.all:
-        return "Alle";
+        return l10n.all;
 
       case DateFilterOption.today:
-        return "Heute";
+        return l10n.today;
 
       case DateFilterOption.week:
-        return "Diese Woche";
+        return l10n.thisWeek;
 
       case DateFilterOption.month:
-        return "Dieser Monat";
+        return l10n.thisMonth;
 
       case DateFilterOption.year:
-        return "Dieses Jahr";
+        return l10n.thisYear;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final processed = getProcessedJobs();
 
-    final grouped = groupByMonth(processed);
+    final grouped = groupByMonth(
+      processed,
+      l10n.localeName,
+    );
 
     final materials = getMaterials();
 
@@ -247,11 +280,11 @@ class _HistoryPageState extends State<HistoryPage> {
           : const Color(0xFFE9EEF5),
       body: Column(
         children: [
-          const PageHeader(title: "Druck Historie"),
-
+          PageHeader(
+            title: l10n.printHistory,
+          ),
           Padding(
             padding: const EdgeInsets.all(12),
-
             child: Column(
               children: [
                 Row(
@@ -266,8 +299,8 @@ class _HistoryPageState extends State<HistoryPage> {
                           color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
+                            color: Theme.of(context).brightness ==
+                                    Brightness.dark
                                 ? Colors.white.withValues(alpha: 0.08)
                                 : Colors.black.withValues(alpha: 0.08),
                           ),
@@ -279,7 +312,12 @@ class _HistoryPageState extends State<HistoryPage> {
                             items: SortOption.values.map((option) {
                               return DropdownMenuItem(
                                 value: option,
-                                child: Text(getSortLabel(option)),
+                                child: Text(
+                                  getSortLabel(
+                                    l10n,
+                                    option,
+                                  ),
+                                ),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -295,9 +333,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 12),
-
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -308,8 +344,8 @@ class _HistoryPageState extends State<HistoryPage> {
                           color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
+                            color: Theme.of(context).brightness ==
+                                    Brightness.dark
                                 ? Colors.white.withValues(alpha: 0.08)
                                 : Colors.black.withValues(alpha: 0.08),
                           ),
@@ -318,10 +354,16 @@ class _HistoryPageState extends State<HistoryPage> {
                           child: DropdownButton<DateFilterOption>(
                             value: selectedDateFilter,
                             isExpanded: true,
-                            items: DateFilterOption.values.map((option) {
+                            items:
+                                DateFilterOption.values.map((option) {
                               return DropdownMenuItem(
                                 value: option,
-                                child: Text(getDateFilterLabel(option)),
+                                child: Text(
+                                  getDateFilterLabel(
+                                    l10n,
+                                    option,
+                                  ),
+                                ),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -337,9 +379,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 8),
-
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -350,24 +390,29 @@ class _HistoryPageState extends State<HistoryPage> {
                           color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
+                            color: Theme.of(context).brightness ==
+                                    Brightness.dark
                                 ? Colors.white.withValues(alpha: 0.08)
                                 : Colors.black.withValues(alpha: 0.08),
                           ),
                         ),
                         child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
+                          child: DropdownButton<String?>(
                             value: selectedMaterial,
                             isExpanded: true,
-                            items: materials.map((m) {
-                              return DropdownMenuItem(value: m, child: Text(m));
-                            }).toList(),
+                            items: [
+                              DropdownMenuItem<String?>(
+                                value: null,
+                                child: Text(l10n.all),
+                              ),
+                              ...materials.map((material) {
+                                return DropdownMenuItem<String?>(
+                                  value: material,
+                                  child: Text(material),
+                                );
+                              }),
+                            ],
                             onChanged: (value) {
-                              if (value == null) {
-                                return;
-                              }
-
                               setState(() {
                                 selectedMaterial = value;
                               });
@@ -378,47 +423,39 @@ class _HistoryPageState extends State<HistoryPage> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 12),
-
                 TextField(
                   controller: searchController,
-
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-
-                    hintText: "Projekt suchen...",
-
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    hintText: l10n.searchProject,
+                    border: const OutlineInputBorder(),
                   ),
-
                   onChanged: (value) {
                     setState(() {
                       searchText = value;
                     });
                   },
                 ),
-
                 const SizedBox(height: 12),
-
                 Align(
                   alignment: Alignment.centerRight,
-
                   child: TextButton.icon(
                     onPressed: resetFilters,
-
                     icon: const Icon(Icons.refresh),
-
-                    label: const Text("Filter zurücksetzen"),
+                    label: Text(l10n.resetFilters),
                   ),
                 ),
               ],
             ),
           ),
-
           Expanded(
             child: processed.isEmpty
-                ? const Center(child: Text("Keine Drucke vorhanden"))
+                ? Center(
+                    child: Text(
+                      l10n.noPrintsAvailable,
+                    ),
+                  )
                 : ListView(
                     children: grouped.entries.map((entry) {
                       final month = entry.key;
@@ -427,18 +464,21 @@ class _HistoryPageState extends State<HistoryPage> {
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
                           AppHoverCard(
                             child: Card(
                               elevation: 0,
                               color: Theme.of(context).cardColor,
-                              margin: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+                              margin: const EdgeInsets.fromLTRB(
+                                12,
+                                8,
+                                12,
+                                4,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 side: BorderSide(
-                                  color:
-                                      Theme.of(context).brightness ==
+                                  color: Theme.of(context).brightness ==
                                           Brightness.dark
                                       ? Colors.white.withValues(alpha: 0.10)
                                       : Colors.black.withValues(alpha: 0.08),
@@ -471,7 +511,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                         duration: const Duration(
                                           milliseconds: 180,
                                         ),
-                                        child: const Icon(Icons.chevron_right),
+                                        child: const Icon(
+                                          Icons.chevron_right,
+                                        ),
                                       ),
                                       const SizedBox(width: 12),
                                       Expanded(
@@ -484,17 +526,17 @@ class _HistoryPageState extends State<HistoryPage> {
                                         ),
                                       ),
                                       Text(
-                                        jobs.length == 1
-                                            ? "1 Auftrag"
-                                            : "${jobs.length} Aufträge",
+                                        l10n.historyJobs(
+                                          jobs.length,
+                                        ),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
                                           color:
                                               Theme.of(context).brightness ==
-                                                  Brightness.dark
-                                              ? Colors.grey.shade300
-                                              : Colors.grey.shade700,
+                                                      Brightness.dark
+                                                  ? Colors.grey.shade300
+                                                  : Colors.grey.shade700,
                                         ),
                                       ),
                                     ],
@@ -503,12 +545,14 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             ),
                           ),
-
                           if (expandedMonths.contains(month))
                             ...jobs.asMap().entries.map((entry) {
                               final index = entry.key;
+
                               final job = entry.value;
+
                               final isLast = index == jobs.length - 1;
+
                               return AppHoverCard(
                                 child: Card(
                                   elevation: 0,
@@ -524,60 +568,62 @@ class _HistoryPageState extends State<HistoryPage> {
                                     side: BorderSide(
                                       color:
                                           Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? Colors.white.withValues(alpha: 0.06)
-                                          : Colors.black.withValues(
-                                              alpha: 0.05,
-                                            ),
+                                                  Brightness.dark
+                                              ? Colors.white.withValues(
+                                                  alpha: 0.06,
+                                                )
+                                              : Colors.black.withValues(
+                                                  alpha: 0.05,
+                                                ),
                                     ),
                                   ),
                                   child: InkWell(
                                     onTap: () {
                                       Navigator.push(
                                         context,
-
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              PrintJobDetailPage(job: job),
+                                              PrintJobDetailPage(
+                                            job: job,
+                                          ),
                                         ),
                                       );
                                     },
-
                                     child: Padding(
                                       padding: const EdgeInsets.all(12),
-
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-
                                         children: [
                                           if (job.projectName.isNotEmpty)
                                             Padding(
-                                              padding: const EdgeInsets.only(
+                                              padding:
+                                                  const EdgeInsets.only(
                                                 bottom: 6,
                                               ),
-
                                               child: Text(
                                                 job.projectName,
-
                                                 style: const TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight:
+                                                      FontWeight.bold,
                                                 ),
                                               ),
                                             ),
-
                                           ListTile(
-                                            contentPadding: EdgeInsets.zero,
-
+                                            contentPadding:
+                                                EdgeInsets.zero,
                                             leading: CircleAvatar(
                                               backgroundColor: job.color,
-                                              child: job.color == Colors.white
+                                              child: job.color ==
+                                                      Colors.white
                                                   ? Container(
                                                       width: 36,
                                                       height: 36,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
+                                                      decoration:
+                                                          BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
                                                         border: Border.all(
                                                           color: Colors
                                                               .grey
@@ -588,11 +634,10 @@ class _HistoryPageState extends State<HistoryPage> {
                                                     )
                                                   : null,
                                             ),
-
                                             title: Text(
-                                              "${job.filamentBrand} "
-                                              "${job.material} "
-                                              "${job.variant}",
+                                              '${job.filamentBrand} '
+                                              '${job.material} '
+                                              '${job.variant}',
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 color:
@@ -604,21 +649,19 @@ class _HistoryPageState extends State<HistoryPage> {
                                                     : Colors.grey.shade700,
                                               ),
                                             ),
-
                                             subtitle: Text(
-                                              "${job.weightUsed.toStringAsFixed(0)} g • "
-                                              "${job.printHours.toStringAsFixed(1)} h\n"
-                                              "${job.date.day}."
-                                              "${job.date.month}."
-                                              "${job.date.year}",
+                                              '${job.weightUsed.toStringAsFixed(0)} g • '
+                                              '${job.printHours.toStringAsFixed(1)} h\n'
+                                              '${job.date.day}.'
+                                              '${job.date.month}.'
+                                              '${job.date.year}',
                                             ),
-
                                             trailing: Text(
-                                              "${job.totalCost.toStringAsFixed(2)} €",
-
+                                              '${job.totalCost.toStringAsFixed(2)} €',
                                               style: const TextStyle(
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight:
+                                                    FontWeight.w600,
                                               ),
                                             ),
                                           ),

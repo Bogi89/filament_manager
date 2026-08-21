@@ -65,6 +65,108 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
+  String get searchFilament => 'Search filament...';
+
+  @override
+  String get manufacturer => 'Manufacturer';
+
+  @override
+  String get material => 'Material';
+
+  @override
+  String get editFilament => 'Edit filament';
+
+  @override
+  String get variant => 'Variant';
+
+  @override
+  String get color => 'Color';
+
+  @override
+  String get diameter => 'Diameter';
+
+  @override
+  String get price => 'Price';
+
+  @override
+  String get remainingWeight => 'Remaining weight';
+
+  @override
+  String get spools => 'Spools';
+
+  @override
+  String get editSpool => 'Edit spool';
+
+  @override
+  String get weight => 'Weight';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get deleteLastSpool => 'Delete last spool';
+
+  @override
+  String get deleteSpool => 'Delete spool';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get newSpool => 'New spool';
+
+  @override
+  String get addSpool => 'Add spool';
+
+  @override
+  String get selectMaterial => 'Select material';
+
+  @override
+  String get nozzle => 'Nozzle';
+
+  @override
+  String get bed => 'Bed';
+
+  @override
+  String spoolNumber(int number) {
+    return 'Spool $number';
+  }
+
+  @override
+  String remainingWeightOfTotal(int remainingWeight, int totalWeight) {
+    return '$remainingWeight g of $totalWeight g';
+  }
+
+  @override
+  String get deleteAndRemoveFilament => 'Delete & remove filament';
+
+  @override
+  String get deleteLastSpoolWarning => 'This filament will no longer contain any spools.\n\nDelete filament completely?';
+
+  @override
+  String deleteSpoolConfirmation(int number) {
+    return 'Really delete spool $number?';
+  }
+
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get sortByMaterial => 'By material';
+
+  @override
+  String get sortByRemainingWeight => 'By remaining weight';
+
+  @override
+  String get sortByName => 'By name';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
   String get warningFilament => 'Filament Warning';
 
   @override
@@ -1004,8 +1106,243 @@ class AppLocalizationsEn extends AppLocalizations {
   String get averageCostPerPrint => 'Avg. Cost per Print';
 
   @override
-  String get quickActions => 'Quick Actions';
+  String get quickActions => 'Quick actions';
 
   @override
-  String get calculatePrint => 'Calculate Print';
+  String get calculatePrint => 'Calculate print';
+
+  @override
+  String get newManufacturer => 'New manufacturer';
+
+  @override
+  String get manufacturerName => 'Manufacturer name';
+
+  @override
+  String get newMaterial => 'New material';
+
+  @override
+  String get materialName => 'Material name';
+
+  @override
+  String get newVariant => 'New variant';
+
+  @override
+  String get variantName => 'Variant name';
+
+  @override
+  String get newColor => 'New color';
+
+  @override
+  String get colorName => 'Color name';
+
+  @override
+  String get searchManufacturer => 'Search manufacturer...';
+
+  @override
+  String get searchMaterial => 'Search material...';
+
+  @override
+  String get searchVariant => 'Search variant...';
+
+  @override
+  String get searchColor => 'Search color...';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get fillAllRequiredFields => 'Please fill in all required fields.';
+
+  @override
+  String get temperatures => 'Temperatures';
+
+  @override
+  String get inventoryAndCost => 'Inventory & Cost';
+
+  @override
+  String get spoolWeight => 'Spool weight';
+
+  @override
+  String get custom => 'Custom...';
+
+  @override
+  String get weightInGrams => 'Weight in g';
+
+  @override
+  String get printSettings => 'Print Settings';
+
+  @override
+  String get printSaved => 'Print saved';
+
+  @override
+  String get addPrinter => 'Add printer';
+
+  @override
+  String get editPrinter => 'Edit printer';
+
+  @override
+  String get printerName => 'Printer name';
+
+  @override
+  String get averageWatt => 'Average power';
+
+  @override
+  String get enterPrinterNameAndWatt => 'Please enter a printer name and power.';
+
+  @override
+  String get managePrinters => 'Manage printers';
+
+  @override
+  String get noCustomPrinters => 'No custom printers available.';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get deletePrinter => 'Delete printer';
+
+  @override
+  String confirmDeletePrinter(String printerName) {
+    return 'Really delete printer $printerName?';
+  }
+
+  @override
+  String get searchPrinter => 'Search printer...';
+
+  @override
+  String get calculateCosts => 'Calculate costs';
+
+  @override
+  String get project => 'Project';
+
+  @override
+  String get projectName => 'Project name';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get selectFilament => 'Select filament';
+
+  @override
+  String get selectPrinter => 'Select printer';
+
+  @override
+  String get calculation => 'Calculation';
+
+  @override
+  String get watt => 'Watts';
+
+  @override
+  String get objectWeight => 'Object weight';
+
+  @override
+  String get printTimeMinutes => 'Print time in minutes';
+
+  @override
+  String get spoolPrice => 'Spool price';
+
+  @override
+  String get electricityCostPerKwh => 'Electricity cost per kWh';
+
+  @override
+  String get subtractFromStock => 'Deduct from inventory';
+
+  @override
+  String get filamentCost => 'Filament cost';
+
+  @override
+  String get electricityCost => 'Electricity cost';
+
+  @override
+  String get totalCost => 'Total cost';
+
+  @override
+  String get usageByMaterial => 'Usage by material';
+
+  @override
+  String get usageByMonth => 'Usage by month';
+
+  @override
+  String get costsByMaterial => 'Costs by material';
+
+  @override
+  String get costsByMonth => 'Costs by month';
+
+  @override
+  String get overallOverview => 'Overall overview';
+
+  @override
+  String get printTime => 'Print time';
+
+  @override
+  String get costs => 'Costs';
+
+  @override
+  String get averagePerPrint => 'Average per print';
+
+  @override
+  String get topMaterial => 'Top material';
+
+  @override
+  String get usageByMaterialWithUnit => 'Usage by material (g)';
+
+  @override
+  String get usageByMonthWithUnit => 'Usage by month (g)';
+
+  @override
+  String get costsByMaterialWithUnit => 'Costs by material (€)';
+
+  @override
+  String get costsByMonthWithUnit => 'Costs by month (€)';
+
+  @override
+  String get noPrintData => 'No print data available.';
+
+  @override
+  String get sortByDateNewest => 'Date (newest → oldest)';
+
+  @override
+  String get sortByDateOldest => 'Date (oldest → newest)';
+
+  @override
+  String get sortByCost => 'Cost';
+
+  @override
+  String get sortByWeight => 'Weight';
+
+  @override
+  String get sortByProjectName => 'Project name';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get thisWeek => 'This week';
+
+  @override
+  String get thisMonth => 'This month';
+
+  @override
+  String get thisYear => 'This year';
+
+  @override
+  String get printHistory => 'Print History';
+
+  @override
+  String get searchProject => 'Search project...';
+
+  @override
+  String get resetFilters => 'Reset filters';
+
+  @override
+  String get noPrintsAvailable => 'No print jobs available.';
+
+  @override
+  String historyJobs(int count) {
+    return '$count job(s)';
+  }
 }
