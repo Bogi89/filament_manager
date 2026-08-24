@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 
 class GuestCard extends StatelessWidget {
   final VoidCallback onPressed;
@@ -8,6 +9,7 @@ class GuestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       child: Padding(
@@ -23,7 +25,7 @@ class GuestCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  'Gastmodus',
+                  l10n.guestMode,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -34,14 +36,14 @@ class GuestCard extends StatelessWidget {
             const SizedBox(height: 18),
 
             Text(
-              'Testen Sie FilaLog 7 Tage kostenlos und ohne Registrierung.',
+              l10n.guestModeDescription,
               style: theme.textTheme.bodyLarge,
             ),
 
             const SizedBox(height: 12),
 
             Text(
-              'Alle während dieser Zeit erstellten Daten bleiben erhalten und können später in ein Benutzerkonto übernommen werden.',
+              l10n.guestModeDataInfo,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
               ),
@@ -54,7 +56,7 @@ class GuestCard extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: onPressed,
                 icon: const Icon(Icons.play_arrow_rounded),
-                label: const Text('Als Gast starten'),
+                label: Text(l10n.startAsGuest),
               ),
             ),
           ],

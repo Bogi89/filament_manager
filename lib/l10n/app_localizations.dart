@@ -1991,6 +1991,24 @@ abstract class AppLocalizations {
   /// **'Send Link'**
   String get sendResetLink;
 
+  /// No description provided for @resetLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Link sent'**
+  String get resetLinkSent;
+
+  /// No description provided for @resetPasswordSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We have sent you an email to reset your password.'**
+  String get resetPasswordSent;
+
+  /// No description provided for @resetPasswordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset failed.'**
+  String get resetPasswordFailed;
+
   /// No description provided for @signingIn.
   ///
   /// In en, this message translates to:
@@ -2734,6 +2752,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} job(s)'**
   String historyJobs(int count);
+
+  /// No description provided for @guestMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest Mode'**
+  String get guestMode;
+
+  /// No description provided for @guestModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Try FilaLog free for 7 days without registration.'**
+  String get guestModeDescription;
+
+  /// No description provided for @guestModeDataInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'All data created during this period will be retained and can later be transferred to a user account.'**
+  String get guestModeDataInfo;
+
+  /// No description provided for @startAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Start as Guest'**
+  String get startAsGuest;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get login;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your existing user account.'**
+  String get loginDescription;
+
+  /// No description provided for @loginDataInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is automatically synchronized and available on Android and in the web version.'**
+  String get loginDataInfo;
+
+  /// No description provided for @registerAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get registerAccount;
+
+  /// No description provided for @registerAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new user account and keep your data permanently secure.'**
+  String get registerAccountDescription;
+
+  /// No description provided for @registerAccountDataInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your existing data from Guest Mode will be automatically transferred and will then be available on all supported devices.'**
+  String get registerAccountDataInfo;
+
+  /// No description provided for @accountCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Created'**
+  String get accountCreated;
+
+  /// No description provided for @accountSuccessfullyCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Successfully Created'**
+  String get accountSuccessfullyCreated;
+
+  /// No description provided for @accountCreatedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your user account has been successfully created.'**
+  String get accountCreatedDescription;
+
+  /// No description provided for @accountCreatedEmailVerificationInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your email address now. You can then sign in and start using FilaLog.'**
+  String get accountCreatedEmailVerificationInfo;
+
+  /// No description provided for @emailConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Confirmed'**
+  String get emailConfirmed;
+
+  /// No description provided for @emailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email address.'**
+  String get emailRequired;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password.'**
+  String get passwordRequired;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'The password must be at least 8 characters long.'**
+  String get passwordTooShort;
+
+  /// No description provided for @confirmPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please repeat your password.'**
+  String get confirmPasswordRequired;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The passwords do not match.'**
+  String get passwordsDoNotMatch;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

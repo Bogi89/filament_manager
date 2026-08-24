@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 
-import '../l10n/app_localizations.dart';
 import '../models/filament.dart';
 import '../models/filament_sort_mode.dart';
 import '../state/app_state.dart';

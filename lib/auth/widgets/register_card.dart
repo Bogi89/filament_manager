@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 
 class RegisterCard extends StatelessWidget {
   final VoidCallback onPressed;
@@ -8,6 +9,7 @@ class RegisterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       child: Padding(
@@ -23,7 +25,7 @@ class RegisterCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  'Konto erstellen',
+                  l10n.registerAccount,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -34,14 +36,14 @@ class RegisterCard extends StatelessWidget {
             const SizedBox(height: 18),
 
             Text(
-              'Erstellen Sie ein neues Benutzerkonto und sichern Sie Ihre Daten dauerhaft.',
+              l10n.registerAccountDescription,
               style: theme.textTheme.bodyLarge,
             ),
 
             const SizedBox(height: 12),
 
             Text(
-              'Ihre vorhandenen Daten aus dem Gastmodus werden automatisch übernommen und stehen Ihnen anschließend auf allen unterstützten Geräten zur Verfügung.',
+              l10n.registerAccountDataInfo,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
               ),
@@ -54,7 +56,7 @@ class RegisterCard extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: onPressed,
                 icon: const Icon(Icons.person_add_alt_1),
-                label: const Text('Konto erstellen'),
+                label: Text(l10n.createAccount),
               ),
             ),
           ],

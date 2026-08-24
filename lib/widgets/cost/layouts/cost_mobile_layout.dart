@@ -140,7 +140,7 @@ class CostMobileLayout extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   DropdownButtonFormField<Filament>(
-                    value: selectedFilament,
+                    initialValue: selectedFilament,
                     decoration: const InputDecoration(
                       labelText: "Filament auswählen",
                     ),
@@ -166,7 +166,7 @@ class CostMobileLayout extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   DropdownButtonFormField<Printer>(
-                    value: selectedPrinter,
+  initialValue: selectedPrinter,
                     decoration: const InputDecoration(
                       labelText: "Drucker auswählen",
                     ),

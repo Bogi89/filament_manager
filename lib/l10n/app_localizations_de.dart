@@ -967,6 +967,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sendResetLink => 'Link senden';
 
   @override
+  String get resetLinkSent => 'Link gesendet';
+
+  @override
+  String get resetPasswordSent => 'Wir haben dir eine E-Mail zum Zurücksetzen deines Passworts gesendet.';
+
+  @override
+  String get resetPasswordFailed => 'Das Zurücksetzen des Passworts ist fehlgeschlagen.';
+
+  @override
   String get signingIn => 'Anmeldung...';
 
   @override
@@ -1345,4 +1354,67 @@ class AppLocalizationsDe extends AppLocalizations {
   String historyJobs(int count) {
     return '$count Auftrag(e)';
   }
+
+  @override
+  String get guestMode => 'Gastmodus';
+
+  @override
+  String get guestModeDescription => 'Testen Sie FilaLog 7 Tage kostenlos und ohne Registrierung.';
+
+  @override
+  String get guestModeDataInfo => 'Alle während dieser Zeit erstellten Daten bleiben erhalten und können später in ein Benutzerkonto übernommen werden.';
+
+  @override
+  String get startAsGuest => 'Als Gast starten';
+
+  @override
+  String get login => 'Anmelden';
+
+  @override
+  String get loginDescription => 'Melden Sie sich mit Ihrem bestehenden Benutzerkonto an.';
+
+  @override
+  String get loginDataInfo => 'Ihre Daten werden automatisch synchronisiert und stehen Ihnen auf Android und in der Web-Version zur Verfügung.';
+
+  @override
+  String get registerAccount => 'Konto erstellen';
+
+  @override
+  String get registerAccountDescription => 'Erstellen Sie ein neues Benutzerkonto und sichern Sie Ihre Daten dauerhaft.';
+
+  @override
+  String get registerAccountDataInfo => 'Ihre vorhandenen Daten aus dem Gastmodus werden automatisch übernommen und stehen Ihnen anschließend auf allen unterstützten Geräten zur Verfügung.';
+
+  @override
+  String get accountCreated => 'Konto erstellt';
+
+  @override
+  String get accountSuccessfullyCreated => 'Konto erfolgreich erstellt';
+
+  @override
+  String get accountCreatedDescription => 'Dein Benutzerkonto wurde erfolgreich erstellt.';
+
+  @override
+  String get accountCreatedEmailVerificationInfo => 'Bitte bestätige jetzt deine E-Mail-Adresse. Anschließend kannst du dich anmelden und FilaLog nutzen.';
+
+  @override
+  String get emailConfirmed => 'E-Mail bestätigt';
+
+  @override
+  String get emailRequired => 'Bitte gib deine E-Mail-Adresse ein.';
+
+  @override
+  String get emailInvalid => 'Bitte gib eine gültige E-Mail-Adresse ein.';
+
+  @override
+  String get passwordRequired => 'Bitte gib dein Passwort ein.';
+
+  @override
+  String get passwordTooShort => 'Das Passwort muss mindestens 8 Zeichen lang sein.';
+
+  @override
+  String get confirmPasswordRequired => 'Bitte wiederhole dein Passwort.';
+
+  @override
+  String get passwordsDoNotMatch => 'Die Passwörter stimmen nicht überein.';
 }

@@ -11,7 +11,6 @@ import 'auth/pages/auth_gate.dart';
 
 // 🔥 Neues Theme importieren
 import 'theme/app_theme.dart';
-import 'auth/services/guest_service.dart';
 import 'auth/services/auth_loading_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

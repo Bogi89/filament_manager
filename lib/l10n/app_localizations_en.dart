@@ -967,6 +967,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendResetLink => 'Send Link';
 
   @override
+  String get resetLinkSent => 'Link sent';
+
+  @override
+  String get resetPasswordSent => 'We have sent you an email to reset your password.';
+
+  @override
+  String get resetPasswordFailed => 'Password reset failed.';
+
+  @override
   String get signingIn => 'Signing in...';
 
   @override
@@ -1345,4 +1354,67 @@ class AppLocalizationsEn extends AppLocalizations {
   String historyJobs(int count) {
     return '$count job(s)';
   }
+
+  @override
+  String get guestMode => 'Guest Mode';
+
+  @override
+  String get guestModeDescription => 'Try FilaLog free for 7 days without registration.';
+
+  @override
+  String get guestModeDataInfo => 'All data created during this period will be retained and can later be transferred to a user account.';
+
+  @override
+  String get startAsGuest => 'Start as Guest';
+
+  @override
+  String get login => 'Sign In';
+
+  @override
+  String get loginDescription => 'Sign in with your existing user account.';
+
+  @override
+  String get loginDataInfo => 'Your data is automatically synchronized and available on Android and in the web version.';
+
+  @override
+  String get registerAccount => 'Create Account';
+
+  @override
+  String get registerAccountDescription => 'Create a new user account and keep your data permanently secure.';
+
+  @override
+  String get registerAccountDataInfo => 'Your existing data from Guest Mode will be automatically transferred and will then be available on all supported devices.';
+
+  @override
+  String get accountCreated => 'Account Created';
+
+  @override
+  String get accountSuccessfullyCreated => 'Account Successfully Created';
+
+  @override
+  String get accountCreatedDescription => 'Your user account has been successfully created.';
+
+  @override
+  String get accountCreatedEmailVerificationInfo => 'Please confirm your email address now. You can then sign in and start using FilaLog.';
+
+  @override
+  String get emailConfirmed => 'Email Confirmed';
+
+  @override
+  String get emailRequired => 'Please enter your email address.';
+
+  @override
+  String get emailInvalid => 'Please enter a valid email address.';
+
+  @override
+  String get passwordRequired => 'Please enter your password.';
+
+  @override
+  String get passwordTooShort => 'The password must be at least 8 characters long.';
+
+  @override
+  String get confirmPasswordRequired => 'Please repeat your password.';
+
+  @override
+  String get passwordsDoNotMatch => 'The passwords do not match.';
 }

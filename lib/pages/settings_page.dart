@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import '../widgets/common/page_header.dart';
 import '../widgets/common/app_hover_card.dart';
@@ -149,18 +148,18 @@ Future<void> _importBackup(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
 
         children: [
-          const PageHeader(title: "Einstellungen"),
+          PageHeader(title: l10n.settings),
 
           const SizedBox(height: 24),
 
           AppHoverCard(
             child: ExpandableSettingsCard(
-              title: "Design",
+              title: l10n.design,
               icon: Icons.palette_outlined,
               child: Column(
                 children: [
                   RadioListTile<ThemeMode>.adaptive(
-                    title: const Text("Hell"),
+                    title: Text(l10n.light),
                     value: ThemeMode.light,
                     groupValue: appState.themeMode,
                     onChanged: (value) {
@@ -171,7 +170,7 @@ Future<void> _importBackup(
                   ),
 
                   RadioListTile<ThemeMode>.adaptive(
-                    title: const Text("Dunkel"),
+                    title: Text(l10n.dark),
                     value: ThemeMode.dark,
                     groupValue: appState.themeMode,
                     onChanged: (value) {
@@ -182,7 +181,7 @@ Future<void> _importBackup(
                   ),
 
                   RadioListTile<ThemeMode>(
-                    title: const Text("System"),
+                    title: Text(l10n.system),
                     value: ThemeMode.system,
                     groupValue: appState.themeMode,
                     onChanged: (value) {

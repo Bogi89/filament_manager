@@ -255,7 +255,7 @@ class _CostPageState extends State<CostPage> {
                   wattController.text = watt.toStringAsFixed(0);
                 });
 
-                Navigator.pop(context);
+Navigator.pop(context);
               },
               child: Text(l10n.save),
             ),

@@ -347,6 +347,9 @@
   "resetPasswordSubtitle": "Enter your email address. We will send you a link to reset your password.",
   "sendingResetLink": "Sending link...",
   "sendResetLink": "Send Link",
+    "resetLinkSent": "Link sent",
+  "resetPasswordSent": "We have sent you an email to reset your password.",
+  "resetPasswordFailed": "Password reset failed.",
   "signingIn": "Signing in...",
   "createAccount": "Create Account",
   "createAccountSubtitle": "Create a new user account.",
@@ -505,5 +508,29 @@
         "type": "int"
       }
     }
-  }
+  },
+    "guestMode": "Guest Mode",
+  "guestModeDescription": "Try FilaLog free for 7 days without registration.",
+  "guestModeDataInfo": "All data created during this period will be retained and can later be transferred to a user account.",
+    "startAsGuest": "Start as Guest",
+
+  "login": "Sign In",
+  "loginDescription": "Sign in with your existing user account.",
+  "loginDataInfo": "Your data is automatically synchronized and available on Android and in the web version.",
+  "signIn": "Sign In",
+  "registerAccount": "Create Account",
+  "registerAccountDescription": "Create a new user account and keep your data permanently secure.",
+  "registerAccountDataInfo": "Your existing data from Guest Mode will be automatically transferred and will then be available on all supported devices.",
+  "createAccount": "Create Account",
+    "accountCreated": "Account Created",
+  "accountSuccessfullyCreated": "Account Successfully Created",
+  "accountCreatedDescription": "Your user account has been successfully created.",
+  "accountCreatedEmailVerificationInfo": "Please confirm your email address now. You can then sign in and start using FilaLog.",
+  "emailConfirmed": "Email Confirmed",
+    "emailRequired": "Please enter your email address.",
+  "emailInvalid": "Please enter a valid email address.",
+  "passwordRequired": "Please enter your password.",
+  "passwordTooShort": "The password must be at least 8 characters long.",
+  "confirmPasswordRequired": "Please repeat your password.",
+  "passwordsDoNotMatch": "The passwords do not match."
 }

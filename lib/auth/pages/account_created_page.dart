@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class AccountCreatedPage extends StatelessWidget {
   const AccountCreatedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Konto erstellt')),
+      appBar: AppBar(
+        title: Text(l10n.accountCreated),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -27,7 +32,7 @@ class AccountCreatedPage extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   Text(
-                    'Konto erfolgreich erstellt',
+                    l10n.accountSuccessfullyCreated,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -37,7 +42,7 @@ class AccountCreatedPage extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   Text(
-                    'Dein Benutzerkonto wurde erfolgreich erstellt.',
+                    l10n.accountCreatedDescription,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyLarge,
                   ),
@@ -45,7 +50,7 @@ class AccountCreatedPage extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   Text(
-                    'Bitte bestätige jetzt deine E-Mail-Adresse. Anschließend kannst du dich anmelden und FilaLog nutzen.',
+                    l10n.accountCreatedEmailVerificationInfo,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium,
                   ),
@@ -55,7 +60,7 @@ class AccountCreatedPage extends StatelessWidget {
                   FilledButton.icon(
                     onPressed: () {},
                     icon: const Icon(Icons.mark_email_read_outlined),
-                    label: const Text('E-Mail bestätigt'),
+                    label: Text(l10n.emailConfirmed),
                   ),
                 ],
               ),

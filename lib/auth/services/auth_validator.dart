@@ -1,42 +1,59 @@
+import 'package:flutter/material.dart';
+
+import '../../l10n/app_localizations.dart';
+
 class AuthValidator {
   const AuthValidator._();
 
-  static String? validateEmail(String? value) {
+  static String? validateEmail(
+    BuildContext context,
+    String? value,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (value == null || value.trim().isEmpty) {
-      return 'Bitte gib deine E-Mail-Adresse ein.';
+      return l10n.emailRequired;
     }
 
     final emailRegExp = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
 
     if (!emailRegExp.hasMatch(value.trim())) {
-      return 'Bitte gib eine gültige E-Mail-Adresse ein.';
+      return l10n.emailInvalid;
     }
 
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? validatePassword(
+    BuildContext context,
+    String? value,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (value == null || value.isEmpty) {
-      return 'Bitte gib dein Passwort ein.';
+      return l10n.passwordRequired;
     }
 
     if (value.length < 8) {
-      return 'Das Passwort muss mindestens 8 Zeichen lang sein.';
+      return l10n.passwordTooShort;
     }
 
     return null;
   }
 
   static String? validateConfirmPassword(
+    BuildContext context,
     String? password,
     String? confirmPassword,
   ) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (confirmPassword == null || confirmPassword.isEmpty) {
-      return 'Bitte wiederhole dein Passwort.';
+      return l10n.confirmPasswordRequired;
     }
 
     if (password != confirmPassword) {
-      return 'Die Passwörter stimmen nicht überein.';
+      return l10n.passwordsDoNotMatch;
     }
 
     return null;

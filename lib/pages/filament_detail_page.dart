@@ -718,15 +718,15 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                           final appState = context.read<AppState>();
 
-                          if (confirm != true) return;
+if (confirm != true) return;
 
-                          if (!mounted) return;
+if (!mounted) return;
 
-                          appState.removeFilament(widget.filament);
+appState.removeFilament(widget.filament);
 
-                          if (!mounted) return;
+if (!mounted) return;
 
-                          Navigator.of(context).pop();
+Navigator.of(context).pop();
                         }
                         /// 🧵 Normales Löschen
                         else {
