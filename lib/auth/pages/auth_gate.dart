@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/main_navigation.dart';
-import '../services/guest_service.dart';
+import '../../services/access_service.dart';
 import 'splash_page.dart';
+import 'trial_expired_page.dart';
 import 'verify_email_page.dart';
 import 'welcome_page.dart';
 
@@ -21,9 +22,9 @@ class _AuthGateState extends State<AuthGate> {
       Duration(milliseconds: 1200);
 
   bool _loading = true;
-  bool _guestMode = false;
-  bool _trialExpired = false;
   User? _firebaseUser;
+  AccessStatus _accessStatus =
+      AccessStatus.noAccess;
 
   StreamSubscription<User?>? _authSubscription;
 
@@ -40,21 +41,28 @@ class _AuthGateState extends State<AuthGate> {
     await _loadState();
 
     final remaining =
-        _minimumSplashDuration - stopwatch.elapsed;
+        _minimumSplashDuration -
+            stopwatch.elapsed;
 
     if (remaining > Duration.zero) {
-      await Future<void>.delayed(remaining);
+      await Future<void>.delayed(
+        remaining,
+      );
     }
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _loading = false;
     });
 
     _authSubscription =
-        FirebaseAuth.instance.authStateChanges().listen(
-      (user) async {
+        FirebaseAuth.instance
+            .authStateChanges()
+            .listen(
+      (_) async {
         await _loadState();
       },
     );
@@ -64,31 +72,23 @@ class _AuthGateState extends State<AuthGate> {
     final firebaseUser =
         FirebaseAuth.instance.currentUser;
 
-    final guestEnabled =
-        await GuestService.isGuestModeEnabled();
+    final accessStatus =
+        await AccessService.getAccessStatus();
 
-    final guestStartDate =
-        await GuestService.getGuestStartDate();
-
-    final trialExpired =
-        guestStartDate != null &&
-        DateTime.now()
-                .difference(guestStartDate)
-                .inDays >=
-            7;
-
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _firebaseUser = firebaseUser;
-      _guestMode = guestEnabled;
-      _trialExpired = trialExpired;
+      _accessStatus = accessStatus;
     });
   }
 
   @override
   void dispose() {
     _authSubscription?.cancel();
+
     super.dispose();
   }
 
@@ -100,18 +100,33 @@ class _AuthGateState extends State<AuthGate> {
 
     final firebaseUser = _firebaseUser;
 
-    if (firebaseUser != null) {
-      if (firebaseUser.emailVerified) {
-        return const MainNavigation();
-      }
-
+    /// Ein angemeldeter Benutzer muss zuerst
+    /// seine E-Mail-Adresse bestätigen.
+    if (firebaseUser != null &&
+        !firebaseUser.emailVerified) {
       return const VerifyEmailPage();
     }
 
-    if (_guestMode && !_trialExpired) {
+    /// Voller Zugriff während der Testphase
+    /// oder bei aktivem Premium.
+    if (_accessStatus ==
+            AccessStatus.guestTrialActive ||
+        _accessStatus ==
+            AccessStatus.accountTrialActive ||
+        _accessStatus ==
+            AccessStatus.premiumActive) {
       return const MainNavigation();
     }
 
+    /// Testphase ist abgelaufen.
+    if (_accessStatus ==
+            AccessStatus.guestTrialExpired ||
+        _accessStatus ==
+            AccessStatus.accountTrialExpired) {
+      return const TrialExpiredPage();
+    }
+
+    /// Kein aktiver Zugriff.
     return const WelcomePage();
   }
 }

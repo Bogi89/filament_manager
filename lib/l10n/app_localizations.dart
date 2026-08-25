@@ -2878,6 +2878,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The passwords do not match.'**
   String get passwordsDoNotMatch;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

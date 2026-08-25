@@ -47,6 +47,98 @@ class FirestoreService {
     return _auth.currentUser != null;
   }
 
+  /// ================= TEST / PREMIUM STATUS =================
+
+/// Lädt den gespeicherten Test-/Premium-Status
+/// des aktuell angemeldeten Benutzers.
+///
+/// Gibt null zurück, wenn noch kein Status vorhanden ist.
+static Future<UserAccessStatus?> loadUserAccessStatus() async {
+  final reference = _dataReference;
+
+  if (reference == null) {
+    return null;
+  }
+
+  final snapshot = await reference.get();
+
+  if (!snapshot.exists) {
+    return null;
+  }
+
+  final data = snapshot.data();
+
+  if (data == null) {
+    return null;
+  }
+
+  final trialStartValue = data['trialStart'];
+
+  DateTime? trialStart;
+
+  if (trialStartValue is String) {
+    trialStart = DateTime.tryParse(trialStartValue);
+  }
+
+  return UserAccessStatus(
+    trialStart: trialStart,
+    trialUsed: data['trialUsed'] == true,
+    premiumActive: data['premiumActive'] == true,
+  );
+}
+
+/// Speichert den Start der kostenlosen Testphase.
+///
+/// Der vorhandene Teststart wird nicht überschrieben.
+static Future<void> saveTrialStart(
+  DateTime trialStart,
+) async {
+  final reference = _dataReference;
+
+  if (reference == null) {
+    return;
+  }
+
+  final snapshot = await reference.get();
+
+  if (snapshot.exists) {
+    final data = snapshot.data();
+
+    if (data != null && data['trialStart'] != null) {
+      return;
+    }
+  }
+
+  await reference.set(
+    {
+      'trialStart': trialStart.toIso8601String(),
+      'trialUsed': true,
+      'premiumActive': false,
+    },
+    SetOptions(merge: true),
+  );
+}
+
+/// Aktiviert Premium für den aktuell angemeldeten Benutzer.
+///
+/// Die eigentliche Zahlungslogik wird später angebunden.
+static Future<void> setPremiumActive(
+  bool active,
+) async {
+  final reference = _dataReference;
+
+  if (reference == null) {
+    return;
+  }
+
+  await reference.set(
+    {
+      'premiumActive': active,
+    },
+    SetOptions(merge: true),
+  );
+}
+
   /// Lädt die gespeicherten Filamente des angemeldeten Benutzers.
   ///
   /// Gibt null zurück, wenn:
@@ -283,5 +375,18 @@ class FirestoreData {
   const FirestoreData({
     required this.filaments,
     required this.jobs,
+  });
+}
+
+/// Enthält den Zugriffsstatus eines Benutzerkontos.
+class UserAccessStatus {
+  final DateTime? trialStart;
+  final bool trialUsed;
+  final bool premiumActive;
+
+  const UserAccessStatus({
+    required this.trialStart,
+    required this.trialUsed,
+    required this.premiumActive,
   });
 }

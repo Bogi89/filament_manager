@@ -1417,4 +1417,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'The passwords do not match.';
+
+  @override
+  String get back => 'Back';
 }

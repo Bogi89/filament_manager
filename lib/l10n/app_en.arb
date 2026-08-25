@@ -532,5 +532,6 @@
   "passwordRequired": "Please enter your password.",
   "passwordTooShort": "The password must be at least 8 characters long.",
   "confirmPasswordRequired": "Please repeat your password.",
-  "passwordsDoNotMatch": "The passwords do not match."
+  "passwordsDoNotMatch": "The passwords do not match.",
+  "back": "Back"
 }

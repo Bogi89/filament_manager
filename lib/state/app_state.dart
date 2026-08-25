@@ -21,8 +21,7 @@ class AppState extends ChangeNotifier {
 
   double warningPercent = 20;
 
-  FilamentSortMode sortMode =
-      FilamentSortMode.material;
+  FilamentSortMode sortMode = FilamentSortMode.material;
 
   bool isInitialized = false;
 
@@ -86,8 +85,7 @@ class AppState extends ChangeNotifier {
     _isSyncing = true;
 
     try {
-      final user =
-          FirebaseAuth.instance.currentUser;
+      final user = FirebaseAuth.instance.currentUser;
 
       /// ======================
       /// GASTMODUS
@@ -102,6 +100,41 @@ class AppState extends ChangeNotifier {
       /// ANGEMELDETER BENUTZER
       /// ======================
 
+      /// Zuerst werden eventuell vorhandene lokale Gastdaten geladen.
+      final localFilaments =
+          await StorageService.loadFilaments();
+
+      final localJobs =
+          await StorageService.loadJobs();
+
+      final hasLocalData =
+          localFilaments.isNotEmpty ||
+          localJobs.isNotEmpty;
+
+      /// Wenn noch lokale Gastdaten vorhanden sind,
+      /// werden diese zuerst zuverlässig in die Cloud übernommen.
+      ///
+      /// Das ist wichtig, weil durch Test-/Premium-Status
+      /// bereits ein Firestore-Dokument existieren kann,
+      /// obwohl noch keine App-Daten gespeichert wurden.
+      if (hasLocalData) {
+        filaments = localFilaments;
+        jobs = localJobs;
+
+        await FirestoreService.saveData(
+          filaments: filaments,
+          jobs: jobs,
+        );
+
+        /// Lokale Daten erst nach erfolgreichem
+        /// Cloud-Speichern entfernen.
+        await StorageService.clearLocalData();
+
+        return;
+      }
+
+      /// Keine lokalen Gastdaten vorhanden.
+      /// Deshalb werden die bestehenden Cloud-Daten geladen.
       final cloudData =
           await FirestoreService.loadData();
 
@@ -109,35 +142,15 @@ class AppState extends ChangeNotifier {
         filaments = cloudData.filaments;
         jobs = cloudData.jobs;
 
-        await StorageService.clearLocalData();
-
         return;
       }
 
-      final localFilaments =
-          await StorageService.loadFilaments();
-
-      final localJobs =
-          await StorageService.loadJobs();
-
-      filaments = localFilaments;
-      jobs = localJobs;
-
-      final hasLocalData =
-          localFilaments.isNotEmpty ||
-          localJobs.isNotEmpty;
-
-      if (!hasLocalData) {
-        return;
-      }
-
-      await FirestoreService.saveData(
-        filaments: filaments,
-        jobs: jobs,
-      );
-
-      await StorageService.clearLocalData();
+      /// Neuer Benutzer ohne lokale oder Cloud-Daten.
+      filaments = [];
+      jobs = [];
     } catch (_) {
+      /// Falls keine Anmeldung mehr vorhanden ist,
+      /// werden weiterhin die lokalen Daten geladen.
       if (FirebaseAuth.instance.currentUser == null) {
         await _loadLocalData();
       }

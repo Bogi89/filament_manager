@@ -1417,4 +1417,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'Die Passwörter stimmen nicht überein.';
+
+  @override
+  String get back => 'Zurück';
 }

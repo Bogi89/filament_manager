@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../services/firestore_service.dart';
 import '../services/auth_validator.dart';
+import '../services/guest_service.dart';
 import 'verify_email_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -38,14 +40,42 @@ class _RegisterPageState extends State<RegisterPage> {
     final l10n = AppLocalizations.of(context)!;
 
     try {
+      /// Vor der Registrierung prüfen wir, ob bereits
+      /// ein Gasttest gestartet wurde und speichern
+      /// gegebenenfalls dessen ursprünglichen Startzeitpunkt.
+      final hasUsedGuestTrial =
+          await GuestService.hasUsedTrial();
+
+      final guestTrialStart =
+          await GuestService.getGuestStartDate();
+
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      /// ================= TESTSTATUS =================
+      ///
+      /// Ehemaliger Gastnutzer:
+      /// Der ursprüngliche Teststart wird übernommen.
+      ///
+      /// Neuer Nutzer:
+      /// Die 7-Tage-Testphase startet jetzt.
+      final trialStart =
+          hasUsedGuestTrial && guestTrialStart != null
+              ? guestTrialStart
+              : DateTime.now();
 
-      if (!mounted) return;
+      await FirestoreService.saveTrialStart(
+        trialStart,
+      );
+
+      await FirebaseAuth.instance.currentUser
+          ?.sendEmailVerification();
+
+      if (!mounted) {
+        return;
+      }
 
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -127,13 +157,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) =>
                           FocusScope.of(context).nextFocus(),
-                      autofillHints: const [AutofillHints.email],
+                      autofillHints: const [
+                        AutofillHints.email,
+                      ],
                       decoration: InputDecoration(
                         labelText: l10n.email,
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        prefixIcon: const Icon(
+                          Icons.email_outlined,
+                        ),
                       ),
                       validator: (value) =>
-                          AuthValidator.validateEmail(context, value),
+                          AuthValidator.validateEmail(
+                        context,
+                        value,
+                      ),
                     ),
 
                     const SizedBox(height: 20),
@@ -144,10 +181,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) =>
                           FocusScope.of(context).nextFocus(),
-                      autofillHints: const [AutofillHints.newPassword],
+                      autofillHints: const [
+                        AutofillHints.newPassword,
+                      ],
                       decoration: InputDecoration(
                         labelText: l10n.password,
-                        prefixIcon: const Icon(Icons.lock_outline),
+                        prefixIcon: const Icon(
+                          Icons.lock_outline,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -156,13 +197,17 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword;
+                              _obscurePassword =
+                                  !_obscurePassword;
                             });
                           },
                         ),
                       ),
                       validator: (value) =>
-                          AuthValidator.validatePassword(context, value),
+                          AuthValidator.validatePassword(
+                        context,
+                        value,
+                      ),
                     ),
 
                     const SizedBox(height: 20),
@@ -174,7 +219,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       onFieldSubmitted: (_) => _register(),
                       decoration: InputDecoration(
                         labelText: l10n.repeatPassword,
-                        prefixIcon: const Icon(Icons.lock_reset),
+                        prefixIcon: const Icon(
+                          Icons.lock_reset,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureRepeatPassword
@@ -200,25 +247,38 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 28),
 
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.stretch,
                       children: [
                         FilledButton.icon(
                           onPressed: _register,
-                          icon: const Icon(Icons.person_add_alt_1),
-                          label: Text(l10n.registerButton),
+                          icon: const Icon(
+                            Icons.person_add_alt_1,
+                          ),
+                          label: Text(
+                            l10n.registerButton,
+                          ),
                         ),
 
                         const SizedBox(height: 24),
 
                         Row(
                           children: [
-                            const Expanded(child: Divider()),
+                            const Expanded(
+                              child: Divider(),
+                            ),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Text(l10n.or),
+                                  const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              child: Text(
+                                l10n.or,
+                              ),
                             ),
-                            const Expanded(child: Divider()),
+                            const Expanded(
+                              child: Divider(),
+                            ),
                           ],
                         ),
 
@@ -230,7 +290,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             Icons.g_mobiledata,
                             size: 28,
                           ),
-                          label: Text(l10n.continueWithGoogle),
+                          label: Text(
+                            l10n.continueWithGoogle,
+                          ),
                         ),
                       ],
                     ),
