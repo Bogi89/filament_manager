@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
@@ -760,7 +760,7 @@ subtitle: Text(l10n.signOutSubtitle),
         ListTile(
           leading: const Icon(Icons.language),
           title: Text(l10n.website),
-          subtitle: const Text("filament-manager.web.app"),
+          subtitle: const Text("filalog.de"),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             _openUrl(AppLinks.website);
@@ -796,3 +796,4 @@ subtitle: Text(l10n.signOutSubtitle),
     );
   }
 }
+

@@ -962,7 +962,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyResponsibleName.
   ///
   /// In en, this message translates to:
-  /// **'Robin'**
+  /// **'Robin Pniok'**
   String get privacyPolicyResponsibleName;
 
   /// No description provided for @privacyPolicyContact.
@@ -974,7 +974,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyContactMissing.
   ///
   /// In en, this message translates to:
-  /// **'Will be added before release'**
+  /// **'Diebesweg 8b\n58507 Lüdenscheid\nGermany\nEmail: support@filalog.de'**
   String get privacyPolicyContactMissing;
 
   /// No description provided for @privacyPolicyStoredDataTitle.
@@ -1232,13 +1232,13 @@ abstract class AppLocalizations {
   /// No description provided for @imprintDeveloperLabel.
   ///
   /// In en, this message translates to:
-  /// **'Developer'**
+  /// **'Owner'**
   String get imprintDeveloperLabel;
 
   /// No description provided for @imprintDeveloperValue.
   ///
   /// In en, this message translates to:
-  /// **'Robin'**
+  /// **'Robin Pniok'**
   String get imprintDeveloperValue;
 
   /// No description provided for @imprintAddressLabel.
@@ -1250,7 +1250,7 @@ abstract class AppLocalizations {
   /// No description provided for @imprintAddressValue.
   ///
   /// In en, this message translates to:
-  /// **'Will be added before release'**
+  /// **'Diebesweg 8b\n58507 Lüdenscheid\nGermany'**
   String get imprintAddressValue;
 
   /// No description provided for @imprintContactTitle.
@@ -1268,7 +1268,7 @@ abstract class AppLocalizations {
   /// No description provided for @imprintEmailValue.
   ///
   /// In en, this message translates to:
-  /// **'support@deine-domain.de'**
+  /// **'support@filalog.de'**
   String get imprintEmailValue;
 
   /// No description provided for @imprintWebsiteLabel.
@@ -1280,7 +1280,7 @@ abstract class AppLocalizations {
   /// No description provided for @imprintWebsiteValue.
   ///
   /// In en, this message translates to:
-  /// **'https://deine-domain.de'**
+  /// **'https://filalog.de'**
   String get imprintWebsiteValue;
 
   /// No description provided for @imprintCompanyInformationTitle.
@@ -1298,7 +1298,7 @@ abstract class AppLocalizations {
   /// No description provided for @imprintCompanyFormValue.
   ///
   /// In en, this message translates to:
-  /// **'Will be added before release'**
+  /// **'Sole proprietorship'**
   String get imprintCompanyFormValue;
 
   /// No description provided for @imprintBusinessPurposeLabel.
@@ -1310,7 +1310,7 @@ abstract class AppLocalizations {
   /// No description provided for @imprintBusinessPurposeValue.
   ///
   /// In en, this message translates to:
-  /// **'Provision of an application for managing 3D printing filament.'**
+  /// **'Development and provision of the FilaLog software application for managing 3D printing filament and related functions.'**
   String get imprintBusinessPurposeValue;
 
   /// No description provided for @imprintLegalNotesTitle.
@@ -2884,6 +2884,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
+
+  /// No description provided for @trialExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trial has ended'**
+  String get trialExpiredTitle;
+
+  /// No description provided for @trialExpiredSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have tested FilaLog free of charge for 7 days.'**
+  String get trialExpiredSubtitle;
+
+  /// No description provided for @trialExpiredLoginHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your FilaLog account to activate Premium.'**
+  String get trialExpiredLoginHint;
+
+  /// No description provided for @trialExpiredPremiumHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your Premium subscription now and continue using all features without restrictions.'**
+  String get trialExpiredPremiumHint;
+
+  /// No description provided for @trialExpiredLoginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get trialExpiredLoginButton;
+
+  /// No description provided for @trialExpiredRegisterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get trialExpiredRegisterButton;
+
+  /// No description provided for @trialExpiredLoginRequiredInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'A PayPal subscription can only be clearly assigned to your FilaLog account after you sign in.'**
+  String get trialExpiredLoginRequiredInfo;
+
+  /// No description provided for @trialExpiredMonthlyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get trialExpiredMonthlyTitle;
+
+  /// No description provided for @trialExpiredMonthlyPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'€2.49'**
+  String get trialExpiredMonthlyPrice;
+
+  /// No description provided for @trialExpiredMonthlyPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'per month'**
+  String get trialExpiredMonthlyPeriod;
+
+  /// No description provided for @trialExpiredYearlyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get trialExpiredYearlyTitle;
+
+  /// No description provided for @trialExpiredYearlyPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'€19.99'**
+  String get trialExpiredYearlyPrice;
+
+  /// No description provided for @trialExpiredYearlyPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'per year'**
+  String get trialExpiredYearlyPeriod;
+
+  /// No description provided for @trialExpiredYearlyBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Best value'**
+  String get trialExpiredYearlyBadge;
+
+  /// No description provided for @trialExpiredPaypalOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'PayPal has been opened. Complete the subscription there.'**
+  String get trialExpiredPaypalOpened;
+
+  /// No description provided for @trialExpiredPaypalOpenedInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'PayPal has been opened. Complete the subscription there. Premium access will then be activated automatically.'**
+  String get trialExpiredPaypalOpenedInfo;
+
+  /// No description provided for @trialExpiredPaypalStartError.
+  ///
+  /// In en, this message translates to:
+  /// **'The PayPal subscription could not be started.'**
+  String get trialExpiredPaypalStartError;
+
+  /// No description provided for @trialExpiredPaypalManagementInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment and subscription management are handled through PayPal.'**
+  String get trialExpiredPaypalManagementInfo;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

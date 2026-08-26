@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/paypal_subscription_service.dart';
 import 'login_page.dart';
 import 'register_page.dart';
@@ -21,6 +22,8 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
       return;
     }
 
+    final localizations = AppLocalizations.of(context)!;
+
     setState(() {
       _loadingPlan = plan;
       _paypalOpened = false;
@@ -38,11 +41,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'PayPal wurde geöffnet. Schließe dort das Abonnement ab.',
-          ),
-        ),
+        SnackBar(content: Text(localizations.trialExpiredPaypalOpened)),
       );
     } on PayPalSubscriptionException catch (error) {
       if (!mounted) {
@@ -58,9 +57,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Das PayPal-Abonnement konnte nicht gestartet werden.'),
-        ),
+        SnackBar(content: Text(localizations.trialExpiredPaypalStartError)),
       );
     } finally {
       if (mounted) {
@@ -87,6 +84,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final localizations = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
 
     final monthlyLoading = _loadingPlan == PayPalSubscriptionPlan.monthly;
@@ -113,7 +111,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'Deine Testphase ist beendet',
+                    localizations.trialExpiredTitle,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -121,38 +119,34 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Du hast FilaLog 7 Tage lang kostenlos getestet.',
+                    localizations.trialExpiredSubtitle,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     user == null
-                        ? 'Melde dich mit deinem FilaLog-Konto an, '
-                              'um Premium freizuschalten.'
-                        : 'Wähle jetzt dein Premium-Abonnement und nutze '
-                              'weiterhin alle Funktionen ohne Einschränkungen.',
+                        ? localizations.trialExpiredLoginHint
+                        : localizations.trialExpiredPremiumHint,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 32),
-
                   if (user == null) ...[
                     FilledButton.icon(
                       onPressed: _openLogin,
                       icon: const Icon(Icons.login),
-                      label: const Text('Anmelden'),
+                      label: Text(localizations.trialExpiredLoginButton),
                     ),
                     const SizedBox(height: 12),
                     OutlinedButton.icon(
                       onPressed: _openRegister,
                       icon: const Icon(Icons.person_add_outlined),
-                      label: const Text('Konto erstellen'),
+                      label: Text(localizations.trialExpiredRegisterButton),
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Ein PayPal-Abonnement kann erst nach der Anmeldung '
-                      'eindeutig deinem FilaLog-Konto zugeordnet werden.',
+                      localizations.trialExpiredLoginRequiredInfo,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
@@ -160,9 +154,9 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                     ),
                   ] else ...[
                     _SubscriptionOption(
-                      title: 'Monatlich',
-                      price: '2,49 €',
-                      period: 'pro Monat',
+                      title: localizations.trialExpiredMonthlyTitle,
+                      price: localizations.trialExpiredMonthlyPrice,
+                      period: localizations.trialExpiredMonthlyPeriod,
                       highlighted: false,
                       loading: monthlyLoading,
                       enabled: !isLoading,
@@ -172,11 +166,11 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                     ),
                     const SizedBox(height: 16),
                     _SubscriptionOption(
-                      title: 'Jährlich',
-                      price: '19,99 €',
-                      period: 'pro Jahr',
+                      title: localizations.trialExpiredYearlyTitle,
+                      price: localizations.trialExpiredYearlyPrice,
+                      period: localizations.trialExpiredYearlyPeriod,
                       highlighted: true,
-                      badge: 'Günstiger',
+                      badge: localizations.trialExpiredYearlyBadge,
                       loading: yearlyLoading,
                       enabled: !isLoading,
                       onPressed: () {
@@ -198,11 +192,9 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                           children: [
                             Icon(Icons.open_in_new, color: colorScheme.primary),
                             const SizedBox(width: 12),
-                            const Expanded(
+                            Expanded(
                               child: Text(
-                                'PayPal wurde geöffnet. Schließe dort das '
-                                'Abonnement ab. Die Freischaltung erfolgt '
-                                'anschließend automatisch.',
+                                localizations.trialExpiredPaypalOpenedInfo,
                               ),
                             ),
                           ],
@@ -211,8 +203,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                     ],
                     const SizedBox(height: 24),
                     Text(
-                      'Die Zahlung und Verwaltung des Abonnements '
-                      'erfolgt über PayPal.',
+                      localizations.trialExpiredPaypalManagementInfo,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.65),

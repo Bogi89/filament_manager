@@ -5,7 +5,7 @@ class AppLinks {
   /// Website
   /// ===========================
 
-  static const String website = 'https://filament-manager.web.app';
+  static const String website = 'https://filalog.de';
 
   /// ===========================
   /// Rechtliches
@@ -21,7 +21,7 @@ class AppLinks {
   /// Support
   /// ===========================
 
-  static const String supportMail = 'support@filament-manager.de';
+  static const String supportMail = 'support@filalog.de';
 
   static const String supportPage = '$website/support';
 

@@ -451,13 +451,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyPolicyResponsibleLabel => 'Responsible';
 
   @override
-  String get privacyPolicyResponsibleName => 'Robin';
+  String get privacyPolicyResponsibleName => 'Robin Pniok';
 
   @override
   String get privacyPolicyContact => 'Contact';
 
   @override
-  String get privacyPolicyContactMissing => 'Will be added before release';
+  String get privacyPolicyContactMissing => 'Diebesweg 8b\n58507 Lüdenscheid\nGermany\nEmail: support@filalog.de';
 
   @override
   String get privacyPolicyStoredDataTitle => 'What data is stored?';
@@ -586,16 +586,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get imprintAppNameValue => 'FilaLog';
 
   @override
-  String get imprintDeveloperLabel => 'Developer';
+  String get imprintDeveloperLabel => 'Owner';
 
   @override
-  String get imprintDeveloperValue => 'Robin';
+  String get imprintDeveloperValue => 'Robin Pniok';
 
   @override
   String get imprintAddressLabel => 'Address';
 
   @override
-  String get imprintAddressValue => 'Will be added before release';
+  String get imprintAddressValue => 'Diebesweg 8b\n58507 Lüdenscheid\nGermany';
 
   @override
   String get imprintContactTitle => 'Contact';
@@ -604,13 +604,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get imprintEmailLabel => 'Email';
 
   @override
-  String get imprintEmailValue => 'support@deine-domain.de';
+  String get imprintEmailValue => 'support@filalog.de';
 
   @override
   String get imprintWebsiteLabel => 'Website';
 
   @override
-  String get imprintWebsiteValue => 'https://deine-domain.de';
+  String get imprintWebsiteValue => 'https://filalog.de';
 
   @override
   String get imprintCompanyInformationTitle => 'Company Information';
@@ -619,13 +619,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get imprintCompanyFormLabel => 'Legal Form';
 
   @override
-  String get imprintCompanyFormValue => 'Will be added before release';
+  String get imprintCompanyFormValue => 'Sole proprietorship';
 
   @override
   String get imprintBusinessPurposeLabel => 'Business Purpose';
 
   @override
-  String get imprintBusinessPurposeValue => 'Provision of an application for managing 3D printing filament.';
+  String get imprintBusinessPurposeValue => 'Development and provision of the FilaLog software application for managing 3D printing filament and related functions.';
 
   @override
   String get imprintLegalNotesTitle => 'Legal Information';
@@ -1420,4 +1420,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get back => 'Back';
+
+  @override
+  String get trialExpiredTitle => 'Your trial has ended';
+
+  @override
+  String get trialExpiredSubtitle => 'You have tested FilaLog free of charge for 7 days.';
+
+  @override
+  String get trialExpiredLoginHint => 'Sign in with your FilaLog account to activate Premium.';
+
+  @override
+  String get trialExpiredPremiumHint => 'Choose your Premium subscription now and continue using all features without restrictions.';
+
+  @override
+  String get trialExpiredLoginButton => 'Sign in';
+
+  @override
+  String get trialExpiredRegisterButton => 'Create account';
+
+  @override
+  String get trialExpiredLoginRequiredInfo => 'A PayPal subscription can only be clearly assigned to your FilaLog account after you sign in.';
+
+  @override
+  String get trialExpiredMonthlyTitle => 'Monthly';
+
+  @override
+  String get trialExpiredMonthlyPrice => '€2.49';
+
+  @override
+  String get trialExpiredMonthlyPeriod => 'per month';
+
+  @override
+  String get trialExpiredYearlyTitle => 'Yearly';
+
+  @override
+  String get trialExpiredYearlyPrice => '€19.99';
+
+  @override
+  String get trialExpiredYearlyPeriod => 'per year';
+
+  @override
+  String get trialExpiredYearlyBadge => 'Best value';
+
+  @override
+  String get trialExpiredPaypalOpened => 'PayPal has been opened. Complete the subscription there.';
+
+  @override
+  String get trialExpiredPaypalOpenedInfo => 'PayPal has been opened. Complete the subscription there. Premium access will then be activated automatically.';
+
+  @override
+  String get trialExpiredPaypalStartError => 'The PayPal subscription could not be started.';
+
+  @override
+  String get trialExpiredPaypalManagementInfo => 'Payment and subscription management are handled through PayPal.';
 }
