@@ -9,6 +9,7 @@ import '../../pages/main_navigation.dart';
 import '../../state/app_state.dart';
 import '../services/auth_loading_service.dart';
 import '../services/auth_validator.dart';
+import '../services/guest_service.dart';
 import 'forgot_password_page.dart';
 import 'verify_email_page.dart';
 
@@ -48,17 +49,25 @@ class _LoginPageState extends State<LoginPage> {
     final l10n = AppLocalizations.of(context)!;
 
     try {
-      loadingService.startLoading();
+  loadingService.startLoading();
 
-      final credential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(
+      Persistence.LOCAL,
+    );
+  }
+
+  final credential =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: email,
+    password: password,
+  );
 
       await credential.user?.reload();
 
       final user = FirebaseAuth.instance.currentUser;
+
+      await GuestService.disableGuestMode();
 
       if (!mounted) {
         return;
@@ -135,11 +144,15 @@ class _LoginPageState extends State<LoginPage> {
       loadingService.startLoading();
 
       if (kIsWeb) {
-        final googleProvider = GoogleAuthProvider();
+  await FirebaseAuth.instance.setPersistence(
+    Persistence.LOCAL,
+  );
 
-        await FirebaseAuth.instance.signInWithPopup(
-          googleProvider,
-        );
+  final googleProvider = GoogleAuthProvider();
+
+  await FirebaseAuth.instance.signInWithPopup(
+    googleProvider,
+  );
       } else {
         await _initializeGoogleSignIn();
 
@@ -157,11 +170,13 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
 
-      if (!mounted) {
-        return;
-      }
+      await GuestService.disableGuestMode();
 
-      Navigator.of(context).pushAndRemoveUntil(
+if (!mounted) {
+  return;
+}
+
+Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => const MainNavigation(),
         ),

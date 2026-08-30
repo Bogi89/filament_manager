@@ -9,6 +9,9 @@ import '../widgets/login_card.dart';
 import '../widgets/register_card.dart';
 import 'login_page.dart';
 import 'register_page.dart';
+import '../../legal/imprint_page.dart';
+import '../../legal/privacy_policy_page.dart';
+import '../../legal/terms_of_service_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -150,23 +153,41 @@ class WelcomePage extends StatelessWidget {
                         runSpacing: 8,
                         children: [
                           TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              texts.privacyPolicy,
-                            ),
-                          ),
+  onPressed: () {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const PrivacyPolicyPage(),
+      ),
+    );
+  },
+  child: Text(
+    texts.privacyPolicy,
+  ),
+),
                           TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              texts.legalNotice,
-                            ),
-                          ),
+  onPressed: () {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const ImprintPage(),
+      ),
+    );
+  },
+  child: Text(
+    texts.legalNotice,
+  ),
+),
                           TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              texts.termsOfService,
-                            ),
-                          ),
+  onPressed: () {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const TermsOfServicePage(),
+      ),
+    );
+  },
+  child: Text(
+    texts.termsOfService,
+  ),
+),
                         ],
                       ),
                     ],

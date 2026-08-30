@@ -158,16 +158,6 @@ Future<void> _importBackup(
               icon: Icons.palette_outlined,
               child: Column(
                 children: [
-                  RadioListTile<ThemeMode>.adaptive(
-                    title: Text(l10n.light),
-                    value: ThemeMode.light,
-                    groupValue: appState.themeMode,
-                    onChanged: (value) {
-                      if (value != null) {
-                        appState.setThemeMode(value);
-                      }
-                    },
-                  ),
 
                   RadioListTile<ThemeMode>.adaptive(
                     title: Text(l10n.dark),
@@ -796,4 +786,6 @@ subtitle: Text(l10n.signOutSubtitle),
     );
   }
 }
+
+
 

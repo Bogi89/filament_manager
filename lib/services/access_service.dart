@@ -24,22 +24,28 @@ class AccessService {
     /// ================= GASTNUTZER =================
 
     if (user == null) {
-      final guestEnabled = await GuestService.isGuestModeEnabled();
+  final guestEnabled = await GuestService.isGuestModeEnabled();
 
-      final trialUsed = await GuestService.hasUsedTrial();
+  // Kein aktiver Gastmodus:
+  // Nicht anhand alter Trial-Daten als abgelaufenen Gast behandeln.
+  if (!guestEnabled) {
+    return AccessStatus.noAccess;
+  }
 
-      if (!trialUsed) {
-        return AccessStatus.noAccess;
-      }
+  final trialUsed = await GuestService.hasUsedTrial();
 
-      final trialActive = await GuestService.isTrialActive();
+  if (!trialUsed) {
+    return AccessStatus.noAccess;
+  }
 
-      if (guestEnabled && trialActive) {
-        return AccessStatus.guestTrialActive;
-      }
+  final trialActive = await GuestService.isTrialActive();
 
-      return AccessStatus.guestTrialExpired;
-    }
+  if (trialActive) {
+    return AccessStatus.guestTrialActive;
+  }
+
+  return AccessStatus.guestTrialExpired;
+}
 
     /// ================= ANGEMELDETER BENUTZER =================
 

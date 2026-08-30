@@ -9,6 +9,7 @@ import '../widgets/add_filament/sections/inventory_cost_section.dart';
 import '../widgets/add_filament/sections/print_settings_section.dart';
 import '../widgets/common/page_header.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/color_name_localizer.dart';
 
 class AddFilamentPage extends StatefulWidget {
   final Filament? existingFilament;
@@ -144,7 +145,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     setState(() {});
   }
 
-  void selectMaterial(String material) {
+ void selectMaterial(String material) {
   selectedMaterial = material;
 
   variants = FilamentCatalogService.getVariants(
@@ -158,6 +159,16 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   colors = [];
   selectedFilamentColors = [];
   preloadColorMap.clear();
+
+  final temperatures = materialTemps[material.toUpperCase()];
+
+  if (temperatures != null) {
+    nozzleTemp = temperatures['nozzle'];
+    bedTemp = temperatures['bed'];
+  } else {
+    nozzleTemp = null;
+    bedTemp = null;
+  }
 
   setState(() {});
 }
@@ -372,7 +383,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
           ),
         ),
 
-        Flexible(child: Text(c, overflow: TextOverflow.ellipsis)),
+        Flexible(
+  child: Text(
+    ColorNameLocalizer.localize(context, c),
+    overflow: TextOverflow.ellipsis,
+  ),
+),
       ],
     );
   }

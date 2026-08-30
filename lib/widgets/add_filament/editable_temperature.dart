@@ -8,12 +8,14 @@ class EditableTemperature extends StatefulWidget {
     required this.value,
     required this.step,
     required this.onChanged,
+    this.compact = false,
   });
 
   final String title;
   final int? value;
   final int step;
   final ValueChanged<int?> onChanged;
+  final bool compact;
 
   @override
   State<EditableTemperature> createState() => _EditableTemperatureState();
@@ -25,11 +27,11 @@ class _EditableTemperatureState extends State<EditableTemperature> {
 
   bool _editing = false;
 
-  static const _textStyle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    height: 1.0,
-  );
+  TextStyle get _textStyle => TextStyle(
+        fontSize: widget.compact ? 17 : 18,
+        fontWeight: FontWeight.w600,
+        height: 1.0,
+      );
 
   @override
   void initState() {
@@ -69,7 +71,9 @@ class _EditableTemperatureState extends State<EditableTemperature> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
       _focusNode.requestFocus();
 
@@ -100,36 +104,48 @@ class _EditableTemperatureState extends State<EditableTemperature> {
       _controller.text = widget.value?.toString() ?? '';
     }
 
+    final buttonSize = widget.compact ? 34.0 : 36.0;
+    final valueWidth = widget.compact ? 58.0 : 76.0;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 2),
+        Text(
+          widget.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
 
-        Text(widget.title, style: const TextStyle(fontWeight: FontWeight.w600)),
-
-        const SizedBox(height: 12),
+        SizedBox(height: widget.compact ? 10 : 12),
 
         Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 36,
-              height: 36,
+              width: buttonSize,
+              height: buttonSize,
               child: IconButton(
                 padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                constraints: BoxConstraints(
+                  minWidth: buttonSize,
+                  minHeight: buttonSize,
+                ),
                 iconSize: 20,
                 splashRadius: 20,
                 icon: const Icon(Icons.remove),
                 onPressed: () {
-                  widget.onChanged((widget.value ?? 0) - widget.step);
+                  widget.onChanged(
+                    (widget.value ?? 0) - widget.step,
+                  );
                 },
               ),
             ),
 
             SizedBox(
-              width: 76,
+              width: valueWidth,
               height: 28,
               child: Center(
                 child: !_editing
@@ -178,23 +194,31 @@ class _EditableTemperatureState extends State<EditableTemperature> {
                               ),
                             ),
                           ),
-                          const Text("°C", style: _textStyle),
+                          Text(
+                            "°C",
+                            style: _textStyle,
+                          ),
                         ],
                       ),
               ),
             ),
 
             SizedBox(
-              width: 36,
-              height: 36,
+              width: buttonSize,
+              height: buttonSize,
               child: IconButton(
                 padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                constraints: BoxConstraints(
+                  minWidth: buttonSize,
+                  minHeight: buttonSize,
+                ),
                 iconSize: 20,
                 splashRadius: 20,
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  widget.onChanged((widget.value ?? 0) + widget.step);
+                  widget.onChanged(
+                    (widget.value ?? 0) + widget.step,
+                  );
                 },
               ),
             ),

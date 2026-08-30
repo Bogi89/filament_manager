@@ -89,10 +89,151 @@ class AppLocalizationsDe extends AppLocalizations {
   String get price => 'Preis';
 
   @override
+  String get colorBlack => 'Schwarz';
+
+  @override
+  String get colorWhite => 'Weiß';
+
+  @override
+  String get colorGray => 'Grau';
+
+  @override
+  String get colorRed => 'Rot';
+
+  @override
+  String get colorGreen => 'Grün';
+
+  @override
+  String get colorBlue => 'Blau';
+
+  @override
+  String get colorYellow => 'Gelb';
+
+  @override
+  String get colorOrange => 'Orange';
+
+  @override
+  String get colorPurple => 'Lila';
+
+  @override
+  String get colorPink => 'Pink';
+
+  @override
+  String get colorBrown => 'Braun';
+
+  @override
+  String get colorTurquoise => 'Türkis';
+
+  @override
+  String get colorGold => 'Gold';
+
+  @override
+  String get colorSilver => 'Silber';
+
+  @override
+  String get colorBronze => 'Bronze';
+
+  @override
+  String get colorCopper => 'Kupfer';
+
+  @override
+  String get colorBeige => 'Beige';
+
+  @override
+  String get colorCream => 'Creme';
+
+  @override
+  String get colorCyan => 'Cyan';
+
+  @override
+  String get colorMagenta => 'Magenta';
+
+  @override
+  String get colorAnthracite => 'Anthrazit';
+
+  @override
+  String get colorGraphite => 'Graphit';
+
+  @override
+  String get colorKhaki => 'Khaki';
+
+  @override
+  String get colorOlive => 'Oliv';
+
+  @override
+  String get colorLime => 'Limette';
+
+  @override
+  String get colorTeal => 'Blaugrün';
+
+  @override
+  String get colorBurgundy => 'Burgunderrot';
+
+  @override
+  String get colorTerracotta => 'Terrakotta';
+
+  @override
+  String get colorPeach => 'Pfirsich';
+
+  @override
+  String get colorApricot => 'Aprikose';
+
+  @override
+  String get colorLavender => 'Lavendel';
+
+  @override
+  String get colorClear => 'Klar';
+
+  @override
+  String get colorTransparent => 'Transparent';
+
+  @override
+  String get colorNatural => 'Natur';
+
+  @override
+  String get colorDarkBlue => 'Dunkelblau';
+
+  @override
+  String get colorLightBlue => 'Hellblau';
+
+  @override
+  String get colorDarkGreen => 'Dunkelgrün';
+
+  @override
+  String get colorLightGreen => 'Hellgrün';
+
+  @override
+  String get colorDarkRed => 'Dunkelrot';
+
+  @override
+  String get colorLightRed => 'Hellrot';
+
+  @override
+  String get colorDarkGray => 'Dunkelgrau';
+
+  @override
+  String get colorLightGray => 'Hellgrau';
+
+  @override
+  String get colorDarkBrown => 'Dunkelbraun';
+
+  @override
+  String get colorLightBrown => 'Hellbraun';
+
+  @override
+  String get colorDarkOrange => 'Dunkelorange';
+
+  @override
+  String get colorLightOrange => 'Hellorange';
+
+  @override
   String get remainingWeight => 'Restgewicht';
 
   @override
   String get spools => 'Spulen';
+
+  @override
+  String get spool => 'Spule';
 
   @override
   String get editSpool => 'Spule bearbeiten';
@@ -125,10 +266,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectMaterial => 'Material auswählen';
 
   @override
-  String get nozzle => 'Düse';
+  String get nozzle => 'Nozzle';
 
   @override
-  String get bed => 'Bett';
+  String get bed => 'Bed';
 
   @override
   String spoolNumber(int number) {
@@ -142,6 +283,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get deleteAndRemoveFilament => 'Löschen & Filament entfernen';
+
+  @override
+  String get deleteFilamentTitle => 'Filament löschen?';
+
+  @override
+  String get deleteFilamentConfirmation => 'Möchtest du dieses Filament wirklich löschen?';
 
   @override
   String get deleteLastSpoolWarning => 'Dieses Filament enthält danach keine Spulen mehr.\n\nFilament komplett löschen?';
@@ -167,7 +314,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get reset => 'Zurücksetzen';
 
   @override
-  String get warningFilament => 'Warnung Filament';
+  String get warningFilament => 'Filament-Überwachung';
 
   @override
   String warningBelow(String percent) {

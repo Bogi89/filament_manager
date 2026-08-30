@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../services/filament_catalog_service.dart';
+import '../../../utils/color_name_localizer.dart';
 
 class ColorItem extends StatelessWidget {
   const ColorItem({
@@ -35,7 +36,12 @@ class ColorItem extends StatelessWidget {
             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
         ),
-        Flexible(child: Text(colorName, overflow: TextOverflow.ellipsis)),
+        Flexible(
+  child: Text(
+    ColorNameLocalizer.localize(context, colorName),
+    overflow: TextOverflow.ellipsis,
+  ),
+),
       ],
     );
   }

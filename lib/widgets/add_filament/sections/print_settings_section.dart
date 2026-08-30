@@ -42,7 +42,12 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
             initialValue: widget.selectedDiameter,
             hint: Text(l10n.diameter),
             items: widget.diameters
-                .map((d) => DropdownMenuItem(value: d, child: Text("$d mm")))
+                .map(
+                  (d) => DropdownMenuItem(
+                    value: d,
+                    child: Text('$d mm'),
+                  ),
+                )
                 .toList(),
             onChanged: widget.onDiameterChanged,
           ),
@@ -59,43 +64,68 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
 
           const SizedBox(height: 16),
 
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white.withValues(alpha: 0.02)
-                  : const Color(0xFFF8FAFC),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withValues(alpha: 0.06)
-                    : Colors.black.withValues(alpha: 0.05),
-              ),
-            ),
-            child: SizedBox(
-              height: 120,
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  EditableTemperature(
-                    title: l10n.nozzle,
-                    value: widget.nozzleTemp,
-                    step: 10,
-                    onChanged: widget.onNozzleTempChanged,
-                  ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isCompact = constraints.maxWidth < 500;
 
-                  const SizedBox(width: 16),
-
-                  EditableTemperature(
-                    title: l10n.bed,
-                    value: widget.bedTemp,
-                    step: 5,
-                    onChanged: widget.onBedTempChanged,
+              return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isCompact ? 8 : 20,
+                  vertical: isCompact ? 12 : 16,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white.withValues(alpha: 0.02)
+                      : const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white.withValues(alpha: 0.06)
+                        : Colors.black.withValues(alpha: 0.05),
                   ),
-                ],
-              ),
-            ),
+                ),
+                child: SizedBox(
+                  height: isCompact ? 96 : 120,
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: EditableTemperature(
+                            title: l10n.nozzle,
+                            value: widget.nozzleTemp,
+                            step: 10,
+                            onChanged: widget.onNozzleTempChanged,
+                            compact: isCompact,
+                          ),
+                        ),
+                      ),
+
+                      if (isCompact)
+                        Container(
+                          width: 1,
+                          height: 60,
+                          color: Theme.of(context).dividerColor.withValues(
+                                alpha: 0.35,
+                              ),
+                        ),
+
+                      Expanded(
+                        child: Center(
+                          child: EditableTemperature(
+                            title: l10n.bed,
+                            value: widget.bedTemp,
+                            step: 5,
+                            onChanged: widget.onBedTempChanged,
+                            compact: isCompact,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -22,7 +22,9 @@ class _AuthGateState extends State<AuthGate> {
       Duration(milliseconds: 1200);
 
   bool _loading = true;
+
   User? _firebaseUser;
+
   AccessStatus _accessStatus =
       AccessStatus.noAccess;
 
@@ -38,11 +40,34 @@ class _AuthGateState extends State<AuthGate> {
   Future<void> _initialize() async {
     final stopwatch = Stopwatch()..start();
 
+    /*
+     * Wichtig für Flutter Web:
+     *
+     * Firebase Auth benötigt beim Neuladen der Webseite möglicherweise
+     * einen kurzen Moment, bis die gespeicherte Anmeldung wiederhergestellt
+     * wurde.
+     *
+     * Deshalb registrieren wir den Auth-Listener BEVOR der erste
+     * Zugriffsstatus ausgewertet wird.
+     */
+    _authSubscription =
+        FirebaseAuth.instance.authStateChanges().listen(
+      (_) async {
+        await _loadState();
+      },
+    );
+
+    /*
+     * Auf den ersten von Firebase vollständig aufgelösten Auth-Status
+     * warten. Dadurch verhindern wir, dass ein angemeldeter Benutzer
+     * während eines Web-Reloads kurzfristig als Gast behandelt wird.
+     */
+    await FirebaseAuth.instance.authStateChanges().first;
+
     await _loadState();
 
     final remaining =
-        _minimumSplashDuration -
-            stopwatch.elapsed;
+        _minimumSplashDuration - stopwatch.elapsed;
 
     if (remaining > Duration.zero) {
       await Future<void>.delayed(
@@ -57,15 +82,6 @@ class _AuthGateState extends State<AuthGate> {
     setState(() {
       _loading = false;
     });
-
-    _authSubscription =
-        FirebaseAuth.instance
-            .authStateChanges()
-            .listen(
-      (_) async {
-        await _loadState();
-      },
-    );
   }
 
   Future<void> _loadState() async {

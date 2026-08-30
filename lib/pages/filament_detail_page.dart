@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 import '../services/filament_catalog_service.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/color_name_localizer.dart';
 
 class FilamentDetailPage extends StatefulWidget {
   final Filament filament;
@@ -435,7 +436,14 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             ),
 
             items: colorNamesList
-                .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                .map(
+  (c) => DropdownMenuItem(
+    value: c,
+    child: Text(
+      ColorNameLocalizer.localize(context, c),
+    ),
+  ),
+)
                 .toList(),
 
             onChanged: (val) {

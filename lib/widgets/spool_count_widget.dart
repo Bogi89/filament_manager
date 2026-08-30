@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'spool_icon.dart';
 
 class SpoolCountWidget extends StatelessWidget {
-
   final int spoolCount;
-
   final bool showArrow;
 
   const SpoolCountWidget({
@@ -16,64 +15,42 @@ class SpoolCountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    final spoolText = spoolCount == 1
+        ? l10n.spool
+        : l10n.spools;
 
     return Row(
-
-      mainAxisSize:
-          MainAxisSize.min,
-
+      mainAxisSize: MainAxisSize.min,
       children: [
-
-        /// 🧵 Spulen-Icon
-
         const SpoolIcon(
           size: 18,
         ),
-
         const SizedBox(
           width: 6,
         ),
-
-        /// Anzahl Text
-
         Text(
-
-          "$spoolCount Spools",
-
-          style:
-              TextStyle(
-
+          '$spoolCount $spoolText',
+          style: TextStyle(
             fontSize: 13,
-
-            fontWeight:
-                FontWeight.w600,
-
-            color:
-                Theme.of(context)
-                    .colorScheme
-                    .onSurface,
-
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface,
           ),
-
         ),
-
-        /// Pfeil optional
-
         if (showArrow)
           const Padding(
-            padding:
-                EdgeInsets.only(
-                    left: 4),
+            padding: EdgeInsets.only(
+              left: 4,
+            ),
             child: Icon(
               Icons.chevron_right,
               size: 16,
             ),
           ),
-
       ],
-
     );
-
   }
-
 }

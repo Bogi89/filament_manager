@@ -26,8 +26,57 @@
   "color": "Farbe",
   "diameter": "Durchmesser",
   "price": "Preis",
+  "colorBlack": "Schwarz",
+"colorWhite": "Weiß",
+"colorGray": "Grau",
+"colorRed": "Rot",
+"colorGreen": "Grün",
+"colorBlue": "Blau",
+"colorYellow": "Gelb",
+"colorOrange": "Orange",
+"colorPurple": "Lila",
+"colorPink": "Pink",
+"colorBrown": "Braun",
+"colorTurquoise": "Türkis",
+
+"colorGold": "Gold",
+"colorSilver": "Silber",
+"colorBronze": "Bronze",
+"colorCopper": "Kupfer",
+"colorBeige": "Beige",
+"colorCream": "Creme",
+"colorCyan": "Cyan",
+"colorMagenta": "Magenta",
+"colorAnthracite": "Anthrazit",
+"colorGraphite": "Graphit",
+"colorKhaki": "Khaki",
+"colorOlive": "Oliv",
+"colorLime": "Limette",
+"colorTeal": "Blaugrün",
+"colorBurgundy": "Burgunderrot",
+"colorTerracotta": "Terrakotta",
+"colorPeach": "Pfirsich",
+"colorApricot": "Aprikose",
+"colorLavender": "Lavendel",
+"colorClear": "Klar",
+"colorTransparent": "Transparent",
+"colorNatural": "Natur",
+
+"colorDarkBlue": "Dunkelblau",
+"colorLightBlue": "Hellblau",
+"colorDarkGreen": "Dunkelgrün",
+"colorLightGreen": "Hellgrün",
+"colorDarkRed": "Dunkelrot",
+"colorLightRed": "Hellrot",
+"colorDarkGray": "Dunkelgrau",
+"colorLightGray": "Hellgrau",
+"colorDarkBrown": "Dunkelbraun",
+"colorLightBrown": "Hellbraun",
+"colorDarkOrange": "Dunkelorange",
+"colorLightOrange": "Hellorange",
   "remainingWeight": "Restgewicht",
   "spools": "Spulen",
+  "spool": "Spule",
   "editSpool": "Spule bearbeiten",
   "weight": "Gewicht",
   "cancel": "Abbrechen",
@@ -38,8 +87,8 @@
   "newSpool": "Neue Spule",
   "addSpool": "Spule hinzufügen",
   "selectMaterial": "Material auswählen",
-  "nozzle": "Düse",
-  "bed": "Bett",
+  "nozzle": "Nozzle",
+  "bed": "Bed",
   "spoolNumber": "Spule {number}",
   "@spoolNumber": {
     "placeholders": {
@@ -60,8 +109,10 @@
     }
   },
   "deleteAndRemoveFilament": "Löschen & Filament entfernen",
-  "deleteLastSpoolWarning": "Dieses Filament enthält danach keine Spulen mehr.\n\nFilament komplett löschen?",
-  "deleteSpoolConfirmation": "Spule {number} wirklich löschen?",
+"deleteFilamentTitle": "Filament löschen?",
+"deleteFilamentConfirmation": "Möchtest du dieses Filament wirklich löschen?",
+"deleteLastSpoolWarning": "Dieses Filament enthält danach keine Spulen mehr.\n\nFilament komplett löschen?",
+"deleteSpoolConfirmation": "Spule {number} wirklich löschen?",
   "@deleteSpoolConfirmation": {
     "placeholders": {
       "number": {
@@ -74,7 +125,7 @@
   "sortByRemainingWeight": "Nach Restgewicht",
   "sortByName": "Nach Name",
   "reset": "Zurücksetzen",
-  "warningFilament": "Warnung Filament",
+  "warningFilament": "Filament-Überwachung",
   "warningBelow": "Warnung unter {percent} %",
   "@warningBelow": {
     "placeholders": {
@@ -554,3 +605,5 @@
   "trialExpiredPaypalStartError": "Das PayPal-Abonnement konnte nicht gestartet werden.",
   "trialExpiredPaypalManagementInfo": "Die Zahlung und Verwaltung des Abonnements erfolgt über PayPal."
 }
+
+

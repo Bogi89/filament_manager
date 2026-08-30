@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class AppState extends ChangeNotifier {
   List<PrintJob> jobs = [];
 
   Locale locale = const Locale('de');
-  ThemeMode themeMode = ThemeMode.light;
+  ThemeMode themeMode = ThemeMode.system;
 
   double warningPercent = 20;
 
@@ -175,6 +175,11 @@ class AppState extends ChangeNotifier {
 
     themeMode =
         settings['themeMode'];
+
+    if (themeMode == ThemeMode.light) {
+      themeMode = ThemeMode.system;
+      await SettingsService.saveThemeMode(ThemeMode.system);
+    }
 
     locale =
         settings['locale'];

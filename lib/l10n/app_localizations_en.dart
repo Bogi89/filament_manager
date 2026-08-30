@@ -89,10 +89,151 @@ class AppLocalizationsEn extends AppLocalizations {
   String get price => 'Price';
 
   @override
+  String get colorBlack => 'Black';
+
+  @override
+  String get colorWhite => 'White';
+
+  @override
+  String get colorGray => 'Gray';
+
+  @override
+  String get colorRed => 'Red';
+
+  @override
+  String get colorGreen => 'Green';
+
+  @override
+  String get colorBlue => 'Blue';
+
+  @override
+  String get colorYellow => 'Yellow';
+
+  @override
+  String get colorOrange => 'Orange';
+
+  @override
+  String get colorPurple => 'Purple';
+
+  @override
+  String get colorPink => 'Pink';
+
+  @override
+  String get colorBrown => 'Brown';
+
+  @override
+  String get colorTurquoise => 'Turquoise';
+
+  @override
+  String get colorGold => 'Gold';
+
+  @override
+  String get colorSilver => 'Silver';
+
+  @override
+  String get colorBronze => 'Bronze';
+
+  @override
+  String get colorCopper => 'Copper';
+
+  @override
+  String get colorBeige => 'Beige';
+
+  @override
+  String get colorCream => 'Cream';
+
+  @override
+  String get colorCyan => 'Cyan';
+
+  @override
+  String get colorMagenta => 'Magenta';
+
+  @override
+  String get colorAnthracite => 'Anthracite';
+
+  @override
+  String get colorGraphite => 'Graphite';
+
+  @override
+  String get colorKhaki => 'Khaki';
+
+  @override
+  String get colorOlive => 'Olive';
+
+  @override
+  String get colorLime => 'Lime';
+
+  @override
+  String get colorTeal => 'Teal';
+
+  @override
+  String get colorBurgundy => 'Burgundy';
+
+  @override
+  String get colorTerracotta => 'Terracotta';
+
+  @override
+  String get colorPeach => 'Peach';
+
+  @override
+  String get colorApricot => 'Apricot';
+
+  @override
+  String get colorLavender => 'Lavender';
+
+  @override
+  String get colorClear => 'Clear';
+
+  @override
+  String get colorTransparent => 'Transparent';
+
+  @override
+  String get colorNatural => 'Natural';
+
+  @override
+  String get colorDarkBlue => 'Dark Blue';
+
+  @override
+  String get colorLightBlue => 'Light Blue';
+
+  @override
+  String get colorDarkGreen => 'Dark Green';
+
+  @override
+  String get colorLightGreen => 'Light Green';
+
+  @override
+  String get colorDarkRed => 'Dark Red';
+
+  @override
+  String get colorLightRed => 'Light Red';
+
+  @override
+  String get colorDarkGray => 'Dark Gray';
+
+  @override
+  String get colorLightGray => 'Light Gray';
+
+  @override
+  String get colorDarkBrown => 'Dark Brown';
+
+  @override
+  String get colorLightBrown => 'Light Brown';
+
+  @override
+  String get colorDarkOrange => 'Dark Orange';
+
+  @override
+  String get colorLightOrange => 'Light Orange';
+
+  @override
   String get remainingWeight => 'Remaining weight';
 
   @override
   String get spools => 'Spools';
+
+  @override
+  String get spool => 'Spool';
 
   @override
   String get editSpool => 'Edit spool';
@@ -144,6 +285,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAndRemoveFilament => 'Delete & remove filament';
 
   @override
+  String get deleteFilamentTitle => 'Delete filament?';
+
+  @override
+  String get deleteFilamentConfirmation => 'Do you really want to delete this filament?';
+
+  @override
   String get deleteLastSpoolWarning => 'This filament will no longer contain any spools.\n\nDelete filament completely?';
 
   @override
@@ -167,7 +314,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reset => 'Reset';
 
   @override
-  String get warningFilament => 'Filament Warning';
+  String get warningFilament => 'Filament Monitoring';
 
   @override
   String warningBelow(String percent) {

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/paypal_subscription_service.dart';
+import '../../services/access_service.dart';
+import '../../services/firestore_service.dart';
+import '../services/guest_service.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 
@@ -16,6 +19,47 @@ class TrialExpiredPage extends StatefulWidget {
 class _TrialExpiredPageState extends State<TrialExpiredPage> {
   PayPalSubscriptionPlan? _loadingPlan;
   bool _paypalOpened = false;
+
+  Future<Map<String, String>> _loadDiagnostics() async {
+  final user = FirebaseAuth.instance.currentUser;
+
+  final guestEnabled =
+      await GuestService.isGuestModeEnabled();
+
+  final guestTrialUsed =
+      await GuestService.hasUsedTrial();
+
+  final guestTrialActive =
+      await GuestService.isTrialActive();
+
+  final accessStatus =
+      await AccessService.getAccessStatus();
+
+  final accountStatus = user != null
+      ? await FirestoreService.loadUserAccessStatus()
+      : null;
+
+  return {
+    'Firebase User':
+        user == null ? 'NEIN' : 'JA',
+    'UID':
+        user?.uid ?? '-',
+    'AccessStatus':
+        accessStatus.name,
+    'Gastmodus aktiv':
+        guestEnabled.toString(),
+    'Gast-Trial benutzt':
+        guestTrialUsed.toString(),
+    'Gast-Trial aktiv':
+        guestTrialActive.toString(),
+    'Premium Firestore':
+        accountStatus?.premiumActive.toString() ?? '-',
+    'Account-Trial benutzt':
+        accountStatus?.trialUsed.toString() ?? '-',
+    'Account-Trial Start':
+        accountStatus?.trialStart?.toIso8601String() ?? '-',
+  };
+}
 
   Future<void> _startSubscription(PayPalSubscriptionPlan plan) async {
     if (_loadingPlan != null) {
@@ -104,8 +148,56 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(
-                    Icons.hourglass_disabled_outlined,
+                  FutureBuilder<Map<String, String>>(
+  future: _loadDiagnostics(),
+  builder: (context, snapshot) {
+    if (!snapshot.hasData) {
+      return const Padding(
+        padding: EdgeInsets.only(bottom: 24),
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    final diagnostics = snapshot.data!;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.red.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.red.withValues(alpha: 0.45),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'TEMPORÄRE DIAGNOSE',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          ...diagnostics.entries.map(
+            (entry) => Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(
+                '${entry.key}: ${entry.value}',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+),
+
+Icon(
+  Icons.hourglass_disabled_outlined,
                     size: 80,
                     color: colorScheme.primary,
                   ),
