@@ -6,6 +6,7 @@ import '../state/app_state.dart';
 import '../services/filament_catalog_service.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/color_name_localizer.dart';
+import '../widgets/add_filament/sections/print_settings_section.dart';
 
 class FilamentDetailPage extends StatefulWidget {
   final Filament filament;
@@ -455,55 +456,29 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
           const SizedBox(height: 16),
 
-          DropdownButtonFormField<double>(
-            initialValue: diameters.contains(selectedDiameter)
-                ? selectedDiameter
-                : null,
+          PrintSettingsSection(
+  selectedDiameter: selectedDiameter,
+  diameters: diameters,
+  nozzleTemp: nozzleTemp,
+  bedTemp: bedTemp,
+  onDiameterChanged: (value) {
+    setState(() {
+      selectedDiameter = value;
+    });
+  },
+  onNozzleTempChanged: (value) {
+    setState(() {
+      nozzleTemp = value;
+    });
+  },
+  onBedTempChanged: (value) {
+    setState(() {
+      bedTemp = value;
+    });
+  },
+),
 
-            decoration: InputDecoration(
-              labelText: l10n.diameter,
-              filled: true,
-              fillColor: Theme.of(context).cardColor,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
-              ),
-            ),
-
-            items: diameters
-                .map((d) => DropdownMenuItem(value: d, child: Text("$d mm")))
-                .toList(),
-
-            onChanged: (val) {
-              setState(() => selectedDiameter = val);
-            },
-          ),
-
-          const SizedBox(height: 16),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              temperatureSelector(
-                l10n.nozzle,
-                nozzleTemp,
-                (v) => setState(() => nozzleTemp = v),
-                1,
-              ),
-
-              temperatureSelector(
-                l10n.bed,
-                bedTemp,
-                (v) => setState(() => bedTemp = v),
-                5,
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 16),
+const SizedBox(height: 16),
 
           Row(
             children: [
