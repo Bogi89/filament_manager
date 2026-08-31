@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../pages/main_navigation.dart';
 import '../services/guest_service.dart';
+import '../../l10n/app_localizations.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -43,12 +44,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'E-Mail wurde noch nicht bestätigt.',
-            ),
-          ),
-        );
+  SnackBar(
+    content: Text(
+      AppLocalizations.of(context)!.verifyEmailNotVerified,
+    ),
+  ),
+);
 
         return;
       }
@@ -71,12 +72,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Die E-Mail-Bestätigung konnte nicht überprüft werden. '
-            'Bitte versuche es erneut.',
-          ),
-        ),
+        SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.verifyEmailCheckFailed,
+  ),
+),
       );
     } catch (_) {
       if (!mounted) {
@@ -84,12 +84,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Die E-Mail-Bestätigung konnte nicht überprüft werden. '
-            'Bitte versuche es erneut.',
-          ),
-        ),
+        SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.verifyEmailCheckFailed,
+  ),
+),
       );
     } finally {
       if (mounted) {
@@ -123,11 +122,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Bestätigungs-E-Mail wurde erneut gesendet.',
-          ),
-        ),
+        SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.verifyEmailResent,
+  ),
+),
       );
     } on FirebaseAuthException catch (_) {
       if (!mounted) {
@@ -135,11 +134,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Die Bestätigungs-E-Mail konnte nicht gesendet werden.',
-          ),
-        ),
+        SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.verifyEmailSendFailed,
+  ),
+),
       );
     } finally {
       if (mounted) {
@@ -153,10 +152,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('E-Mail bestätigen'),
+        title: Text(l10n.verifyEmailTitle),
       ),
       body: SafeArea(
         child: Center(
@@ -177,7 +177,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Fast geschafft',
+                    l10n.verifyEmailAlmostDone,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headlineSmall
                         ?.copyWith(
@@ -186,9 +186,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Wir haben dir eine Bestätigungs-E-Mail '
-                    'gesendet.\n\nBitte öffne den Link in der '
-                    'E-Mail, um dein Benutzerkonto zu aktivieren.',
+                    l10n.verifyEmailInstructions,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyLarge,
                   ),
@@ -207,10 +205,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           )
                         : const Icon(Icons.refresh),
                     label: Text(
-                      _isChecking
-                          ? 'Wird geprüft...'
-                          : 'Erneut prüfen',
-                    ),
+  _isChecking
+      ? l10n.verifyEmailChecking
+      : l10n.verifyEmailCheckAgain,
+),
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton.icon(
@@ -227,10 +225,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           )
                         : const Icon(Icons.mail_outline),
                     label: Text(
-                      _isResending
-                          ? 'Wird gesendet...'
-                          : 'E-Mail erneut senden',
-                    ),
+  _isResending
+      ? l10n.verifyEmailSending
+      : l10n.verifyEmailResend,
+),
                   ),
                 ],
               ),

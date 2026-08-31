@@ -42,7 +42,10 @@ class SettingsPage extends StatelessWidget {
 
   /// 🔹 EXPORT BACKUP
 
-Future<void> _exportBackup(AppState appState) async {
+Future<void> _exportBackup(
+  BuildContext context,
+  AppState appState,
+) async {
   final Map<String, dynamic> backupData = {
     "filaments": appState.filaments.map((f) => f.toJson()).toList(),
     "jobs": appState.jobs.map((j) => j.toJson()).toList(),
@@ -53,7 +56,7 @@ Future<void> _exportBackup(AppState appState) async {
   final bytes = Uint8List.fromList(utf8.encode(jsonString));
 
   await FilePicker.saveFile(
-    dialogTitle: 'Backup speichern',
+    dialogTitle: AppLocalizations.of(context)!.backupSaveDialog,
     fileName: 'filament_backup.json',
     type: FileType.custom,
     allowedExtensions: ['json'],
@@ -111,17 +114,21 @@ Future<void> _importBackup(
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Backup erfolgreich geladen"),
-      ),
+      SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.backupLoaded,
+  ),
+),
     );
   } catch (e) {
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Fehler beim Laden des Backups"),
-      ),
+      SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.backupLoadError,
+  ),
+),
     );
   }
 }
@@ -153,89 +160,78 @@ Future<void> _importBackup(
           const SizedBox(height: 24),
 
           AppHoverCard(
-            child: ExpandableSettingsCard(
-              title: l10n.design,
-              icon: Icons.palette_outlined,
-              child: Column(
-                children: [
-
-                  RadioListTile<ThemeMode>.adaptive(
-                    title: Text(l10n.dark),
-                    value: ThemeMode.dark,
-                    groupValue: appState.themeMode,
-                    onChanged: (value) {
-                      if (value != null) {
-                        appState.setThemeMode(value);
-                      }
-                    },
-                  ),
-
-                  RadioListTile<ThemeMode>(
-                    title: Text(l10n.system),
-                    value: ThemeMode.system,
-                    groupValue: appState.themeMode,
-                    onChanged: (value) {
-                      if (value != null) {
-                        appState.setThemeMode(value);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
+  child: ExpandableSettingsCard(
+    title: l10n.design,
+    icon: Icons.palette_outlined,
+    child: RadioGroup<ThemeMode>(
+      groupValue: appState.themeMode,
+      onChanged: (value) {
+        if (value != null) {
+          appState.setThemeMode(value);
+        }
+      },
+      child: Column(
+        children: [
+          RadioListTile<ThemeMode>.adaptive(
+            title: Text(l10n.dark),
+            value: ThemeMode.dark,
           ),
-
-          AppHoverCard(
-            child: ExpandableSettingsCard(
-              title: AppLocalizations.of(context)!.language,
-              icon: Icons.language,
-              child: Column(
-                children: [
-                  RadioListTile<String>.adaptive(
-                    title: Row(
-                      children: [
-                        Image.asset(
-                          'assets/flags/de.png',
-                          width: 24,
-                          height: 16,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(AppLocalizations.of(context)!.german)
-                      ],
-                    ),
-                    value: 'de',
-                    groupValue: appState.locale.languageCode,
-                    onChanged: (value) {
-                      if (value != null) {
-                        appState.setLocale(Locale(value));
-                      }
-                    },
-                  ),
-
-                  RadioListTile<String>(
-                    title: Row(
-                      children: [
-                        Image.asset(
-                          'assets/flags/en.png',
-                          width: 24,
-                          height: 16,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(AppLocalizations.of(context)!.english)
-                      ],
-                    ),
-                    value: 'en',
-                    groupValue: appState.locale.languageCode,
-                    onChanged: (value) {
-                      if (value != null) {
-                        appState.setLocale(Locale(value));
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
+          RadioListTile<ThemeMode>(
+            title: Text(l10n.system),
+            value: ThemeMode.system,
           ),
+        ],
+      ),
+    ),
+  ),
+),
+
+AppHoverCard(
+  child: ExpandableSettingsCard(
+    title: l10n.language,
+    icon: Icons.language,
+    child: RadioGroup<String>(
+      groupValue: appState.locale.languageCode,
+      onChanged: (value) {
+        if (value != null) {
+          appState.setLocale(Locale(value));
+        }
+      },
+      child: Column(
+        children: [
+          RadioListTile<String>.adaptive(
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/flags/de.png',
+                  width: 24,
+                  height: 16,
+                ),
+                const SizedBox(width: 10),
+                Text(l10n.german),
+              ],
+            ),
+            value: 'de',
+          ),
+          RadioListTile<String>(
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/flags/en.png',
+                  width: 24,
+                  height: 16,
+                ),
+                const SizedBox(width: 10),
+                Text(l10n.english),
+              ],
+            ),
+            value: 'en',
+          ),
+        ],
+      ),
+    ),
+  ),
+),
 
           AppHoverCard(
             child: ExpandableSettingsCard(
@@ -278,10 +274,14 @@ Future<void> _importBackup(
                     icon: const Icon(Icons.download),
                     label: Text(AppLocalizations.of(context)!.backupExport),
                     onPressed: () {
-                      _exportBackup(appState);
+                      _exportBackup(context, appState);
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Backup erstellt")),
+                        SnackBar(
+  content: Text(
+    AppLocalizations.of(context)!.backupCreated,
+  ),
+),
                       );
                     },
                   ),

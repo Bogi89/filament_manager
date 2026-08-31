@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../l10n/app_localizations.dart';
 
 import '../../pages/main_navigation.dart';
 import '../../state/app_state.dart';
@@ -19,12 +20,13 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appState = context.watch<AppState>();
-    final isEnglish = appState.locale.languageCode == 'en';
+final appState = context.watch<AppState>();
+final isEnglish = appState.locale.languageCode == 'en';
+final l10n = AppLocalizations.of(context)!;
 
-    final texts = _WelcomeTexts(
-      isEnglish: isEnglish,
-    );
+final texts = _WelcomeTexts(
+  l10n: l10n,
+);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -501,79 +503,49 @@ class _FeatureChip extends StatelessWidget {
 }
 
 class _WelcomeTexts {
-  final bool isEnglish;
+  final AppLocalizations l10n;
 
   const _WelcomeTexts({
-    required this.isEnglish,
+    required this.l10n,
   });
 
-  String get filaments {
-    return isEnglish ? 'Filaments' : 'Filamente';
-  }
+  String get filaments => l10n.filaments;
 
-  String get printJobs {
-    return isEnglish ? 'Print Jobs' : 'Druckaufträge';
-  }
+  String get printJobs => l10n.printJobs;
 
-  String get costs {
-    return isEnglish ? 'Costs' : 'Kosten';
-  }
+  String get costs => l10n.costs;
 
-  String get statistics {
-    return isEnglish ? 'Statistics' : 'Statistiken';
-  }
+  String get statistics => l10n.statistics;
 
-  String get trialTitle {
-    return isEnglish
-        ? 'Try for 7 days free'
-        : '7 Tage kostenlos testen';
-  }
+  String get trialTitle => l10n.welcomeTrialTitle;
 
-  String get trialDescription {
-    return isEnglish
-        ? 'Try FilaLog free for 7 days and decide afterwards '
-            'whether you want to continue with Premium.'
-        : 'Teste FilaLog 7 Tage kostenlos und entscheide danach, '
-            'ob du Premium nutzen möchtest.';
-  }
+  String get trialDescription =>
+      l10n.welcomeTrialDescription;
 
-  String get monthly {
-    return isEnglish ? 'Monthly' : 'Monatlich';
-  }
+  String get monthly =>
+      l10n.trialExpiredMonthlyTitle;
 
-  String get yearly {
-    return isEnglish ? 'Yearly' : 'Jährlich';
-  }
+  String get yearly =>
+      l10n.trialExpiredYearlyTitle;
 
-  String get perMonth {
-    return isEnglish ? 'per month' : 'pro Monat';
-  }
+  String get perMonth =>
+      l10n.welcomePerMonth;
 
-  String get perYear {
-    return isEnglish ? 'per year' : 'pro Jahr';
-  }
+  String get perYear =>
+      l10n.welcomePerYear;
 
-  String get cheaper {
-    return isEnglish ? 'Better value' : 'Günstiger';
-  }
+  String get cheaper =>
+      l10n.welcomeCheaper;
 
-  String get trialFooter {
-    return isEnglish
-        ? 'After the trial period, you can decide whether '
-            'you want to continue using FilaLog Premium.'
-        : 'Nach Ablauf der Testphase kannst du entscheiden, '
-            'ob du FilaLog Premium weiter nutzen möchtest.';
-  }
+  String get trialFooter =>
+      l10n.welcomeTrialFooter;
 
-  String get privacyPolicy {
-    return isEnglish ? 'Privacy Policy' : 'Datenschutz';
-  }
+  String get privacyPolicy =>
+      l10n.privacyPolicy;
 
-  String get legalNotice {
-    return isEnglish ? 'Legal Notice' : 'Impressum';
-  }
+  String get legalNotice =>
+      l10n.imprint;
 
-  String get termsOfService {
-    return isEnglish ? 'Terms of Service' : 'Nutzungsbedingungen';
-  }
+  String get termsOfService =>
+      l10n.termsOfService;
 }

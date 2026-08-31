@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 class AddItemDialog extends StatefulWidget {
 
@@ -48,8 +49,9 @@ class _AddItemDialogState
 
           },
 
-          child: const Text(
-              "Abbrechen"),
+          child: Text(
+  AppLocalizations.of(context)!.cancel,
+),
 
         ),
 
@@ -71,8 +73,9 @@ class _AddItemDialogState
 
           },
 
-          child: const Text(
-              "Speichern"),
+          child: Text(
+  AppLocalizations.of(context)!.save,
+),
 
         ),
 

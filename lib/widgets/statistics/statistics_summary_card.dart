@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 
 class StatisticsSummaryCard extends StatelessWidget {
   const StatisticsSummaryCard({
@@ -12,9 +13,11 @@ class StatisticsSummaryCard extends StatelessWidget {
   final int materialCount;
   final double totalWeight;
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
+ @override
+Widget build(BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
+
+  return Card(
       elevation: 0,
       color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -23,19 +26,27 @@ class StatisticsSummaryCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildItem(Icons.print_rounded, "$jobCount", "Drucke"),
-
-            _divider(),
-
-            _buildItem(Icons.category_rounded, "$materialCount", "Materialien"),
+            _buildItem(
+  Icons.print_rounded,
+  "$jobCount",
+  l10n.statisticsPrints,
+),
 
             _divider(),
 
             _buildItem(
-              Icons.scale_rounded,
-              "${totalWeight.toStringAsFixed(0)} g",
-              "Verbrauch",
-            ),
+  Icons.category_rounded,
+  "$materialCount",
+  l10n.statisticsMaterials,
+),
+
+            _divider(),
+
+            _buildItem(
+  Icons.scale_rounded,
+  "${totalWeight.toStringAsFixed(0)} g",
+  l10n.statisticsConsumption,
+),
           ],
         ),
       ),

@@ -533,6 +533,18 @@ abstract class AppLocalizations {
   /// **'Remaining weight'**
   String get remainingWeight;
 
+  /// No description provided for @editRemainingWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit remaining weight'**
+  String get editRemainingWeight;
+
+  /// No description provided for @remainingWeightGrams.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining weight (g)'**
+  String get remainingWeightGrams;
+
   /// No description provided for @spools.
   ///
   /// In en, this message translates to:
@@ -2549,11 +2561,35 @@ abstract class AppLocalizations {
   /// **'Inventory Value'**
   String get inventoryValue;
 
+  /// No description provided for @noFilamentsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No filaments available'**
+  String get noFilamentsAvailable;
+
   /// No description provided for @printJobs.
   ///
   /// In en, this message translates to:
   /// **'Print Jobs'**
   String get printJobs;
+
+  /// No description provided for @statisticsPrints.
+  ///
+  /// In en, this message translates to:
+  /// **'Prints'**
+  String get statisticsPrints;
+
+  /// No description provided for @statisticsMaterials.
+  ///
+  /// In en, this message translates to:
+  /// **'Materials'**
+  String get statisticsMaterials;
+
+  /// No description provided for @statisticsConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption'**
+  String get statisticsConsumption;
 
   /// No description provided for @printed.
   ///
@@ -2801,6 +2837,12 @@ abstract class AppLocalizations {
   /// **'Date'**
   String get date;
 
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
   /// No description provided for @selectFilament.
   ///
   /// In en, this message translates to:
@@ -2914,6 +2956,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Costs'**
   String get costs;
+
+  /// No description provided for @welcomeTrialTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try for 7 days free'**
+  String get welcomeTrialTitle;
+
+  /// No description provided for @welcomeTrialDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Try FilaLog free for 7 days and decide afterwards whether you want to continue with Premium.'**
+  String get welcomeTrialDescription;
+
+  /// No description provided for @welcomePerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'per month'**
+  String get welcomePerMonth;
+
+  /// No description provided for @welcomePerYear.
+  ///
+  /// In en, this message translates to:
+  /// **'per year'**
+  String get welcomePerYear;
+
+  /// No description provided for @welcomeCheaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Better value'**
+  String get welcomeCheaper;
+
+  /// No description provided for @welcomeTrialFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'After the trial period, you can decide whether you want to continue using FilaLog Premium.'**
+  String get welcomeTrialFooter;
 
   /// No description provided for @averagePerPrint.
   ///
@@ -3124,6 +3202,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your user account has been successfully created.'**
   String get accountCreatedDescription;
+
+  /// No description provided for @verifyEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify email'**
+  String get verifyEmailTitle;
+
+  /// No description provided for @verifyEmailAlmostDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost done'**
+  String get verifyEmailAlmostDone;
+
+  /// No description provided for @verifyEmailInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent you a verification email.\n\nPlease open the link in the email to activate your account.'**
+  String get verifyEmailInstructions;
+
+  /// No description provided for @verifyEmailNotVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email has not been verified yet.'**
+  String get verifyEmailNotVerified;
+
+  /// No description provided for @verifyEmailCheckFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The email verification could not be checked. Please try again.'**
+  String get verifyEmailCheckFailed;
+
+  /// No description provided for @verifyEmailResent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email has been sent again.'**
+  String get verifyEmailResent;
+
+  /// No description provided for @verifyEmailSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The verification email could not be sent.'**
+  String get verifyEmailSendFailed;
+
+  /// No description provided for @verifyEmailChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get verifyEmailChecking;
+
+  /// No description provided for @verifyEmailCheckAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get verifyEmailCheckAgain;
+
+  /// No description provided for @verifyEmailSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get verifyEmailSending;
+
+  /// No description provided for @verifyEmailResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get verifyEmailResend;
 
   /// No description provided for @accountCreatedEmailVerificationInfo.
   ///

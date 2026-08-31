@@ -230,6 +230,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remainingWeight => 'Remaining weight';
 
   @override
+  String get editRemainingWeight => 'Edit remaining weight';
+
+  @override
+  String get remainingWeightGrams => 'Remaining weight (g)';
+
+  @override
   String get spools => 'Spools';
 
   @override
@@ -1250,7 +1256,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inventoryValue => 'Inventory Value';
 
   @override
+  String get noFilamentsAvailable => 'No filaments available';
+
+  @override
   String get printJobs => 'Print Jobs';
+
+  @override
+  String get statisticsPrints => 'Prints';
+
+  @override
+  String get statisticsMaterials => 'Materials';
+
+  @override
+  String get statisticsConsumption => 'Consumption';
 
   @override
   String get printed => 'Printed';
@@ -1378,6 +1396,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get date => 'Date';
 
   @override
+  String get selectDate => 'Select date';
+
+  @override
   String get selectFilament => 'Select filament';
 
   @override
@@ -1433,6 +1454,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get costs => 'Costs';
+
+  @override
+  String get welcomeTrialTitle => 'Try for 7 days free';
+
+  @override
+  String get welcomeTrialDescription => 'Try FilaLog free for 7 days and decide afterwards whether you want to continue with Premium.';
+
+  @override
+  String get welcomePerMonth => 'per month';
+
+  @override
+  String get welcomePerYear => 'per year';
+
+  @override
+  String get welcomeCheaper => 'Better value';
+
+  @override
+  String get welcomeTrialFooter => 'After the trial period, you can decide whether you want to continue using FilaLog Premium.';
 
   @override
   String get averagePerPrint => 'Average per print';
@@ -1540,6 +1579,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountCreatedDescription => 'Your user account has been successfully created.';
+
+  @override
+  String get verifyEmailTitle => 'Verify email';
+
+  @override
+  String get verifyEmailAlmostDone => 'Almost done';
+
+  @override
+  String get verifyEmailInstructions => 'We sent you a verification email.\n\nPlease open the link in the email to activate your account.';
+
+  @override
+  String get verifyEmailNotVerified => 'Email has not been verified yet.';
+
+  @override
+  String get verifyEmailCheckFailed => 'The email verification could not be checked. Please try again.';
+
+  @override
+  String get verifyEmailResent => 'Verification email has been sent again.';
+
+  @override
+  String get verifyEmailSendFailed => 'The verification email could not be sent.';
+
+  @override
+  String get verifyEmailChecking => 'Checking...';
+
+  @override
+  String get verifyEmailCheckAgain => 'Check again';
+
+  @override
+  String get verifyEmailSending => 'Sending...';
+
+  @override
+  String get verifyEmailResend => 'Resend email';
 
   @override
   String get accountCreatedEmailVerificationInfo => 'Please confirm your email address now. You can then sign in and start using FilaLog.';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/filament.dart';
 import '../../../models/printer.dart';
 import '../../common/page_header.dart';
+import '../../../l10n/app_localizations.dart';
 
 class CostMobileLayout extends StatelessWidget {
   const CostMobileLayout({
@@ -95,7 +96,9 @@ class CostMobileLayout extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ListView(
           children: [
-            const PageHeader(title: "Kosten berechnen"),
+            PageHeader(
+  title: AppLocalizations.of(context)!.calculateCosts,
+),
 
             Container(
               padding: const EdgeInsets.all(20),
@@ -120,18 +123,26 @@ class CostMobileLayout extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Projekt",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
+                  Text(
+  AppLocalizations.of(context)!.project,
+  style: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+  ),
+),
 
                   const SizedBox(height: 20),
 
-                  _field("Projektname", projectController),
+                  _field(
+  AppLocalizations.of(context)!.projectName,
+  projectController,
+),
 
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text("Datum auswählen"),
+                    title: Text(
+  AppLocalizations.of(context)!.selectDate,
+),
                     subtitle: Text(formattedDate),
                     trailing: const Icon(Icons.calendar_today),
                     onTap: onPickDate,
@@ -141,9 +152,9 @@ class CostMobileLayout extends StatelessWidget {
 
                   DropdownButtonFormField<Filament>(
                     initialValue: selectedFilament,
-                    decoration: const InputDecoration(
-                      labelText: "Filament auswählen",
-                    ),
+                    decoration: InputDecoration(
+  labelText: AppLocalizations.of(context)!.selectFilament,
+),
                     items: filaments.map((f) {
                       final percent = (f.remainingWeight / f.totalWeight) * 100;
 
@@ -167,9 +178,9 @@ class CostMobileLayout extends StatelessWidget {
 
                   DropdownButtonFormField<Printer>(
   initialValue: selectedPrinter,
-                    decoration: const InputDecoration(
-                      labelText: "Drucker auswählen",
-                    ),
+                    decoration: InputDecoration(
+  labelText: AppLocalizations.of(context)!.selectPrinter,
+),
                     items: printers
                         .map(
                           (p) => DropdownMenuItem<Printer>(
@@ -209,27 +220,45 @@ class CostMobileLayout extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Berechnung",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
+                  Text(
+  AppLocalizations.of(context)!.calculation,
+  style: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+  ),
+),
 
                   const SizedBox(height: 20),
 
-                  _numberField("Watt", wattController),
-
-                  _numberField("Objektgewicht (g)", objectWeightController),
-
-                  _numberField("Druckzeit (Minuten)", printTimeController),
-
-                  _numberField("Spulengewicht (g)", spoolWeightController),
-
-                  _numberField("Spulenpreis (€)", spoolPriceController),
+                  _numberField(
+  AppLocalizations.of(context)!.watt,
+  wattController,
+),
 
                   _numberField(
-                    "Stromkosten pro kWh",
-                    electricityPriceController,
-                  ),
+  '${AppLocalizations.of(context)!.objectWeight} (g)',
+  objectWeightController,
+),
+
+                  _numberField(
+  AppLocalizations.of(context)!.printTimeMinutes,
+  printTimeController,
+),
+
+                  _numberField(
+  '${AppLocalizations.of(context)!.spoolWeight} (g)',
+  spoolWeightController,
+),
+
+                  _numberField(
+  '${AppLocalizations.of(context)!.spoolPrice} (€)',
+  spoolPriceController,
+),
+
+                  _numberField(
+  AppLocalizations.of(context)!.electricityCostPerKwh,
+  electricityPriceController,
+),
                 ],
               ),
             ),
@@ -237,7 +266,9 @@ class CostMobileLayout extends StatelessWidget {
             const SizedBox(height: 20),
 
             SwitchListTile(
-              title: const Text("Vom Lager abziehen"),
+              title: Text(
+  AppLocalizations.of(context)!.subtractFromStock,
+),
               value: subtractFromStock,
               onChanged: onSubtractChanged,
             ),
@@ -246,33 +277,46 @@ class CostMobileLayout extends StatelessWidget {
 
             ElevatedButton(
               onPressed: onCalculate,
-              child: const Text("Kosten berechnen"),
+              child: Text(
+  AppLocalizations.of(context)!.calculateCosts,
+),
             ),
 
             const SizedBox(height: 20),
 
             Text(
-              "Filamentkosten: ${filamentCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 18),
-            ),
+  '${AppLocalizations.of(context)!.filamentCost}: '
+  '${filamentCost.toStringAsFixed(2)} €',
+  style: const TextStyle(fontSize: 18),
+),
 
             const SizedBox(height: 8),
 
             Text(
-              "Stromkosten: ${electricityCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 18),
-            ),
+  '${AppLocalizations.of(context)!.electricityCost}: '
+  '${electricityCost.toStringAsFixed(2)} €',
+  style: const TextStyle(fontSize: 18),
+),
 
             const SizedBox(height: 8),
 
             Text(
-              "Gesamtkosten: ${totalCost.toStringAsFixed(2)} €",
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+  '${AppLocalizations.of(context)!.totalCost}: '
+  '${totalCost.toStringAsFixed(2)} €',
+  style: const TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
             const SizedBox(height: 20),
 
-            ElevatedButton(onPressed: onSave, child: const Text("Speichern")),
+            ElevatedButton(
+  onPressed: onSave,
+  child: Text(
+    AppLocalizations.of(context)!.save,
+  ),
+),
 
             const SizedBox(height: 20),
           ],

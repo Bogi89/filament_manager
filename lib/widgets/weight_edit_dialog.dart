@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/filament.dart';
+import '../l10n/app_localizations.dart';
 
 Future<void> showWeightEditDialog({
   required BuildContext context,
@@ -12,12 +13,16 @@ Future<void> showWeightEditDialog({
   await showDialog(
     context: context,
     builder: (_) => AlertDialog(
-      title: const Text("Restgewicht ändern"),
+      title: Text(
+  AppLocalizations.of(context)!.editRemainingWeight,
+),
       content: TextField(
         controller: controller,
         keyboardType: TextInputType.number,
         decoration:
-            const InputDecoration(labelText: "Restgewicht (g)"),
+            InputDecoration(
+  labelText: AppLocalizations.of(context)!.remainingWeightGrams,
+),
       ),
       actions: [
         IconButton(

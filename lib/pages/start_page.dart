@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/filament.dart';
 import '../models/print_job.dart';
+import '../l10n/app_localizations.dart';
 
 class StartPage extends StatelessWidget {
   final List<Filament> filaments;
@@ -20,6 +21,8 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final totalWeight =
         filaments.fold<double>(0, (sum, f) => sum + f.remainingWeight);
 
@@ -35,7 +38,7 @@ class StartPage extends StatelessWidget {
               Expanded(
                 child: _infoCard(
                   icon: Icons.inventory_2,
-                  title: "Gesamtbestand",
+                  title: l10n.totalInventory,
                   value: "${totalWeight.toStringAsFixed(0)} g",
                 ),
               ),
@@ -43,21 +46,26 @@ class StartPage extends StatelessWidget {
               Expanded(
                 child: _infoCard(
                   icon: Icons.euro,
-                  title: "Lagerwert",
+                  title: l10n.inventoryValue,
                   value: "${totalValue.toStringAsFixed(2)} €",
                 ),
               ),
             ],
           ),
         ),
-        const Text(
-          "Filamente",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(
+  l10n.filaments,
+  style: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  ),
+),
         const SizedBox(height: 10),
         Expanded(
           child: filaments.isEmpty
-              ? const Center(child: Text("Keine Filamente vorhanden"))
+              ? Center(
+    child: Text(l10n.noFilamentsAvailable),
+  )
               : ListView.builder(
                   itemCount: filaments.length,
                   itemBuilder: (context, index) {
