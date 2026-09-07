@@ -820,13 +820,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get premiumPaymentProcessingTitle => 'Payment Processing';
 
   @override
-  String get premiumPaymentProcessingContent => 'On Android, payments are processed through Google Play. For the web version, payments are processed through the official website using PayPal.';
+  String get premiumPaymentProcessingContent => 'For the web version, payments are processed through Paddle. On Android, payments are processed through Google Play.';
 
   @override
   String get premiumPlatformsTitle => 'Platforms';
 
   @override
-  String get premiumPlatformsContent => 'On Android, the Premium membership is purchased through Google Play. For the web version, Premium can be purchased through the official website using PayPal.';
+  String get premiumPlatformsContent => 'For the web version, Premium can be purchased through the official FilaLog website using Paddle. On Android, Premium is purchased through Google Play.';
 
   @override
   String get premiumTrialAndPremiumTitle => 'Trial Period & Premium';
@@ -850,7 +850,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get premiumDurationTitle => 'Subscription Periods';
 
   @override
-  String get premiumDurationContent => 'Premium is offered as a monthly or annual membership.';
+  String get premiumDurationContent => 'For the web version, Premium is offered as an annual subscription for €19.99 per year. On Android, monthly and annual subscriptions are available through Google Play.';
 
   @override
   String get premiumCancellationTitle => 'Cancellation';
@@ -914,6 +914,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get withdrawalPurchaseInfoContent => 'Before completing a Premium membership, the legally required information regarding the right of withdrawal and the processing of the contract is provided for the respective purchase.';
+
+  @override
+  String get refundPolicy => 'Refund Policy';
+
+  @override
+  String get refundGeneralTitle => 'Refunds';
+
+  @override
+  String get refundGeneralContent => 'Payments for FilaLog Premium are processed by the respective payment provider. Refunds are subject to the applicable terms of that provider as well as mandatory statutory consumer rights.';
+
+  @override
+  String get refundWebTitle => 'Web Version via Paddle';
+
+  @override
+  String get refundWebContent => 'For Premium subscriptions purchased through the FilaLog web version, payments are processed by Paddle. Refund requests can be submitted through Paddle\'s buyer support. Statutory consumer rights remain unaffected.';
+
+  @override
+  String get refundAndroidTitle => 'Android via Google Play';
+
+  @override
+  String get refundAndroidContent => 'For Premium subscriptions purchased through the Android app, payments are processed through Google Play. Refunds are subject to the terms and procedures of Google Play. Statutory consumer rights remain unaffected.';
+
+  @override
+  String get refundCancellationTitle => 'Subscription Cancellation';
+
+  @override
+  String get refundCancellationContent => 'Cancelling a subscription stops its automatic renewal. Amounts already paid are not automatically refunded when a subscription is cancelled. Any potential refund is assessed separately from the cancellation.';
+
+  @override
+  String get refundWithdrawalTitle => 'Right of Withdrawal';
+
+  @override
+  String get refundWithdrawalContent => 'This refund policy does not restrict any statutory rights of withdrawal or other consumer rights. Further information is available in FilaLog\'s separate Right of Withdrawal notice.';
+
+  @override
+  String get refundSupportTitle => 'Questions and Support';
+
+  @override
+  String get refundSupportContent => 'If you have questions about a purchase or refund, you can contact support@filalog.de.';
 
   @override
   String get consumerInformation => 'Consumer Information';

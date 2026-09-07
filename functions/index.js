@@ -20,6 +20,8 @@ const {
 
 const logger = require("firebase-functions/logger");
 
+const {Paddle, Environment} = require("@paddle/paddle-node-sdk");
+
 initializeApp();
 
 const db = getFirestore();
@@ -32,6 +34,19 @@ const paypalClientId =
 
 const paypalClientSecret =
     defineSecret("PAYPAL_CLIENT_SECRET");
+
+const paddleApiKey = defineSecret("PADDLE_API_KEY");
+const paddleWebhookSecret = defineSecret("PADDLE_WEBHOOK_SECRET");
+
+const PADDLE_SANDBOX_YEARLY_PRICE_ID =
+    "pri_01m1d11wsxe99cv3522p6eszj3";
+
+const PADDLE_SANDBOX_PRODUCT_ID =
+    "pro_01m1d0mvxnzvjqa2qnmzmxb9zp";
+
+const PADDLE_YEARLY_AMOUNT = "1999";
+
+const PADDLE_CURRENCY_CODE = "EUR";
 
 const PAYPAL_API_BASE_URL =
     "https://api-m.paypal.com";
@@ -85,6 +100,219 @@ function getUserAccessReference(uid) {
       .doc(uid)
       .collection("appData")
       .doc("main");
+}
+
+/**
+ * Aktiviert FilaLog Premium nach einem gültigen Paddle-Jahreskauf.
+ *
+ * @param {string} uid Firebase User-ID.
+ * @param {object} event Verifiziertes Paddle transaction.completed Event.
+ * @return {Promise<void>}
+ */
+async function activatePaddleYearlyPremium(
+    uid,
+    event,
+) {
+  if (
+    typeof uid !== "string" ||
+    uid.length === 0 ||
+    !event ||
+    !event.data
+  ) {
+    throw new Error(
+        "Invalid Paddle premium activation data",
+    );
+  }
+
+  const data = event.data;
+
+  const customerId =
+      typeof data.customerId === "string" ?
+        data.customerId :
+        null;
+
+  const subscriptionId =
+      typeof data.subscriptionId === "string" ?
+        data.subscriptionId :
+        null;
+
+  const transactionId =
+      typeof data.id === "string" ?
+        data.id :
+        null;
+
+  if (
+    !customerId ||
+    !subscriptionId ||
+    !transactionId
+  ) {
+    throw new Error(
+        "Missing Paddle identifiers for premium activation",
+    );
+  }
+
+  const reference =
+      getUserAccessReference(uid);
+
+  await reference.set(
+      {
+        premiumActive: true,
+        premiumProvider: "paddle",
+        premiumPlan: "yearly",
+
+        paddleCustomerId:
+            customerId,
+
+        paddleSubscriptionId:
+            subscriptionId,
+
+        paddleTransactionId:
+            transactionId,
+
+        paddleSubscriptionStatus:
+            "active",
+
+        paddleLastWebhookEvent:
+            event.eventType,
+
+        paddleLastWebhookEventId:
+            event.eventId,
+
+        paddleUpdatedAt:
+            FieldValue.serverTimestamp(),
+      },
+      {
+        merge: true,
+      },
+  );
+
+  logger.info(
+      "FilaLog Paddle premium activated",
+      {
+        uid,
+        subscriptionId,
+        transactionId,
+      },
+  );
+}
+
+/**
+ * Speichert den aktiven Paddle-Abozeitraum eines Benutzers.
+ *
+ * @param {string} uid Firebase User-ID.
+ * @param {object} event Verifiziertes Paddle subscription.activated Event.
+ * @return {Promise<void>}
+ */
+async function updatePaddleActiveSubscription(
+    uid,
+    event,
+) {
+  if (
+    typeof uid !== "string" ||
+    uid.length === 0 ||
+    !event ||
+    !event.data
+  ) {
+    throw new Error(
+        "Invalid Paddle subscription data",
+    );
+  }
+
+  const data = event.data;
+
+  const subscriptionId =
+      typeof data.id === "string" ?
+        data.id :
+        null;
+
+  const customerId =
+      typeof data.customerId === "string" ?
+        data.customerId :
+        null;
+
+  const billingPeriod =
+      data.currentBillingPeriod &&
+      typeof data.currentBillingPeriod === "object" ?
+        data.currentBillingPeriod :
+        null;
+
+  const periodStartsAt =
+      billingPeriod &&
+      typeof billingPeriod.startsAt === "string" ?
+        billingPeriod.startsAt :
+        null;
+
+  const periodEndsAt =
+      billingPeriod &&
+      typeof billingPeriod.endsAt === "string" ?
+        billingPeriod.endsAt :
+        null;
+
+  const nextBilledAt =
+      typeof data.nextBilledAt === "string" ?
+        data.nextBilledAt :
+        null;
+
+  if (
+    !subscriptionId ||
+    !customerId ||
+    !periodStartsAt ||
+    !periodEndsAt
+  ) {
+    throw new Error(
+        "Missing Paddle subscription period data",
+    );
+  }
+
+  const reference =
+      getUserAccessReference(uid);
+
+  await reference.set(
+      {
+        premiumActive: true,
+        premiumProvider: "paddle",
+        premiumPlan: "yearly",
+
+        paddleCustomerId:
+            customerId,
+
+        paddleSubscriptionId:
+            subscriptionId,
+
+        paddleSubscriptionStatus:
+            "active",
+
+        paddleCurrentPeriodStart:
+            periodStartsAt,
+
+        paddleCurrentPeriodEnd:
+            periodEndsAt,
+
+        paddleNextBilledAt:
+            nextBilledAt,
+
+        paddleLastWebhookEvent:
+            event.eventType,
+
+        paddleLastWebhookEventId:
+            event.eventId,
+
+        paddleUpdatedAt:
+            FieldValue.serverTimestamp(),
+      },
+      {
+        merge: true,
+      },
+  );
+
+  logger.info(
+      "FilaLog Paddle subscription activated",
+      {
+        uid,
+        subscriptionId,
+        periodEndsAt,
+      },
+  );
 }
 
 /**
@@ -1034,6 +1262,631 @@ exports.paypalWebhook = onRequest(
         response.status(500).json({
           error:
               "Webhook processing failed",
+        });
+      }
+    },
+);
+
+/**
+ * Erstellt eine sichere, einmalig verwendbare Referenz für einen
+ * Paddle-Checkout.
+ *
+ * Die Firebase-UID wird ausschließlich aus request.auth übernommen
+ * und nicht vom Client übergeben.
+ */
+exports.createPaddleCheckoutReference = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      if (!request.auth) {
+        throw new HttpsError(
+            "unauthenticated",
+            "You must be signed in.",
+        );
+      }
+
+      const uid = request.auth.uid;
+
+      const reference = db
+          .collection("paddleCheckoutReferences")
+          .doc();
+
+      await reference.set({
+        uid,
+        used: false,
+        createdAt: FieldValue.serverTimestamp(),
+      });
+
+      logger.info(
+          "Paddle checkout reference created",
+          {
+            uid,
+            checkoutReference: reference.id,
+          },
+      );
+
+      return {
+        checkoutReference: reference.id,
+      };
+    },
+);
+
+/**
+ * Prüft, ob ein Paddle transaction.completed Event exakt
+ * zum erlaubten FilaLog Web-Jahresabo gehört.
+ *
+ * @param {object} event Paddle Webhook-Event.
+ * @return {boolean} True bei gültigem FilaLog Jahresabo.
+ */
+function isValidPaddleYearlyTransaction(
+    event,
+) {
+  if (
+    !event ||
+    !event.data ||
+    event.eventType !== "transaction.completed"
+  ) {
+    return false;
+  }
+
+  const data = event.data;
+
+  if (data.status !== "completed") {
+    return false;
+  }
+
+  if (data.currencyCode !== PADDLE_CURRENCY_CODE) {
+    return false;
+  }
+
+  const items =
+      Array.isArray(data.items) ?
+        data.items :
+        [];
+
+  if (items.length !== 1) {
+    return false;
+  }
+
+  const item = items[0];
+
+  if (
+    !item ||
+    item.quantity !== 1 ||
+    !item.price
+  ) {
+    return false;
+  }
+
+  const price = item.price;
+
+  if (
+    price.id !== PADDLE_SANDBOX_YEARLY_PRICE_ID ||
+    price.productId !== PADDLE_SANDBOX_PRODUCT_ID
+  ) {
+    return false;
+  }
+
+  if (
+    !price.unitPrice ||
+    price.unitPrice.amount !== PADDLE_YEARLY_AMOUNT ||
+    price.unitPrice.currencyCode !== PADDLE_CURRENCY_CODE
+  ) {
+    return false;
+  }
+
+  if (
+    !price.billingCycle ||
+    price.billingCycle.interval !== "year" ||
+    price.billingCycle.frequency !== 1
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Löst eine Paddle Checkout-Referenz serverseitig in die zugehörige
+ * Firebase-UID auf.
+ *
+ * @param {string} checkoutReference Sichere Checkout-Referenz.
+ * @return {Promise<string|null>} Firebase-UID oder null.
+ */
+async function resolvePaddleCheckoutReference(
+    checkoutReference,
+) {
+  if (
+    typeof checkoutReference !== "string" ||
+    checkoutReference.length === 0
+  ) {
+    return null;
+  }
+
+  const reference = db
+      .collection("paddleCheckoutReferences")
+      .doc(checkoutReference);
+
+  const snapshot = await reference.get();
+
+  if (!snapshot.exists) {
+    return null;
+  }
+
+  const data = snapshot.data();
+
+  if (
+    !data ||
+    typeof data.uid !== "string" ||
+    data.uid.length === 0
+  ) {
+    return null;
+  }
+
+  return data.uid;
+}
+
+/**
+ * Verbraucht eine Paddle Checkout-Referenz atomar.
+ *
+ * Eine Referenz darf nur einmal für einen erfolgreichen
+ * transaction.completed Vorgang verwendet werden.
+ *
+ * @param {string} checkoutReference Sichere Checkout-Referenz.
+ * @param {string} eventId Paddle Event-ID.
+ * @param {string} transactionId Paddle Transaction-ID.
+ * @param {string} subscriptionId Paddle Subscription-ID.
+ * @return {Promise<string|null>} Firebase-UID oder null.
+ */
+async function consumePaddleCheckoutReference(
+    checkoutReference,
+    eventId,
+    transactionId,
+    subscriptionId,
+) {
+  if (
+    typeof checkoutReference !== "string" ||
+    checkoutReference.length === 0 ||
+    typeof eventId !== "string" ||
+    eventId.length === 0 ||
+    typeof transactionId !== "string" ||
+    transactionId.length === 0 ||
+    typeof subscriptionId !== "string" ||
+    subscriptionId.length === 0
+  ) {
+    return null;
+  }
+
+  const reference = db
+      .collection("paddleCheckoutReferences")
+      .doc(checkoutReference);
+
+  return db.runTransaction(
+      async (transaction) => {
+        const snapshot =
+            await transaction.get(reference);
+
+        if (!snapshot.exists) {
+          return null;
+        }
+
+        const data = snapshot.data();
+
+        if (
+          !data ||
+          typeof data.uid !== "string" ||
+          data.uid.length === 0 ||
+          data.used === true
+        ) {
+          return null;
+        }
+
+        transaction.update(
+            reference,
+            {
+              used: true,
+              usedAt:
+                  FieldValue.serverTimestamp(),
+              paddleEventId: eventId,
+              paddleTransactionId:
+                  transactionId,
+              paddleSubscriptionId:
+                  subscriptionId,
+            },
+        );
+
+        return data.uid;
+      },
+  );
+}
+
+/**
+ * Reserviert ein Paddle Webhook-Event zur einmaligen Verarbeitung.
+ *
+ * Der Sandbox-Präfix verhindert später eine Kollision mit Live-Events.
+ *
+ * @param {string} eventId Paddle Event-ID.
+ * @param {string} eventType Paddle Event-Typ.
+ * @return {Promise<boolean>} True bei neuer Reservierung.
+ */
+async function reservePaddleWebhookEvent(
+    eventId,
+    eventType,
+) {
+  const reference = db
+      .collection("paddleWebhookEvents")
+      .doc(`sandbox_${eventId}`);
+
+  try {
+    await reference.create({
+      eventId,
+      eventType,
+      environment: "sandbox",
+      processingStatus: "PROCESSING",
+      createdAt:
+          FieldValue.serverTimestamp(),
+    });
+
+    return true;
+  } catch (error) {
+    if (
+      error &&
+      (
+        error.code === 6 ||
+        error.code === "already-exists"
+      )
+    ) {
+      return false;
+    }
+
+    throw error;
+  }
+}
+
+/**
+ * Markiert ein erfolgreich verarbeitetes Paddle Webhook-Event.
+ *
+ * @param {string} eventId Paddle Event-ID.
+ * @return {Promise<void>}
+ */
+async function completePaddleWebhookEvent(
+    eventId,
+) {
+  await db
+      .collection("paddleWebhookEvents")
+      .doc(`sandbox_${eventId}`)
+      .set(
+          {
+            processingStatus: "COMPLETED",
+            completedAt:
+                FieldValue.serverTimestamp(),
+          },
+          {
+            merge: true,
+          },
+      );
+}
+
+/**
+ * Entfernt eine fehlgeschlagene Paddle Webhook-Reservierung.
+ *
+ * Dadurch darf Paddle das Event später erneut zustellen.
+ *
+ * @param {string} eventId Paddle Event-ID.
+ * @return {Promise<void>}
+ */
+async function releasePaddleWebhookEvent(
+    eventId,
+) {
+  await db
+      .collection("paddleWebhookEvents")
+      .doc(`sandbox_${eventId}`)
+      .delete();
+}
+
+/**
+ * Empfängt und verifiziert Paddle Sandbox-Webhooks.
+ */
+exports.paddleWebhook = onRequest(
+    {
+      region: "europe-west1",
+      secrets: [
+        paddleApiKey,
+        paddleWebhookSecret,
+      ],
+    },
+    async (request, response) => {
+      if (request.method !== "POST") {
+        response.status(405).json({
+          error: "Method Not Allowed",
+        });
+        return;
+      }
+
+      const signature =
+          request.get("Paddle-Signature");
+
+      if (!signature) {
+        logger.warn(
+            "Paddle webhook rejected: missing signature",
+        );
+
+        response.status(400).json({
+          error: "Missing Paddle-Signature header",
+        });
+        return;
+      }
+
+      if (!request.rawBody) {
+        logger.error(
+            "Paddle webhook rejected: raw body unavailable",
+        );
+
+        response.status(400).json({
+          error: "Raw request body unavailable",
+        });
+        return;
+      }
+
+      const paddle = new Paddle(
+          paddleApiKey.value(),
+          {
+            environment: Environment.sandbox,
+          },
+      );
+
+      const rawBody =
+          request.rawBody.toString("utf8");
+
+      let event;
+
+      try {
+        event = await paddle.webhooks.unmarshal(
+            rawBody,
+            paddleWebhookSecret.value(),
+            signature,
+        );
+      } catch (error) {
+        logger.warn(
+            "Paddle webhook signature verification failed",
+            {
+              message:
+                  error instanceof Error ?
+                    error.message :
+                    String(error),
+            },
+        );
+
+        response.status(401).json({
+          error: "Invalid webhook signature",
+        });
+        return;
+      }
+
+      const eventId =
+          typeof event.eventId === "string" ?
+            event.eventId :
+            null;
+
+      const eventType =
+          typeof event.eventType === "string" ?
+            event.eventType :
+            null;
+
+      if (!eventId || !eventType) {
+        logger.error(
+            "Verified Paddle webhook missing event metadata",
+        );
+
+        response.status(400).json({
+          error: "Invalid Paddle webhook event",
+        });
+        return;
+      }
+
+      let eventReserved = false;
+
+      try {
+        eventReserved =
+            await reservePaddleWebhookEvent(
+                eventId,
+                eventType,
+            );
+
+        if (!eventReserved) {
+          logger.info(
+              "Duplicate Paddle webhook ignored",
+              {
+                eventId,
+                eventType,
+              },
+          );
+
+          response.status(200).json({
+            received: true,
+            duplicate: true,
+          });
+          return;
+        }
+
+        if (
+          eventType === "transaction.completed" &&
+          !isValidPaddleYearlyTransaction(event)
+        ) {
+          logger.warn(
+              "Invalid Paddle yearly transaction ignored",
+              {
+                eventId,
+                eventType,
+              },
+          );
+
+          await completePaddleWebhookEvent(
+              eventId,
+          );
+
+          response.status(200).json({
+            received: true,
+            ignored: true,
+            reason: "invalid_transaction",
+          });
+          return;
+        }
+
+        const customData =
+            event.data &&
+            event.data.customData &&
+            typeof event.data.customData === "object" ?
+              event.data.customData :
+              null;
+
+        const checkoutReference =
+            customData &&
+            typeof customData.checkoutReference === "string" ?
+              customData.checkoutReference :
+              null;
+
+        let uid = null;
+
+        if (
+          eventType === "transaction.completed"
+        ) {
+          const transactionId =
+              event.data &&
+              typeof event.data.id === "string" ?
+                event.data.id :
+                null;
+
+          const subscriptionId =
+              event.data &&
+              typeof event.data.subscriptionId === "string" ?
+                event.data.subscriptionId :
+                null;
+
+          if (checkoutReference) {
+            uid =
+                await consumePaddleCheckoutReference(
+                    checkoutReference,
+                    eventId,
+                    transactionId,
+                    subscriptionId,
+                );
+          }
+        } else if (checkoutReference) {
+          uid =
+              await resolvePaddleCheckoutReference(
+                  checkoutReference,
+              );
+        }
+
+        if (
+          eventType === "transaction.completed" &&
+          uid !== null
+        ) {
+          await activatePaddleYearlyPremium(
+              uid,
+              event,
+          );
+        }
+
+        if (
+          eventType === "subscription.activated" &&
+          uid !== null
+        ) {
+          await updatePaddleActiveSubscription(
+              uid,
+              event,
+          );
+        }
+
+        logger.info(
+            "Verified Paddle webhook received",
+            {
+              eventId,
+              eventType,
+              checkoutReference,
+              uidResolved: uid !== null,
+            },
+        );
+
+        if (
+          eventType === "subscription.activated"
+        ) {
+          const subscriptionData =
+              event.data || {};
+
+          logger.info(
+              "Paddle subscription activated data",
+              {
+                status:
+                    subscriptionData.status || null,
+                customerId:
+                    subscriptionData.customerId || null,
+                subscriptionId:
+                    subscriptionData.id || null,
+                currentBillingPeriod:
+                    subscriptionData.currentBillingPeriod || null,
+                nextBilledAt:
+                    subscriptionData.nextBilledAt || null,
+                scheduledChange:
+                    subscriptionData.scheduledChange || null,
+                occurredAt:
+                    event.occurredAt || null,
+              },
+          );
+        }
+
+        await completePaddleWebhookEvent(
+            eventId,
+        );
+
+        logger.info(
+            "Verified Paddle webhook processed",
+            {
+              eventId,
+              eventType,
+            },
+        );
+
+        response.status(200).json({
+          received: true,
+          verified: true,
+        });
+      } catch (error) {
+        if (eventReserved) {
+          try {
+            await releasePaddleWebhookEvent(
+                eventId,
+            );
+          } catch (releaseError) {
+            logger.error(
+                "Could not release failed Paddle webhook event",
+                {
+                  eventId,
+                  message:
+                      releaseError instanceof Error ?
+                        releaseError.message :
+                        "Unknown error",
+                },
+            );
+          }
+        }
+
+        logger.error(
+            "Paddle webhook processing failed",
+            {
+              eventId,
+              eventType,
+              message:
+                  error instanceof Error ?
+                    error.message :
+                    "Unknown error",
+            },
+        );
+
+        response.status(500).json({
+          error: "Webhook processing failed",
         });
       }
     },

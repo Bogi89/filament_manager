@@ -1,46 +1,456 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <<meta name="description" content="FilaLog – Smart Filament Management für den 3D-Druck.">
 
-  <!-- iOS meta tags & icons -->
+  <meta
+    name="description"
+    content="FilaLog – Smart Filament Management für den 3D-Druck. Verwalte Filamente, Restbestände, Druckkosten, Druckhistorie und Statistiken."
+  >
+
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <<meta name="apple-mobile-web-app-title" content="FilaLog">
+  <meta name="apple-mobile-web-app-title" content="FilaLog">
+
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>FilaLog – Smart Filament Management</title>
 
-  <title>FilaLog</title>
   <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <style>
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #f5f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+    }
+
+    #filalog-static-shell {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      box-sizing: border-box;
+      overflow-y: auto;
+      background: #f5f7fb;
+    }
+
+    .filalog-container {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 44px 24px 70px;
+    }
+
+    .filalog-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .filalog-logo {
+      display: block;
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 12px;
+      border-radius: 16px;
+    }
+
+    .filalog-header h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.2;
+      color: #111827;
+    }
+
+    .filalog-subtitle {
+      margin: 6px 0 0;
+      font-size: 16px;
+      color: #6b7280;
+    }
+
+    .filalog-open-button {
+      display: inline-block;
+      box-sizing: border-box;
+      margin-top: 22px;
+      padding: 12px 30px;
+      border: 0;
+      border-radius: 10px;
+      background: #3b82f6;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.22);
+    }
+
+    .filalog-open-button:hover {
+      background: #2563eb;
+    }
+
+    .filalog-open-button:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+
+    .filalog-card {
+      box-sizing: border-box;
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid #dbe7f8;
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    .filalog-card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .filalog-icon {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #eef5ff;
+      color: #3b82f6;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .filalog-card h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #111827;
+    }
+
+    .filalog-card p {
+      margin: 8px 0;
+      line-height: 1.65;
+      color: #4b5563;
+    }
+
+    .filalog-feature-list {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .filalog-feature-list li {
+      position: relative;
+      margin: 7px 0;
+      padding-left: 30px;
+      color: #4b5563;
+    }
+
+    .filalog-feature-list li::before {
+      position: absolute;
+      left: 2px;
+      top: -2px;
+      content: "✓";
+      color: #3b82f6;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .filalog-features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .filalog-feature {
+      box-sizing: border-box;
+      padding: 20px 14px;
+      border: 1px solid #dbe7f8;
+      border-radius: 16px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .filalog-feature-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: #eef5ff;
+      color: #3b82f6;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .filalog-feature h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: #111827;
+    }
+
+    .filalog-feature p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #6b7280;
+    }
+
+    .filalog-legal-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-top: 4px;
+    }
+
+    .filalog-legal-nav a {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+
+    .filalog-legal-nav a:hover {
+      color: #1d4ed8;
+    }
+
+    @media (max-width: 760px) {
+      .filalog-container {
+        padding: 28px 16px 48px;
+      }
+
+      .filalog-features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .filalog-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .filalog-features {
+        grid-template-columns: 1fr;
+      }
+
+      .filalog-header h1 {
+        font-size: 30px;
+      }
+
+      .filalog-open-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main id="filalog-static-shell">
+    <div class="filalog-container">
+
+      <header class="filalog-header">
+        <img
+          class="filalog-logo"
+          src="icons/Icon-192.png"
+          alt="FilaLog Logo"
+        >
+
+        <h1>FilaLog</h1>
+
+        <p class="filalog-subtitle">
+          Smart Filament Management
+        </p>
+
+        <button
+          id="filalog-open-button"
+          class="filalog-open-button"
+          type="button"
+          onclick="openFilaLog()"
+        >
+          FilaLog öffnen
+        </button>
+      </header>
+
+      <section class="filalog-card">
+        <div class="filalog-card-title">
+          <div class="filalog-icon">▤</div>
+          <h2>Über FilaLog</h2>
+        </div>
+
+        <p>
+          FilaLog ist eine Software zur Verwaltung von Filamenten für
+          den 3D-Druck.
+        </p>
+
+        <p>
+          Mit FilaLog können Nutzer ihren Filamentbestand verwalten,
+          Restgewichte verfolgen, Druckkosten berechnen, ihre
+          Druckhistorie dokumentieren und Verbrauchsstatistiken
+          auswerten.
+        </p>
+      </section>
+
+      <section class="filalog-card">
+        <div class="filalog-card-title">
+          <div class="filalog-icon">♛</div>
+          <h2>FilaLog Premium</h2>
+        </div>
+
+        <p>
+          Für die Web-Version von FilaLog wird ein
+          Premium-Jahresabonnement für
+          <strong>19,99 € pro Jahr</strong> angeboten.
+        </p>
+
+        <ul class="filalog-feature-list">
+          <li>Filamentverwaltung</li>
+          <li>Bestands- und Restgewichtsverwaltung</li>
+          <li>Druckkostenberechnung</li>
+          <li>Druckhistorie</li>
+          <li>Statistiken und Auswertungen</li>
+          <li>Cloud-Synchronisierung</li>
+        </ul>
+      </section>
+
+      <section class="filalog-features">
+        <article class="filalog-feature">
+          <div class="filalog-feature-icon">◇</div>
+          <h3>Alles im Blick</h3>
+          <p>
+            Verwalte deine Filamente zentral.
+          </p>
+        </article>
+
+        <article class="filalog-feature">
+          <div class="filalog-feature-icon">▥</div>
+          <h3>Detaillierte Statistiken</h3>
+          <p>
+            Werte deinen Verbrauch übersichtlich aus.
+          </p>
+        </article>
+
+        <article class="filalog-feature">
+          <div class="filalog-feature-icon">☁</div>
+          <h3>Überall verfügbar</h3>
+          <p>
+            Synchronisiere deine Daten sicher in der Cloud.
+          </p>
+        </article>
+
+        <article class="filalog-feature">
+          <div class="filalog-feature-icon">€</div>
+          <h3>Faire Preise</h3>
+          <p>
+            Einfaches Jahresabonnement.
+          </p>
+        </article>
+      </section>
+
+      <section class="filalog-card">
+        <div class="filalog-card-title">
+          <div class="filalog-icon">↗</div>
+          <h2>Weitere Informationen</h2>
+        </div>
+
+        <nav
+  class="filalog-legal-nav"
+  aria-label="Rechtliche Informationen"
+>
+  <a href="/premium/" data-static-link>Premium &amp; Abonnement</a>
+  <a href="/terms/" data-static-link>Nutzungsbedingungen</a>
+  <a href="/privacy/" data-static-link>Datenschutz</a>
+  <a href="/refund/" data-static-link>Rückerstattungsrichtlinie</a>
+  <a href="/withdrawal/" data-static-link>Widerrufsbelehrung</a>
+</nav>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+  let flutterFirstFrameReady = false;
+  let openFilaLogRequested = false;
+
+  function hideStaticShell() {
+    const staticShell =
+      document.getElementById('filalog-static-shell');
+
+    if (staticShell) {
+      staticShell.style.display = 'none';
+    }
+  }
+
+  function showStaticShell() {
+    const staticShell =
+      document.getElementById('filalog-static-shell');
+
+    if (staticShell) {
+      staticShell.style.display = 'block';
+    }
+  }
+
+  function openFilaLog() {
+    openFilaLogRequested = true;
+
+    const button =
+      document.getElementById('filalog-open-button');
+
+    if (flutterFirstFrameReady) {
+      hideStaticShell();
+      return;
+    }
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'FilaLog wird geladen …';
+    }
+  }
+
+  function updateStaticShellForRoute() {
+    if (window.location.pathname === '/' && !openFilaLogRequested) {
+      showStaticShell();
+    } else {
+      hideStaticShell();
+    }
+  }
+
+  /*
+   * Beim ersten Laden:
+   * Nur auf "/" wird die Landingpage angezeigt.
+   */
+  updateStaticShellForRoute();
+
+  /*
+   * Wichtig für Browser-Zurück/Vorwärts:
+   * Wenn der Nutzer von /premium, /terms usw.
+   * wieder auf "/" zurückgeht, erscheint die
+   * Landingpage erneut.
+   */
+  window.addEventListener('popstate', function () {
+    updateStaticShellForRoute();
+  });
+
+  window.addEventListener('flutter-first-frame', function () {
+    flutterFirstFrameReady = true;
+
+    if (openFilaLogRequested) {
+      hideStaticShell();
+    } else {
+      updateStaticShellForRoute();
+    }
+  });
+</script>
+
   <script src="flutter_bootstrap.js" async></script>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 </body>
 </html>

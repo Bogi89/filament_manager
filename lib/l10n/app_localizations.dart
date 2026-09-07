@@ -1700,7 +1700,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumPaymentProcessingContent.
   ///
   /// In en, this message translates to:
-  /// **'On Android, payments are processed through Google Play. For the web version, payments are processed through the official website using PayPal.'**
+  /// **'For the web version, payments are processed through Paddle. On Android, payments are processed through Google Play.'**
   String get premiumPaymentProcessingContent;
 
   /// No description provided for @premiumPlatformsTitle.
@@ -1712,7 +1712,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumPlatformsContent.
   ///
   /// In en, this message translates to:
-  /// **'On Android, the Premium membership is purchased through Google Play. For the web version, Premium can be purchased through the official website using PayPal.'**
+  /// **'For the web version, Premium can be purchased through the official FilaLog website using Paddle. On Android, Premium is purchased through Google Play.'**
   String get premiumPlatformsContent;
 
   /// No description provided for @premiumTrialAndPremiumTitle.
@@ -1760,7 +1760,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumDurationContent.
   ///
   /// In en, this message translates to:
-  /// **'Premium is offered as a monthly or annual membership.'**
+  /// **'For the web version, Premium is offered as an annual subscription for €19.99 per year. On Android, monthly and annual subscriptions are available through Google Play.'**
   String get premiumDurationContent;
 
   /// No description provided for @premiumCancellationTitle.
@@ -1888,6 +1888,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Before completing a Premium membership, the legally required information regarding the right of withdrawal and the processing of the contract is provided for the respective purchase.'**
   String get withdrawalPurchaseInfoContent;
+
+  /// No description provided for @refundPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund Policy'**
+  String get refundPolicy;
+
+  /// No description provided for @refundGeneralTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Refunds'**
+  String get refundGeneralTitle;
+
+  /// No description provided for @refundGeneralContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments for FilaLog Premium are processed by the respective payment provider. Refunds are subject to the applicable terms of that provider as well as mandatory statutory consumer rights.'**
+  String get refundGeneralContent;
+
+  /// No description provided for @refundWebTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Version via Paddle'**
+  String get refundWebTitle;
+
+  /// No description provided for @refundWebContent.
+  ///
+  /// In en, this message translates to:
+  /// **'For Premium subscriptions purchased through the FilaLog web version, payments are processed by Paddle. Refund requests can be submitted through Paddle\'s buyer support. Statutory consumer rights remain unaffected.'**
+  String get refundWebContent;
+
+  /// No description provided for @refundAndroidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Android via Google Play'**
+  String get refundAndroidTitle;
+
+  /// No description provided for @refundAndroidContent.
+  ///
+  /// In en, this message translates to:
+  /// **'For Premium subscriptions purchased through the Android app, payments are processed through Google Play. Refunds are subject to the terms and procedures of Google Play. Statutory consumer rights remain unaffected.'**
+  String get refundAndroidContent;
+
+  /// No description provided for @refundCancellationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Cancellation'**
+  String get refundCancellationTitle;
+
+  /// No description provided for @refundCancellationContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelling a subscription stops its automatic renewal. Amounts already paid are not automatically refunded when a subscription is cancelled. Any potential refund is assessed separately from the cancellation.'**
+  String get refundCancellationContent;
+
+  /// No description provided for @refundWithdrawalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Right of Withdrawal'**
+  String get refundWithdrawalTitle;
+
+  /// No description provided for @refundWithdrawalContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This refund policy does not restrict any statutory rights of withdrawal or other consumer rights. Further information is available in FilaLog\'s separate Right of Withdrawal notice.'**
+  String get refundWithdrawalContent;
+
+  /// No description provided for @refundSupportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions and Support'**
+  String get refundSupportTitle;
+
+  /// No description provided for @refundSupportContent.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have questions about a purchase or refund, you can contact support@filalog.de.'**
+  String get refundSupportContent;
 
   /// No description provided for @consumerInformation.
   ///

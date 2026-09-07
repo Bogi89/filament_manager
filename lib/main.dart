@@ -8,6 +8,13 @@ import 'services/filament_catalog_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'services/hive_test_service.dart';
 import 'auth/pages/auth_gate.dart';
+import 'auth/pages/paddle_test_page.dart';
+import 'legal/premium_page.dart';
+import 'legal/privacy_policy_page.dart';
+import 'legal/terms_of_service_page.dart';
+import 'legal/withdrawal_page.dart';
+import 'legal/refund_policy_page.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 // 🔥 Neues Theme importieren
 import 'theme/app_theme.dart';
@@ -17,6 +24,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -69,7 +77,17 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
 
-      home: const AuthGate(),
+      routes: {
+        '/': (_) => const AuthGate(),
+        '/premium': (_) => const PremiumPage(),
+        '/terms': (_) => const TermsOfServicePage(),
+        '/privacy': (_) => const PrivacyPolicyPage(),
+        '/withdrawal': (_) => const WithdrawalPage(),
+        '/refund': (_) => const RefundPolicyPage(),
+
+        // Temporäre Route für den Paddle-Sandbox-Test
+        '/paddle-test': (_) => const PaddleTestPage(),
+      },
     );
   }
 }
