@@ -629,7 +629,7 @@
   "trialExpiredPremiumHint": "Choose your Premium subscription now and continue using all features without restrictions.",
   "trialExpiredLoginButton": "Sign in",
   "trialExpiredRegisterButton": "Create account",
-  "trialExpiredLoginRequiredInfo": "A PayPal subscription can only be clearly assigned to your FilaLog account after you sign in.",
+  "trialExpiredLoginRequiredInfo": "A Premium subscription can only be clearly assigned to your FilaLog account after you sign in.",
   "trialExpiredMonthlyTitle": "Monthly",
   "trialExpiredMonthlyPrice": "€2.49",
   "trialExpiredMonthlyPeriod": "per month",
@@ -637,9 +637,11 @@
   "trialExpiredYearlyPrice": "€19.99",
   "trialExpiredYearlyPeriod": "per year",
   "trialExpiredYearlyBadge": "Best value",
-  "trialExpiredPaypalOpened": "PayPal has been opened. Complete the subscription there.",
-  "trialExpiredPaypalOpenedInfo": "PayPal has been opened. Complete the subscription there. Premium access will then be activated automatically.",
-  "trialExpiredPaypalStartError": "The PayPal subscription could not be started.",
-  "trialExpiredPaypalManagementInfo": "Payment and subscription management are handled through PayPal."
+  "trialExpiredWebCheckoutOpened": "Paddle has been opened. Complete the subscription there.",
+  "trialExpiredWebCheckoutOpenedInfo": "The Paddle checkout has been opened. Complete the subscription there. Premium access will then be activated automatically.",
+  "trialExpiredWebCheckoutStartError": "The Premium subscription could not be started.",
+  "trialExpiredWebManagementInfo": "Payment and management of the web subscription are handled through Paddle.",
+  "trialExpiredAndroidManagementInfo": "Payment and management of the Android subscription are handled through Google Play.",
+  "trialExpiredAndroidUnavailableInfo": "Google Play Billing is currently being set up."
 }
 

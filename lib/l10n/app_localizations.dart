@@ -3440,7 +3440,7 @@ abstract class AppLocalizations {
   /// No description provided for @trialExpiredLoginRequiredInfo.
   ///
   /// In en, this message translates to:
-  /// **'A PayPal subscription can only be clearly assigned to your FilaLog account after you sign in.'**
+  /// **'A Premium subscription can only be clearly assigned to your FilaLog account after you sign in.'**
   String get trialExpiredLoginRequiredInfo;
 
   /// No description provided for @trialExpiredMonthlyTitle.
@@ -3485,29 +3485,41 @@ abstract class AppLocalizations {
   /// **'Best value'**
   String get trialExpiredYearlyBadge;
 
-  /// No description provided for @trialExpiredPaypalOpened.
+  /// No description provided for @trialExpiredWebCheckoutOpened.
   ///
   /// In en, this message translates to:
-  /// **'PayPal has been opened. Complete the subscription there.'**
-  String get trialExpiredPaypalOpened;
+  /// **'Paddle has been opened. Complete the subscription there.'**
+  String get trialExpiredWebCheckoutOpened;
 
-  /// No description provided for @trialExpiredPaypalOpenedInfo.
+  /// No description provided for @trialExpiredWebCheckoutOpenedInfo.
   ///
   /// In en, this message translates to:
-  /// **'PayPal has been opened. Complete the subscription there. Premium access will then be activated automatically.'**
-  String get trialExpiredPaypalOpenedInfo;
+  /// **'The Paddle checkout has been opened. Complete the subscription there. Premium access will then be activated automatically.'**
+  String get trialExpiredWebCheckoutOpenedInfo;
 
-  /// No description provided for @trialExpiredPaypalStartError.
+  /// No description provided for @trialExpiredWebCheckoutStartError.
   ///
   /// In en, this message translates to:
-  /// **'The PayPal subscription could not be started.'**
-  String get trialExpiredPaypalStartError;
+  /// **'The Premium subscription could not be started.'**
+  String get trialExpiredWebCheckoutStartError;
 
-  /// No description provided for @trialExpiredPaypalManagementInfo.
+  /// No description provided for @trialExpiredWebManagementInfo.
   ///
   /// In en, this message translates to:
-  /// **'Payment and subscription management are handled through PayPal.'**
-  String get trialExpiredPaypalManagementInfo;
+  /// **'Payment and management of the web subscription are handled through Paddle.'**
+  String get trialExpiredWebManagementInfo;
+
+  /// No description provided for @trialExpiredAndroidManagementInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment and management of the Android subscription are handled through Google Play.'**
+  String get trialExpiredAndroidManagementInfo;
+
+  /// No description provided for @trialExpiredAndroidUnavailableInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play Billing is currently being set up.'**
+  String get trialExpiredAndroidUnavailableInfo;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

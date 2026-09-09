@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../services/paypal_subscription_service.dart';
+import '../../services/paddle_subscription_service.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 
@@ -14,36 +15,36 @@ class TrialExpiredPage extends StatefulWidget {
 }
 
 class _TrialExpiredPageState extends State<TrialExpiredPage> {
-  PayPalSubscriptionPlan? _loadingPlan;
-  bool _paypalOpened = false;
+  bool _yearlyLoading = false;
+  bool _webCheckoutOpened = false;
 
-  Future<void> _startSubscription(PayPalSubscriptionPlan plan) async {
-    if (_loadingPlan != null) {
+  Future<void> _startWebYearlySubscription() async {
+    if (_yearlyLoading) {
       return;
     }
 
     final localizations = AppLocalizations.of(context)!;
 
     setState(() {
-      _loadingPlan = plan;
-      _paypalOpened = false;
+      _yearlyLoading = true;
+      _webCheckoutOpened = false;
     });
 
     try {
-      await PayPalSubscriptionService.startSubscription(plan);
+      await PaddleSubscriptionService.startYearlySubscription();
 
       if (!mounted) {
         return;
       }
 
       setState(() {
-        _paypalOpened = true;
+        _webCheckoutOpened = true;
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(localizations.trialExpiredPaypalOpened)),
+        SnackBar(content: Text(localizations.trialExpiredWebCheckoutOpened)),
       );
-    } on PayPalSubscriptionException catch (error) {
+    } on PaddleSubscriptionException catch (error) {
       if (!mounted) {
         return;
       }
@@ -57,12 +58,14 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(localizations.trialExpiredPaypalStartError)),
+        SnackBar(
+          content: Text(localizations.trialExpiredWebCheckoutStartError),
+        ),
       );
     } finally {
       if (mounted) {
         setState(() {
-          _loadingPlan = null;
+          _yearlyLoading = false;
         });
       }
     }
@@ -86,12 +89,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
     final colorScheme = theme.colorScheme;
     final localizations = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
-
-    final monthlyLoading = _loadingPlan == PayPalSubscriptionPlan.monthly;
-
-    final yearlyLoading = _loadingPlan == PayPalSubscriptionPlan.yearly;
-
-    final isLoading = _loadingPlan != null;
+    final isWeb = kIsWeb;
 
     return Scaffold(
       body: SafeArea(
@@ -104,9 +102,8 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-
-Icon(
-  Icons.hourglass_disabled_outlined,
+                  Icon(
+                    Icons.hourglass_disabled_outlined,
                     size: 80,
                     color: colorScheme.primary,
                   ),
@@ -153,32 +150,18 @@ Icon(
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
                       ),
                     ),
-                  ] else ...[
-                    _SubscriptionOption(
-                      title: localizations.trialExpiredMonthlyTitle,
-                      price: localizations.trialExpiredMonthlyPrice,
-                      period: localizations.trialExpiredMonthlyPeriod,
-                      highlighted: false,
-                      loading: monthlyLoading,
-                      enabled: !isLoading,
-                      onPressed: () {
-                        _startSubscription(PayPalSubscriptionPlan.monthly);
-                      },
-                    ),
-                    const SizedBox(height: 16),
+                  ] else if (isWeb) ...[
                     _SubscriptionOption(
                       title: localizations.trialExpiredYearlyTitle,
                       price: localizations.trialExpiredYearlyPrice,
                       period: localizations.trialExpiredYearlyPeriod,
                       highlighted: true,
                       badge: localizations.trialExpiredYearlyBadge,
-                      loading: yearlyLoading,
-                      enabled: !isLoading,
-                      onPressed: () {
-                        _startSubscription(PayPalSubscriptionPlan.yearly);
-                      },
+                      loading: _yearlyLoading,
+                      enabled: !_yearlyLoading,
+                      onPressed: _startWebYearlySubscription,
                     ),
-                    if (_paypalOpened) ...[
+                    if (_webCheckoutOpened) ...[
                       const SizedBox(height: 24),
                       Container(
                         padding: const EdgeInsets.all(16),
@@ -195,7 +178,7 @@ Icon(
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
-                                localizations.trialExpiredPaypalOpenedInfo,
+                                localizations.trialExpiredWebCheckoutOpenedInfo,
                               ),
                             ),
                           ],
@@ -204,7 +187,58 @@ Icon(
                     ],
                     const SizedBox(height: 24),
                     Text(
-                      localizations.trialExpiredPaypalManagementInfo,
+                      localizations.trialExpiredWebManagementInfo,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurface.withValues(alpha: 0.65),
+                      ),
+                    ),
+                  ] else ...[
+                    _SubscriptionOption(
+                      title: localizations.trialExpiredMonthlyTitle,
+                      price: localizations.trialExpiredMonthlyPrice,
+                      period: localizations.trialExpiredMonthlyPeriod,
+                      highlighted: false,
+                      loading: false,
+                      enabled: false,
+                      onPressed: () {},
+                    ),
+                    const SizedBox(height: 16),
+                    _SubscriptionOption(
+                      title: localizations.trialExpiredYearlyTitle,
+                      price: localizations.trialExpiredYearlyPrice,
+                      period: localizations.trialExpiredYearlyPeriod,
+                      highlighted: true,
+                      badge: localizations.trialExpiredYearlyBadge,
+                      loading: false,
+                      enabled: false,
+                      onPressed: () {},
+                    ),
+                    const SizedBox(height: 24),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primaryContainer.withValues(
+                          alpha: 0.35,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.info_outline, color: colorScheme.primary),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              localizations.trialExpiredAndroidUnavailableInfo,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      localizations.trialExpiredAndroidManagementInfo,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
@@ -326,9 +360,11 @@ class _SubscriptionOption extends StatelessWidget {
               else
                 Icon(
                   Icons.arrow_forward_rounded,
-                  color: highlighted
-                      ? colorScheme.primary
-                      : colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: enabled
+                      ? highlighted
+                            ? colorScheme.primary
+                            : colorScheme.onSurface.withValues(alpha: 0.7)
+                      : colorScheme.onSurface.withValues(alpha: 0.3),
                 ),
             ],
           ),

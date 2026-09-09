@@ -1698,7 +1698,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trialExpiredRegisterButton => 'Create account';
 
   @override
-  String get trialExpiredLoginRequiredInfo => 'A PayPal subscription can only be clearly assigned to your FilaLog account after you sign in.';
+  String get trialExpiredLoginRequiredInfo => 'A Premium subscription can only be clearly assigned to your FilaLog account after you sign in.';
 
   @override
   String get trialExpiredMonthlyTitle => 'Monthly';
@@ -1722,14 +1722,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trialExpiredYearlyBadge => 'Best value';
 
   @override
-  String get trialExpiredPaypalOpened => 'PayPal has been opened. Complete the subscription there.';
+  String get trialExpiredWebCheckoutOpened => 'Paddle has been opened. Complete the subscription there.';
 
   @override
-  String get trialExpiredPaypalOpenedInfo => 'PayPal has been opened. Complete the subscription there. Premium access will then be activated automatically.';
+  String get trialExpiredWebCheckoutOpenedInfo => 'The Paddle checkout has been opened. Complete the subscription there. Premium access will then be activated automatically.';
 
   @override
-  String get trialExpiredPaypalStartError => 'The PayPal subscription could not be started.';
+  String get trialExpiredWebCheckoutStartError => 'The Premium subscription could not be started.';
 
   @override
-  String get trialExpiredPaypalManagementInfo => 'Payment and subscription management are handled through PayPal.';
+  String get trialExpiredWebManagementInfo => 'Payment and management of the web subscription are handled through Paddle.';
+
+  @override
+  String get trialExpiredAndroidManagementInfo => 'Payment and management of the Android subscription are handled through Google Play.';
+
+  @override
+  String get trialExpiredAndroidUnavailableInfo => 'Google Play Billing is currently being set up.';
 }

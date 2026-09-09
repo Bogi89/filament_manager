@@ -629,7 +629,7 @@
   "trialExpiredPremiumHint": "Wähle jetzt dein Premium-Abonnement und nutze weiterhin alle Funktionen ohne Einschränkungen.",
   "trialExpiredLoginButton": "Anmelden",
   "trialExpiredRegisterButton": "Konto erstellen",
-  "trialExpiredLoginRequiredInfo": "Ein PayPal-Abonnement kann erst nach der Anmeldung eindeutig deinem FilaLog-Konto zugeordnet werden.",
+  "trialExpiredLoginRequiredInfo": "Ein Premium-Abonnement kann erst nach der Anmeldung eindeutig deinem FilaLog-Konto zugeordnet werden.",
   "trialExpiredMonthlyTitle": "Monatlich",
   "trialExpiredMonthlyPrice": "2,49 €",
   "trialExpiredMonthlyPeriod": "pro Monat",
@@ -637,10 +637,12 @@
   "trialExpiredYearlyPrice": "19,99 €",
   "trialExpiredYearlyPeriod": "pro Jahr",
   "trialExpiredYearlyBadge": "Günstiger",
-  "trialExpiredPaypalOpened": "PayPal wurde geöffnet. Schließe dort das Abonnement ab.",
-  "trialExpiredPaypalOpenedInfo": "PayPal wurde geöffnet. Schließe dort das Abonnement ab. Die Freischaltung erfolgt anschließend automatisch.",
-  "trialExpiredPaypalStartError": "Das PayPal-Abonnement konnte nicht gestartet werden.",
-  "trialExpiredPaypalManagementInfo": "Die Zahlung und Verwaltung des Abonnements erfolgt über PayPal."
+  "trialExpiredWebCheckoutOpened": "Paddle wurde geöffnet. Schließe dort das Abonnement ab.",
+  "trialExpiredWebCheckoutOpenedInfo": "Der Paddle-Checkout wurde geöffnet. Schließe dort das Abonnement ab. Die Freischaltung erfolgt anschließend automatisch.",
+  "trialExpiredWebCheckoutStartError": "Das Premium-Abonnement konnte nicht gestartet werden.",
+  "trialExpiredWebManagementInfo": "Die Zahlung und Verwaltung des Web-Abonnements erfolgt über Paddle.",
+  "trialExpiredAndroidManagementInfo": "Die Zahlung und Verwaltung des Android-Abonnements erfolgt über Google Play.",
+  "trialExpiredAndroidUnavailableInfo": "Google Play Billing wird derzeit noch eingerichtet."
 }
 
 
