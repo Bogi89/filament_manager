@@ -9,6 +9,7 @@ import '../../state/app_state.dart';
 import '../services/auth_loading_service.dart';
 import '../services/auth_validator.dart';
 import '../services/guest_service.dart';
+import 'auth_gate.dart';
 import 'forgot_password_page.dart';
 import 'verify_email_page.dart';
 
@@ -86,7 +87,10 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
 
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const AuthGate()),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       if (!mounted) {
         return;
@@ -150,7 +154,10 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
 
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const AuthGate()),
+        (route) => false,
+      );
     } on GoogleSignInException catch (e) {
       if (!mounted) {
         return;
