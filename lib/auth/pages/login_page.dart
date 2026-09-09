@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../pages/main_navigation.dart';
 import '../../state/app_state.dart';
 import '../services/auth_loading_service.dart';
 import '../services/auth_validator.dart';
@@ -49,19 +48,16 @@ class _LoginPageState extends State<LoginPage> {
     final l10n = AppLocalizations.of(context)!;
 
     try {
-  loadingService.startLoading();
+      loadingService.startLoading();
 
-  if (kIsWeb) {
-    await FirebaseAuth.instance.setPersistence(
-      Persistence.LOCAL,
-    );
-  }
+      if (kIsWeb) {
+        await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+      }
 
-  final credential =
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: email,
-    password: password,
-  );
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       await credential.user?.reload();
 
@@ -74,54 +70,39 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       if (user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.signInFailed),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.signInFailed)));
 
         return;
       }
 
       if (!user.emailVerified) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => const VerifyEmailPage(),
-          ),
+          MaterialPageRoute(builder: (_) => const VerifyEmailPage()),
           (route) => false,
         );
 
         return;
       }
 
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => const MainNavigation(),
-        ),
-        (route) => false,
-      );
+      Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
       if (!mounted) {
         return;
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.message ?? l10n.signInFailed,
-          ),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message ?? l10n.signInFailed)));
     } catch (_) {
       if (!mounted) {
         return;
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.signInFailed),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.signInFailed)));
     } finally {
       loadingService.stopLoading();
     }
@@ -144,20 +125,15 @@ class _LoginPageState extends State<LoginPage> {
       loadingService.startLoading();
 
       if (kIsWeb) {
-  await FirebaseAuth.instance.setPersistence(
-    Persistence.LOCAL,
-  );
+        await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
-  final googleProvider = GoogleAuthProvider();
+        final googleProvider = GoogleAuthProvider();
 
-  await FirebaseAuth.instance.signInWithPopup(
-    googleProvider,
-  );
+        await FirebaseAuth.instance.signInWithPopup(googleProvider);
       } else {
         await _initializeGoogleSignIn();
 
-        final googleUser =
-            await GoogleSignIn.instance.authenticate();
+        final googleUser = await GoogleSignIn.instance.authenticate();
 
         final googleAuth = googleUser.authentication;
 
@@ -165,68 +141,47 @@ class _LoginPageState extends State<LoginPage> {
           idToken: googleAuth.idToken,
         );
 
-        await FirebaseAuth.instance.signInWithCredential(
-          credential,
-        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
       }
 
       await GuestService.disableGuestMode();
 
-if (!mounted) {
-  return;
-}
+      if (!mounted) {
+        return;
+      }
 
-Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => const MainNavigation(),
-        ),
-        (route) => false,
-      );
+      Navigator.of(context).popUntil((route) => route.isFirst);
     } on GoogleSignInException catch (e) {
       if (!mounted) {
         return;
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } on FirebaseAuthException catch (e) {
       if (!mounted) {
         return;
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.message ?? e.code,
-          ),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message ?? e.code)));
     } catch (e) {
       if (!mounted) {
         return;
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       loadingService.stopLoading();
     }
   }
 
   void _changeLanguage(String languageCode) {
-    context.read<AppState>().setLocale(
-          Locale(languageCode),
-        );
+    context.read<AppState>().setLocale(Locale(languageCode));
   }
 
   @override
@@ -245,9 +200,7 @@ Navigator.of(context).pushAndRemoveUntil(
             icon: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
-                  Icons.language,
-                ),
+                const Icon(Icons.language),
                 const SizedBox(width: 4),
                 Text(
                   currentLocale.languageCode.toUpperCase(),
@@ -264,12 +217,7 @@ Navigator.of(context).pushAndRemoveUntil(
                 value: 'de',
                 child: Row(
                   children: [
-                    const Text(
-                      '🇩🇪',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
+                    const Text('🇩🇪', style: TextStyle(fontSize: 20)),
                     const SizedBox(width: 12),
                     Text(l10n.german),
                   ],
@@ -279,12 +227,7 @@ Navigator.of(context).pushAndRemoveUntil(
                 value: 'en',
                 child: Row(
                   children: [
-                    const Text(
-                      '🇬🇧',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
+                    const Text('🇬🇧', style: TextStyle(fontSize: 20)),
                     const SizedBox(width: 12),
                     Text(l10n.english),
                   ],
@@ -298,9 +241,7 @@ Navigator.of(context).pushAndRemoveUntil(
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 450,
-            ),
+            constraints: const BoxConstraints(maxWidth: 450),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Form(
@@ -335,14 +276,10 @@ Navigator.of(context).pushAndRemoveUntil(
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).nextFocus();
                       },
-                      autofillHints: const [
-                        AutofillHints.email,
-                      ],
+                      autofillHints: const [AutofillHints.email],
                       decoration: InputDecoration(
                         labelText: l10n.email,
-                        prefixIcon: const Icon(
-                          Icons.email_outlined,
-                        ),
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                       validator: (value) =>
                           AuthValidator.validateEmail(context, value),
@@ -355,14 +292,10 @@ Navigator.of(context).pushAndRemoveUntil(
                       onFieldSubmitted: (_) {
                         _login();
                       },
-                      autofillHints: const [
-                        AutofillHints.password,
-                      ],
+                      autofillHints: const [AutofillHints.password],
                       decoration: InputDecoration(
                         labelText: l10n.password,
-                        prefixIcon: const Icon(
-                          Icons.lock_outline,
-                        ),
+                        prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -371,8 +304,7 @@ Navigator.of(context).pushAndRemoveUntil(
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscurePassword =
-                                  !_obscurePassword;
+                              _obscurePassword = !_obscurePassword;
                             });
                           },
                         ),
@@ -389,37 +321,28 @@ Navigator.of(context).pushAndRemoveUntil(
                             : () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (_) =>
-                                        const ForgotPasswordPage(),
+                                    builder: (_) => const ForgotPasswordPage(),
                                   ),
                                 );
                               },
-                        child: Text(
-                          l10n.forgotPassword,
-                        ),
+                        child: Text(l10n.forgotPassword),
                       ),
                     ),
                     const SizedBox(height: 20),
                     Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         FilledButton.icon(
-                          onPressed: loadingService.loading
-                              ? null
-                              : _login,
+                          onPressed: loadingService.loading ? null : _login,
                           icon: loadingService.loading
                               ? const SizedBox(
                                   width: 18,
                                   height: 18,
-                                  child:
-                                      CircularProgressIndicator(
+                                  child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : const Icon(
-                                  Icons.login,
-                                ),
+                              : const Icon(Icons.login),
                           label: Text(
                             loadingService.loading
                                 ? l10n.signingIn
@@ -429,21 +352,14 @@ Navigator.of(context).pushAndRemoveUntil(
                         const SizedBox(height: 24),
                         Row(
                           children: [
-                            const Expanded(
-                              child: Divider(),
-                            ),
+                            const Expanded(child: Divider()),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                               ),
-                              child: Text(
-                                l10n.or,
-                              ),
+                              child: Text(l10n.or),
                             ),
-                            const Expanded(
-                              child: Divider(),
-                            ),
+                            const Expanded(child: Divider()),
                           ],
                         ),
                         const SizedBox(height: 24),
@@ -455,18 +371,12 @@ Navigator.of(context).pushAndRemoveUntil(
                               ? const SizedBox(
                                   width: 18,
                                   height: 18,
-                                  child:
-                                      CircularProgressIndicator(
+                                  child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : const Icon(
-                                  Icons.g_mobiledata,
-                                  size: 28,
-                                ),
-                          label: Text(
-                            l10n.continueWithGoogle,
-                          ),
+                              : const Icon(Icons.g_mobiledata, size: 28),
+                          label: Text(l10n.continueWithGoogle),
                         ),
                       ],
                     ),

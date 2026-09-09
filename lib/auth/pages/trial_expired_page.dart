@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../pages/main_navigation.dart';
 import '../../services/firestore_service.dart';
 import '../../services/paddle_subscription_service.dart';
+import '../services/guest_service.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 
@@ -117,6 +118,20 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
     ).push(MaterialPageRoute(builder: (_) => const RegisterPage()));
   }
 
+  Future<void> _switchAccount() async {
+    await GuestService.disableGuestMode();
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.signOut();
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
   @override
   void dispose() {
     _accessSubscription?.cancel();
@@ -197,7 +212,6 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                       price: localizations.trialExpiredYearlyPrice,
                       period: localizations.trialExpiredYearlyPeriod,
                       highlighted: true,
-                      badge: localizations.trialExpiredYearlyBadge,
                       loading: _yearlyLoading,
                       enabled: !_yearlyLoading,
                       onPressed: _startWebYearlySubscription,
@@ -233,6 +247,13 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
                       ),
+                    ),
+
+                    const SizedBox(height: 24),
+                    OutlinedButton.icon(
+                      onPressed: _switchAccount,
+                      icon: const Icon(Icons.switch_account_outlined),
+                      label: Text(localizations.signOut),
                     ),
                   ] else ...[
                     _SubscriptionOption(
