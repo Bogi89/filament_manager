@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/filament.dart';
@@ -7,11 +8,9 @@ import '../models/print_job.dart';
 class FirestoreService {
   FirestoreService._();
 
-  static final FirebaseFirestore _firestore =
-      FirebaseFirestore.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  static final FirebaseAuth _auth =
-      FirebaseAuth.instance;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static const String _appDataCollection = 'appData';
   static const String _mainDocument = 'main';
@@ -27,8 +26,7 @@ class FirestoreService {
   /// Struktur:
   ///
   /// users/{uid}/appData/main
-  static DocumentReference<Map<String, dynamic>>?
-      get _dataReference {
+  static DocumentReference<Map<String, dynamic>>? get _dataReference {
     final user = _auth.currentUser;
 
     if (user == null) {
@@ -49,95 +47,62 @@ class FirestoreService {
 
   /// ================= TEST / PREMIUM STATUS =================
 
-/// Lädt den gespeicherten Test-/Premium-Status
-/// des aktuell angemeldeten Benutzers.
-///
-/// Gibt null zurück, wenn noch kein Status vorhanden ist.
-static Future<UserAccessStatus?> loadUserAccessStatus() async {
-  final reference = _dataReference;
+  /// Lädt den gespeicherten Test-/Premium-Status
+  /// des aktuell angemeldeten Benutzers.
+  ///
+  /// Gibt null zurück, wenn noch kein Status vorhanden ist.
+  static Future<UserAccessStatus?> loadUserAccessStatus() async {
+    final reference = _dataReference;
 
-  if (reference == null) {
-    return null;
-  }
+    if (reference == null) {
+      return null;
+    }
 
-  final snapshot = await reference.get();
+    final snapshot = await reference.get();
 
-  if (!snapshot.exists) {
-    return null;
-  }
+    if (!snapshot.exists) {
+      return null;
+    }
 
-  final data = snapshot.data();
-
-  if (data == null) {
-    return null;
-  }
-
-  final trialStartValue = data['trialStart'];
-
-  DateTime? trialStart;
-
-  if (trialStartValue is String) {
-    trialStart = DateTime.tryParse(trialStartValue);
-  }
-
-  return UserAccessStatus(
-    trialStart: trialStart,
-    trialUsed: data['trialUsed'] == true,
-    premiumActive: data['premiumActive'] == true,
-  );
-}
-
-/// Speichert den Start der kostenlosen Testphase.
-///
-/// Der vorhandene Teststart wird nicht überschrieben.
-static Future<void> saveTrialStart(
-  DateTime trialStart,
-) async {
-  final reference = _dataReference;
-
-  if (reference == null) {
-    return;
-  }
-
-  final snapshot = await reference.get();
-
-  if (snapshot.exists) {
     final data = snapshot.data();
 
-    if (data != null && data['trialStart'] != null) {
+    if (data == null) {
+      return null;
+    }
+
+    final trialStartValue = data['trialStart'];
+
+    DateTime? trialStart;
+
+    if (trialStartValue is String) {
+      trialStart = DateTime.tryParse(trialStartValue);
+    }
+
+    return UserAccessStatus(
+      trialStart: trialStart,
+      trialUsed: data['trialUsed'] == true,
+      premiumActive: data['premiumActive'] == true,
+    );
+  }
+
+  /// Initialisiert den Start der kostenlosen Testphase
+  /// serverseitig über Firebase Functions.
+  ///
+  /// Ein vorhandener Teststatus wird vom Backend
+  /// nicht überschrieben.
+  static Future<void> saveTrialStart(DateTime trialStart) async {
+    final user = _auth.currentUser;
+
+    if (user == null) {
       return;
     }
+
+    final functions = FirebaseFunctions.instanceFor(region: 'europe-west1');
+
+    final callable = functions.httpsCallable('initializeUserTrial');
+
+    await callable.call({'trialStart': trialStart.toIso8601String()});
   }
-
-  await reference.set(
-    {
-      'trialStart': trialStart.toIso8601String(),
-      'trialUsed': true,
-      'premiumActive': false,
-    },
-    SetOptions(merge: true),
-  );
-}
-
-/// Aktiviert Premium für den aktuell angemeldeten Benutzer.
-///
-/// Die eigentliche Zahlungslogik wird später angebunden.
-static Future<void> setPremiumActive(
-  bool active,
-) async {
-  final reference = _dataReference;
-
-  if (reference == null) {
-    return;
-  }
-
-  await reference.set(
-    {
-      'premiumActive': active,
-    },
-    SetOptions(merge: true),
-  );
-}
 
   /// Lädt die gespeicherten Filamente des angemeldeten Benutzers.
   ///
@@ -174,11 +139,7 @@ static Future<void> setPremiumActive(
     for (final item in rawFilaments) {
       if (item is Map) {
         try {
-          filaments.add(
-            Filament.fromJson(
-              Map<String, dynamic>.from(item),
-            ),
-          );
+          filaments.add(Filament.fromJson(Map<String, dynamic>.from(item)));
         } catch (_) {
           // Ein fehlerhaftes einzelnes Element darf nicht
           // verhindern, dass die übrigen Daten geladen werden.
@@ -224,11 +185,7 @@ static Future<void> setPremiumActive(
     for (final item in rawJobs) {
       if (item is Map) {
         try {
-          jobs.add(
-            PrintJob.fromJson(
-              Map<String, dynamic>.from(item),
-            ),
-          );
+          jobs.add(PrintJob.fromJson(Map<String, dynamic>.from(item)));
         } catch (_) {
           // Ein fehlerhafter einzelner Auftrag darf nicht
           // den kompletten Datenbestand unbrauchbar machen.
@@ -257,17 +214,12 @@ static Future<void> setPremiumActive(
         .map((filament) => filament.toJson())
         .toList();
 
-    final jobData = jobs
-        .map((job) => job.toJson())
-        .toList();
+    final jobData = jobs.map((job) => job.toJson()).toList();
 
-    await reference.set(
-      {
-        'filaments': filamentData,
-        'jobs': jobData,
-      },
-      SetOptions(merge: true),
-    );
+    await reference.set({
+      'filaments': filamentData,
+      'jobs': jobData,
+    }, SetOptions(merge: true));
   }
 
   /// Lädt den kompletten Cloud-Datenbestand.
@@ -301,11 +253,7 @@ static Future<void> setPremiumActive(
       for (final item in rawFilaments) {
         if (item is Map) {
           try {
-            filaments.add(
-              Filament.fromJson(
-                Map<String, dynamic>.from(item),
-              ),
-            );
+            filaments.add(Filament.fromJson(Map<String, dynamic>.from(item)));
           } catch (_) {
             // Fehlerhafte Einträge werden übersprungen.
           }
@@ -319,11 +267,7 @@ static Future<void> setPremiumActive(
       for (final item in rawJobs) {
         if (item is Map) {
           try {
-            jobs.add(
-              PrintJob.fromJson(
-                Map<String, dynamic>.from(item),
-              ),
-            );
+            jobs.add(PrintJob.fromJson(Map<String, dynamic>.from(item)));
           } catch (_) {
             // Fehlerhafte Einträge werden übersprungen.
           }
@@ -331,10 +275,7 @@ static Future<void> setPremiumActive(
       }
     }
 
-    return FirestoreData(
-      filaments: filaments,
-      jobs: jobs,
-    );
+    return FirestoreData(filaments: filaments, jobs: jobs);
   }
 
   /// Prüft, ob für den aktuell angemeldeten Benutzer bereits
@@ -350,20 +291,6 @@ static Future<void> setPremiumActive(
 
     return snapshot.exists;
   }
-
-  /// Löscht die persönlichen Cloud-Daten des aktuell
-  /// angemeldeten Benutzers.
-  ///
-  /// Wird aktuell noch nicht von der App verwendet.
-  static Future<void> deleteCloudData() async {
-    final reference = _dataReference;
-
-    if (reference == null) {
-      return;
-    }
-
-    await reference.delete();
-  }
 }
 
 /// Container für den kompletten Firestore-Datenbestand
@@ -372,10 +299,7 @@ class FirestoreData {
   final List<Filament> filaments;
   final List<PrintJob> jobs;
 
-  const FirestoreData({
-    required this.filaments,
-    required this.jobs,
-  });
+  const FirestoreData({required this.filaments, required this.jobs});
 }
 
 /// Enthält den Zugriffsstatus eines Benutzerkontos.

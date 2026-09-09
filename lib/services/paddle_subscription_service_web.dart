@@ -28,8 +28,7 @@ class PaddleSubscriptionService {
     'PADDLE_CLIENT_TOKEN',
   );
 
-  static const String _yearlyPriceId =
-      'pri_01m1d11wsxe99cv3522p6eszj3';
+  static const String _yearlyPriceId = 'pri_01m1d11wsxe99cv3522p6eszj3';
 
   static bool _initialized = false;
 
@@ -50,25 +49,17 @@ class PaddleSubscriptionService {
     }
 
     try {
-      final functions = FirebaseFunctions.instanceFor(
-        region: 'europe-west1',
-      );
+      final functions = FirebaseFunctions.instanceFor(region: 'europe-west1');
 
-      final callable = functions.httpsCallable(
-        'createPaddleCheckoutReference',
-      );
+      final callable = functions.httpsCallable('createPaddleCheckoutReference');
 
       final result = await callable.call();
 
-      final data = Map<String, dynamic>.from(
-        result.data as Map,
-      );
+      final data = Map<String, dynamic>.from(result.data as Map);
 
-      final checkoutReference =
-          data['checkoutReference'] as String?;
+      final checkoutReference = data['checkoutReference'] as String?;
 
-      if (checkoutReference == null ||
-          checkoutReference.isEmpty) {
+      if (checkoutReference == null || checkoutReference.isEmpty) {
         throw const PaddleSubscriptionException(
           'Die sichere Paddle-Checkout-Referenz konnte '
           'nicht erstellt werden.',
@@ -79,32 +70,22 @@ class PaddleSubscriptionService {
         _setPaddleEnvironment('sandbox');
 
         _initializePaddle(
-          <String, Object?>{
-            'token': _clientToken,
-          }.jsify() as JSObject,
+          <String, Object?>{'token': _clientToken}.jsify() as JSObject,
         );
 
         _initialized = true;
       }
 
-      final checkoutOptions = <String, Object?>{
-        'items': [
-          {
-            'priceId': _yearlyPriceId,
-            'quantity': 1,
-          },
-        ],
-        'customer': {
-          if (user.email != null) 'email': user.email,
-        },
-        'customData': {
-          'checkoutReference': checkoutReference,
-        },
-        'settings': {
-          'displayMode': 'overlay',
-          'variant': 'one-page',
-        },
-      }.jsify() as JSObject;
+      final checkoutOptions =
+          <String, Object?>{
+                'items': [
+                  {'priceId': _yearlyPriceId, 'quantity': 1},
+                ],
+                'customer': {if (user.email != null) 'email': user.email},
+                'customData': {'checkoutReference': checkoutReference},
+                'settings': {'displayMode': 'overlay', 'variant': 'one-page'},
+              }.jsify()
+              as JSObject;
 
       _openPaddleCheckout(checkoutOptions);
     } on FirebaseFunctionsException catch (error) {

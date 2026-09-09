@@ -1,4 +1,6 @@
 ﻿const {initializeApp} = require("firebase-admin/app");
+const {getAuth} = require("firebase-admin/auth");
+
 const {
   FieldValue,
   getFirestore,
@@ -103,6 +105,107 @@ function getUserAccessReference(uid) {
 }
 
 /**
+ * Initialisiert den 7-Tage-Test für einen angemeldeten Benutzer.
+ *
+ * Ein vorhandener Teststatus wird niemals überschrieben.
+ * Ein übergebener Gast-Teststart darf nicht nach der Erstellung
+ * des Firebase-Kontos liegen.
+ */
+exports.initializeUserTrial = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      if (!request.auth) {
+        throw new HttpsError(
+            "unauthenticated",
+            "Authentication required.",
+        );
+      }
+
+      const uid = request.auth.uid;
+
+      const userRecord =
+        await getAuth().getUser(uid);
+
+      const creationTime =
+        userRecord.metadata.creationTime;
+
+      if (!creationTime) {
+        throw new HttpsError(
+            "failed-precondition",
+            "Account creation time is unavailable.",
+        );
+      }
+
+      const accountCreationDate =
+        new Date(creationTime);
+
+      const requestedTrialStart =
+        request.data &&
+        typeof request.data.trialStart === "string" ?
+          new Date(request.data.trialStart) :
+          null;
+
+      let trialStart =
+        accountCreationDate;
+
+      if (
+        requestedTrialStart &&
+      !Number.isNaN(
+          requestedTrialStart.getTime(),
+      ) &&
+      requestedTrialStart.getTime() <=
+        accountCreationDate.getTime()
+      ) {
+        trialStart =
+          requestedTrialStart;
+      }
+
+      const reference =
+        getUserAccessReference(uid);
+
+      await db.runTransaction(
+          async (transaction) => {
+            const snapshot =
+              await transaction.get(reference);
+
+            const existingData =
+              snapshot.exists ?
+                snapshot.data() :
+                null;
+
+            if (
+              existingData &&
+            (
+              existingData.trialStart != null ||
+              existingData.trialUsed === true
+            )
+            ) {
+              return;
+            }
+
+            transaction.set(
+                reference,
+                {
+                  trialStart:
+                    trialStart.toISOString(),
+                  trialUsed: true,
+                },
+                {
+                  merge: true,
+                },
+            );
+          },
+      );
+
+      return {
+        initialized: true,
+      };
+    },
+);
+
+/**
  * Aktiviert FilaLog Premium nach einem gültigen Paddle-Jahreskauf.
  *
  * @param {string} uid Firebase User-ID.
@@ -171,12 +274,6 @@ async function activatePaddleYearlyPremium(
 
         paddleSubscriptionStatus:
             "active",
-
-        paddleLastWebhookEvent:
-            event.eventType,
-
-        paddleLastWebhookEventId:
-            event.eventId,
 
         paddleUpdatedAt:
             FieldValue.serverTimestamp(),
@@ -253,6 +350,11 @@ async function updatePaddleActiveSubscription(
         data.nextBilledAt :
         null;
 
+  const occurredAt =
+      typeof event.occurredAt === "string" ?
+        event.occurredAt :
+        null;
+
   if (
     !subscriptionId ||
     !customerId ||
@@ -265,43 +367,86 @@ async function updatePaddleActiveSubscription(
   }
 
   const reference =
-      getUserAccessReference(uid);
+  getUserAccessReference(uid);
 
-  await reference.set(
-      {
-        premiumActive: true,
-        premiumProvider: "paddle",
-        premiumPlan: "yearly",
+  await db.runTransaction(
+      async (transaction) => {
+        const snapshot =
+        await transaction.get(reference);
 
-        paddleCustomerId:
-            customerId,
+        const existingData =
+        snapshot.exists ?
+          snapshot.data() :
+          null;
 
-        paddleSubscriptionId:
-            subscriptionId,
+        const previousOccurredAt =
+        existingData &&
+        typeof existingData
+            .paddleLastEventOccurredAt === "string" ?
+          existingData
+              .paddleLastEventOccurredAt :
+          null;
 
-        paddleSubscriptionStatus:
-            "active",
+        if (
+          previousOccurredAt &&
+      occurredAt &&
+      Date.parse(previousOccurredAt) >
+        Date.parse(occurredAt)
+        ) {
+          logger.info(
+              "Older Paddle subscription event ignored",
+              {
+                uid,
+                subscriptionId,
+                previousOccurredAt,
+                occurredAt,
+              },
+          );
 
-        paddleCurrentPeriodStart:
-            periodStartsAt,
+          return;
+        }
 
-        paddleCurrentPeriodEnd:
-            periodEndsAt,
+        transaction.set(
+            reference,
+            {
+              premiumActive: true,
+              premiumProvider: "paddle",
+              premiumPlan: "yearly",
 
-        paddleNextBilledAt:
-            nextBilledAt,
+              paddleCustomerId:
+              customerId,
 
-        paddleLastWebhookEvent:
-            event.eventType,
+              paddleSubscriptionId:
+              subscriptionId,
 
-        paddleLastWebhookEventId:
-            event.eventId,
+              paddleSubscriptionStatus:
+              "active",
 
-        paddleUpdatedAt:
-            FieldValue.serverTimestamp(),
-      },
-      {
-        merge: true,
+              paddleCurrentPeriodStart:
+              periodStartsAt,
+
+              paddleCurrentPeriodEnd:
+              periodEndsAt,
+
+              paddleNextBilledAt:
+              nextBilledAt,
+
+              paddleLastWebhookEvent:
+              event.eventType,
+
+              paddleLastWebhookEventId:
+              event.eventId,
+
+              paddleLastEventOccurredAt:
+              occurredAt,
+
+              paddleUpdatedAt:
+              FieldValue.serverTimestamp(),
+            },
+            {
+              merge: true,
+            },
+        );
       },
   );
 
@@ -311,6 +456,268 @@ async function updatePaddleActiveSubscription(
         uid,
         subscriptionId,
         periodEndsAt,
+      },
+  );
+}
+
+/**
+ * Speichert den neuesten Paddle Subscription-Lifecycle-Stand.
+ *
+ * Ältere Webhook-Events dürfen einen bereits neueren
+ * Subscription-Stand nicht überschreiben.
+ *
+ * @param {string} uid Firebase User-ID.
+ * @param {object} event Verifiziertes Paddle Subscription-Event.
+ * @return {Promise<void>}
+ */
+async function updatePaddleSubscriptionLifecycle(
+    uid,
+    event,
+) {
+  if (
+    typeof uid !== "string" ||
+  uid.length === 0 ||
+  !event ||
+  !event.data
+  ) {
+    throw new Error(
+        "Invalid Paddle subscription lifecycle data",
+    );
+  }
+
+  const data = event.data;
+
+  const subscriptionId =
+    typeof data.id === "string" ?
+      data.id :
+      null;
+
+  const status =
+    typeof data.status === "string" ?
+      data.status :
+      null;
+
+  const rawScheduledChange =
+      data.scheduledChange &&
+      typeof data.scheduledChange === "object" ?
+        data.scheduledChange :
+        null;
+
+  const scheduledChange =
+      rawScheduledChange ?
+        {
+          action:
+              typeof rawScheduledChange.action === "string" ?
+                rawScheduledChange.action :
+                null,
+          effectiveAt:
+              typeof rawScheduledChange.effectiveAt === "string" ?
+                rawScheduledChange.effectiveAt :
+                null,
+          resumeAt:
+              typeof rawScheduledChange.resumeAt === "string" ?
+                rawScheduledChange.resumeAt :
+                null,
+        } :
+        null;
+
+  const currentBillingPeriod =
+        data.currentBillingPeriod &&
+        typeof data.currentBillingPeriod === "object" ?
+          data.currentBillingPeriod :
+          null;
+
+  const periodStartsAt =
+        currentBillingPeriod &&
+        typeof currentBillingPeriod.startsAt === "string" ?
+          currentBillingPeriod.startsAt :
+          null;
+
+  const periodEndsAt =
+        currentBillingPeriod &&
+        typeof currentBillingPeriod.endsAt === "string" ?
+          currentBillingPeriod.endsAt :
+          null;
+
+  const nextBilledAt =
+        typeof data.nextBilledAt === "string" ?
+          data.nextBilledAt :
+          null;
+
+  const occurredAt =
+    typeof event.occurredAt === "string" ?
+      event.occurredAt :
+      null;
+
+  const scheduledAction =
+      scheduledChange &&
+      typeof scheduledChange.action === "string" ?
+        scheduledChange.action :
+        null;
+
+  if (
+    !subscriptionId ||
+  !status ||
+  !occurredAt
+  ) {
+    throw new Error(
+        "Missing Paddle subscription lifecycle data",
+    );
+  }
+
+  const reference =
+    getUserAccessReference(uid);
+
+  await db.runTransaction(
+      async (transaction) => {
+        const snapshot =
+          await transaction.get(reference);
+
+        const existingData =
+          snapshot.exists ?
+            snapshot.data() :
+            null;
+
+        const previousOccurredAt =
+          existingData &&
+          typeof existingData
+              .paddleLastEventOccurredAt === "string" ?
+            existingData
+                .paddleLastEventOccurredAt :
+            null;
+
+        const previousEventType =
+            existingData &&
+            typeof existingData
+                .paddleLastWebhookEvent === "string" ?
+              existingData
+                  .paddleLastWebhookEvent :
+              null;
+
+        if (
+          previousOccurredAt &&
+            Date.parse(previousOccurredAt) ===
+              Date.parse(occurredAt) &&
+            previousEventType ===
+              "subscription.canceled" &&
+            event.eventType ===
+              "subscription.updated"
+        ) {
+          logger.info(
+              "Equal-time Paddle update ignored after canceled",
+              {
+                uid,
+                subscriptionId,
+                previousEventType,
+                eventType: event.eventType,
+                occurredAt,
+              },
+          );
+
+          return;
+        }
+
+        if (
+          previousOccurredAt &&
+        Date.parse(previousOccurredAt) >
+          Date.parse(occurredAt)
+        ) {
+          logger.info(
+              "Older Paddle lifecycle event ignored",
+              {
+                uid,
+                subscriptionId,
+                eventType: event.eventType,
+                previousOccurredAt,
+                occurredAt,
+              },
+          );
+
+          return;
+        }
+
+        if (
+          event.eventType === "subscription.canceled"
+        ) {
+          transaction.set(
+              reference,
+              {
+                premiumActive: false,
+              },
+              {
+                merge: true,
+              },
+          );
+        }
+
+        if (
+          event.eventType === "subscription.resumed"
+        ) {
+          transaction.set(
+              reference,
+              {
+                premiumActive: true,
+              },
+              {
+                merge: true,
+              },
+          );
+        }
+
+        if (
+          event.eventType === "subscription.paused"
+        ) {
+          transaction.set(
+              reference,
+              {
+                premiumActive: false,
+              },
+              {
+                merge: true,
+              },
+          );
+        }
+
+        transaction.set(
+            reference,
+            {
+              paddleSubscriptionId:
+                subscriptionId,
+
+              paddleSubscriptionStatus:
+                status,
+
+              paddleCurrentPeriodStart:
+                periodStartsAt,
+
+              paddleCurrentPeriodEnd:
+                periodEndsAt,
+
+              paddleNextBilledAt:
+                nextBilledAt,
+
+              paddleScheduledChange:
+                scheduledChange,
+
+              paddleScheduledAction:
+                scheduledAction,
+
+              paddleLastWebhookEvent:
+                event.eventType,
+
+              paddleLastWebhookEventId:
+                event.eventId,
+
+              paddleLastEventOccurredAt:
+                occurredAt,
+
+              paddleUpdatedAt:
+                FieldValue.serverTimestamp(),
+            },
+            {
+              merge: true,
+            },
+        );
       },
   );
 }
@@ -1502,6 +1909,90 @@ async function consumePaddleCheckoutReference(
 }
 
 /**
+ * Speichert die dauerhafte Zuordnung eines Paddle-Abos
+ * zu einem FilaLog-Benutzer.
+ *
+ * @param {string} subscriptionId Paddle Subscription-ID.
+ * @param {string} uid Firebase User-ID.
+ * @param {string} customerId Paddle Customer-ID.
+ * @return {Promise<void>}
+ */
+async function savePaddleSubscriptionMapping(
+    subscriptionId,
+    uid,
+    customerId,
+) {
+  if (
+    typeof subscriptionId !== "string" ||
+  subscriptionId.length === 0 ||
+  typeof uid !== "string" ||
+  uid.length === 0 ||
+  typeof customerId !== "string" ||
+  customerId.length === 0
+  ) {
+    throw new Error(
+        "Invalid Paddle subscription mapping data",
+    );
+  }
+
+  const reference = db
+      .collection("paddleSubscriptions")
+      .doc(subscriptionId);
+
+  await reference.set(
+      {
+        uid,
+        customerId,
+        subscriptionId,
+        updatedAt:
+          FieldValue.serverTimestamp(),
+      },
+      {
+        merge: true,
+      },
+  );
+}
+
+/**
+ * Ermittelt die Firebase-UID anhand einer Paddle Subscription-ID.
+ *
+ * @param {string} subscriptionId Paddle Subscription-ID.
+ * @return {Promise<string|null>} Firebase-UID oder null.
+ */
+async function resolvePaddleSubscriptionUid(
+    subscriptionId,
+) {
+  if (
+    typeof subscriptionId !== "string" ||
+  subscriptionId.length === 0
+  ) {
+    return null;
+  }
+
+  const reference = db
+      .collection("paddleSubscriptions")
+      .doc(subscriptionId);
+
+  const snapshot = await reference.get();
+
+  if (!snapshot.exists) {
+    return null;
+  }
+
+  const data = snapshot.data();
+
+  if (
+    !data ||
+  typeof data.uid !== "string" ||
+  data.uid.length === 0
+  ) {
+    return null;
+  }
+
+  return data.uid;
+}
+
+/**
  * Reserviert ein Paddle Webhook-Event zur einmaligen Verarbeitung.
  *
  * Der Sandbox-Präfix verhindert später eine Kollision mit Live-Events.
@@ -1781,6 +2272,18 @@ exports.paddleWebhook = onRequest(
         }
 
         if (
+          uid === null &&
+          eventType.startsWith("subscription.") &&
+          event.data &&
+          typeof event.data.id === "string"
+        ) {
+          uid =
+              await resolvePaddleSubscriptionUid(
+                  event.data.id,
+              );
+        }
+
+        if (
           eventType === "transaction.completed" &&
           uid !== null
         ) {
@@ -1788,6 +2291,28 @@ exports.paddleWebhook = onRequest(
               uid,
               event,
           );
+          const paddleCustomerId =
+          event.data &&
+          typeof event.data.customerId === "string" ?
+            event.data.customerId :
+            null;
+
+          const paddleSubscriptionId =
+          event.data &&
+          typeof event.data.subscriptionId === "string" ?
+            event.data.subscriptionId :
+            null;
+
+          if (
+            paddleCustomerId &&
+        paddleSubscriptionId
+          ) {
+            await savePaddleSubscriptionMapping(
+                paddleSubscriptionId,
+                uid,
+                paddleCustomerId,
+            );
+          }
         }
 
         if (
@@ -1795,6 +2320,17 @@ exports.paddleWebhook = onRequest(
           uid !== null
         ) {
           await updatePaddleActiveSubscription(
+              uid,
+              event,
+          );
+        }
+
+        if (
+          eventType.startsWith("subscription.") &&
+          eventType !== "subscription.activated" &&
+          uid !== null
+        ) {
+          await updatePaddleSubscriptionLifecycle(
               uid,
               event,
           );
