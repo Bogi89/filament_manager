@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../pages/main_navigation.dart';
+import '../../services/firestore_service.dart';
 import '../../services/paddle_subscription_service.dart';
 import 'login_page.dart';
 import 'register_page.dart';
@@ -17,6 +21,36 @@ class TrialExpiredPage extends StatefulWidget {
 class _TrialExpiredPageState extends State<TrialExpiredPage> {
   bool _yearlyLoading = false;
   bool _webCheckoutOpened = false;
+  bool _premiumNavigationStarted = false;
+
+  StreamSubscription<UserAccessStatus?>? _accessSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      _accessSubscription = FirestoreService.watchUserAccessStatus().listen(
+        _handleAccessStatus,
+      );
+    }
+  }
+
+  void _handleAccessStatus(UserAccessStatus? accessStatus) {
+    if (!mounted ||
+        _premiumNavigationStarted ||
+        accessStatus == null ||
+        !accessStatus.premiumActive) {
+      return;
+    }
+
+    _premiumNavigationStarted = true;
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const MainNavigation()),
+      (route) => false,
+    );
+  }
 
   Future<void> _startWebYearlySubscription() async {
     if (_yearlyLoading) {
@@ -81,6 +115,13 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (_) => const RegisterPage()));
+  }
+
+  @override
+  void dispose() {
+    _accessSubscription?.cancel();
+
+    super.dispose();
   }
 
   @override

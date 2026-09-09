@@ -85,6 +85,46 @@ class FirestoreService {
     );
   }
 
+  /// Beobachtet den Test-/Premium-Status des aktuell
+  /// angemeldeten Benutzers in Echtzeit.
+  ///
+  /// Wird der Premium-Status serverseitig geändert,
+  /// zum Beispiel durch den Paddle-Webhook, wird der
+  /// neue Status automatisch ausgegeben.
+  static Stream<UserAccessStatus?> watchUserAccessStatus() {
+    final reference = _dataReference;
+
+    if (reference == null) {
+      return Stream<UserAccessStatus?>.value(null);
+    }
+
+    return reference.snapshots().map((snapshot) {
+      if (!snapshot.exists) {
+        return null;
+      }
+
+      final data = snapshot.data();
+
+      if (data == null) {
+        return null;
+      }
+
+      final trialStartValue = data['trialStart'];
+
+      DateTime? trialStart;
+
+      if (trialStartValue is String) {
+        trialStart = DateTime.tryParse(trialStartValue);
+      }
+
+      return UserAccessStatus(
+        trialStart: trialStart,
+        trialUsed: data['trialUsed'] == true,
+        premiumActive: data['premiumActive'] == true,
+      );
+    });
+  }
+
   /// Initialisiert den Start der kostenlosen Testphase
   /// serverseitig über Firebase Functions.
   ///
