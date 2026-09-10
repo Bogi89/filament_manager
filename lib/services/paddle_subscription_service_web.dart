@@ -12,6 +12,9 @@ external void _initializePaddle(JSObject options);
 @JS('Paddle.Checkout.open')
 external void _openPaddleCheckout(JSObject options);
 
+@JS('Paddle.Checkout.close')
+external void _closePaddleCheckout();
+
 class PaddleSubscriptionException implements Exception {
   final String message;
 
@@ -31,6 +34,20 @@ class PaddleSubscriptionService {
   static const String _yearlyPriceId = 'pri_01m1d11wsxe99cv3522p6eszj3';
 
   static bool _initialized = false;
+
+  static void _handlePaddleEvent(JSAny? event) {
+    final eventData = event?.dartify();
+
+    if (eventData is! Map) {
+      return;
+    }
+
+    final eventName = eventData['name'];
+
+    if (eventName == 'checkout.completed') {
+      _closePaddleCheckout();
+    }
+  }
 
   static Future<void> startYearlySubscription() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -70,7 +87,11 @@ class PaddleSubscriptionService {
         _setPaddleEnvironment('sandbox');
 
         _initializePaddle(
-          <String, Object?>{'token': _clientToken}.jsify() as JSObject,
+          <String, Object?>{
+                'token': _clientToken,
+                'eventCallback': _handlePaddleEvent.toJS,
+              }.jsify()
+              as JSObject,
         );
 
         _initialized = true;
