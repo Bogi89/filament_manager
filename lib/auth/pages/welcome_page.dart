@@ -31,11 +31,6 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Positioned(
-              top: 12,
-              left: 12,
-              child: _LanguageSelector(isEnglish: isEnglish),
-            ),
             Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 900),
@@ -171,6 +166,11 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            Positioned(
+              top: 12,
+              left: 12,
+              child: _LanguageSelector(isEnglish: isEnglish),
             ),
           ],
         ),
