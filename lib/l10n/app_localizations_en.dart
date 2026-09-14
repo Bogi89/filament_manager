@@ -301,7 +301,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String deleteSpoolConfirmation(int number) {
-    return 'Really delete spool $number?';
+    return 'Are you sure you want to delete spool $number?';
   }
 
   @override
@@ -427,7 +427,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpAddFilamentTitle => 'Add Filament';
 
   @override
-  String get helpAddFilamentIntroduction => 'This page explains how to correctly add a new filament and which information is required.';
+  String get helpAddFilamentIntroduction => 'This page explains how to add a new filament correctly and which information is required.';
 
   @override
   String get helpAddFilamentNewTitle => 'Add a New Filament';
@@ -538,7 +538,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpBackupRestoreTitle => 'Restore a Backup';
 
   @override
-  String get helpBackupRestoreContent => 'Select a previously created backup file to import your data back into FilaLog.';
+  String get helpBackupRestoreContent => 'Select a previously created backup file to restore your data in FilaLog.';
 
   @override
   String get helpBackupFileTitle => 'Backup File';
@@ -706,7 +706,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get termsOfServiceApplicableLawContent => 'The applicable law at the provider\'s place of business shall apply, to the extent permitted by law.';
 
   @override
-  String get privacyPolicyUserAccountContent => 'When using a user account, data may be synchronized with supported devices in the future.';
+  String get privacyPolicyUserAccountContent => 'When using a user account, data is synchronized across supported devices via the cloud.';
 
   @override
   String get privacyPolicyRightsTitle => 'Your Rights';
@@ -1416,7 +1416,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String confirmDeletePrinter(String printerName) {
-    return 'Really delete printer $printerName?';
+    return 'Are you sure you want to delete printer $printerName?';
   }
 
   @override

@@ -114,7 +114,7 @@
 "deleteFilamentTitle": "Delete filament?",
 "deleteFilamentConfirmation": "Do you really want to delete this filament?",
 "deleteLastSpoolWarning": "This filament will no longer contain any spools.\n\nDelete filament completely?",
-"deleteSpoolConfirmation": "Really delete spool {number}?",
+"deleteSpoolConfirmation": "Are you sure you want to delete spool {number}?",
   "@deleteSpoolConfirmation": {
     "placeholders": {
       "number": {
@@ -169,7 +169,7 @@
   "helpFirstStepsBackupContent": "Create regular backups of your data so that your filament inventory and print history are always protected.",
   "helpFirstStepsTip": "Tip: Start with a few filaments. This helps you get familiar with the app quickly and keeps everything easy to manage.",
   "helpAddFilamentTitle": "Add Filament",
-  "helpAddFilamentIntroduction": "This page explains how to correctly add a new filament and which information is required.",
+  "helpAddFilamentIntroduction": "This page explains how to add a new filament correctly and which information is required.",
   "helpAddFilamentNewTitle": "Add a New Filament",
   "helpAddFilamentNewContent": "Open the filament section and tap the button to add a new filament.",
   "helpAddFilamentSelectTitle": "Select Filament",
@@ -206,7 +206,7 @@
   "helpBackupCreateTitle": "Create a Backup",
   "helpBackupCreateContent": "Create regular backups of your data to prevent any information from being lost.",
   "helpBackupRestoreTitle": "Restore a Backup",
-  "helpBackupRestoreContent": "Select a previously created backup file to import your data back into FilaLog.",
+  "helpBackupRestoreContent": "Select a previously created backup file to restore your data in FilaLog.",
   "helpBackupFileTitle": "Backup File",
   "helpBackupFileContent": "Keep your backup files in a safe place, such as a cloud service or an external storage device.",
   "helpBackupRegularTitle": "Back Up Regularly",
@@ -262,7 +262,7 @@
   "termsOfServiceFinalProvisions": "Final Provisions",
   "termsOfServiceApplicableLawTitle": "Applicable Law",
   "termsOfServiceApplicableLawContent": "The applicable law at the provider's place of business shall apply, to the extent permitted by law.",
-  "privacyPolicyUserAccountContent": "When using a user account, data may be synchronized with supported devices in the future.",
+  "privacyPolicyUserAccountContent": "When using a user account, data is synchronized across supported devices via the cloud.",
   "privacyPolicyRightsTitle": "Your Rights",
   "privacyPolicyRightsLabel": "Data Protection Rights",
   "privacyPolicyRightsContent": "You have the right to access, correct, delete, and restrict the processing of your personal data within the scope of applicable data protection laws.",
@@ -518,7 +518,7 @@
   "noCustomPrinters": "No custom printers available.",
   "edit": "Edit",
   "deletePrinter": "Delete printer",
-  "confirmDeletePrinter": "Really delete printer {printerName}?",
+  "confirmDeletePrinter": "Are you sure you want to delete printer {printerName}?",
   "@confirmDeletePrinter": {
     "placeholders": {
       "printerName": {

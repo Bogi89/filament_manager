@@ -4,7 +4,7 @@ class AlignedAddButton extends StatelessWidget {
   const AlignedAddButton({
     super.key,
     required this.onPressed,
-    this.tooltip = "Hinzufügen",
+    required this.tooltip,
   });
 
   final VoidCallback? onPressed;

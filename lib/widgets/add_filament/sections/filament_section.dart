@@ -4,6 +4,7 @@ import '../../../services/filament_catalog_service.dart';
 import '../../../services/custom_color_service.dart';
 import '../../../models/filament_color.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import '../../../l10n/app_localizations.dart';
 
 import '../widgets/aligned_add_button.dart';
 
@@ -115,6 +116,7 @@ class _FilamentSectionState extends State<FilamentSection> {
   Color? selectedColorValue;
 
   Future<void> _addColorDialog() async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
 
     final pickedColors = <Color>[selectedColorValue ?? Colors.blue];
@@ -125,13 +127,13 @@ class _FilamentSectionState extends State<FilamentSection> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Neue Farbe"),
+          title: Text(l10n.newColor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: controller,
-                decoration: const InputDecoration(hintText: "Farbname"),
+                decoration: InputDecoration(hintText: l10n.colorName),
               ),
 
               const SizedBox(height: 16),
@@ -221,7 +223,7 @@ class _FilamentSectionState extends State<FilamentSection> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Abbrechen"),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -231,7 +233,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                   "colors": pickedColors,
                 });
               },
-              child: const Text("Speichern"),
+              child: Text(l10n.save),
             ),
           ],
         );
@@ -366,16 +368,17 @@ class _FilamentSectionState extends State<FilamentSection> {
   }
 
   Future<void> _addBrandDialog() async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
 
     final result = await showDialog<String>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Neuer Hersteller"),
+          title: Text(l10n.newManufacturer),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(labelText: "Herstellername"),
+            decoration: InputDecoration(labelText: l10n.manufacturerName),
             autofocus: true,
           ),
           actions: [
@@ -383,7 +386,7 @@ class _FilamentSectionState extends State<FilamentSection> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Abbrechen"),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -393,7 +396,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                   Navigator.pop(context, value);
                 }
               },
-              child: const Text("Speichern"),
+              child: Text(l10n.save),
             ),
           ],
         );
@@ -411,16 +414,17 @@ class _FilamentSectionState extends State<FilamentSection> {
   }
 
   Future<void> _addMaterialDialog() async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
 
     final result = await showDialog<String>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Neues Material"),
+          title: Text(l10n.newMaterial),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(labelText: "Materialname"),
+            decoration: InputDecoration(labelText: l10n.materialName),
             autofocus: true,
           ),
           actions: [
@@ -428,7 +432,7 @@ class _FilamentSectionState extends State<FilamentSection> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Abbrechen"),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -438,7 +442,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                   Navigator.pop(context, value);
                 }
               },
-              child: const Text("Speichern"),
+              child: Text(l10n.save),
             ),
           ],
         );
@@ -522,29 +526,30 @@ class _FilamentSectionState extends State<FilamentSection> {
   }
 
   Future<void> _addVariantDialog() async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
 
     final result = await showDialog<String>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Neue Variante"),
+          title: Text(l10n.newVariant),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(hintText: "Variantenname"),
+            decoration: InputDecoration(hintText: l10n.variantName),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Abbrechen"),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, controller.text.trim());
               },
-              child: const Text("Speichern"),
+              child: Text(l10n.save),
             ),
           ],
         );
@@ -575,6 +580,8 @@ class _FilamentSectionState extends State<FilamentSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -616,7 +623,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                     searchFieldProps: TextFieldProps(
                       controller: brandSearchController,
                       decoration: InputDecoration(
-                        hintText: "Hersteller suchen...",
+                        hintText: l10n.searchManufacturer,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
@@ -626,10 +633,10 @@ class _FilamentSectionState extends State<FilamentSection> {
                       ),
                     ),
                   ),
-                  decoratorProps: const DropDownDecoratorProps(
+                  decoratorProps: DropDownDecoratorProps(
                     decoration: InputDecoration(
-                      hintText: "Hersteller",
-                      border: OutlineInputBorder(),
+                      hintText: l10n.manufacturer,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   onChanged: (value) {
@@ -640,7 +647,10 @@ class _FilamentSectionState extends State<FilamentSection> {
                 ),
               ),
 
-              AlignedAddButton(onPressed: widget.onAddBrand ?? _addBrandDialog),
+              AlignedAddButton(
+                onPressed: widget.onAddBrand ?? _addBrandDialog,
+                tooltip: l10n.add,
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -657,7 +667,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                     searchFieldProps: TextFieldProps(
                       controller: materialSearchController,
                       decoration: InputDecoration(
-                        hintText: "Material suchen...",
+                        hintText: l10n.searchMaterial,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
@@ -668,10 +678,10 @@ class _FilamentSectionState extends State<FilamentSection> {
                     ),
                   ),
 
-                  decoratorProps: const DropDownDecoratorProps(
+                  decoratorProps: DropDownDecoratorProps(
                     decoration: InputDecoration(
-                      hintText: "Material",
-                      border: OutlineInputBorder(),
+                      hintText: l10n.material,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   onChanged: (value) {
@@ -684,6 +694,7 @@ class _FilamentSectionState extends State<FilamentSection> {
 
               AlignedAddButton(
                 onPressed: widget.onAddMaterial ?? _addMaterialDialog,
+                tooltip: l10n.add,
               ),
             ],
           ),
@@ -700,7 +711,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                     searchFieldProps: TextFieldProps(
                       controller: variantSearchController,
                       decoration: InputDecoration(
-                        hintText: "Variante suchen...",
+                        hintText: l10n.searchVariant,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
@@ -710,10 +721,10 @@ class _FilamentSectionState extends State<FilamentSection> {
                       ),
                     ),
                   ),
-                  decoratorProps: const DropDownDecoratorProps(
+                  decoratorProps: DropDownDecoratorProps(
                     decoration: InputDecoration(
-                      hintText: "Variante",
-                      border: OutlineInputBorder(),
+                      hintText: l10n.variant,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   onChanged: (value) {
@@ -726,6 +737,7 @@ class _FilamentSectionState extends State<FilamentSection> {
 
               AlignedAddButton(
                 onPressed: widget.onAddVariant ?? _addVariantDialog,
+                tooltip: l10n.add,
               ),
             ],
           ),
@@ -762,7 +774,7 @@ class _FilamentSectionState extends State<FilamentSection> {
                     searchFieldProps: TextFieldProps(
                       controller: colorSearchController,
                       decoration: InputDecoration(
-                        hintText: "Farbe suchen...",
+                        hintText: l10n.searchColor,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
@@ -772,10 +784,10 @@ class _FilamentSectionState extends State<FilamentSection> {
                       ),
                     ),
                   ),
-                  decoratorProps: const DropDownDecoratorProps(
+                  decoratorProps: DropDownDecoratorProps(
                     decoration: InputDecoration(
-                      labelText: "Farbe",
-                      border: OutlineInputBorder(),
+                      labelText: l10n.color,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   onChanged: (val) {
@@ -786,7 +798,10 @@ class _FilamentSectionState extends State<FilamentSection> {
                 ),
               ),
 
-              AlignedAddButton(onPressed: widget.onAddColor ?? _addColorDialog),
+              AlignedAddButton(
+                onPressed: widget.onAddColor ?? _addColorDialog,
+                tooltip: l10n.add,
+              ),
             ],
           ),
         ],

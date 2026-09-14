@@ -706,7 +706,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get termsOfServiceApplicableLawContent => 'Es gilt das jeweils anwendbare Recht am Sitz des Anbieters, soweit gesetzlich zulässig.';
 
   @override
-  String get privacyPolicyUserAccountContent => 'Bei Verwendung eines Benutzerkontos können Daten zukünftig mit unterstützten Geräten synchronisiert werden.';
+  String get privacyPolicyUserAccountContent => 'Bei Verwendung eines Benutzerkontos werden die Daten über die Cloud mit unterstützten Geräten synchronisiert.';
 
   @override
   String get privacyPolicyRightsTitle => 'Deine Rechte';

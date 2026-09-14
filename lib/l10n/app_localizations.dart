@@ -668,7 +668,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteSpoolConfirmation.
   ///
   /// In en, this message translates to:
-  /// **'Really delete spool {number}?'**
+  /// **'Are you sure you want to delete spool {number}?'**
   String deleteSpoolConfirmation(int number);
 
   /// No description provided for @sort.
@@ -914,7 +914,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpAddFilamentIntroduction.
   ///
   /// In en, this message translates to:
-  /// **'This page explains how to correctly add a new filament and which information is required.'**
+  /// **'This page explains how to add a new filament correctly and which information is required.'**
   String get helpAddFilamentIntroduction;
 
   /// No description provided for @helpAddFilamentNewTitle.
@@ -1136,7 +1136,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpBackupRestoreContent.
   ///
   /// In en, this message translates to:
-  /// **'Select a previously created backup file to import your data back into FilaLog.'**
+  /// **'Select a previously created backup file to restore your data in FilaLog.'**
   String get helpBackupRestoreContent;
 
   /// No description provided for @helpBackupFileTitle.
@@ -1472,7 +1472,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyUserAccountContent.
   ///
   /// In en, this message translates to:
-  /// **'When using a user account, data may be synchronized with supported devices in the future.'**
+  /// **'When using a user account, data is synchronized across supported devices via the cloud.'**
   String get privacyPolicyUserAccountContent;
 
   /// No description provided for @privacyPolicyRightsTitle.
@@ -2882,7 +2882,7 @@ abstract class AppLocalizations {
   /// No description provided for @confirmDeletePrinter.
   ///
   /// In en, this message translates to:
-  /// **'Really delete printer {printerName}?'**
+  /// **'Are you sure you want to delete printer {printerName}?'**
   String confirmDeletePrinter(String printerName);
 
   /// No description provided for @searchPrinter.
