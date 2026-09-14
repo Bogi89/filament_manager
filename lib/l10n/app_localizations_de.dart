@@ -1728,6 +1728,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get trialExpiredWebCheckoutOpenedInfo => 'Der Paddle-Checkout wurde geöffnet. Schließe dort das Abonnement ab. Die Freischaltung erfolgt anschließend automatisch.';
 
   @override
+  String get trialExpiredPurchaseSuccessTitle => 'Vielen Dank für deinen Einkauf!';
+
+  @override
+  String get trialExpiredPurchaseSuccessMessage => 'Dein Premium-Zugang wurde erfolgreich aktiviert. Du wirst jetzt zum Dashboard weitergeleitet.';
+
+  @override
   String get trialExpiredWebCheckoutStartError => 'Das Premium-Abonnement konnte nicht gestartet werden.';
 
   @override

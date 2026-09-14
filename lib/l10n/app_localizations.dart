@@ -3497,6 +3497,18 @@ abstract class AppLocalizations {
   /// **'The Paddle checkout has been opened. Complete the subscription there. Premium access will then be activated automatically.'**
   String get trialExpiredWebCheckoutOpenedInfo;
 
+  /// No description provided for @trialExpiredPurchaseSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your purchase!'**
+  String get trialExpiredPurchaseSuccessTitle;
+
+  /// No description provided for @trialExpiredPurchaseSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Premium access has been activated successfully. You will now be redirected to the dashboard.'**
+  String get trialExpiredPurchaseSuccessMessage;
+
   /// No description provided for @trialExpiredWebCheckoutStartError.
   ///
   /// In en, this message translates to:

@@ -20,13 +20,11 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-final appState = context.watch<AppState>();
-final isEnglish = appState.locale.languageCode == 'en';
-final l10n = AppLocalizations.of(context)!;
+    final appState = context.watch<AppState>();
+    final isEnglish = appState.locale.languageCode == 'en';
+    final l10n = AppLocalizations.of(context)!;
 
-final texts = _WelcomeTexts(
-  l10n: l10n,
-);
+    final texts = _WelcomeTexts(l10n: l10n);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -36,36 +34,21 @@ final texts = _WelcomeTexts(
             Positioned(
               top: 12,
               left: 12,
-              child: _LanguageSelector(
-                isEnglish: isEnglish,
-              ),
+              child: _LanguageSelector(isEnglish: isEnglish),
             ),
             Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 900,
-                ),
+                constraints: const BoxConstraints(maxWidth: 900),
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(
-                    24,
-                    72,
-                    24,
-                    24,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(24, 72, 24, 24),
                   child: Column(
                     children: [
                       Image.asset(
                         'assets/logo/logo_256.png',
                         width: 110,
                         height: 110,
-                        errorBuilder: (
-                          context,
-                          error,
-                          stackTrace,
-                        ) {
-                          return const FlutterLogo(
-                            size: 110,
-                          );
+                        errorBuilder: (context, error, stackTrace) {
+                          return const FlutterLogo(size: 110);
                         },
                       ),
                       const SizedBox(height: 20),
@@ -109,9 +92,7 @@ final texts = _WelcomeTexts(
                         ],
                       ),
                       const SizedBox(height: 32),
-                      _TrialAndPricingCard(
-                        texts: texts,
-                      ),
+                      _TrialAndPricingCard(texts: texts),
                       const SizedBox(height: 32),
                       GuestCard(
                         onPressed: () async {
@@ -155,41 +136,35 @@ final texts = _WelcomeTexts(
                         runSpacing: 8,
                         children: [
                           TextButton(
-  onPressed: () {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const PrivacyPolicyPage(),
-      ),
-    );
-  },
-  child: Text(
-    texts.privacyPolicy,
-  ),
-),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const PrivacyPolicyPage(),
+                                ),
+                              );
+                            },
+                            child: Text(texts.privacyPolicy),
+                          ),
                           TextButton(
-  onPressed: () {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const ImprintPage(),
-      ),
-    );
-  },
-  child: Text(
-    texts.legalNotice,
-  ),
-),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const ImprintPage(),
+                                ),
+                              );
+                            },
+                            child: Text(texts.legalNotice),
+                          ),
                           TextButton(
-  onPressed: () {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const TermsOfServicePage(),
-      ),
-    );
-  },
-  child: Text(
-    texts.termsOfService,
-  ),
-),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const TermsOfServicePage(),
+                                ),
+                              );
+                            },
+                            child: Text(texts.termsOfService),
+                          ),
                         ],
                       ),
                     ],
@@ -207,9 +182,7 @@ final texts = _WelcomeTexts(
 class _LanguageSelector extends StatelessWidget {
   final bool isEnglish;
 
-  const _LanguageSelector({
-    required this.isEnglish,
-  });
+  const _LanguageSelector({required this.isEnglish});
 
   @override
   Widget build(BuildContext context) {
@@ -218,70 +191,58 @@ class _LanguageSelector extends StatelessWidget {
     return PopupMenuButton<String>(
       tooltip: isEnglish ? 'Language' : 'Sprache',
       onSelected: (languageCode) {
-        appState.setLocale(
-          Locale(languageCode),
-        );
+        appState.setLocale(Locale(languageCode));
       },
       itemBuilder: (context) {
-  return [
-    PopupMenuItem<String>(
-      value: 'de',
-      child: Row(
-        children: [
-          Icon(
-            Icons.check,
-            size: 18,
-            color: !isEnglish
-                ? Theme.of(context).colorScheme.primary
-                : Colors.transparent,
+        return [
+          PopupMenuItem<String>(
+            value: 'de',
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check,
+                  size: 18,
+                  color: !isEnglish
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.transparent,
+                ),
+                const SizedBox(width: 8),
+                const Text('German'),
+              ],
+            ),
           ),
-          const SizedBox(width: 8),
-          const Text('German'),
-        ],
-      ),
-    ),
-    PopupMenuItem<String>(
-      value: 'en',
-      child: Row(
-        children: [
-          Icon(
-            Icons.check,
-            size: 18,
-            color: isEnglish
-                ? Theme.of(context).colorScheme.primary
-                : Colors.transparent,
+          PopupMenuItem<String>(
+            value: 'en',
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check,
+                  size: 18,
+                  color: isEnglish
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.transparent,
+                ),
+                const SizedBox(width: 8),
+                const Text('English'),
+              ],
+            ),
           ),
-          const SizedBox(width: 8),
-          const Text('English'),
-        ],
-      ),
-    ),
-  ];
-},
+        ];
+      },
       child: Material(
         color: Theme.of(context).cardColor,
         elevation: 2,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.language,
-                size: 20,
-              ),
+              const Icon(Icons.language, size: 20),
               const SizedBox(width: 8),
-              Text(
-  isEnglish ? 'English' : 'German',
-),
+              Text(isEnglish ? 'English' : 'German'),
               const SizedBox(width: 4),
-              const Icon(
-                Icons.arrow_drop_down,
-              ),
+              const Icon(Icons.arrow_drop_down),
             ],
           ),
         ),
@@ -293,9 +254,7 @@ class _LanguageSelector extends StatelessWidget {
 class _TrialAndPricingCard extends StatelessWidget {
   final _WelcomeTexts texts;
 
-  const _TrialAndPricingCard({
-    required this.texts,
-  });
+  const _TrialAndPricingCard({required this.texts});
 
   @override
   Widget build(BuildContext context) {
@@ -304,18 +263,12 @@ class _TrialAndPricingCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(
-        maxWidth: 620,
-      ),
+      constraints: const BoxConstraints(maxWidth: 620),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: colorScheme.primary.withValues(
-            alpha: 0.25,
-          ),
-        ),
+        border: Border.all(color: colorScheme.primary.withValues(alpha: 0.25)),
       ),
       child: Column(
         children: [
@@ -337,9 +290,7 @@ class _TrialAndPricingCard extends StatelessWidget {
             texts.trialDescription,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface.withValues(
-                alpha: 0.75,
-              ),
+              color: colorScheme.onSurface.withValues(alpha: 0.75),
             ),
           ),
           const SizedBox(height: 24),
@@ -349,16 +300,10 @@ class _TrialAndPricingCard extends StatelessWidget {
             runSpacing: 16,
             children: [
               _PriceOption(
-                title: texts.monthly,
-                price: '2,49 €',
-                subtitle: texts.perMonth,
-              ),
-              _PriceOption(
                 title: texts.yearly,
                 price: '19,99 €',
                 subtitle: texts.perYear,
                 highlighted: true,
-                highlightedLabel: texts.cheaper,
               ),
             ],
           ),
@@ -367,9 +312,7 @@ class _TrialAndPricingCard extends StatelessWidget {
             texts.trialFooter,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withValues(
-                alpha: 0.65,
-              ),
+              color: colorScheme.onSurface.withValues(alpha: 0.65),
             ),
           ),
         ],
@@ -383,14 +326,12 @@ class _PriceOption extends StatelessWidget {
   final String price;
   final String subtitle;
   final bool highlighted;
-  final String? highlightedLabel;
 
   const _PriceOption({
     required this.title,
     required this.price,
     required this.subtitle,
     this.highlighted = false,
-    this.highlightedLabel,
   });
 
   @override
@@ -403,51 +344,18 @@ class _PriceOption extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: highlighted
-            ? colorScheme.primary.withValues(
-                alpha: 0.08,
-              )
-            : theme.scaffoldBackgroundColor.withValues(
-                alpha: 0.4,
-              ),
+            ? colorScheme.primary.withValues(alpha: 0.08)
+            : theme.scaffoldBackgroundColor.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: highlighted
-              ? colorScheme.primary.withValues(
-                  alpha: 0.55,
-                )
-              : colorScheme.onSurface.withValues(
-                  alpha: 0.12,
-                ),
+              ? colorScheme.primary.withValues(alpha: 0.55)
+              : colorScheme.onSurface.withValues(alpha: 0.12),
           width: highlighted ? 1.5 : 1,
         ),
       ),
       child: Column(
         children: [
-          if (highlighted)
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: 8,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 4,
-              ),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withValues(
-                  alpha: 0.12,
-                ),
-                borderRadius: BorderRadius.circular(
-                  20,
-                ),
-              ),
-              child: Text(
-                highlightedLabel ?? '',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
           Text(
             title,
             style: theme.textTheme.titleMedium?.copyWith(
@@ -459,18 +367,14 @@ class _PriceOption extends StatelessWidget {
             price,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: highlighted
-                  ? colorScheme.primary
-                  : null,
+              color: highlighted ? colorScheme.primary : null,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             subtitle,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withValues(
-                alpha: 0.65,
-              ),
+              color: colorScheme.onSurface.withValues(alpha: 0.65),
             ),
           ),
         ],
@@ -483,31 +387,18 @@ class _FeatureChip extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _FeatureChip({
-    required this.icon,
-    required this.label,
-  });
+  const _FeatureChip({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
-      avatar: Icon(
-        icon,
-        size: 18,
-      ),
-      label: Text(
-        label,
-      ),
-    );
+    return Chip(avatar: Icon(icon, size: 18), label: Text(label));
   }
 }
 
 class _WelcomeTexts {
   final AppLocalizations l10n;
 
-  const _WelcomeTexts({
-    required this.l10n,
-  });
+  const _WelcomeTexts({required this.l10n});
 
   String get filaments => l10n.filaments;
 
@@ -519,33 +410,17 @@ class _WelcomeTexts {
 
   String get trialTitle => l10n.welcomeTrialTitle;
 
-  String get trialDescription =>
-      l10n.welcomeTrialDescription;
+  String get trialDescription => l10n.welcomeTrialDescription;
 
-  String get monthly =>
-      l10n.trialExpiredMonthlyTitle;
+  String get yearly => l10n.trialExpiredYearlyTitle;
 
-  String get yearly =>
-      l10n.trialExpiredYearlyTitle;
+  String get perYear => l10n.welcomePerYear;
 
-  String get perMonth =>
-      l10n.welcomePerMonth;
+  String get trialFooter => l10n.welcomeTrialFooter;
 
-  String get perYear =>
-      l10n.welcomePerYear;
+  String get privacyPolicy => l10n.privacyPolicy;
 
-  String get cheaper =>
-      l10n.welcomeCheaper;
+  String get legalNotice => l10n.imprint;
 
-  String get trialFooter =>
-      l10n.welcomeTrialFooter;
-
-  String get privacyPolicy =>
-      l10n.privacyPolicy;
-
-  String get legalNotice =>
-      l10n.imprint;
-
-  String get termsOfService =>
-      l10n.termsOfService;
+  String get termsOfService => l10n.termsOfService;
 }

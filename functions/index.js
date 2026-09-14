@@ -37,14 +37,29 @@ const paypalClientId =
 const paypalClientSecret =
     defineSecret("PAYPAL_CLIENT_SECRET");
 
-const paddleApiKey = defineSecret("PADDLE_API_KEY");
-const paddleWebhookSecret = defineSecret("PADDLE_WEBHOOK_SECRET");
+const paddleSandboxApiKey =
+    defineSecret("PADDLE_API_KEY");
+
+const paddleSandboxWebhookSecret =
+    defineSecret("PADDLE_WEBHOOK_SECRET");
+
+const paddleLiveApiKey =
+    defineSecret("PADDLE_LIVE_API_KEY");
+
+const paddleLiveWebhookSecret =
+    defineSecret("PADDLE_LIVE_WEBHOOK_SECRET");
 
 const PADDLE_SANDBOX_YEARLY_PRICE_ID =
     "pri_01m1d11wsxe99cv3522p6eszj3";
 
 const PADDLE_SANDBOX_PRODUCT_ID =
     "pro_01m1d0mvxnzvjqa2qnmzmxb9zp";
+
+const PADDLE_LIVE_YEARLY_PRICE_ID =
+    "pri_01m25gb3x18a0n7h758facnr3f";
+
+const PADDLE_LIVE_PRODUCT_ID =
+    "pro_01m25fww5e3177g7p94jxv4qrt";
 
 const PADDLE_YEARLY_AMOUNT = "1999";
 
@@ -210,17 +225,23 @@ exports.initializeUserTrial = onCall(
  *
  * @param {string} uid Firebase User-ID.
  * @param {object} event Verifiziertes Paddle transaction.completed Event.
+ * @param {string} environment Paddle-Umgebung.
  * @return {Promise<void>}
  */
 async function activatePaddleYearlyPremium(
     uid,
     event,
+    environment,
 ) {
   if (
     typeof uid !== "string" ||
     uid.length === 0 ||
     !event ||
-    !event.data
+    !event.data ||
+    (
+      environment !== "live" &&
+      environment !== "sandbox"
+    )
   ) {
     throw new Error(
         "Invalid Paddle premium activation data",
@@ -262,6 +283,7 @@ async function activatePaddleYearlyPremium(
         premiumActive: true,
         premiumProvider: "paddle",
         premiumPlan: "yearly",
+        paddleEnvironment: environment,
 
         paddleCustomerId:
             customerId,
@@ -296,19 +318,25 @@ async function activatePaddleYearlyPremium(
 /**
  * Speichert den aktiven Paddle-Abozeitraum eines Benutzers.
  *
- * @param {string} uid Firebase User-ID.
+  * @param {string} uid Firebase User-ID.
  * @param {object} event Verifiziertes Paddle subscription.activated Event.
+ * @param {string} environment Paddle-Umgebung.
  * @return {Promise<void>}
  */
 async function updatePaddleActiveSubscription(
     uid,
     event,
+    environment,
 ) {
   if (
     typeof uid !== "string" ||
     uid.length === 0 ||
     !event ||
-    !event.data
+    !event.data ||
+    (
+      environment !== "live" &&
+      environment !== "sandbox"
+    )
   ) {
     throw new Error(
         "Invalid Paddle subscription data",
@@ -379,13 +407,39 @@ async function updatePaddleActiveSubscription(
           snapshot.data() :
           null;
 
+        const existingEnvironment =
+          existingData &&
+          typeof existingData.paddleEnvironment === "string" ?
+            existingData.paddleEnvironment :
+            null;
+
+        if (
+          existingEnvironment === "live" &&
+          environment === "sandbox"
+        ) {
+          logger.info(
+              "Sandbox Paddle lifecycle event ignored for live subscription",
+              {
+                uid,
+                subscriptionId,
+                eventType: event.eventType,
+              },
+          );
+
+          return;
+        }
+
+        const sameEnvironment =
+          existingEnvironment === environment;
+
         const previousOccurredAt =
-        existingData &&
-        typeof existingData
-            .paddleLastEventOccurredAt === "string" ?
-          existingData
-              .paddleLastEventOccurredAt :
-          null;
+          sameEnvironment &&
+          existingData &&
+          typeof existingData
+              .paddleLastEventOccurredAt === "string" ?
+            existingData
+                .paddleLastEventOccurredAt :
+            null;
 
         if (
           previousOccurredAt &&
@@ -412,6 +466,7 @@ async function updatePaddleActiveSubscription(
               premiumActive: true,
               premiumProvider: "paddle",
               premiumPlan: "yearly",
+              paddleEnvironment: environment,
 
               paddleCustomerId:
               customerId,
@@ -466,19 +521,25 @@ async function updatePaddleActiveSubscription(
  * Ältere Webhook-Events dürfen einen bereits neueren
  * Subscription-Stand nicht überschreiben.
  *
- * @param {string} uid Firebase User-ID.
+  * @param {string} uid Firebase User-ID.
  * @param {object} event Verifiziertes Paddle Subscription-Event.
+ * @param {string} environment Paddle-Umgebung.
  * @return {Promise<void>}
  */
 async function updatePaddleSubscriptionLifecycle(
     uid,
     event,
+    environment,
 ) {
   if (
     typeof uid !== "string" ||
-  uid.length === 0 ||
-  !event ||
-  !event.data
+    uid.length === 0 ||
+    !event ||
+    !event.data ||
+    (
+      environment !== "live" &&
+      environment !== "sandbox"
+    )
   ) {
     throw new Error(
         "Invalid Paddle subscription lifecycle data",
@@ -578,7 +639,33 @@ async function updatePaddleSubscriptionLifecycle(
             snapshot.data() :
             null;
 
+        const existingEnvironment =
+          existingData &&
+          typeof existingData.paddleEnvironment === "string" ?
+            existingData.paddleEnvironment :
+            null;
+
+        if (
+          existingEnvironment === "live" &&
+          environment === "sandbox"
+        ) {
+          logger.info(
+              "Sandbox Paddle lifecycle event ignored for live subscription",
+              {
+                uid,
+                subscriptionId,
+                eventType: event.eventType,
+              },
+          );
+
+          return;
+        }
+
+        const sameEnvironment =
+          existingEnvironment === environment;
+
         const previousOccurredAt =
+          sameEnvironment &&
           existingData &&
           typeof existingData
               .paddleLastEventOccurredAt === "string" ?
@@ -587,6 +674,7 @@ async function updatePaddleSubscriptionLifecycle(
             null;
 
         const previousEventType =
+            sameEnvironment &&
             existingData &&
             typeof existingData
                 .paddleLastWebhookEvent === "string" ?
@@ -681,6 +769,9 @@ async function updatePaddleSubscriptionLifecycle(
         transaction.set(
             reference,
             {
+              paddleEnvironment:
+              environment,
+
               paddleSubscriptionId:
                 subscriptionId,
 
@@ -1724,15 +1815,17 @@ exports.createPaddleCheckoutReference = onCall(
  * zum erlaubten FilaLog Web-Jahresabo gehört.
  *
  * @param {object} event Paddle Webhook-Event.
+ * @param {string} environment Paddle-Umgebung.
  * @return {boolean} True bei gültigem FilaLog Jahresabo.
  */
 function isValidPaddleYearlyTransaction(
     event,
+    environment,
 ) {
   if (
     !event ||
-    !event.data ||
-    event.eventType !== "transaction.completed"
+  !event.data ||
+  event.eventType !== "transaction.completed"
   ) {
     return false;
   }
@@ -1748,9 +1841,9 @@ function isValidPaddleYearlyTransaction(
   }
 
   const items =
-      Array.isArray(data.items) ?
-        data.items :
-        [];
+    Array.isArray(data.items) ?
+      data.items :
+      [];
 
   if (items.length !== 1) {
     return false;
@@ -1760,33 +1853,43 @@ function isValidPaddleYearlyTransaction(
 
   if (
     !item ||
-    item.quantity !== 1 ||
-    !item.price
+  item.quantity !== 1 ||
+  !item.price
   ) {
     return false;
   }
 
   const price = item.price;
 
+  const expectedPriceId =
+    environment === "live" ?
+      PADDLE_LIVE_YEARLY_PRICE_ID :
+      PADDLE_SANDBOX_YEARLY_PRICE_ID;
+
+  const expectedProductId =
+    environment === "live" ?
+      PADDLE_LIVE_PRODUCT_ID :
+      PADDLE_SANDBOX_PRODUCT_ID;
+
   if (
-    price.id !== PADDLE_SANDBOX_YEARLY_PRICE_ID ||
-    price.productId !== PADDLE_SANDBOX_PRODUCT_ID
+    price.id !== expectedPriceId ||
+  price.productId !== expectedProductId
   ) {
     return false;
   }
 
   if (
     !price.unitPrice ||
-    price.unitPrice.amount !== PADDLE_YEARLY_AMOUNT ||
-    price.unitPrice.currencyCode !== PADDLE_CURRENCY_CODE
+  price.unitPrice.amount !== PADDLE_YEARLY_AMOUNT ||
+  price.unitPrice.currencyCode !== PADDLE_CURRENCY_CODE
   ) {
     return false;
   }
 
   if (
     !price.billingCycle ||
-    price.billingCycle.interval !== "year" ||
-    price.billingCycle.frequency !== 1
+  price.billingCycle.interval !== "year" ||
+  price.billingCycle.frequency !== 1
   ) {
     return false;
   }
@@ -1995,38 +2098,38 @@ async function resolvePaddleSubscriptionUid(
 /**
  * Reserviert ein Paddle Webhook-Event zur einmaligen Verarbeitung.
  *
- * Der Sandbox-Präfix verhindert später eine Kollision mit Live-Events.
- *
  * @param {string} eventId Paddle Event-ID.
  * @param {string} eventType Paddle Event-Typ.
+ * @param {string} environment Paddle-Umgebung.
  * @return {Promise<boolean>} True bei neuer Reservierung.
  */
 async function reservePaddleWebhookEvent(
     eventId,
     eventType,
+    environment,
 ) {
   const reference = db
       .collection("paddleWebhookEvents")
-      .doc(`sandbox_${eventId}`);
+      .doc(`${environment}_${eventId}`);
 
   try {
     await reference.create({
       eventId,
       eventType,
-      environment: "sandbox",
+      environment,
       processingStatus: "PROCESSING",
       createdAt:
-          FieldValue.serverTimestamp(),
+        FieldValue.serverTimestamp(),
     });
 
     return true;
   } catch (error) {
     if (
       error &&
-      (
-        error.code === 6 ||
-        error.code === "already-exists"
-      )
+    (
+      error.code === 6 ||
+      error.code === "already-exists"
+    )
     ) {
       return false;
     }
@@ -2036,22 +2139,24 @@ async function reservePaddleWebhookEvent(
 }
 
 /**
- * Markiert ein erfolgreich verarbeitetes Paddle Webhook-Event.
- *
- * @param {string} eventId Paddle Event-ID.
- * @return {Promise<void>}
- */
+* Markiert ein erfolgreich verarbeitetes Paddle Webhook-Event.
+*
+* @param {string} eventId Paddle Event-ID.
+* @param {string} environment Paddle-Umgebung.
+* @return {Promise<void>}
+*/
 async function completePaddleWebhookEvent(
     eventId,
+    environment,
 ) {
   await db
       .collection("paddleWebhookEvents")
-      .doc(`sandbox_${eventId}`)
+      .doc(`${environment}_${eventId}`)
       .set(
           {
             processingStatus: "COMPLETED",
             completedAt:
-                FieldValue.serverTimestamp(),
+              FieldValue.serverTimestamp(),
           },
           {
             merge: true,
@@ -2060,31 +2165,35 @@ async function completePaddleWebhookEvent(
 }
 
 /**
- * Entfernt eine fehlgeschlagene Paddle Webhook-Reservierung.
- *
- * Dadurch darf Paddle das Event später erneut zustellen.
- *
- * @param {string} eventId Paddle Event-ID.
- * @return {Promise<void>}
- */
+* Entfernt eine fehlgeschlagene Paddle Webhook-Reservierung.
+*
+* Dadurch darf Paddle das Event später erneut zustellen.
+*
+* @param {string} eventId Paddle Event-ID.
+* @param {string} environment Paddle-Umgebung.
+* @return {Promise<void>}
+*/
 async function releasePaddleWebhookEvent(
     eventId,
+    environment,
 ) {
   await db
       .collection("paddleWebhookEvents")
-      .doc(`sandbox_${eventId}`)
+      .doc(`${environment}_${eventId}`)
       .delete();
 }
 
 /**
- * Empfängt und verifiziert Paddle Sandbox-Webhooks.
+ * Empfängt und verifiziert Paddle Sandbox- und Live-Webhooks.
  */
 exports.paddleWebhook = onRequest(
     {
       region: "europe-west1",
       secrets: [
-        paddleApiKey,
-        paddleWebhookSecret,
+        paddleSandboxApiKey,
+        paddleSandboxWebhookSecret,
+        paddleLiveApiKey,
+        paddleLiveWebhookSecret,
       ],
     },
     async (request, response) => {
@@ -2096,7 +2205,7 @@ exports.paddleWebhook = onRequest(
       }
 
       const signature =
-          request.get("Paddle-Signature");
+        request.get("Paddle-Signature");
 
       if (!signature) {
         logger.warn(
@@ -2120,39 +2229,63 @@ exports.paddleWebhook = onRequest(
         return;
       }
 
-      const paddle = new Paddle(
-          paddleApiKey.value(),
+      const rawBody =
+        request.rawBody.toString("utf8");
+
+      const paddleLive = new Paddle(
+          paddleLiveApiKey.value(),
+          {
+            environment: Environment.production,
+          },
+      );
+
+      const paddleSandbox = new Paddle(
+          paddleSandboxApiKey.value(),
           {
             environment: Environment.sandbox,
           },
       );
 
-      const rawBody =
-          request.rawBody.toString("utf8");
-
       let event;
+      let paddleEnvironment;
 
       try {
-        event = await paddle.webhooks.unmarshal(
+        event = await paddleLive.webhooks.unmarshal(
             rawBody,
-            paddleWebhookSecret.value(),
+            paddleLiveWebhookSecret.value(),
             signature,
         );
-      } catch (error) {
-        logger.warn(
-            "Paddle webhook signature verification failed",
-            {
-              message:
-                  error instanceof Error ?
-                    error.message :
-                    String(error),
-            },
-        );
 
-        response.status(401).json({
-          error: "Invalid webhook signature",
-        });
-        return;
+        paddleEnvironment = "live";
+      } catch (liveError) {
+        try {
+          event = await paddleSandbox.webhooks.unmarshal(
+              rawBody,
+              paddleSandboxWebhookSecret.value(),
+              signature,
+          );
+
+          paddleEnvironment = "sandbox";
+        } catch (sandboxError) {
+          logger.warn(
+              "Paddle webhook signature verification failed",
+              {
+                liveMessage:
+                  liveError instanceof Error ?
+                    liveError.message :
+                    String(liveError),
+                sandboxMessage:
+                  sandboxError instanceof Error ?
+                    sandboxError.message :
+                    String(sandboxError),
+              },
+          );
+
+          response.status(401).json({
+            error: "Invalid webhook signature",
+          });
+          return;
+        }
       }
 
       const eventId =
@@ -2180,10 +2313,11 @@ exports.paddleWebhook = onRequest(
 
       try {
         eventReserved =
-            await reservePaddleWebhookEvent(
-                eventId,
-                eventType,
-            );
+    await reservePaddleWebhookEvent(
+        eventId,
+        eventType,
+        paddleEnvironment,
+    );
 
         if (!eventReserved) {
           logger.info(
@@ -2203,7 +2337,10 @@ exports.paddleWebhook = onRequest(
 
         if (
           eventType === "transaction.completed" &&
-          !isValidPaddleYearlyTransaction(event)
+          !isValidPaddleYearlyTransaction(
+              event,
+              paddleEnvironment,
+          )
         ) {
           logger.warn(
               "Invalid Paddle yearly transaction ignored",
@@ -2215,6 +2352,7 @@ exports.paddleWebhook = onRequest(
 
           await completePaddleWebhookEvent(
               eventId,
+              paddleEnvironment,
           );
 
           response.status(200).json({
@@ -2284,12 +2422,53 @@ exports.paddleWebhook = onRequest(
         }
 
         if (
+          uid !== null &&
+          paddleEnvironment === "sandbox"
+        ) {
+          const accessSnapshot =
+            await getUserAccessReference(uid).get();
+
+          const accessData =
+            accessSnapshot.exists ?
+              accessSnapshot.data() :
+              null;
+
+          if (
+            accessData &&
+            accessData.paddleEnvironment === "live"
+          ) {
+            logger.info(
+                "Sandbox Paddle event ignored for live subscription",
+                {
+                  uid,
+                  eventId,
+                  eventType,
+                },
+            );
+
+            await completePaddleWebhookEvent(
+                eventId,
+                paddleEnvironment,
+            );
+
+            response.status(200).json({
+              received: true,
+              ignored: true,
+              reason: "live_subscription_exists",
+            });
+
+            return;
+          }
+        }
+
+        if (
           eventType === "transaction.completed" &&
           uid !== null
         ) {
           await activatePaddleYearlyPremium(
               uid,
               event,
+              paddleEnvironment,
           );
           const paddleCustomerId =
           event.data &&
@@ -2322,6 +2501,7 @@ exports.paddleWebhook = onRequest(
           await updatePaddleActiveSubscription(
               uid,
               event,
+              paddleEnvironment,
           );
         }
 
@@ -2333,6 +2513,7 @@ exports.paddleWebhook = onRequest(
           await updatePaddleSubscriptionLifecycle(
               uid,
               event,
+              paddleEnvironment,
           );
         }
 
@@ -2375,6 +2556,7 @@ exports.paddleWebhook = onRequest(
 
         await completePaddleWebhookEvent(
             eventId,
+            paddleEnvironment,
         );
 
         logger.info(
@@ -2394,6 +2576,7 @@ exports.paddleWebhook = onRequest(
           try {
             await releasePaddleWebhookEvent(
                 eventId,
+                paddleEnvironment,
             );
           } catch (releaseError) {
             logger.error(

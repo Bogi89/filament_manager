@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:js_interop';
 
 import 'package:cloud_functions/cloud_functions.dart';
@@ -31,9 +32,38 @@ class PaddleSubscriptionService {
     'PADDLE_CLIENT_TOKEN',
   );
 
-  static const String _yearlyPriceId = 'pri_01m1d11wsxe99cv3522p6eszj3';
+  static const String _environment = String.fromEnvironment(
+    'PADDLE_ENVIRONMENT',
+    defaultValue: 'sandbox',
+  );
+
+  static const String _sandboxYearlyPriceId = 'pri_01m1d11wsxe99cv3522p6eszj3';
+
+  static const String _liveYearlyPriceId = 'pri_01m25gb3x18a0n7h758facnr3f';
+
+  static final StreamController<void> _checkoutCompletedController =
+      StreamController<void>.broadcast();
 
   static bool _initialized = false;
+
+  static Stream<void> get checkoutCompleted =>
+      _checkoutCompletedController.stream;
+
+  static String get _normalizedEnvironment {
+    final value = _environment.trim().toLowerCase();
+
+    if (value == 'live' || value == 'production') {
+      return 'live';
+    }
+
+    return 'sandbox';
+  }
+
+  static String get _yearlyPriceId {
+    return _normalizedEnvironment == 'live'
+        ? _liveYearlyPriceId
+        : _sandboxYearlyPriceId;
+  }
 
   static void _handlePaddleEvent(JSAny? event) {
     final eventData = event?.dartify();
@@ -46,6 +76,7 @@ class PaddleSubscriptionService {
 
     if (eventName == 'checkout.completed') {
       _closePaddleCheckout();
+      _checkoutCompletedController.add(null);
     }
   }
 
@@ -84,7 +115,11 @@ class PaddleSubscriptionService {
       }
 
       if (!_initialized) {
-        _setPaddleEnvironment('sandbox');
+        if (_normalizedEnvironment == 'live') {
+          _setPaddleEnvironment('production');
+        } else {
+          _setPaddleEnvironment('sandbox');
+        }
 
         _initializePaddle(
           <String, Object?>{

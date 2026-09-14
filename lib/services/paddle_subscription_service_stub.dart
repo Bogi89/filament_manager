@@ -1,3 +1,5 @@
+import 'dart:async';
+
 class PaddleSubscriptionException implements Exception {
   final String message;
 
@@ -9,6 +11,8 @@ class PaddleSubscriptionException implements Exception {
 
 class PaddleSubscriptionService {
   PaddleSubscriptionService._();
+
+  static Stream<void> get checkoutCompleted => const Stream<void>.empty();
 
   static Future<void> startYearlySubscription() async {
     throw const PaddleSubscriptionException(

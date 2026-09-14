@@ -639,6 +639,8 @@
   "trialExpiredYearlyBadge": "Best value",
   "trialExpiredWebCheckoutOpened": "Paddle has been opened. Complete the subscription there.",
   "trialExpiredWebCheckoutOpenedInfo": "The Paddle checkout has been opened. Complete the subscription there. Premium access will then be activated automatically.",
+  "trialExpiredPurchaseSuccessTitle": "Thank you for your purchase!",
+  "trialExpiredPurchaseSuccessMessage": "Your Premium access has been activated successfully. You will now be redirected to the dashboard.",
   "trialExpiredWebCheckoutStartError": "The Premium subscription could not be started.",
   "trialExpiredWebManagementInfo": "Payment and management of the web subscription are handled through Paddle.",
   "trialExpiredAndroidManagementInfo": "Payment and management of the Android subscription are handled through Google Play.",

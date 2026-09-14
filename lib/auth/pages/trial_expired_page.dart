@@ -22,9 +22,11 @@ class TrialExpiredPage extends StatefulWidget {
 class _TrialExpiredPageState extends State<TrialExpiredPage> {
   bool _yearlyLoading = false;
   bool _webCheckoutOpened = false;
+  bool _purchaseCompleted = false;
   bool _premiumNavigationStarted = false;
 
   StreamSubscription<UserAccessStatus?>? _accessSubscription;
+  StreamSubscription<void>? _checkoutCompletedSubscription;
 
   @override
   void initState() {
@@ -34,6 +36,21 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
       _accessSubscription = FirestoreService.watchUserAccessStatus().listen(
         _handleAccessStatus,
       );
+    }
+
+    if (kIsWeb) {
+      _checkoutCompletedSubscription = PaddleSubscriptionService
+          .checkoutCompleted
+          .listen((_) {
+            if (!mounted) {
+              return;
+            }
+
+            setState(() {
+              _purchaseCompleted = true;
+              _webCheckoutOpened = false;
+            });
+          });
     }
   }
 
@@ -47,10 +64,21 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
 
     _premiumNavigationStarted = true;
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const MainNavigation()),
-      (route) => false,
-    );
+    setState(() {
+      _purchaseCompleted = true;
+      _webCheckoutOpened = false;
+    });
+
+    Future<void>.delayed(const Duration(milliseconds: 1500), () {
+      if (!mounted) {
+        return;
+      }
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const MainNavigation()),
+        (route) => false,
+      );
+    });
   }
 
   Future<void> _startWebYearlySubscription() async {
@@ -135,6 +163,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
   @override
   void dispose() {
     _accessSubscription?.cancel();
+    _checkoutCompletedSubscription?.cancel();
 
     super.dispose();
   }
@@ -158,35 +187,57 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(
-                    Icons.hourglass_disabled_outlined,
-                    size: 80,
-                    color: colorScheme.primary,
-                  ),
-                  const SizedBox(height: 32),
-                  Text(
-                    localizations.trialExpiredTitle,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  if (_purchaseCompleted) ...[
+                    Icon(
+                      Icons.check_circle_outline,
+                      size: 80,
+                      color: colorScheme.primary,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    localizations.trialExpiredSubtitle,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    user == null
-                        ? localizations.trialExpiredLoginHint
-                        : localizations.trialExpiredPremiumHint,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 32),
-                  if (user == null) ...[
+                    const SizedBox(height: 32),
+                    Text(
+                      localizations.trialExpiredPurchaseSuccessTitle,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      localizations.trialExpiredPurchaseSuccessMessage,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ] else ...[
+                    Icon(
+                      Icons.hourglass_disabled_outlined,
+                      size: 80,
+                      color: colorScheme.primary,
+                    ),
+                    const SizedBox(height: 32),
+                    Text(
+                      localizations.trialExpiredTitle,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      localizations.trialExpiredSubtitle,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      user == null
+                          ? localizations.trialExpiredLoginHint
+                          : localizations.trialExpiredPremiumHint,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                  if (!_purchaseCompleted && user == null) ...[
                     FilledButton.icon(
                       onPressed: _openLogin,
                       icon: const Icon(Icons.login),
@@ -206,7 +257,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
                       ),
                     ),
-                  ] else if (isWeb) ...[
+                  ] else if (isWeb && !_purchaseCompleted) ...[
                     _SubscriptionOption(
                       title: localizations.trialExpiredYearlyTitle,
                       price: localizations.trialExpiredYearlyPrice,
@@ -248,7 +299,6 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
                       ),
                     ),
-
                     const SizedBox(height: 24),
                     OutlinedButton.icon(
                       onPressed: _switchAccount,
