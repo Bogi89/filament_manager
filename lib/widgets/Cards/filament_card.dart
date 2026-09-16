@@ -14,10 +14,7 @@ import '../../utils/color_name_localizer.dart';
 class FilamentCard extends StatefulWidget {
   final Filament filament;
 
-  const FilamentCard({
-    super.key,
-    required this.filament,
-  });
+  const FilamentCard({super.key, required this.filament});
 
   @override
   State<FilamentCard> createState() => _FilamentCardState();
@@ -26,16 +23,11 @@ class FilamentCard extends StatefulWidget {
 class _FilamentCardState extends State<FilamentCard> {
   Filament? editingFilament;
 
-  final TextEditingController weightController =
-      TextEditingController();
+  final TextEditingController weightController = TextEditingController();
 
-  void _changeWeight(
-    int change,
-    Filament filament,
-  ) {
+  void _changeWeight(int change, Filament filament) {
     final current =
-        double.tryParse(weightController.text) ??
-            filament.remainingWeight;
+        double.tryParse(weightController.text) ?? filament.remainingWeight;
 
     double newValue = current + change;
 
@@ -47,48 +39,36 @@ class _FilamentCardState extends State<FilamentCard> {
       newValue = filament.totalWeight;
     }
 
-    weightController.text =
-        newValue.toInt().toString();
+    weightController.text = newValue.toInt().toString();
 
     setState(() {});
   }
 
-  String _buildColorNames(
-  BuildContext context,
-  Filament filament,
-) {
-  final validNames = filament.colorNames
-      .map((name) => name.trim())
-      .where(
-        (name) =>
-            name.isNotEmpty &&
-            name.toLowerCase() != 'unknown',
-      )
-      .map(
-        (name) => ColorNameLocalizer.localize(
-          context,
-          name,
-        ),
-      )
-      .toList();
+  String _buildColorNames(BuildContext context, Filament filament) {
+    final validNames = filament.colorNames
+        .map((name) => name.trim())
+        .where((name) => name.isNotEmpty && name.toLowerCase() != 'unknown')
+        .map((name) => ColorNameLocalizer.localize(context, name))
+        .toList();
 
-  if (validNames.isEmpty) {
-    return 'Unknown';
+    if (validNames.isEmpty) {
+      return 'Unknown';
+    }
+
+    return validNames.join(' + ');
   }
 
-  return validNames.join(' + ');
-}
-
-  Widget _weightButton(
-    String text,
-    VoidCallback onPressed,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 2,
-      ),
+  Widget _weightButton(String text, VoidCallback onPressed) {
+    return SizedBox(
+      width: 44,
+      height: 40,
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
         child: Text(text),
       ),
     );
@@ -98,79 +78,56 @@ class _FilamentCardState extends State<FilamentCard> {
     return Wrap(
       spacing: 6,
       runSpacing: 6,
-      children: filament.colors.take(4).map(
-        (color) {
-          return Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: color == Colors.white
-                  ? const Color(0xFFE5E7EB)
-                  : color,
-              shape: BoxShape.circle,
-              border: color == Colors.white
-                  ? Border.all(
-                      color:
-                          const Color(0xFF9CA3AF),
-                      width: 0.5,
-                    )
-                  : null,
-            ),
-          );
-        },
-      ).toList(),
+      children: filament.colors.take(4).map((color) {
+        return Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color == Colors.white ? const Color(0xFFE5E7EB) : color,
+            shape: BoxShape.circle,
+            border: color == Colors.white
+                ? Border.all(color: const Color(0xFF9CA3AF), width: 0.5)
+                : null,
+          ),
+        );
+      }).toList(),
     );
   }
 
-  Widget _buildHeader(
-    Filament filament, {
-    required bool compact,
-  }) {
+  Widget _buildHeader(Filament filament, {required bool compact}) {
     if (compact) {
       return Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(top: 5),
+            padding: const EdgeInsets.only(top: 5),
             child: _buildColorDots(filament),
           ),
           const SizedBox(width: 8),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   filament.material,
                   softWrap: true,
                   style: const TextStyle(
                     fontSize: 17,
-                    fontWeight:
-                        FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   _buildColorNames(context, filament),
                   softWrap: true,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey.shade400,
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
                 ),
-                if (filament
-                    .variant.isNotEmpty) ...[
+                if (filament.variant.isNotEmpty) ...[
                   const SizedBox(height: 2),
                   Text(
                     filament.variant,
                     softWrap: true,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color:
-                          Colors.grey.shade400,
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
                   ),
                 ],
               ],
@@ -181,8 +138,7 @@ class _FilamentCardState extends State<FilamentCard> {
     }
 
     return Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 5),
@@ -191,8 +147,7 @@ class _FilamentCardState extends State<FilamentCard> {
         const SizedBox(width: 8),
         Expanded(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -201,41 +156,29 @@ class _FilamentCardState extends State<FilamentCard> {
                     maxLines: 1,
                     style: const TextStyle(
                       fontSize: 17,
-                      fontWeight:
-                          FontWeight.w700,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      _buildColorNames(
-  context,
-  filament,
-),
+                      _buildColorNames(context, filament),
                       maxLines: 1,
-                      overflow:
-                          TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 13,
-                        color:
-                            Colors.grey.shade400,
+                        color: Colors.grey.shade400,
                       ),
                     ),
                   ),
                 ],
               ),
-              if (filament
-                  .variant.isNotEmpty)
+              if (filament.variant.isNotEmpty)
                 Text(
                   filament.variant,
                   maxLines: 3,
-                  overflow:
-                      TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color:
-                        Colors.grey.shade400,
-                  ),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
                 ),
             ],
           ),
@@ -244,21 +187,12 @@ class _FilamentCardState extends State<FilamentCard> {
     );
   }
 
-  Widget _buildPercentBadge(
-    double percent,
-    Color percentColor,
-  ) {
+  Widget _buildPercentBadge(double percent, Color percentColor) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: percentColor.withValues(
-          alpha: 0.12,
-        ),
-        borderRadius:
-            BorderRadius.circular(8),
+        color: percentColor.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -285,294 +219,203 @@ class _FilamentCardState extends State<FilamentCard> {
     );
   }
 
- Widget _buildActionButtons(
-  Filament filament,
-) {
-  final l10n = AppLocalizations.of(context)!;
+  Widget _buildActionButtons(Filament filament) {
+    final l10n = AppLocalizations.of(context)!;
 
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      IconButton(
-        icon: const Icon(
-          Icons.edit,
-          size: 18,
-        ),
-        onPressed: () {
-          editingFilament = filament;
-
-          final currentWeight =
-              filament.spools.fold<double>(
-            0,
-            (sum, spool) =>
-                sum + spool.weight,
-          );
-
-          weightController.text =
-              currentWeight
-                  .toInt()
-                  .toString();
-
-          setState(() {});
-        },
-      ),
-      IconButton(
-        icon: const Icon(
-          Icons.delete,
-          size: 18,
-          color: Colors.red,
-        ),
-        onPressed: () async {
-          final shouldDelete =
-              await showDialog<bool>(
-            context: context,
-            builder: (dialogContext) {
-              return AlertDialog(
-                title: Text(
-                  l10n.deleteFilamentTitle,
-                ),
-                content: Text(
-                  '${l10n.deleteFilamentConfirmation}\n\n'
-                  '${filament.material} '
-                  '${_buildColorNames(context, filament)}',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(
-                        dialogContext,
-                      ).pop(false);
-                    },
-                    child: Text(
-                      l10n.cancel,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(
-                        dialogContext,
-                      ).pop(true);
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor:
-                          Colors.red,
-                    ),
-                    child: Text(
-                      l10n.delete,
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-
-          if (!mounted) {
-            return;
-          }
-
-          if (shouldDelete == true) {
-            context
-                .read<AppState>()
-                .removeFilament(filament);
-          }
-        },
-      ),
-    ],
-  );
-}
-
-  Widget _buildWeightEditor(
-    Filament filament,
-  ) {
-    return Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      crossAxisAlignment:
-          WrapCrossAlignment.center,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        _weightButton(
-          '-10',
-          () => _changeWeight(
-            -10,
-            filament,
-          ),
-        ),
-        _weightButton(
-          '-',
-          () => _changeWeight(
-            -1,
-            filament,
-          ),
-        ),
-        SizedBox(
-          width: 80,
-          child: TextField(
-            controller: weightController,
-            keyboardType:
-                TextInputType.number,
-            textAlign: TextAlign.center,
-            decoration:
-                const InputDecoration(
-              isDense: true,
-            ),
-          ),
-        ),
-        _weightButton(
-          '+',
-          () => _changeWeight(
-            1,
-            filament,
-          ),
-        ),
-        _weightButton(
-          '+10',
-          () => _changeWeight(
-            10,
-            filament,
-          ),
-        ),
         IconButton(
-          icon: const Icon(Icons.check),
-          color: Colors.green,
+          icon: const Icon(Icons.edit, size: 18),
           onPressed: () {
-            final newWeight =
-                double.tryParse(
-              weightController.text,
+            editingFilament = filament;
+
+            final currentWeight = filament.spools.fold<double>(
+              0,
+              (sum, spool) => sum + spool.weight,
             );
 
-            if (newWeight != null) {
-              final currentWeight =
-                  filament.spools.fold(
-                0.0,
-                (sum, spool) =>
-                    sum + spool.weight,
-              );
+            weightController.text = currentWeight.toInt().toString();
 
-              if (newWeight <
-                  currentWeight) {
-                double toRemove =
-                    currentWeight -
-                        newWeight;
+            setState(() {});
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.delete, size: 18, color: Colors.red),
+          onPressed: () async {
+            final shouldDelete = await showDialog<bool>(
+              context: context,
+              builder: (dialogContext) {
+                return AlertDialog(
+                  title: Text(l10n.deleteFilamentTitle),
+                  content: Text(
+                    '${l10n.deleteFilamentConfirmation}\n\n'
+                    '${filament.material} '
+                    '${_buildColorNames(context, filament)}',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop(false);
+                      },
+                      child: Text(l10n.cancel),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop(true);
+                      },
+                      style: TextButton.styleFrom(foregroundColor: Colors.red),
+                      child: Text(l10n.delete),
+                    ),
+                  ],
+                );
+              },
+            );
 
-                for (final spool
-                    in filament.spools) {
-                  if (toRemove <= 0) {
-                    break;
-                  }
-
-                  if (spool.weight <=
-                      toRemove) {
-                    toRemove -=
-                        spool.weight;
-                    spool.weight = 0;
-                  } else {
-                    spool.weight -=
-                        toRemove;
-                    toRemove = 0;
-                  }
-                }
-              } else if (newWeight >
-                  currentWeight) {
-                double toAdd =
-                    newWeight -
-                        currentWeight;
-
-                for (final spool
-                    in filament
-                        .spools.reversed) {
-                  if (toAdd <= 0) {
-                    break;
-                  }
-
-                  final freeSpace =
-                      1000.0 -
-                          spool.weight;
-
-                  if (freeSpace <= 0) {
-                    continue;
-                  }
-
-                  if (toAdd >=
-                      freeSpace) {
-                    spool.weight =
-                        1000.0;
-                    toAdd -=
-                        freeSpace;
-                  } else {
-                    spool.weight +=
-                        toAdd;
-                    toAdd = 0;
-                  }
-                }
-              }
-
-              filament.remainingWeight =
-                  filament.spools
-                      .fold<double>(
-                0,
-                (sum, spool) =>
-                    sum + spool.weight,
-              );
-
-              context
-                  .read<AppState>()
-                  .updateFilament(
-                    filament,
-                  );
+            if (!mounted) {
+              return;
             }
 
-            setState(() {
-              editingFilament = null;
-            });
+            if (shouldDelete == true) {
+              context.read<AppState>().removeFilament(filament);
+            }
           },
         ),
       ],
     );
   }
 
-  Widget _buildWeightInfo(
-  Filament filament,
-  double remainingWeight,
-  double totalWeight,
-  double percent,
-) {
-  final l10n = AppLocalizations.of(context)!;
+  Widget _buildWeightEditor(Filament filament) {
+    return Wrap(
+      spacing: 6,
+      runSpacing: 6,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        _weightButton('-10', () => _changeWeight(-10, filament)),
+        _weightButton('-', () => _changeWeight(-1, filament)),
+        SizedBox(
+          width: 64,
+          child: TextField(
+            controller: weightController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(isDense: true),
+          ),
+        ),
+        _weightButton('+', () => _changeWeight(1, filament)),
+        _weightButton('+10', () => _changeWeight(10, filament)),
+        SizedBox(
+          width: 32,
+          height: 40,
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            visualDensity: VisualDensity.compact,
+            icon: const Icon(Icons.check, size: 24),
+            color: Colors.green,
+            onPressed: () {
+              final newWeight = double.tryParse(weightController.text);
 
-  return Column(
-    crossAxisAlignment:
-        CrossAxisAlignment.start,
-    children: [
-      Row(
-        children: [
-          Expanded(
-            child: Text(
-              l10n.remainingWeightOfTotal(
-                remainingWeight.toInt(),
-                totalWeight.toInt(),
-              ),
-              maxLines: 1,
-              softWrap: false,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Colors.grey,
+              if (newWeight != null) {
+                final currentWeight = filament.spools.fold(
+                  0.0,
+                  (sum, spool) => sum + spool.weight,
+                );
+
+                if (newWeight < currentWeight) {
+                  double toRemove = currentWeight - newWeight;
+
+                  for (final spool in filament.spools) {
+                    if (toRemove <= 0) {
+                      break;
+                    }
+
+                    if (spool.weight <= toRemove) {
+                      toRemove -= spool.weight;
+                      spool.weight = 0;
+                    } else {
+                      spool.weight -= toRemove;
+                      toRemove = 0;
+                    }
+                  }
+                } else if (newWeight > currentWeight) {
+                  double toAdd = newWeight - currentWeight;
+
+                  for (final spool in filament.spools.reversed) {
+                    if (toAdd <= 0) {
+                      break;
+                    }
+
+                    final freeSpace = 1000.0 - spool.weight;
+
+                    if (freeSpace <= 0) {
+                      continue;
+                    }
+
+                    if (toAdd >= freeSpace) {
+                      spool.weight = 1000.0;
+                      toAdd -= freeSpace;
+                    } else {
+                      spool.weight += toAdd;
+                      toAdd = 0;
+                    }
+                  }
+                }
+
+                filament.remainingWeight = filament.spools.fold<double>(
+                  0,
+                  (sum, spool) => sum + spool.weight,
+                );
+
+                context.read<AppState>().updateFilament(filament);
+              }
+
+              setState(() {
+                editingFilament = null;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWeightInfo(
+    Filament filament,
+    double remainingWeight,
+    double totalWeight,
+    double percent,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                l10n.remainingWeightOfTotal(
+                  remainingWeight.toInt(),
+                  totalWeight.toInt(),
+                ),
+                maxLines: 1,
+                softWrap: false,
+                style: const TextStyle(fontSize: 13, color: Colors.grey),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
-          SpoolCountWidget(
-            spoolCount:
-                filament.spools.length,
-            showArrow: false,
-          ),
-        ],
-      ),
-      const SizedBox(height: 6),
-      FilamentProgressBar(
-        percent: percent,
-      ),
-    ],
-  );
-}
+            const SizedBox(width: 12),
+            SpoolCountWidget(
+              spoolCount: filament.spools.length,
+              showArrow: false,
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        FilamentProgressBar(percent: percent),
+      ],
+    );
+  }
 
   Widget _buildDesktopLayout({
     required Filament filament,
@@ -584,24 +427,16 @@ class _FilamentCardState extends State<FilamentCard> {
   }) {
     return Row(
       children: [
-        FilamentSpoolIcon(
-          filament: filament,
-        ),
+        FilamentSpoolIcon(filament: filament),
         const SizedBox(width: 16),
         Expanded(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(
-                filament,
-                compact: false,
-              ),
+              _buildHeader(filament, compact: false),
               const SizedBox(height: 6),
               if (isEditing)
-                _buildWeightEditor(
-                  filament,
-                )
+                _buildWeightEditor(filament)
               else
                 _buildWeightInfo(
                   filament,
@@ -615,17 +450,11 @@ class _FilamentCardState extends State<FilamentCard> {
         const SizedBox(width: 16),
         if (!isEditing)
           Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              _buildPercentBadge(
-                percent,
-                percentColor,
-              ),
+              _buildPercentBadge(percent, percentColor),
               const SizedBox(height: 2),
-              _buildActionButtons(
-                filament,
-              ),
+              _buildActionButtons(filament),
             ],
           ),
       ],
@@ -641,53 +470,30 @@ class _FilamentCardState extends State<FilamentCard> {
     required Color percentColor,
   }) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FilamentSpoolIcon(
-              filament: filament,
-              size: 68,
-              rightMargin: 12,
-            ),
-            Expanded(
-              child: _buildHeader(
-                filament,
-                compact: true,
-              ),
-            ),
+            FilamentSpoolIcon(filament: filament, size: 68, rightMargin: 12),
+            Expanded(child: _buildHeader(filament, compact: true)),
           ],
         ),
 
         const SizedBox(height: 14),
 
         if (isEditing)
-          _buildWeightEditor(
-            filament,
-          )
+          _buildWeightEditor(filament)
         else ...[
-          _buildWeightInfo(
-            filament,
-            remainingWeight,
-            totalWeight,
-            percent,
-          ),
+          _buildWeightInfo(filament, remainingWeight, totalWeight, percent),
 
           const SizedBox(height: 10),
 
           Row(
             children: [
-              _buildPercentBadge(
-                percent,
-                percentColor,
-              ),
+              _buildPercentBadge(percent, percentColor),
               const Spacer(),
-              _buildActionButtons(
-                filament,
-              ),
+              _buildActionButtons(filament),
             ],
           ),
         ],
@@ -699,29 +505,22 @@ class _FilamentCardState extends State<FilamentCard> {
   Widget build(BuildContext context) {
     final filament = widget.filament;
 
-    final appState =
-        context.watch<AppState>();
+    final appState = context.watch<AppState>();
 
-    final totalWeight =
-        filament.totalWeight;
+    final totalWeight = filament.totalWeight;
 
-    final remainingWeight =
-        filament.spools.fold<double>(
+    final remainingWeight = filament.spools.fold<double>(
       0,
-      (sum, spool) =>
-          sum + spool.weight,
+      (sum, spool) => sum + spool.weight,
     );
 
     final percent = totalWeight > 0
-        ? (remainingWeight /
-                totalWeight) *
-            100
+        ? (remainingWeight / totalWeight) * 100
         : 0.0;
 
     Color percentColor;
 
-    if (percent <=
-        appState.warningPercent) {
+    if (percent <= appState.warningPercent) {
       percentColor = Colors.red;
     } else if (percent <= 50) {
       percentColor = Colors.orange;
@@ -729,35 +528,24 @@ class _FilamentCardState extends State<FilamentCard> {
       percentColor = Colors.green;
     }
 
-    final isEditing =
-        editingFilament == filament;
+    final isEditing = editingFilament == filament;
 
-    final isDark =
-        Theme.of(context).brightness ==
-            Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: AppHoverCard(
         child: Card(
-          color:
-              isDark ? null : Colors.white,
+          color: isDark ? null : Colors.white,
           elevation: isDark ? 0 : 3,
           shadowColor: isDark
               ? Colors.transparent
-              : Colors.black.withValues(
-                  alpha: 0.08,
-                ),
+              : Colors.black.withValues(alpha: 0.08),
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: InkWell(
-            borderRadius:
-                BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20),
             onTap: () {
               if (isEditing) {
                 return;
@@ -766,49 +554,34 @@ class _FilamentCardState extends State<FilamentCard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      FilamentDetailPage(
-                    filament: filament,
-                  ),
+                  builder: (_) => FilamentDetailPage(filament: filament),
                 ),
               );
             },
             child: Padding(
-              padding:
-                  const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: LayoutBuilder(
-                builder: (
-                  context,
-                  constraints,
-                ) {
-                  final isCompact =
-                      constraints.maxWidth <
-                          620;
+                builder: (context, constraints) {
+                  final isCompact = constraints.maxWidth < 620;
 
                   if (isCompact) {
                     return _buildMobileLayout(
                       filament: filament,
                       isEditing: isEditing,
-                      remainingWeight:
-                          remainingWeight,
-                      totalWeight:
-                          totalWeight,
+                      remainingWeight: remainingWeight,
+                      totalWeight: totalWeight,
                       percent: percent,
-                      percentColor:
-                          percentColor,
+                      percentColor: percentColor,
                     );
                   }
 
                   return _buildDesktopLayout(
                     filament: filament,
                     isEditing: isEditing,
-                    remainingWeight:
-                        remainingWeight,
-                    totalWeight:
-                        totalWeight,
+                    remainingWeight: remainingWeight,
+                    totalWeight: totalWeight,
                     percent: percent,
-                    percentColor:
-                        percentColor,
+                    percentColor: percentColor,
                   );
                 },
               ),
