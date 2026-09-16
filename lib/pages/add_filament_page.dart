@@ -145,136 +145,126 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     setState(() {});
   }
 
- void selectMaterial(String material) {
-  selectedMaterial = material;
+  void selectMaterial(String material) {
+    selectedMaterial = material;
 
-  variants = FilamentCatalogService.getVariants(
-    selectedBrand!,
-    material,
-  );
+    variants = FilamentCatalogService.getVariants(selectedBrand!, material);
 
-  selectedVariant = null;
-  selectedColor = null;
+    selectedVariant = null;
+    selectedColor = null;
 
-  colors = [];
-  selectedFilamentColors = [];
-  preloadColorMap.clear();
+    colors = [];
+    selectedFilamentColors = [];
+    preloadColorMap.clear();
 
-  final temperatures = materialTemps[material.toUpperCase()];
+    final temperatures = materialTemps[material.toUpperCase()];
 
-  if (temperatures != null) {
-    nozzleTemp = temperatures['nozzle'];
-    bedTemp = temperatures['bed'];
-  } else {
-    nozzleTemp = null;
-    bedTemp = null;
+    if (temperatures != null) {
+      nozzleTemp = temperatures['nozzle'];
+      bedTemp = temperatures['bed'];
+    } else {
+      nozzleTemp = null;
+      bedTemp = null;
+    }
+
+    setState(() {});
   }
-
-  setState(() {});
-}
 
   Future<void> _addBrandDialog() async {
-  final controller = TextEditingController();
-  final l10n = AppLocalizations.of(context)!;
+    final controller = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
 
-  final result = await showDialog<String>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(l10n.newManufacturer),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            labelText: l10n.manufacturerName,
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.newManufacturer),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: l10n.manufacturerName),
+            autofocus: true,
           ),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(l10n.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final value = controller.text.trim();
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final value = controller.text.trim();
 
-              if (value.isNotEmpty) {
-                Navigator.pop(context, value);
-              }
-            },
-            child: Text(l10n.save),
-          ),
-        ],
-      );
-    },
-  );
+                if (value.isNotEmpty) {
+                  Navigator.pop(context, value);
+                }
+              },
+              child: Text(l10n.save),
+            ),
+          ],
+        );
+      },
+    );
 
-  if (result != null) {
-    FilamentCatalogService.addCustomBrand(result);
+    if (result != null) {
+      FilamentCatalogService.addCustomBrand(result);
 
-    setState(() {
-      brands = FilamentCatalogService.getBrands();
-      selectedBrand = result;
-    });
+      setState(() {
+        brands = FilamentCatalogService.getBrands();
+        selectedBrand = result;
+      });
+    }
   }
-}
 
   Future<void> _addMaterialDialog() async {
-  final controller = TextEditingController();
-  final l10n = AppLocalizations.of(context)!;
+    final controller = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
 
-  final result = await showDialog<String>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(l10n.newMaterial),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            labelText: l10n.materialName,
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.newMaterial),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: l10n.materialName),
+            autofocus: true,
           ),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(l10n.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final value = controller.text.trim();
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final value = controller.text.trim();
 
-              if (value.isNotEmpty) {
-                Navigator.pop(context, value);
-              }
-            },
-            child: Text(l10n.save),
-          ),
-        ],
-      );
-    },
-  );
+                if (value.isNotEmpty) {
+                  Navigator.pop(context, value);
+                }
+              },
+              child: Text(l10n.save),
+            ),
+          ],
+        );
+      },
+    );
 
-  if (result != null) {
-    setState(() {
-      materials.add(result);
+    if (result != null) {
+      setState(() {
+        materials.add(result);
 
-      FilamentCatalogService.addCustomMaterial(
-        selectedBrand!,
-        result,
-      );
+        FilamentCatalogService.addCustomMaterial(selectedBrand!, result);
 
-      materials = materials.toSet().toList();
-      materials.sort();
+        materials = materials.toSet().toList();
+        materials.sort();
 
-      selectedMaterial = result;
-    });
+        selectedMaterial = result;
+      });
+    }
   }
-}
 
   void selectVariant(String variant) {
     selectedVariant = variant;
@@ -338,9 +328,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   }
 
   Widget buildAlignedAddButton({required VoidCallback? onPressed}) {
-  final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
-  return Container(
+    return Container(
       width: 48,
       height: 56,
       margin: const EdgeInsets.only(left: 8),
@@ -384,23 +374,29 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
         ),
 
         Flexible(
-  child: Text(
-    ColorNameLocalizer.localize(context, c),
-    overflow: TextOverflow.ellipsis,
-  ),
-),
+          child: Text(
+            ColorNameLocalizer.localize(context, c),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
 
   void saveFilament() {
-  final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
-  final totalWeight = double.tryParse(totalWeightController.text);
+    final totalWeight = double.tryParse(
+      totalWeightController.text.trim().replaceAll(',', '.'),
+    );
 
-    final remainingWeight = double.tryParse(remainingWeightController.text);
+    final remainingWeight = double.tryParse(
+      remainingWeightController.text.trim().replaceAll(',', '.'),
+    );
 
-    final price = double.tryParse(priceController.text);
+    final price = double.tryParse(
+      priceController.text.trim().replaceAll(',', '.'),
+    );
 
     final hasMissingFields =
         selectedBrand == null ||
@@ -416,11 +412,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
         bedTemp == null;
 
     if (hasMissingFields) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-  content: Text(l10n.fillAllRequiredFields),
-),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.fillAllRequiredFields)));
 
       return;
     }
@@ -501,9 +495,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   @override
   Widget build(BuildContext context) {
-  final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
-  debugPrint('AddFilamentPage rebuild');
+    debugPrint('AddFilamentPage rebuild');
 
     if (!catalogLoaded) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -563,8 +557,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-  l10n.filament,
-  style: const TextStyle(
+                              l10n.filament,
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -593,13 +587,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         ),
                                       ),
                                     ),
-                                    decoratorProps:
-    DropDownDecoratorProps(
-      decoration: InputDecoration(
-        hintText: l10n.manufacturer,
-        border: const OutlineInputBorder(),
-      ),
-    ),
+                                    decoratorProps: DropDownDecoratorProps(
+                                      decoration: InputDecoration(
+                                        hintText: l10n.manufacturer,
+                                        border: const OutlineInputBorder(),
+                                      ),
+                                    ),
                                     onChanged: (value) {
                                       if (value != null) {
                                         selectBrand(value);
@@ -637,13 +630,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         ),
                                       ),
                                     ),
-                                    decoratorProps:
-    DropDownDecoratorProps(
-      decoration: InputDecoration(
-        hintText: l10n.material,
-        border: const OutlineInputBorder(),
-      ),
-    ),
+                                    decoratorProps: DropDownDecoratorProps(
+                                      decoration: InputDecoration(
+                                        hintText: l10n.material,
+                                        border: const OutlineInputBorder(),
+                                      ),
+                                    ),
                                     onChanged: (value) {
                                       if (value != null) {
                                         selectMaterial(value);
@@ -681,13 +673,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         ),
                                       ),
                                     ),
-                                    decoratorProps:
-    DropDownDecoratorProps(
-      decoration: InputDecoration(
-        hintText: l10n.variant,
-        border: const OutlineInputBorder(),
-      ),
-    ),
+                                    decoratorProps: DropDownDecoratorProps(
+                                      decoration: InputDecoration(
+                                        hintText: l10n.variant,
+                                        border: const OutlineInputBorder(),
+                                      ),
+                                    ),
                                     onChanged: (value) {
                                       if (value != null) {
                                         selectVariant(value);
@@ -708,8 +699,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                           content: TextField(
                                             controller: controller,
                                             decoration: InputDecoration(
-  hintText: l10n.variantName,
-),
+                                              hintText: l10n.variantName,
+                                            ),
                                           ),
                                           actions: [
                                             TextButton(
@@ -804,13 +795,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         ),
                                       ),
                                     ),
-                                    decoratorProps:
-    DropDownDecoratorProps(
-      decoration: InputDecoration(
-        labelText: l10n.color,
-        border: const OutlineInputBorder(),
-      ),
-    ),
+                                    decoratorProps: DropDownDecoratorProps(
+                                      decoration: InputDecoration(
+                                        labelText: l10n.color,
+                                        border: const OutlineInputBorder(),
+                                      ),
+                                    ),
                                     onChanged: (val) {
                                       if (val != null) {
                                         setState(() {
@@ -891,8 +881,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                               TextField(
                                                 controller: controller,
                                                 decoration: InputDecoration(
-  hintText: l10n.colorName,
-),
+                                                  hintText: l10n.colorName,
+                                                ),
                                               ),
 
                                               const SizedBox(height: 16),
@@ -1204,8 +1194,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-  l10n.filament,
-  style: const TextStyle(
+                        l10n.filament,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -1235,11 +1225,11 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ),
                               decoratorProps: DropDownDecoratorProps(
-  decoration: InputDecoration(
-    hintText: l10n.manufacturer,
-    border: const OutlineInputBorder(),
-  ),
-),
+                                decoration: InputDecoration(
+                                  hintText: l10n.manufacturer,
+                                  border: const OutlineInputBorder(),
+                                ),
+                              ),
                               onChanged: (value) {
                                 if (value != null) {
                                   selectBrand(value);
@@ -1275,11 +1265,11 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ),
                               decoratorProps: DropDownDecoratorProps(
-  decoration: InputDecoration(
-    hintText: l10n.material,
-    border: const OutlineInputBorder(),
-  ),
-),
+                                decoration: InputDecoration(
+                                  hintText: l10n.material,
+                                  border: const OutlineInputBorder(),
+                                ),
+                              ),
                               onChanged: (value) {
                                 if (value != null) {
                                   selectMaterial(value);
@@ -1316,11 +1306,11 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ),
                               decoratorProps: DropDownDecoratorProps(
-  decoration: InputDecoration(
-    hintText: l10n.variant,
-    border: const OutlineInputBorder(),
-  ),
-),
+                                decoration: InputDecoration(
+                                  hintText: l10n.variant,
+                                  border: const OutlineInputBorder(),
+                                ),
+                              ),
                               onChanged: (value) {
                                 if (value != null) {
                                   selectVariant(value);
@@ -1341,8 +1331,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                     content: TextField(
                                       controller: controller,
                                       decoration: InputDecoration(
-  hintText: l10n.variantName,
-),
+                                        hintText: l10n.variantName,
+                                      ),
                                     ),
                                     actions: [
                                       TextButton(
@@ -1435,11 +1425,11 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                 ),
                               ),
                               decoratorProps: DropDownDecoratorProps(
-  decoration: InputDecoration(
-    labelText: l10n.color,
-    border: const OutlineInputBorder(),
-  ),
-),
+                                decoration: InputDecoration(
+                                  labelText: l10n.color,
+                                  border: const OutlineInputBorder(),
+                                ),
+                              ),
                               onChanged: (val) {
                                 if (val != null) {
                                   setState(() {
@@ -1516,8 +1506,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         TextField(
                                           controller: controller,
                                           decoration: InputDecoration(
-  hintText: l10n.colorName,
-),
+                                            hintText: l10n.colorName,
+                                          ),
                                         ),
 
                                         const SizedBox(height: 16),

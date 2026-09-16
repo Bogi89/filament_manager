@@ -82,6 +82,7 @@ class FirestoreService {
       trialStart: trialStart,
       trialUsed: data['trialUsed'] == true,
       premiumActive: data['premiumActive'] == true,
+      manualPremium: data['manualPremium'] == true,
     );
   }
 
@@ -121,6 +122,7 @@ class FirestoreService {
         trialStart: trialStart,
         trialUsed: data['trialUsed'] == true,
         premiumActive: data['premiumActive'] == true,
+        manualPremium: data['manualPremium'] == true,
       );
     });
   }
@@ -347,10 +349,12 @@ class UserAccessStatus {
   final DateTime? trialStart;
   final bool trialUsed;
   final bool premiumActive;
+  final bool manualPremium;
 
   const UserAccessStatus({
     required this.trialStart,
     required this.trialUsed,
     required this.premiumActive,
+    required this.manualPremium,
   });
 }

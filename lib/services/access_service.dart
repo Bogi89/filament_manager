@@ -24,28 +24,28 @@ class AccessService {
     /// ================= GASTNUTZER =================
 
     if (user == null) {
-  final guestEnabled = await GuestService.isGuestModeEnabled();
+      final guestEnabled = await GuestService.isGuestModeEnabled();
 
-  // Kein aktiver Gastmodus:
-  // Nicht anhand alter Trial-Daten als abgelaufenen Gast behandeln.
-  if (!guestEnabled) {
-    return AccessStatus.noAccess;
-  }
+      // Kein aktiver Gastmodus:
+      // Nicht anhand alter Trial-Daten als abgelaufenen Gast behandeln.
+      if (!guestEnabled) {
+        return AccessStatus.noAccess;
+      }
 
-  final trialUsed = await GuestService.hasUsedTrial();
+      final trialUsed = await GuestService.hasUsedTrial();
 
-  if (!trialUsed) {
-    return AccessStatus.noAccess;
-  }
+      if (!trialUsed) {
+        return AccessStatus.noAccess;
+      }
 
-  final trialActive = await GuestService.isTrialActive();
+      final trialActive = await GuestService.isTrialActive();
 
-  if (trialActive) {
-    return AccessStatus.guestTrialActive;
-  }
+      if (trialActive) {
+        return AccessStatus.guestTrialActive;
+      }
 
-  return AccessStatus.guestTrialExpired;
-}
+      return AccessStatus.guestTrialExpired;
+    }
 
     /// ================= ANGEMELDETER BENUTZER =================
 
@@ -76,8 +76,8 @@ class AccessService {
       return _evaluateTrial(trialStart);
     }
 
-    /// Premium hat immer Vorrang.
-    if (accessStatus.premiumActive) {
+    /// Manueller Premiumzugang oder aktives Premium haben immer Vorrang.
+    if (accessStatus.manualPremium || accessStatus.premiumActive) {
       return AccessStatus.premiumActive;
     }
 

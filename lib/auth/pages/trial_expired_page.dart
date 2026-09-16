@@ -58,7 +58,7 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
     if (!mounted ||
         _premiumNavigationStarted ||
         accessStatus == null ||
-        !accessStatus.premiumActive) {
+        (!accessStatus.premiumActive && !accessStatus.manualPremium)) {
       return;
     }
 

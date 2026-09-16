@@ -377,78 +377,87 @@
   </main>
 
   <script>
-  let flutterFirstFrameReady = false;
-  let openFilaLogRequested = false;
+    const FILALOG_APP_OPENED_KEY = 'filalogAppOpened';
 
-  function hideStaticShell() {
-    const staticShell =
-      document.getElementById('filalog-static-shell');
+    let flutterFirstFrameReady = false;
+    let openFilaLogRequested =
+      window.localStorage.getItem(FILALOG_APP_OPENED_KEY) === 'true';
 
-    if (staticShell) {
-      staticShell.style.display = 'none';
-    }
-  }
+    function hideStaticShell() {
+      const staticShell =
+        document.getElementById('filalog-static-shell');
 
-  function showStaticShell() {
-    const staticShell =
-      document.getElementById('filalog-static-shell');
-
-    if (staticShell) {
-      staticShell.style.display = 'block';
-    }
-  }
-
-  function openFilaLog() {
-    openFilaLogRequested = true;
-
-    const button =
-      document.getElementById('filalog-open-button');
-
-    if (flutterFirstFrameReady) {
-      hideStaticShell();
-      return;
+      if (staticShell) {
+        staticShell.style.display = 'none';
+      }
     }
 
-    if (button) {
-      button.disabled = true;
-      button.textContent = 'FilaLog wird geladen …';
+    function showStaticShell() {
+      const staticShell =
+        document.getElementById('filalog-static-shell');
+
+      if (staticShell) {
+        staticShell.style.display = 'block';
+      }
     }
-  }
 
-  function updateStaticShellForRoute() {
-    if (window.location.pathname === '/' && !openFilaLogRequested) {
-      showStaticShell();
-    } else {
-      hideStaticShell();
+    function openFilaLog() {
+      openFilaLogRequested = true;
+
+      window.localStorage.setItem(
+        FILALOG_APP_OPENED_KEY,
+        'true'
+      );
+
+      const button =
+        document.getElementById('filalog-open-button');
+
+      if (flutterFirstFrameReady) {
+        hideStaticShell();
+        return;
+      }
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'FilaLog wird geladen …';
+      }
     }
-  }
 
-  /*
-   * Beim ersten Laden:
-   * Nur auf "/" wird die Landingpage angezeigt.
-   */
-  updateStaticShellForRoute();
+    function updateStaticShellForRoute() {
+      if (window.location.pathname === '/' && !openFilaLogRequested) {
+        showStaticShell();
+      } else {
+        hideStaticShell();
+      }
+    }
 
-  /*
-   * Wichtig für Browser-Zurück/Vorwärts:
-   * Wenn der Nutzer von /premium, /terms usw.
-   * wieder auf "/" zurückgeht, erscheint die
-   * Landingpage erneut.
-   */
-  window.addEventListener('popstate', function () {
+    /*
+     * Beim ersten Besuch wird auf "/" die öffentliche
+     * Landingpage angezeigt.
+     *
+     * Hat der Nutzer FilaLog bereits geöffnet, wird die
+     * Landingpage bei einem Reload übersprungen.
+     */
     updateStaticShellForRoute();
-  });
 
-  window.addEventListener('flutter-first-frame', function () {
-    flutterFirstFrameReady = true;
-
-    if (openFilaLogRequested) {
-      hideStaticShell();
-    } else {
+    /*
+     * Browser-Zurück/Vorwärts berücksichtigt weiterhin
+     * die aktuell gewählte Web-App-Nutzung.
+     */
+    window.addEventListener('popstate', function () {
       updateStaticShellForRoute();
-    }
-  });
-</script>
+    });
+
+    window.addEventListener('flutter-first-frame', function () {
+      flutterFirstFrameReady = true;
+
+      if (openFilaLogRequested) {
+        hideStaticShell();
+      } else {
+        updateStaticShellForRoute();
+      }
+    });
+  </script>
 
   <script src="flutter_bootstrap.js" async></script>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
