@@ -4,6 +4,7 @@
 
   packages = [
   pkgs.flutter
+  pkgs.jdk17
   pkgs.cmake
   pkgs.clang
   pkgs.ninja

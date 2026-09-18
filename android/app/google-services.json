@@ -41,6 +41,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304336909121:android:bc81917558164a448da7c0",
+        "android_client_info": {
+          "package_name": "de.filalog.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304336909121-4vg92ouc8dpokikfv9aoh344m8lltm36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.filalog.app",
+            "certificate_hash": "70c21dc0705c4f3e0324e736b9b4d6d543dbea95"
+          }
+        },
+        {
+          "client_id": "304336909121-ofo0j445gv11u7vl84cimao6165j6k5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhu6Dg8khtWtyyUPd5QvB_RGqhT1AKAT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304336909121-ofo0j445gv11u7vl84cimao6165j6k5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

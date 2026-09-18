@@ -1,4 +1,4 @@
-package com.example.filament_manager_v2
+package de.filalog.app
 
 import io.flutter.embedding.android.FlutterActivity
 
