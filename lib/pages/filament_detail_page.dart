@@ -128,10 +128,8 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     int step,
   ) {
     if (value == null) {
-  return Text(
-    AppLocalizations.of(context)!.selectMaterial,
-  );
-}
+      return Text(AppLocalizations.of(context)!.selectMaterial);
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
@@ -223,11 +221,9 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     final filament = widget.filament;
 
     return Scaffold(
-     appBar: AppBar(
-  title: Text(l10n.editFilament),
-),
+      appBar: AppBar(title: Text(l10n.editFilament)),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
 
         children: [
           Container(
@@ -299,15 +295,15 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                       const SizedBox(height: 8),
 
                       Text(
-  l10n.remainingWeightOfTotal(
-    filament.remainingWeight.toInt(),
-    filament.totalWeight.toInt(),
-  ),
-  style: const TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-  ),
-),
+                        l10n.remainingWeightOfTotal(
+                          filament.remainingWeight.toInt(),
+                          filament.totalWeight.toInt(),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -438,13 +434,11 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
             items: colorNamesList
                 .map(
-  (c) => DropdownMenuItem(
-    value: c,
-    child: Text(
-      ColorNameLocalizer.localize(context, c),
-    ),
-  ),
-)
+                  (c) => DropdownMenuItem(
+                    value: c,
+                    child: Text(ColorNameLocalizer.localize(context, c)),
+                  ),
+                )
                 .toList(),
 
             onChanged: (val) {
@@ -457,28 +451,28 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
           const SizedBox(height: 16),
 
           PrintSettingsSection(
-  selectedDiameter: selectedDiameter,
-  diameters: diameters,
-  nozzleTemp: nozzleTemp,
-  bedTemp: bedTemp,
-  onDiameterChanged: (value) {
-    setState(() {
-      selectedDiameter = value;
-    });
-  },
-  onNozzleTempChanged: (value) {
-    setState(() {
-      nozzleTemp = value;
-    });
-  },
-  onBedTempChanged: (value) {
-    setState(() {
-      bedTemp = value;
-    });
-  },
-),
+            selectedDiameter: selectedDiameter,
+            diameters: diameters,
+            nozzleTemp: nozzleTemp,
+            bedTemp: bedTemp,
+            onDiameterChanged: (value) {
+              setState(() {
+                selectedDiameter = value;
+              });
+            },
+            onNozzleTempChanged: (value) {
+              setState(() {
+                nozzleTemp = value;
+              });
+            },
+            onBedTempChanged: (value) {
+              setState(() {
+                bedTemp = value;
+              });
+            },
+          ),
 
-const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           Row(
             children: [
@@ -562,9 +556,7 @@ const SizedBox(height: 16),
 
                     const SizedBox(width: 10),
 
-                    Text(
-  l10n.spoolNumber(index + 1),
-),
+                    Text(l10n.spoolNumber(index + 1)),
 
                     const Spacer(),
 
@@ -598,8 +590,8 @@ const SizedBox(height: 16),
                                 controller: controller,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-  labelText: l10n.weight,
-),
+                                  labelText: l10n.weight,
+                                ),
                               ),
 
                               actions: [
@@ -668,9 +660,7 @@ const SizedBox(height: 16),
                               return AlertDialog(
                                 title: Text(l10n.deleteLastSpool),
 
-                               content: Text(
-  l10n.deleteLastSpoolWarning,
-),
+                                content: Text(l10n.deleteLastSpoolWarning),
 
                                 actions: [
                                   TextButton(
@@ -690,9 +680,7 @@ const SizedBox(height: 16),
                                       Navigator.pop(context, true);
                                     },
 
-                                    child: Text(
-  l10n.deleteAndRemoveFilament,
-),
+                                    child: Text(l10n.deleteAndRemoveFilament),
                                   ),
                                 ],
                               );
@@ -701,15 +689,15 @@ const SizedBox(height: 16),
 
                           final appState = context.read<AppState>();
 
-if (confirm != true) return;
+                          if (confirm != true) return;
 
-if (!mounted) return;
+                          if (!mounted) return;
 
-appState.removeFilament(widget.filament);
+                          appState.removeFilament(widget.filament);
 
-if (!mounted) return;
+                          if (!mounted) return;
 
-Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                         }
                         /// 🧵 Normales Löschen
                         else {
@@ -721,8 +709,8 @@ Navigator.of(context).pop();
                                 title: Text(l10n.deleteSpool),
 
                                 content: Text(
-  l10n.deleteSpoolConfirmation(index + 1),
-),
+                                  l10n.deleteSpoolConfirmation(index + 1),
+                                ),
 
                                 actions: [
                                   TextButton(
@@ -789,9 +777,7 @@ Navigator.of(context).pop();
                     content: TextField(
                       controller: controller,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-  labelText: l10n.weight,
-),
+                      decoration: InputDecoration(labelText: l10n.weight),
                     ),
 
                     actions: [
@@ -842,10 +828,7 @@ Navigator.of(context).pop();
 
           const SizedBox(height: 30),
 
-          ElevatedButton(
-  onPressed: save,
-  child: Text(l10n.save),
-),
+          ElevatedButton(onPressed: save, child: Text(l10n.save)),
         ],
       ),
     );

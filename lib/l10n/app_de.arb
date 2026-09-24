@@ -17,6 +17,7 @@
   "critical": "Kritisch",
   "criticalFilaments": "{count} Filament(e) kritisch",
   "filter": "Filter",
+  "all": "Alle",
   "close": "Schließen",
   "searchFilament": "Filament suchen...",
   "manufacturer": "Hersteller",
@@ -644,7 +645,17 @@
   "trialExpiredWebCheckoutStartError": "Das Premium-Abonnement konnte nicht gestartet werden.",
   "trialExpiredWebManagementInfo": "Die Zahlung und Verwaltung des Web-Abonnements erfolgt über Paddle.",
   "trialExpiredAndroidManagementInfo": "Die Zahlung und Verwaltung des Android-Abonnements erfolgt über Google Play.",
-  "trialExpiredAndroidUnavailableInfo": "Google Play Billing wird derzeit noch eingerichtet."
+"trialExpiredRestorePurchases": "Käufe wiederherstellen",
+"trialExpiredAndroidUnavailableInfo": "Google Play Billing wird derzeit noch eingerichtet.",
+"trialExpiredRestoreError": "Google-Play-Käufe konnten nicht wiederhergestellt werden.",
+"premiumSettingsTitle": "Premium",
+"premiumSettingsTrialActive": "Deine kostenlose Testphase ist aktiv.",
+"premiumSettingsTrialInfo": "Du kannst Premium bereits jetzt freischalten und FilaLog ohne Unterbrechung weiter nutzen.",
+"premiumSettingsActive": "FilaLog Premium ist aktiv.",
+"premiumSettingsActiveInfo": "Du hast bereits Zugriff auf alle Premium-Funktionen.",
+"premiumSettingsPurchaseSuccess": "Premium wurde erfolgreich aktiviert.",
+"premiumSettingsLoginRequired": "Melde dich an, um ein Premium-Abonnement abzuschließen.",
+"premiumSettingsPurchaseStartError": "Der Google-Play-Kauf konnte nicht gestartet werden."
 }
 
 

@@ -17,16 +17,50 @@ const {
 } = require("firebase-functions/v2");
 
 const {
+  onMessagePublished,
+} = require("firebase-functions/v2/pubsub");
+
+const {
   defineSecret,
 } = require("firebase-functions/params");
 
 const logger = require("firebase-functions/logger");
 
+const crypto = require("node:crypto");
+
 const {Paddle, Environment} = require("@paddle/paddle-node-sdk");
+const {google} = require("googleapis");
 
 initializeApp();
 
 const db = getFirestore();
+
+const GOOGLE_PLAY_PACKAGE_NAME = "de.filalog.app";
+const GOOGLE_PLAY_PRODUCT_ID = "filalog_premium";
+
+const GOOGLE_PLAY_MONTHLY_BASE_PLAN_ID = "monthly";
+const GOOGLE_PLAY_YEARLY_BASE_PLAN_ID = "yearly";
+
+const GOOGLE_PLAY_MONTHLY_AMOUNT_CENTS = 249;
+const GOOGLE_PLAY_YEARLY_AMOUNT_CENTS = 1999;
+const GOOGLE_PLAY_CURRENCY_CODE = "EUR";
+
+const GOOGLE_PLAY_ENTITLED_STATES = new Set([
+  "SUBSCRIPTION_STATE_ACTIVE",
+  "SUBSCRIPTION_STATE_IN_GRACE_PERIOD",
+  "SUBSCRIPTION_STATE_CANCELED",
+]);
+
+const googlePlayAuth = new google.auth.GoogleAuth({
+  scopes: [
+    "https://www.googleapis.com/auth/androidpublisher",
+  ],
+});
+
+const androidPublisher = google.androidpublisher({
+  version: "v3",
+  auth: googlePlayAuth,
+});
 
 const paypalWebhookId =
     defineSecret("PAYPAL_WEBHOOK_ID");
@@ -118,6 +152,769 @@ function getUserAccessReference(uid) {
       .collection("appData")
       .doc("main");
 }
+
+/**
+ * Erfasst einen anonymen Start des FilaLog-Gastmodus.
+ *
+ * Der Client übermittelt ausschließlich eine zufällige anonyme Gast-ID
+ * und die Plattform.
+ */
+exports.trackGuestStart = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      const guestId = request.data && request.data.guestId;
+      const platform = request.data && request.data.platform;
+
+      const allowedPlatforms = new Set([
+        "web",
+        "android",
+        "ios",
+        "windows",
+        "macos",
+        "linux",
+        "fuchsia",
+      ]);
+
+      if (
+        typeof guestId !== "string" ||
+      !/^[a-f0-9]{32}$/.test(guestId)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid guest ID.",
+        );
+      }
+
+      if (
+        typeof platform !== "string" ||
+      !allowedPlatforms.has(platform)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid platform.",
+        );
+      }
+
+      const guestReference = db
+          .collection("guestAnalytics")
+          .doc(guestId);
+
+      await db.runTransaction(async (transaction) => {
+        const snapshot = await transaction.get(guestReference);
+
+        if (!snapshot.exists) {
+          transaction.set(guestReference, {
+            firstStartedAt: FieldValue.serverTimestamp(),
+            lastStartedAt: FieldValue.serverTimestamp(),
+            startCount: 1,
+            platform,
+          });
+
+          return;
+        }
+
+        transaction.update(guestReference, {
+          lastStartedAt: FieldValue.serverTimestamp(),
+          startCount: FieldValue.increment(1),
+          platform,
+        });
+      });
+
+      return {
+        recorded: true,
+      };
+    },
+);
+
+/**
+ * Prüft einen Google-Play-Kauftoken serverseitig und aktiviert
+ * FilaLog Premium ausschließlich nach erfolgreicher Play-Verifizierung.
+ */
+exports.verifyGooglePlaySubscription = onCall(
+    {
+      region: "europe-west1",
+      serviceAccount:
+      "filalog-play-billing@filament-manager-7d123.iam.gserviceaccount.com",
+    },
+    async (request) => {
+      if (!request.auth) {
+        throw new HttpsError(
+            "unauthenticated",
+            "You must be signed in.",
+        );
+      }
+
+      const purchaseToken =
+      request.data &&
+      typeof request.data.purchaseToken === "string" ?
+        request.data.purchaseToken.trim() :
+        "";
+
+      if (
+        purchaseToken.length === 0 ||
+      purchaseToken.length > 4096
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid Google Play purchase token.",
+        );
+      }
+
+      const uid = request.auth.uid;
+
+      const expectedAccountId = crypto
+          .createHash("sha256")
+          .update(uid, "utf8")
+          .digest("hex");
+
+      try {
+        const response =
+    await androidPublisher.purchases.subscriptionsv2.get({
+      packageName: GOOGLE_PLAY_PACKAGE_NAME,
+      token: purchaseToken,
+    });
+
+        const subscription = response.data;
+
+        const externalAccountIdentifiers =
+  subscription.externalAccountIdentifiers;
+
+        const obfuscatedExternalAccountId =
+  externalAccountIdentifiers &&
+  typeof externalAccountIdentifiers.obfuscatedExternalAccountId ===
+    "string" ?
+    externalAccountIdentifiers.obfuscatedExternalAccountId :
+    null;
+
+        if (
+          obfuscatedExternalAccountId !== expectedAccountId
+        ) {
+          throw new HttpsError(
+              "permission-denied",
+              "Google Play purchase does not belong to this account.",
+          );
+        }
+
+        const lineItems =
+        Array.isArray(subscription.lineItems) ?
+          subscription.lineItems :
+          [];
+
+        const premiumLineItem =
+        lineItems.find(
+            (lineItem) =>
+              lineItem &&
+              lineItem.productId === GOOGLE_PLAY_PRODUCT_ID,
+        );
+
+        if (!premiumLineItem) {
+          throw new HttpsError(
+              "failed-precondition",
+              "Purchase does not belong to FilaLog Premium.",
+          );
+        }
+
+        const subscriptionState =
+        typeof subscription.subscriptionState === "string" ?
+          subscription.subscriptionState :
+          "";
+
+        if (
+          !GOOGLE_PLAY_ENTITLED_STATES.has(
+              subscriptionState,
+          )
+        ) {
+          throw new HttpsError(
+              "failed-precondition",
+              "Google Play subscription is not active.",
+          );
+        }
+
+        const expiryTime =
+        typeof premiumLineItem.expiryTime === "string" ?
+          premiumLineItem.expiryTime :
+          null;
+
+        const expiryTimestamp =
+        expiryTime ?
+          Date.parse(expiryTime) :
+          Number.NaN;
+
+        if (
+          !Number.isFinite(expiryTimestamp) ||
+        expiryTimestamp <= Date.now()
+        ) {
+          throw new HttpsError(
+              "failed-precondition",
+              "Google Play subscription has expired.",
+          );
+        }
+
+        const offerDetails =
+        premiumLineItem.offerDetails &&
+        typeof premiumLineItem.offerDetails === "object" ?
+          premiumLineItem.offerDetails :
+          null;
+
+        const basePlanId =
+        offerDetails &&
+        typeof offerDetails.basePlanId === "string" ?
+          offerDetails.basePlanId :
+          null;
+
+        if (
+          basePlanId !== GOOGLE_PLAY_MONTHLY_BASE_PLAN_ID &&
+        basePlanId !== GOOGLE_PLAY_YEARLY_BASE_PLAN_ID
+        ) {
+          throw new HttpsError(
+              "failed-precondition",
+              "Unsupported Google Play base plan.",
+          );
+        }
+
+        const planType =
+        basePlanId === GOOGLE_PLAY_MONTHLY_BASE_PLAN_ID ?
+          "monthly" :
+          "yearly";
+
+        const purchaseTokenHash = crypto
+            .createHash("sha256")
+            .update(purchaseToken, "utf8")
+            .digest("hex");
+
+        const googlePlaySubscriptionReference = db
+            .collection("googlePlaySubscriptions")
+            .doc(purchaseTokenHash);
+
+        const googlePlayPurchaseReference = db
+            .collection("purchaseAnalytics")
+            .doc(`google_play_${purchaseTokenHash}`);
+
+        const userAccessReference =
+            getUserAccessReference(uid);
+
+        await db.runTransaction(async (transaction) => {
+          const existingSubscription =
+                  await transaction.get(
+                      googlePlaySubscriptionReference,
+                  );
+
+          const existingPurchase =
+                  await transaction.get(
+                      googlePlayPurchaseReference,
+                  );
+
+          if (existingPurchase.exists) {
+            const existingPurchaseData =
+                    existingPurchase.data();
+
+            if (
+              existingPurchaseData &&
+                  typeof existingPurchaseData.uid === "string" &&
+                  existingPurchaseData.uid !== uid
+            ) {
+              throw new HttpsError(
+                  "permission-denied",
+                  "Google Play purchase is already linked to another account.",
+              );
+            }
+          }
+
+          if (existingSubscription.exists) {
+            const existingData =
+            existingSubscription.data();
+
+            if (
+              existingData &&
+            typeof existingData.uid === "string" &&
+            existingData.uid !== uid
+            ) {
+              throw new HttpsError(
+                  "permission-denied",
+                  "Google Play purchase is already linked to another account.",
+              );
+            }
+          }
+
+          transaction.set(
+              googlePlaySubscriptionReference,
+              {
+                uid,
+                productId: GOOGLE_PLAY_PRODUCT_ID,
+                basePlanId,
+                subscriptionState,
+                expiryTime,
+                acknowledgementState:
+                subscription.acknowledgementState || null,
+                updatedAt: FieldValue.serverTimestamp(),
+              },
+              {
+                merge: true,
+              },
+          );
+
+          if (!existingPurchase.exists) {
+            transaction.set(
+                googlePlayPurchaseReference,
+                {
+                  uid,
+                  provider: "google_play",
+                  plan: planType,
+                  amount:
+                    planType === "monthly" ?
+                      GOOGLE_PLAY_MONTHLY_AMOUNT_CENTS :
+                      GOOGLE_PLAY_YEARLY_AMOUNT_CENTS,
+                  currency: GOOGLE_PLAY_CURRENCY_CODE,
+                  purchaseTokenHash,
+                  productId: GOOGLE_PLAY_PRODUCT_ID,
+                  basePlanId,
+                  purchasedAt:
+                    FieldValue.serverTimestamp(),
+                },
+            );
+          }
+
+          transaction.set(
+              userAccessReference,
+              {
+                premiumActive: true,
+                premiumProvider: "google_play",
+                premiumPlan: planType,
+
+                googlePlayProductId:
+                GOOGLE_PLAY_PRODUCT_ID,
+
+                googlePlayBasePlanId:
+                basePlanId,
+
+                googlePlaySubscriptionState:
+                subscriptionState,
+
+                googlePlayExpiryTime:
+                expiryTime,
+
+                googlePlayAcknowledgementState:
+                subscription.acknowledgementState || null,
+
+                googlePlayPurchaseTokenHash:
+                purchaseTokenHash,
+
+                googlePlayUpdatedAt:
+                FieldValue.serverTimestamp(),
+              },
+              {
+                merge: true,
+              },
+          );
+        });
+
+        logger.info(
+            "FilaLog Google Play subscription verified",
+            {
+              uid,
+              productId: GOOGLE_PLAY_PRODUCT_ID,
+              basePlanId,
+              subscriptionState,
+              expiryTime,
+            },
+        );
+
+        return {
+          verified: true,
+          premiumActive: true,
+          planType,
+          subscriptionState,
+          expiryTime,
+        };
+      } catch (error) {
+        if (error instanceof HttpsError) {
+          throw error;
+        }
+
+        logger.error(
+            "Google Play subscription verification failed",
+            {
+              uid,
+              message:
+              error instanceof Error ?
+                error.message :
+                "Unknown error",
+              code:
+              error && typeof error === "object" ?
+                error.code || null :
+                null,
+              status:
+                error &&
+                typeof error === "object" &&
+                error.response ?
+                  error.response.status || null :
+                  null,
+              responseData:
+                error &&
+                typeof error === "object" &&
+                error.response ?
+                  error.response.data || null :
+                  null,
+            },
+        );
+
+        throw new HttpsError(
+            "internal",
+            "Google Play subscription verification failed.",
+        );
+      }
+    },
+);
+
+/**
+ * Empfängt Google-Play-Entwicklerbenachrichtigungen in Echtzeit.
+ *
+ * RTDN enthält nur den Hinweis auf eine Statusänderung.
+ * Der aktuelle Abozustand wird deshalb anschließend über
+ * purchases.subscriptionsv2.get direkt bei Google Play geladen.
+ */
+exports.googlePlayRtdn = onMessagePublished(
+    {
+      topic: "filalog-google-play-rtdn",
+      region: "europe-west1",
+      serviceAccount:
+      "filalog-play-billing@filament-manager-7d123.iam.gserviceaccount.com",
+    },
+    async (event) => {
+      const message = event.data &&
+      event.data.message ?
+        event.data.message :
+        null;
+
+      const notification =
+      message &&
+      message.json &&
+      typeof message.json === "object" ?
+        message.json :
+        null;
+
+      if (!notification) {
+        logger.warn(
+            "Google Play RTDN ignored: invalid payload",
+            {
+              messageId:
+              message && message.messageId ?
+                message.messageId :
+                null,
+            },
+        );
+
+        return;
+      }
+
+      if (
+        notification.packageName !==
+      GOOGLE_PLAY_PACKAGE_NAME
+      ) {
+        logger.warn(
+            "Google Play RTDN ignored: unexpected package",
+            {
+              packageName:
+              notification.packageName || null,
+            },
+        );
+
+        return;
+      }
+
+      if (
+        notification.testNotification &&
+      typeof notification.testNotification === "object"
+      ) {
+        logger.info(
+            "Google Play RTDN test notification received",
+            {
+              messageId:
+              message && message.messageId ?
+                message.messageId :
+                null,
+            },
+        );
+
+        return;
+      }
+
+      const subscriptionNotification =
+      notification.subscriptionNotification &&
+      typeof notification.subscriptionNotification === "object" ?
+        notification.subscriptionNotification :
+        null;
+
+      if (!subscriptionNotification) {
+        logger.info(
+            "Google Play RTDN ignored: not a subscription notification",
+            {
+              messageId:
+              message && message.messageId ?
+                message.messageId :
+                null,
+            },
+        );
+
+        return;
+      }
+
+      const purchaseToken =
+      typeof subscriptionNotification.purchaseToken === "string" ?
+        subscriptionNotification.purchaseToken.trim() :
+        "";
+
+      const notificationType =
+      Number.isInteger(
+          subscriptionNotification.notificationType,
+      ) ?
+        subscriptionNotification.notificationType :
+        null;
+
+      if (
+        purchaseToken.length === 0 ||
+      purchaseToken.length > 4096
+      ) {
+        logger.warn(
+            "Google Play RTDN ignored: invalid purchase token",
+            {
+              notificationType,
+            },
+        );
+
+        return;
+      }
+
+      const purchaseTokenHash = crypto
+          .createHash("sha256")
+          .update(purchaseToken, "utf8")
+          .digest("hex");
+
+      const googlePlaySubscriptionReference = db
+          .collection("googlePlaySubscriptions")
+          .doc(purchaseTokenHash);
+
+      const mappingSnapshot =
+      await googlePlaySubscriptionReference.get();
+
+      if (!mappingSnapshot.exists) {
+        logger.warn(
+            "Google Play RTDN subscription mapping not found",
+            {
+              purchaseTokenHash,
+              notificationType,
+            },
+        );
+
+        return;
+      }
+
+      const mappingData =
+      mappingSnapshot.data();
+
+      const uid =
+      mappingData &&
+      typeof mappingData.uid === "string" ?
+        mappingData.uid :
+        null;
+
+      if (!uid) {
+        logger.error(
+            "Google Play RTDN mapping has no Firebase UID",
+            {
+              purchaseTokenHash,
+              notificationType,
+            },
+        );
+
+        return;
+      }
+
+      const response =
+      await androidPublisher.purchases.subscriptionsv2.get({
+        packageName: GOOGLE_PLAY_PACKAGE_NAME,
+        token: purchaseToken,
+      });
+
+      const subscription = response.data;
+
+      const lineItems =
+      Array.isArray(subscription.lineItems) ?
+        subscription.lineItems :
+        [];
+
+      const premiumLineItem =
+      lineItems.find(
+          (lineItem) =>
+            lineItem &&
+            lineItem.productId === GOOGLE_PLAY_PRODUCT_ID,
+      );
+
+      if (!premiumLineItem) {
+        throw new Error(
+            "RTDN purchase does not belong to FilaLog Premium",
+        );
+      }
+
+      const subscriptionState =
+      typeof subscription.subscriptionState === "string" ?
+        subscription.subscriptionState :
+        "";
+
+      const expiryTime =
+      typeof premiumLineItem.expiryTime === "string" ?
+        premiumLineItem.expiryTime :
+        null;
+
+      const offerDetails =
+      premiumLineItem.offerDetails &&
+      typeof premiumLineItem.offerDetails === "object" ?
+        premiumLineItem.offerDetails :
+        null;
+
+      const basePlanId =
+      offerDetails &&
+      typeof offerDetails.basePlanId === "string" ?
+        offerDetails.basePlanId :
+        null;
+
+      if (
+        basePlanId !== GOOGLE_PLAY_MONTHLY_BASE_PLAN_ID &&
+      basePlanId !== GOOGLE_PLAY_YEARLY_BASE_PLAN_ID
+      ) {
+        throw new Error(
+            "RTDN contains unsupported Google Play base plan",
+        );
+      }
+
+      const planType =
+      basePlanId === GOOGLE_PLAY_MONTHLY_BASE_PLAN_ID ?
+        "monthly" :
+        "yearly";
+
+      const expiryTimestamp =
+      expiryTime ?
+        Date.parse(expiryTime) :
+        Number.NaN;
+
+      const premiumActive =
+      GOOGLE_PLAY_ENTITLED_STATES.has(
+          subscriptionState,
+      ) &&
+      Number.isFinite(expiryTimestamp) &&
+      expiryTimestamp > Date.now();
+
+      const userAccessReference =
+      getUserAccessReference(uid);
+
+      await db.runTransaction(
+          async (transaction) => {
+            const accessSnapshot =
+            await transaction.get(
+                userAccessReference,
+            );
+
+            const accessData =
+            accessSnapshot.exists ?
+              accessSnapshot.data() :
+              null;
+
+            const currentProvider =
+            accessData &&
+            typeof accessData.premiumProvider === "string" ?
+              accessData.premiumProvider :
+              null;
+
+            transaction.set(
+                googlePlaySubscriptionReference,
+                {
+                  uid,
+                  productId:
+                  GOOGLE_PLAY_PRODUCT_ID,
+                  basePlanId,
+                  subscriptionState,
+                  expiryTime,
+                  acknowledgementState:
+                  subscription.acknowledgementState || null,
+                  lastNotificationType:
+                  notificationType,
+                  lastRtdnMessageId:
+                  message && message.messageId ?
+                    message.messageId :
+                    null,
+                  updatedAt:
+                  FieldValue.serverTimestamp(),
+                },
+                {
+                  merge: true,
+                },
+            );
+
+            const googlePlayData = {
+              googlePlayProductId:
+              GOOGLE_PLAY_PRODUCT_ID,
+
+              googlePlayBasePlanId:
+              basePlanId,
+
+              googlePlaySubscriptionState:
+              subscriptionState,
+
+              googlePlayExpiryTime:
+              expiryTime,
+
+              googlePlayAcknowledgementState:
+              subscription.acknowledgementState || null,
+
+              googlePlayPurchaseTokenHash:
+              purchaseTokenHash,
+
+              googlePlayLastNotificationType:
+              notificationType,
+
+              googlePlayUpdatedAt:
+              FieldValue.serverTimestamp(),
+            };
+
+            if (
+              currentProvider === "google_play" ||
+            currentProvider === null
+            ) {
+              googlePlayData.premiumActive =
+              premiumActive;
+
+              googlePlayData.premiumProvider =
+              "google_play";
+
+              googlePlayData.premiumPlan =
+              planType;
+            }
+
+            transaction.set(
+                userAccessReference,
+                googlePlayData,
+                {
+                  merge: true,
+                },
+            );
+          },
+      );
+
+      logger.info(
+          "Google Play RTDN subscription processed",
+          {
+            uid,
+            notificationType,
+            subscriptionState,
+            basePlanId,
+            expiryTime,
+            premiumActive,
+          },
+      );
+    },
+);
 
 /**
  * Initialisiert den 7-Tage-Test für einen angemeldeten Benutzer.
@@ -216,6 +1013,508 @@ exports.initializeUserTrial = onCall(
 
       return {
         initialized: true,
+      };
+    },
+);
+
+/**
+ * Erstellt eine interne Übersicht über die vorhandenen
+ * FilaLog-Nutzungs- und Abo-Daten.
+ *
+ * Diese Funktion ist vorerst ausschließlich für die
+ * serverseitige Entwicklung vorgesehen.
+ */
+exports.getMonitoringOverview = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      if (!request.auth) {
+        throw new HttpsError(
+            "unauthenticated",
+            "Authentication required.",
+        );
+      }
+
+      const monitoringAdminUids = new Set([
+        "6ifAvEdTTQUv3Ej16940ir3sRip1",
+      ]);
+
+      if (!monitoringAdminUids.has(request.auth.uid)) {
+        throw new HttpsError(
+            "permission-denied",
+            "Monitoring access denied.",
+        );
+      }
+
+      const authResult =
+        await getAuth().listUsers(1000);
+
+      const appDataSnapshot =
+      await db
+          .collectionGroup("appData")
+          .get();
+
+      const guestSnapshot =
+          await db
+              .collection("guestAnalytics")
+              .get();
+
+      const purchaseSnapshot =
+          await db
+              .collection("purchaseAnalytics")
+              .get();
+
+      let registrationsToday = 0;
+      let registrations7Days = 0;
+      let registrations30Days = 0;
+
+      let trialUsers = 0;
+      let premiumUsers = 0;
+      let manualPremiumUsers = 0;
+      let paidPremiumUsers = 0;
+      let paddleLiveUsers = 0;
+      let paddleSandboxUsers = 0;
+      let paddleActiveUsers = 0;
+      let paddleCanceledUsers = 0;
+      let paddlePausedUsers = 0;
+      let paddleScheduledCancelUsers = 0;
+
+      let googlePlayUsers = 0;
+      let googlePlayMonthlyUsers = 0;
+      let googlePlayYearlyUsers = 0;
+
+      let googlePlayPurchases = 0;
+      let googlePlayRevenueCents = 0;
+
+      let googlePlayPurchasesToday = 0;
+      let googlePlayPurchases7Days = 0;
+      let googlePlayPurchases30Days = 0;
+
+      let googlePlayRevenueTodayCents = 0;
+      let googlePlayRevenue7DaysCents = 0;
+      let googlePlayRevenue30DaysCents = 0;
+
+      let paddlePurchases = 0;
+      let paddleRevenueCents = 0;
+
+      let paddlePurchasesToday = 0;
+      let paddlePurchases7Days = 0;
+      let paddlePurchases30Days = 0;
+
+      let paddleRevenueTodayCents = 0;
+      let paddleRevenue7DaysCents = 0;
+      let paddleRevenue30DaysCents = 0;
+
+      let guestStarts = 0;
+      let guestsToday = 0;
+      let guests7Days = 0;
+      let guests30Days = 0;
+
+      const now = Date.now();
+
+      const startOfToday = new Date();
+      startOfToday.setHours(0, 0, 0, 0);
+
+      const sevenDaysAgo =
+    now - (7 * 24 * 60 * 60 * 1000);
+
+      const thirtyDaysAgo =
+    now - (30 * 24 * 60 * 60 * 1000);
+
+      const recentRegistrations = [];
+
+      for (const user of authResult.users) {
+        const creationTime =
+      user.metadata &&
+      typeof user.metadata.creationTime === "string" ?
+        Date.parse(user.metadata.creationTime) :
+        NaN;
+
+        if (!Number.isFinite(creationTime)) {
+          continue;
+        }
+
+        recentRegistrations.push({
+          uid: user.uid,
+          createdAt: new Date(creationTime).toISOString(),
+        });
+
+        if (creationTime >= startOfToday.getTime()) {
+          registrationsToday += 1;
+        }
+
+        if (creationTime >= sevenDaysAgo) {
+          registrations7Days += 1;
+        }
+
+        if (creationTime >= thirtyDaysAgo) {
+          registrations30Days += 1;
+        }
+      }
+
+      recentRegistrations.sort(
+          (a, b) =>
+            Date.parse(b.createdAt) -
+          Date.parse(a.createdAt),
+      );
+
+      const latestRegistrations =
+        recentRegistrations.slice(0, 10);
+
+      for (const document of appDataSnapshot.docs) {
+        if (document.id !== "main") {
+          continue;
+        }
+
+        const data = document.data();
+
+        if (
+          data.trialUsed === true ||
+        data.trialStart != null
+        ) {
+          trialUsers += 1;
+        }
+
+        if (data.premiumActive === true) {
+          premiumUsers += 1;
+
+          const hasActivePaddleSubscription =
+            data.premiumProvider === "paddle" &&
+            data.paddleEnvironment === "live" &&
+            data.paddleSubscriptionStatus === "active";
+
+          const hasActiveGooglePlaySubscription =
+            data.premiumProvider === "google_play" &&
+            GOOGLE_PLAY_ENTITLED_STATES.has(
+                data.googlePlaySubscriptionState,
+            );
+
+          if (
+            hasActivePaddleSubscription ||
+            hasActiveGooglePlaySubscription
+          ) {
+            paidPremiumUsers += 1;
+          } else {
+            manualPremiumUsers += 1;
+          }
+        }
+
+        if (
+          data.premiumProvider === "paddle" &&
+          data.paddleEnvironment === "live"
+        ) {
+          paddleLiveUsers += 1;
+
+          if (data.paddleSubscriptionStatus === "active") {
+            paddleActiveUsers += 1;
+          }
+
+          if (data.paddleSubscriptionStatus === "canceled") {
+            paddleCanceledUsers += 1;
+          }
+
+          if (data.paddleSubscriptionStatus === "paused") {
+            paddlePausedUsers += 1;
+          }
+
+          if (data.paddleScheduledAction === "cancel") {
+            paddleScheduledCancelUsers += 1;
+          }
+        }
+
+        if (
+          data.premiumProvider === "paddle" &&
+          data.paddleEnvironment === "sandbox"
+        ) {
+          paddleSandboxUsers += 1;
+        }
+
+        if (data.premiumProvider === "google_play") {
+          googlePlayUsers += 1;
+
+          if (data.premiumPlan === "monthly") {
+            googlePlayMonthlyUsers += 1;
+          }
+
+          if (data.premiumPlan === "yearly") {
+            googlePlayYearlyUsers += 1;
+          }
+        }
+      }
+
+      for (const document of guestSnapshot.docs) {
+        const data = document.data();
+
+        if (
+          typeof data.startCount === "number" &&
+          Number.isFinite(data.startCount)
+        ) {
+          guestStarts += data.startCount;
+        }
+
+        const firstStartedAt =
+            data.firstStartedAt &&
+            typeof data.firstStartedAt.toMillis === "function" ?
+              data.firstStartedAt.toMillis() :
+              null;
+
+        if (firstStartedAt === null) {
+          continue;
+        }
+
+        if (firstStartedAt >= startOfToday.getTime()) {
+          guestsToday += 1;
+        }
+
+        if (firstStartedAt >= sevenDaysAgo) {
+          guests7Days += 1;
+        }
+
+        if (firstStartedAt >= thirtyDaysAgo) {
+          guests30Days += 1;
+        }
+      }
+
+      const recentPurchases = [];
+
+      for (const document of purchaseSnapshot.docs) {
+        const data = document.data();
+
+        const isPaddlePurchase =
+            data.provider === "paddle" &&
+            data.environment === "live" &&
+            data.currency === PADDLE_CURRENCY_CODE;
+
+        const isGooglePlayPurchase =
+            data.provider === "google_play" &&
+            data.currency === GOOGLE_PLAY_CURRENCY_CODE;
+
+        if (
+          (!isPaddlePurchase && !isGooglePlayPurchase) ||
+          typeof data.amount !== "number" ||
+          !Number.isFinite(data.amount)
+        ) {
+          continue;
+        }
+
+        if (isPaddlePurchase) {
+          paddlePurchases += 1;
+          paddleRevenueCents += data.amount;
+        }
+
+        if (isGooglePlayPurchase) {
+          googlePlayPurchases += 1;
+          googlePlayRevenueCents += data.amount;
+        }
+
+        const purchasedAt =
+      data.purchasedAt &&
+      typeof data.purchasedAt.toMillis === "function" ?
+        data.purchasedAt.toMillis() :
+        null;
+
+        if (purchasedAt === null) {
+          continue;
+        }
+
+        recentPurchases.push({
+          uid:
+            typeof data.uid === "string" ?
+              data.uid :
+              null,
+          provider: data.provider,
+          plan:
+            typeof data.plan === "string" ?
+              data.plan :
+              null,
+          amount: data.amount,
+          currency: data.currency,
+          purchasedAt:
+            new Date(purchasedAt).toISOString(),
+        });
+
+        if (purchasedAt >= startOfToday.getTime()) {
+          if (isPaddlePurchase) {
+            paddlePurchasesToday += 1;
+            paddleRevenueTodayCents += data.amount;
+          }
+
+          if (isGooglePlayPurchase) {
+            googlePlayPurchasesToday += 1;
+            googlePlayRevenueTodayCents += data.amount;
+          }
+        }
+
+        if (purchasedAt >= sevenDaysAgo) {
+          if (isPaddlePurchase) {
+            paddlePurchases7Days += 1;
+            paddleRevenue7DaysCents += data.amount;
+          }
+
+          if (isGooglePlayPurchase) {
+            googlePlayPurchases7Days += 1;
+            googlePlayRevenue7DaysCents += data.amount;
+          }
+        }
+
+        if (purchasedAt >= thirtyDaysAgo) {
+          if (isPaddlePurchase) {
+            paddlePurchases30Days += 1;
+            paddleRevenue30DaysCents += data.amount;
+          }
+
+          if (isGooglePlayPurchase) {
+            googlePlayPurchases30Days += 1;
+            googlePlayRevenue30DaysCents += data.amount;
+          }
+        }
+      }
+
+      recentPurchases.sort(
+          (a, b) =>
+            Date.parse(b.purchasedAt) -
+          Date.parse(a.purchasedAt),
+      );
+
+      const latestPurchases =
+        recentPurchases.slice(0, 10);
+
+      const registrationToPaidConversion =
+    authResult.users.length > 0 ?
+      (paidPremiumUsers / authResult.users.length) * 100 :
+      0;
+
+      const trialToPaidConversion =
+    trialUsers > 0 ?
+      (paidPremiumUsers / trialUsers) * 100 :
+      0;
+
+      return {
+        generatedAt:
+        new Date().toISOString(),
+
+        registrations: {
+          total:
+            authResult.users.length,
+          today:
+            registrationsToday,
+          last7Days:
+            registrations7Days,
+          last30Days:
+            registrations30Days,
+          recent:
+            latestRegistrations,
+        },
+
+        trials:
+        trialUsers,
+
+        guests: {
+          unique:
+            guestSnapshot.size,
+          starts:
+            guestStarts,
+          today:
+            guestsToday,
+          last7Days:
+            guests7Days,
+          last30Days:
+            guests30Days,
+        },
+
+        premium: {
+          active:
+            premiumUsers,
+          manual:
+            manualPremiumUsers,
+          paid:
+            paidPremiumUsers,
+
+          conversion: {
+            registrationToPaidPercent:
+              registrationToPaidConversion,
+            trialToPaidPercent:
+              trialToPaidConversion,
+          },
+
+          paddle: {
+            live:
+              paddleLiveUsers,
+            sandbox:
+              paddleSandboxUsers,
+            active:
+              paddleActiveUsers,
+            canceled:
+              paddleCanceledUsers,
+            paused:
+              paddlePausedUsers,
+            scheduledCancel:
+              paddleScheduledCancelUsers,
+            purchases:
+              paddlePurchases,
+            revenueCents:
+              paddleRevenueCents,
+
+            today: {
+              purchases:
+                paddlePurchasesToday,
+              revenueCents:
+                paddleRevenueTodayCents,
+            },
+
+            last7Days: {
+              purchases:
+                paddlePurchases7Days,
+              revenueCents:
+                paddleRevenue7DaysCents,
+            },
+
+            last30Days: {
+              purchases:
+                paddlePurchases30Days,
+              revenueCents:
+                paddleRevenue30DaysCents,
+            },
+
+            recentPurchases:
+              latestPurchases,
+          },
+
+          googlePlay: {
+            total:
+              googlePlayUsers,
+            monthly:
+              googlePlayMonthlyUsers,
+            yearly:
+              googlePlayYearlyUsers,
+            purchases:
+              googlePlayPurchases,
+            revenueCents:
+              googlePlayRevenueCents,
+
+            today: {
+              purchases:
+                googlePlayPurchasesToday,
+              revenueCents:
+                googlePlayRevenueTodayCents,
+            },
+
+            last7Days: {
+              purchases:
+                googlePlayPurchases7Days,
+              revenueCents:
+                googlePlayRevenue7DaysCents,
+            },
+
+            last30Days: {
+              purchases:
+                googlePlayPurchases30Days,
+              revenueCents:
+                googlePlayRevenue30DaysCents,
+            },
+          },
+        },
       };
     },
 );
@@ -2012,6 +3311,82 @@ async function consumePaddleCheckoutReference(
 }
 
 /**
+ * Speichert einen erfolgreich verifizierten Paddle-Kauf
+ * für die interne FilaLog-Kauf- und Umsatzstatistik.
+ *
+ * Die Paddle Transaction-ID wird als Dokument-ID verwendet,
+ * damit derselbe Kauf nicht mehrfach gezählt werden kann.
+ *
+ * @param {string} uid Firebase User-ID.
+ * @param {object} event Verifiziertes Paddle transaction.completed Event.
+ * @param {string} environment Paddle-Umgebung.
+ * @return {Promise<void>}
+ */
+async function recordPaddlePurchase(
+    uid,
+    event,
+    environment,
+) {
+  if (
+    typeof uid !== "string" ||
+  uid.length === 0 ||
+  !event ||
+  !event.data ||
+  (
+    environment !== "live" &&
+    environment !== "sandbox"
+  )
+  ) {
+    throw new Error(
+        "Invalid Paddle purchase analytics data",
+    );
+  }
+
+  const data = event.data;
+
+  const transactionId =
+  typeof data.id === "string" ?
+    data.id :
+    null;
+
+  const subscriptionId =
+  typeof data.subscriptionId === "string" ?
+    data.subscriptionId :
+    null;
+
+  if (
+    !transactionId ||
+  !subscriptionId
+  ) {
+    throw new Error(
+        "Missing Paddle purchase identifiers",
+    );
+  }
+
+  const reference = db
+      .collection("purchaseAnalytics")
+      .doc(`paddle_${transactionId}`);
+
+  await reference.set(
+      {
+        uid,
+        provider: "paddle",
+        environment,
+        plan: "yearly",
+        amount: Number(PADDLE_YEARLY_AMOUNT),
+        currency: PADDLE_CURRENCY_CODE,
+        transactionId,
+        subscriptionId,
+        purchasedAt:
+        FieldValue.serverTimestamp(),
+      },
+      {
+        merge: true,
+      },
+  );
+}
+
+/**
  * Speichert die dauerhafte Zuordnung eines Paddle-Abos
  * zu einem FilaLog-Benutzer.
  *
@@ -2411,6 +3786,18 @@ exports.paddleWebhook = onRequest(
 
         if (
           uid === null &&
+          eventType === "transaction.completed" &&
+          event.data &&
+          typeof event.data.subscriptionId === "string"
+        ) {
+          uid =
+              await resolvePaddleSubscriptionUid(
+                  event.data.subscriptionId,
+              );
+        }
+
+        if (
+          uid === null &&
           eventType.startsWith("subscription.") &&
           event.data &&
           typeof event.data.id === "string"
@@ -2466,6 +3853,12 @@ exports.paddleWebhook = onRequest(
           uid !== null
         ) {
           await activatePaddleYearlyPremium(
+              uid,
+              event,
+              paddleEnvironment,
+          );
+
+          await recordPaddlePurchase(
               uid,
               event,
               paddleEnvironment,

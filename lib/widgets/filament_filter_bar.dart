@@ -41,226 +41,190 @@ class FilamentFilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final brightness =
-        Theme.of(context).brightness;
+    final brightness = Theme.of(context).brightness;
 
-    final surfaceColor =
-        brightness == Brightness.dark
-            ? AppColors.surfaceDark
-            : AppColors.surfaceLight;
+    final fillColor = brightness == Brightness.dark
+        ? AppColors.backgroundDark
+        : AppColors.backgroundLight;
 
-    final fillColor =
-        brightness == Brightness.dark
-            ? AppColors.backgroundDark
-            : AppColors.backgroundLight;
+    final fieldTextStyle = Theme.of(
+      context,
+    ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w400);
 
-    return Container(
-      margin: AppSpacing.horizontalLG,
-      padding: AppSpacing.paddingLG,
-      decoration: BoxDecoration(
-        color: surfaceColor,
-        borderRadius: AppRadius.radiusMD,
-        boxShadow: brightness == Brightness.dark
-            ? []
-            : [
-                BoxShadow(
-                  color: Colors.black.withValues(
-                    alpha: 0.04,
-                  ),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-      ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Text(
-  l10n.filter,
-  style: Theme.of(context).textTheme.titleMedium,
-),
+    InputDecoration fieldDecoration(String label) {
+      return InputDecoration(
+        labelText: label,
+        filled: true,
+        fillColor: fillColor,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: AppRadius.radiusMD,
+          borderSide: BorderSide.none,
+        ),
+      );
+    }
 
-          SizedBox(
-            height: AppSpacing.md,
-          ),
-
-          TextField(
-            controller: searchController,
-            onChanged: onSearchChanged,
-            decoration: InputDecoration(
-              hintText: l10n.searchFilament,
-              prefixIcon:
-                  const Icon(Icons.search),
-              filled: true,
-              fillColor: fillColor,
-              border: OutlineInputBorder(
-                borderRadius:
-                    AppRadius.radiusMD,
-                borderSide: BorderSide.none,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: searchController,
+          onChanged: onSearchChanged,
+          style: fieldTextStyle,
+          decoration: InputDecoration(
+            hintText: l10n.searchFilament,
+            prefixIcon: const Icon(Icons.search),
+            filled: true,
+            fillColor: fillColor,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: AppRadius.radiusMD,
+              borderSide: BorderSide.none,
             ),
           ),
+        ),
 
-          SizedBox(
-            height: AppSpacing.lg,
-          ),
+        SizedBox(height: AppSpacing.lg),
 
-          Row(
-            children: [
-              Expanded(
-                child:
-                    DropdownButtonFormField<String>(
-                  initialValue:
-                      selectedBrand,
-                  items: brandItems
-                      .map(
-                        (brand) =>
-                            DropdownMenuItem(
-                          value: brand,
-                          child: Text(brand),
+        Row(
+          children: [
+            Expanded(
+              child: DropdownButtonFormField<String>(
+                initialValue: selectedBrand,
+                isExpanded: true,
+                style: fieldTextStyle,
+                hint: Text(l10n.all, style: fieldTextStyle),
+                items: brandItems
+                    .map(
+                      (brand) => DropdownMenuItem<String>(
+                        value: brand,
+                        child: Text(
+                          brand,
+                          style: fieldTextStyle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      )
-                      .toList(),
-                  decoration:
-                      InputDecoration(
-                    labelText: l10n.manufacturer,
-                    filled: true,
-                    fillColor: fillColor,
-                    border:
-                        OutlineInputBorder(
-                      borderRadius:
-                          AppRadius.radiusMD,
-                      borderSide:
-                          BorderSide.none,
-                    ),
-                  ),
-                  onChanged:
-                      onBrandChanged,
-                ),
+                      ),
+                    )
+                    .toList(),
+                decoration: fieldDecoration(l10n.manufacturer),
+                onChanged: onBrandChanged,
               ),
+            ),
 
-              SizedBox(
-                width: AppSpacing.md,
-              ),
+            SizedBox(width: AppSpacing.md),
 
-              Expanded(
-                child:
-                    DropdownButtonFormField<String>(
-                  initialValue:
-                      selectedMaterial,
-                  items: materialItems
-                      .map(
-                        (material) =>
-                            DropdownMenuItem(
-                          value: material,
-                          child:
-                              Text(material),
+            Expanded(
+              child: DropdownButtonFormField<String>(
+                initialValue: selectedMaterial,
+                isExpanded: true,
+                style: fieldTextStyle,
+                hint: Text(l10n.all, style: fieldTextStyle),
+                items: materialItems
+                    .map(
+                      (material) => DropdownMenuItem<String>(
+                        value: material,
+                        child: Text(
+                          material,
+                          style: fieldTextStyle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      )
-                      .toList(),
-                  decoration:
-                      InputDecoration(
-                    labelText: l10n.material,
-                    filled: true,
-                    fillColor: fillColor,
-                    border:
-                        OutlineInputBorder(
-                      borderRadius:
-                          AppRadius.radiusMD,
-                      borderSide:
-                          BorderSide.none,
-                    ),
-                  ),
-                  onChanged:
-                      onMaterialChanged,
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(
-            height: AppSpacing.lg,
-          ),
-
-          Row(
-            children: [
-              Expanded(
-                child:
-                    DropdownButtonFormField<
-                        FilamentSortMode>(
-                  initialValue:
-                      selectedSort,
-                  items: [
-                    DropdownMenuItem(
-  value: FilamentSortMode.material,
-  child: Text(l10n.sortByMaterial),
-),
-                    DropdownMenuItem(
-  value: FilamentSortMode.remainingWeight,
-  child: Text(
-    l10n.sortByRemainingWeight,
-  ),
-),
-                    DropdownMenuItem(
-  value: FilamentSortMode.name,
-  child: Text(l10n.sortByName),
-),
-                  ],
-                  decoration:
-                      InputDecoration(
-                    labelText: l10n.sort,
-                    filled: true,
-                    fillColor: fillColor,
-                    border:
-                        OutlineInputBorder(
-                      borderRadius:
-                          AppRadius.radiusMD,
-                      borderSide:
-                          BorderSide.none,
-                    ),
-                  ),
-                  onChanged:
-                      onSortChanged,
-                ),
-              ),
-
-              SizedBox(
-                width: AppSpacing.md,
-              ),
-
-              Expanded(
-                child: SizedBox(
-                  height: 56,
-                  child:
-                      OutlinedButton.icon(
-                    onPressed: onReset,
-                    icon:
-                        const Icon(Icons.refresh),
-                    label: Text(
-  l10n.reset,
-),
-                    style:
-                        OutlinedButton.styleFrom(
-                      foregroundColor:
-                          AppColors.primary,
-                      side: BorderSide(
-                        color:
-                            AppColors.primary,
                       ),
-                      shape:
-                          RoundedRectangleBorder(
-                        borderRadius:
-                            AppRadius.radiusMD,
-                      ),
+                    )
+                    .toList(),
+                decoration: fieldDecoration(l10n.material),
+                onChanged: onMaterialChanged,
+              ),
+            ),
+          ],
+        ),
+
+        SizedBox(height: AppSpacing.lg),
+
+        Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: DropdownButtonFormField<FilamentSortMode>(
+                initialValue: selectedSort,
+                isExpanded: true,
+                style: fieldTextStyle,
+                items: [
+                  DropdownMenuItem(
+                    value: FilamentSortMode.material,
+                    child: Text(
+                      l10n.sortByMaterial,
+                      style: fieldTextStyle,
+                      maxLines: 1,
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: FilamentSortMode.remainingWeight,
+                    child: Text(
+                      l10n.sortByRemainingWeight,
+                      style: fieldTextStyle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: FilamentSortMode.name,
+                    child: Text(
+                      l10n.sortByName,
+                      style: fieldTextStyle,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+                decoration: fieldDecoration(l10n.sort),
+                onChanged: onSortChanged,
+              ),
+            ),
+
+            SizedBox(width: AppSpacing.md),
+
+            Expanded(
+              flex: 2,
+              child: SizedBox(
+                height: 56,
+                child: OutlinedButton(
+                  onPressed: onReset,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    side: BorderSide(color: AppColors.primary),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: AppRadius.radiusMD,
+                    ),
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.refresh, size: 20),
+                        const SizedBox(width: 6),
+                        Text(
+                          l10n.reset,
+                          maxLines: 1,
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

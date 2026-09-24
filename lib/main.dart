@@ -15,6 +15,7 @@ import 'legal/terms_of_service_page.dart';
 import 'legal/withdrawal_page.dart';
 import 'legal/refund_policy_page.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'admin/admin_monitoring_page.dart';
 
 // 🔥 Neues Theme importieren
 import 'theme/app_theme.dart';
@@ -26,9 +27,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await Hive.initFlutter();
 
@@ -84,6 +83,9 @@ class MyApp extends StatelessWidget {
         '/privacy': (_) => const PrivacyPolicyPage(),
         '/withdrawal': (_) => const WithdrawalPage(),
         '/refund': (_) => const RefundPolicyPage(),
+
+        // Private Monitoring-Seite
+        '/admin-monitoring': (_) => const AdminMonitoringPage(),
 
         // Temporäre Route für den Paddle-Sandbox-Test
         '/paddle-test': (_) => const PaddleTestPage(),

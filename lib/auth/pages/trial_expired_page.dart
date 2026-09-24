@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../pages/main_navigation.dart';
 import '../../services/firestore_service.dart';
+import '../../services/google_play_subscription_service.dart';
 import '../../services/paddle_subscription_service.dart';
 import '../services/guest_service.dart';
 import 'login_page.dart';
@@ -20,13 +21,21 @@ class TrialExpiredPage extends StatefulWidget {
 }
 
 class _TrialExpiredPageState extends State<TrialExpiredPage> {
+  bool _monthlyLoading = false;
   bool _yearlyLoading = false;
+  bool _androidProductsLoading = false;
   bool _webCheckoutOpened = false;
   bool _purchaseCompleted = false;
   bool _premiumNavigationStarted = false;
 
+  GooglePlaySubscriptionProduct? _monthlyProduct;
+  GooglePlaySubscriptionProduct? _yearlyProduct;
+
   StreamSubscription<UserAccessStatus?>? _accessSubscription;
   StreamSubscription<void>? _checkoutCompletedSubscription;
+  StreamSubscription<void>? _googlePlayPurchaseCompletedSubscription;
+  StreamSubscription<GooglePlaySubscriptionException>?
+  _googlePlayPurchaseFailedSubscription;
 
   @override
   void initState() {
@@ -51,6 +60,208 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
               _webCheckoutOpened = false;
             });
           });
+    } else {
+      _googlePlayPurchaseCompletedSubscription = GooglePlaySubscriptionService
+          .purchaseCompleted
+          .listen((_) {
+            if (!mounted) {
+              return;
+            }
+
+            setState(() {
+              _purchaseCompleted = true;
+              _monthlyLoading = false;
+              _yearlyLoading = false;
+            });
+          });
+
+      _googlePlayPurchaseFailedSubscription = GooglePlaySubscriptionService
+          .purchaseFailed
+          .listen((error) {
+            if (!mounted) {
+              return;
+            }
+
+            setState(() {
+              _monthlyLoading = false;
+              _yearlyLoading = false;
+            });
+
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(error.message)));
+          });
+
+      _loadGooglePlayProducts();
+    }
+  }
+
+  Future<void> _loadGooglePlayProducts() async {
+    if (kIsWeb || _androidProductsLoading) {
+      return;
+    }
+
+    setState(() {
+      _androidProductsLoading = true;
+    });
+
+    try {
+      final monthlyProduct =
+          await GooglePlaySubscriptionService.getMonthlyProduct();
+
+      final yearlyProduct =
+          await GooglePlaySubscriptionService.getYearlyProduct();
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _monthlyProduct = monthlyProduct;
+        _yearlyProduct = yearlyProduct;
+      });
+    } on GooglePlaySubscriptionException catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _androidProductsLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _startAndroidMonthlySubscription() async {
+    if (_monthlyLoading ||
+        _yearlyLoading ||
+        _androidProductsLoading ||
+        _monthlyProduct == null) {
+      return;
+    }
+
+    setState(() {
+      _monthlyLoading = true;
+    });
+
+    try {
+      await GooglePlaySubscriptionService.purchaseMonthly();
+    } on GooglePlaySubscriptionException catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _monthlyLoading = false;
+      });
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _monthlyLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.premiumSettingsPurchaseStartError,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _startAndroidYearlySubscription() async {
+    if (_monthlyLoading ||
+        _yearlyLoading ||
+        _androidProductsLoading ||
+        _yearlyProduct == null) {
+      return;
+    }
+
+    setState(() {
+      _yearlyLoading = true;
+    });
+
+    try {
+      await GooglePlaySubscriptionService.purchaseYearly();
+    } on GooglePlaySubscriptionException catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _yearlyLoading = false;
+      });
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _yearlyLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.premiumSettingsPurchaseStartError,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _restoreAndroidPurchases() async {
+    if (_monthlyLoading || _yearlyLoading || _androidProductsLoading) {
+      return;
+    }
+
+    setState(() {
+      _androidProductsLoading = true;
+    });
+
+    try {
+      await GooglePlaySubscriptionService.restorePurchases();
+    } on GooglePlaySubscriptionException catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      final localizations = AppLocalizations.of(context)!;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(localizations.trialExpiredRestoreError)),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _androidProductsLoading = false;
+        });
+      }
     }
   }
 
@@ -164,6 +375,8 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
   void dispose() {
     _accessSubscription?.cancel();
     _checkoutCompletedSubscription?.cancel();
+    _googlePlayPurchaseCompletedSubscription?.cancel();
+    _googlePlayPurchaseFailedSubscription?.cancel();
 
     super.dispose();
   }
@@ -308,53 +521,64 @@ class _TrialExpiredPageState extends State<TrialExpiredPage> {
                   ] else ...[
                     _SubscriptionOption(
                       title: localizations.trialExpiredMonthlyTitle,
-                      price: localizations.trialExpiredMonthlyPrice,
+                      price:
+                          _monthlyProduct?.price ??
+                          localizations.trialExpiredMonthlyPrice,
                       period: localizations.trialExpiredMonthlyPeriod,
                       highlighted: false,
-                      loading: false,
-                      enabled: false,
-                      onPressed: () {},
+                      loading: _monthlyLoading,
+                      enabled:
+                          !_androidProductsLoading &&
+                          !_monthlyLoading &&
+                          !_yearlyLoading &&
+                          _monthlyProduct != null,
+                      onPressed: _startAndroidMonthlySubscription,
                     ),
                     const SizedBox(height: 16),
                     _SubscriptionOption(
                       title: localizations.trialExpiredYearlyTitle,
-                      price: localizations.trialExpiredYearlyPrice,
+                      price:
+                          _yearlyProduct?.price ??
+                          localizations.trialExpiredYearlyPrice,
                       period: localizations.trialExpiredYearlyPeriod,
                       highlighted: true,
                       badge: localizations.trialExpiredYearlyBadge,
-                      loading: false,
-                      enabled: false,
-                      onPressed: () {},
+                      loading: _yearlyLoading,
+                      enabled:
+                          !_androidProductsLoading &&
+                          !_monthlyLoading &&
+                          !_yearlyLoading &&
+                          _yearlyProduct != null,
+                      onPressed: _startAndroidYearlySubscription,
                     ),
+
                     const SizedBox(height: 24),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: colorScheme.primaryContainer.withValues(
-                          alpha: 0.35,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.info_outline, color: colorScheme.primary),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              localizations.trialExpiredAndroidUnavailableInfo,
-                            ),
-                          ),
-                        ],
-                      ),
+                    OutlinedButton.icon(
+                      onPressed: _androidProductsLoading
+                          ? null
+                          : _restoreAndroidPurchases,
+                      icon: _androidProductsLoading
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.restore),
+                      label: Text(localizations.trialExpiredRestorePurchases),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     Text(
                       localizations.trialExpiredAndroidManagementInfo,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.65),
                       ),
+                    ),
+                    const SizedBox(height: 24),
+                    OutlinedButton.icon(
+                      onPressed: _switchAccount,
+                      icon: const Icon(Icons.switch_account_outlined),
+                      label: Text(localizations.signOut),
                     ),
                   ],
                 ],

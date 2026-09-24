@@ -62,6 +62,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get filter => 'Filter';
 
   @override
+  String get all => 'Alle';
+
+  @override
   String get close => 'Schließen';
 
   @override
@@ -1549,9 +1552,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sortByProjectName => 'Projektname';
 
   @override
-  String get all => 'Alle';
-
-  @override
   String get today => 'Heute';
 
   @override
@@ -1743,5 +1743,35 @@ class AppLocalizationsDe extends AppLocalizations {
   String get trialExpiredAndroidManagementInfo => 'Die Zahlung und Verwaltung des Android-Abonnements erfolgt über Google Play.';
 
   @override
+  String get trialExpiredRestorePurchases => 'Käufe wiederherstellen';
+
+  @override
   String get trialExpiredAndroidUnavailableInfo => 'Google Play Billing wird derzeit noch eingerichtet.';
+
+  @override
+  String get trialExpiredRestoreError => 'Google-Play-Käufe konnten nicht wiederhergestellt werden.';
+
+  @override
+  String get premiumSettingsTitle => 'Premium';
+
+  @override
+  String get premiumSettingsTrialActive => 'Deine kostenlose Testphase ist aktiv.';
+
+  @override
+  String get premiumSettingsTrialInfo => 'Du kannst Premium bereits jetzt freischalten und FilaLog ohne Unterbrechung weiter nutzen.';
+
+  @override
+  String get premiumSettingsActive => 'FilaLog Premium ist aktiv.';
+
+  @override
+  String get premiumSettingsActiveInfo => 'Du hast bereits Zugriff auf alle Premium-Funktionen.';
+
+  @override
+  String get premiumSettingsPurchaseSuccess => 'Premium wurde erfolgreich aktiviert.';
+
+  @override
+  String get premiumSettingsLoginRequired => 'Melde dich an, um ein Premium-Abonnement abzuschließen.';
+
+  @override
+  String get premiumSettingsPurchaseStartError => 'Der Google-Play-Kauf konnte nicht gestartet werden.';
 }

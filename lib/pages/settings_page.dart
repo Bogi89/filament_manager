@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import '../widgets/common/page_header.dart';
 import '../widgets/common/app_hover_card.dart';
 import '../widgets/settings/expandable_settings_card.dart';
+import '../widgets/settings/premium_settings_card.dart';
 import '../legal/privacy_policy_page.dart';
 import '../legal/imprint_page.dart';
 import '../legal/terms_of_service_page.dart';
@@ -42,103 +43,85 @@ class SettingsPage extends StatelessWidget {
 
   /// 🔹 EXPORT BACKUP
 
-Future<void> _exportBackup(
-  BuildContext context,
-  AppState appState,
-) async {
-  final Map<String, dynamic> backupData = {
-    "filaments": appState.filaments.map((f) => f.toJson()).toList(),
-    "jobs": appState.jobs.map((j) => j.toJson()).toList(),
-    "exportDate": DateTime.now().toIso8601String(),
-  };
+  Future<void> _exportBackup(BuildContext context, AppState appState) async {
+    final Map<String, dynamic> backupData = {
+      "filaments": appState.filaments.map((f) => f.toJson()).toList(),
+      "jobs": appState.jobs.map((j) => j.toJson()).toList(),
+      "exportDate": DateTime.now().toIso8601String(),
+    };
 
-  final jsonString = const JsonEncoder.withIndent('  ').convert(backupData);
-  final bytes = Uint8List.fromList(utf8.encode(jsonString));
+    final jsonString = const JsonEncoder.withIndent('  ').convert(backupData);
+    final bytes = Uint8List.fromList(utf8.encode(jsonString));
 
-  await FilePicker.saveFile(
-    dialogTitle: AppLocalizations.of(context)!.backupSaveDialog,
-    fileName: 'filament_backup.json',
-    type: FileType.custom,
-    allowedExtensions: ['json'],
-    bytes: bytes,
-  );
-}
+    await FilePicker.saveFile(
+      dialogTitle: AppLocalizations.of(context)!.backupSaveDialog,
+      fileName: 'filament_backup.json',
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+      bytes: bytes,
+    );
+  }
 
   /// 🔹 IMPORT BACKUP
 
-Future<void> _importBackup(
-  BuildContext context,
-  AppState appState,
-) async {
-  try {
-    final result = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
-      withData: true,
-    );
+  Future<void> _importBackup(BuildContext context, AppState appState) async {
+    try {
+      final result = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+        withData: true,
+      );
 
-    if (result == null || result.files.isEmpty) {
-      return;
+      if (result == null || result.files.isEmpty) {
+        return;
+      }
+
+      final file = result.files.first;
+      final bytes = file.bytes;
+
+      if (bytes == null) {
+        throw Exception('Datei konnte nicht gelesen werden.');
+      }
+
+      final jsonString = utf8.decode(bytes);
+      final jsonData = jsonDecode(jsonString);
+
+      final List<Filament> loadedFilaments = (jsonData["filaments"] as List)
+          .map((e) => Filament.fromJson(e))
+          .toList();
+
+      final List<PrintJob> loadedJobs = (jsonData["jobs"] as List)
+          .map((e) => PrintJob.fromJson(e))
+          .toList();
+
+      appState.filaments
+        ..clear()
+        ..addAll(loadedFilaments);
+
+      appState.jobs
+        ..clear()
+        ..addAll(loadedJobs);
+
+      appState.saveData();
+
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.backupLoaded)),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.backupLoadError)),
+      );
     }
-
-    final file = result.files.first;
-    final bytes = file.bytes;
-
-    if (bytes == null) {
-      throw Exception('Datei konnte nicht gelesen werden.');
-    }
-
-    final jsonString = utf8.decode(bytes);
-    final jsonData = jsonDecode(jsonString);
-
-    final List<Filament> loadedFilaments =
-        (jsonData["filaments"] as List)
-            .map((e) => Filament.fromJson(e))
-            .toList();
-
-    final List<PrintJob> loadedJobs =
-        (jsonData["jobs"] as List)
-            .map((e) => PrintJob.fromJson(e))
-            .toList();
-
-    appState.filaments
-      ..clear()
-      ..addAll(loadedFilaments);
-
-    appState.jobs
-      ..clear()
-      ..addAll(loadedJobs);
-
-    appState.saveData();
-
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.backupLoaded,
-  ),
-),
-    );
-  } catch (e) {
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.backupLoadError,
-  ),
-),
-    );
   }
-}
 
   Future<void> _openUrl(String url) async {
     final uri = Uri.parse(url);
 
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -160,78 +143,78 @@ Future<void> _importBackup(
           const SizedBox(height: 24),
 
           AppHoverCard(
-  child: ExpandableSettingsCard(
-    title: l10n.design,
-    icon: Icons.palette_outlined,
-    child: RadioGroup<ThemeMode>(
-      groupValue: appState.themeMode,
-      onChanged: (value) {
-        if (value != null) {
-          appState.setThemeMode(value);
-        }
-      },
-      child: Column(
-        children: [
-          RadioListTile<ThemeMode>.adaptive(
-            title: Text(l10n.dark),
-            value: ThemeMode.dark,
+            child: ExpandableSettingsCard(
+              title: l10n.design,
+              icon: Icons.palette_outlined,
+              child: RadioGroup<ThemeMode>(
+                groupValue: appState.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    appState.setThemeMode(value);
+                  }
+                },
+                child: Column(
+                  children: [
+                    RadioListTile<ThemeMode>.adaptive(
+                      title: Text(l10n.dark),
+                      value: ThemeMode.dark,
+                    ),
+                    RadioListTile<ThemeMode>(
+                      title: Text(l10n.system),
+                      value: ThemeMode.system,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          RadioListTile<ThemeMode>(
-            title: Text(l10n.system),
-            value: ThemeMode.system,
-          ),
-        ],
-      ),
-    ),
-  ),
-),
 
-AppHoverCard(
-  child: ExpandableSettingsCard(
-    title: l10n.language,
-    icon: Icons.language,
-    child: RadioGroup<String>(
-      groupValue: appState.locale.languageCode,
-      onChanged: (value) {
-        if (value != null) {
-          appState.setLocale(Locale(value));
-        }
-      },
-      child: Column(
-        children: [
-          RadioListTile<String>.adaptive(
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/flags/de.png',
-                  width: 24,
-                  height: 16,
+          AppHoverCard(
+            child: ExpandableSettingsCard(
+              title: l10n.language,
+              icon: Icons.language,
+              child: RadioGroup<String>(
+                groupValue: appState.locale.languageCode,
+                onChanged: (value) {
+                  if (value != null) {
+                    appState.setLocale(Locale(value));
+                  }
+                },
+                child: Column(
+                  children: [
+                    RadioListTile<String>.adaptive(
+                      title: Row(
+                        children: [
+                          Image.asset(
+                            'assets/flags/de.png',
+                            width: 24,
+                            height: 16,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(l10n.german),
+                        ],
+                      ),
+                      value: 'de',
+                    ),
+                    RadioListTile<String>(
+                      title: Row(
+                        children: [
+                          Image.asset(
+                            'assets/flags/en.png',
+                            width: 24,
+                            height: 16,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(l10n.english),
+                        ],
+                      ),
+                      value: 'en',
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                Text(l10n.german),
-              ],
+              ),
             ),
-            value: 'de',
           ),
-          RadioListTile<String>(
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/flags/en.png',
-                  width: 24,
-                  height: 16,
-                ),
-                const SizedBox(width: 10),
-                Text(l10n.english),
-              ],
-            ),
-            value: 'en',
-          ),
-        ],
-      ),
-    ),
-  ),
-),
 
           AppHoverCard(
             child: ExpandableSettingsCard(
@@ -241,9 +224,9 @@ AppHoverCard(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.warningBelow(
-  appState.warningPercent.toStringAsFixed(0),
-),
+                    AppLocalizations.of(
+                      context,
+                    )!.warningBelow(appState.warningPercent.toStringAsFixed(0)),
                   ),
 
                   const SizedBox(height: 12),
@@ -278,10 +261,10 @@ AppHoverCard(
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.backupCreated,
-  ),
-),
+                          content: Text(
+                            AppLocalizations.of(context)!.backupCreated,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -299,14 +282,19 @@ AppHoverCard(
                   const SizedBox(height: 12),
 
                   Text(
-  AppLocalizations.of(context)!.backupDescription,
-  style: const TextStyle(
-    color: Colors.grey,
-    fontSize: 12,
-  ),
-),
+                    AppLocalizations.of(context)!.backupDescription,
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
                 ],
               ),
+            ),
+          ),
+
+          AppHoverCard(
+            child: ExpandableSettingsCard(
+              title: l10n.premiumSettingsTitle,
+              icon: Icons.workspace_premium_outlined,
+              child: const PremiumSettingsCard(),
             ),
           ),
 
@@ -321,15 +309,13 @@ AppHoverCard(
                     title: Text(AppLocalizations.of(context)!.sendFeedback),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      final subject = Uri.encodeComponent(
-                        'Feedback FilaLog',
-                      );
+                      final subject = Uri.encodeComponent('Feedback FilaLog');
 
                       final body = Uri.encodeComponent(
-  '${AppLocalizations.of(context)!.feedbackMailGreeting}'
-  '${AppLocalizations.of(context)!.feedbackMailDescription}'
-  '----------------------------------------\n\n',
-);
+                        '${AppLocalizations.of(context)!.feedbackMailGreeting}'
+                        '${AppLocalizations.of(context)!.feedbackMailDescription}'
+                        '----------------------------------------\n\n',
+                      );
 
                       _openUrl(
                         'mailto:${AppLinks.supportMail}?subject=$subject&body=$body',
@@ -342,20 +328,20 @@ AppHoverCard(
                     title: Text(AppLocalizations.of(context)!.reportError),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-  final subject = Uri.encodeComponent(
-  AppLocalizations.of(context)!.errorReportSubject,
-);
+                      final subject = Uri.encodeComponent(
+                        AppLocalizations.of(context)!.errorReportSubject,
+                      );
 
                       final body = Uri.encodeComponent(
-  '${AppLocalizations.of(context)!.errorReportMailGreeting}'
-  '${AppLocalizations.of(context)!.errorReportMailDescription}'
-  '${AppLocalizations.of(context)!.appVersionLabel}\n\n'
-  '${AppLocalizations.of(context)!.deviceLabel}\n\n'
-  '${AppLocalizations.of(context)!.browserLabel}\n\n'
-  '${AppLocalizations.of(context)!.descriptionLabel}\n\n'
-  '${AppLocalizations.of(context)!.stepsToReproduceLabel}\n\n'
-  '----------------------------------------\n',
-);
+                        '${AppLocalizations.of(context)!.errorReportMailGreeting}'
+                        '${AppLocalizations.of(context)!.errorReportMailDescription}'
+                        '${AppLocalizations.of(context)!.appVersionLabel}\n\n'
+                        '${AppLocalizations.of(context)!.deviceLabel}\n\n'
+                        '${AppLocalizations.of(context)!.browserLabel}\n\n'
+                        '${AppLocalizations.of(context)!.descriptionLabel}\n\n'
+                        '${AppLocalizations.of(context)!.stepsToReproduceLabel}\n\n'
+                        '----------------------------------------\n',
+                      );
 
                       _openUrl(
                         'mailto:${AppLinks.supportMail}?subject=$subject&body=$body',
@@ -368,7 +354,9 @@ AppHoverCard(
                     title: Text(AppLocalizations.of(context)!.rateApp),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      // TODO
+                      _openUrl(
+                        'https://play.google.com/store/apps/details?id=de.filalog.app',
+                      );
                     },
                   ),
 
@@ -378,17 +366,17 @@ AppHoverCard(
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       final subject = Uri.encodeComponent(
-  AppLocalizations.of(context)!.contactSubject,
-);
+                        AppLocalizations.of(context)!.contactSubject,
+                      );
 
                       final body = Uri.encodeComponent(
-  '${AppLocalizations.of(context)!.supportMailGreeting}'
-  '${AppLocalizations.of(context)!.supportMailDescription}'
-  '----------------------------------------\n\n'
-  '${AppLocalizations.of(context)!.descriptionLabel}\n\n'
-  '----------------------------------------\n\n'
-  '${AppLocalizations.of(context)!.thankYouMail}',
-);
+                        '${AppLocalizations.of(context)!.supportMailGreeting}'
+                        '${AppLocalizations.of(context)!.supportMailDescription}'
+                        '----------------------------------------\n\n'
+                        '${AppLocalizations.of(context)!.descriptionLabel}\n\n'
+                        '----------------------------------------\n\n'
+                        '${AppLocalizations.of(context)!.thankYouMail}',
+                      );
 
                       _openUrl(
                         'mailto:${AppLinks.supportMail}?subject=$subject&body=$body',
@@ -450,7 +438,9 @@ AppHoverCard(
 
                   ListTile(
                     leading: const Icon(Icons.bar_chart_outlined),
-                    title: Text(AppLocalizations.of(context)!.understandStatistics),
+                    title: Text(
+                      AppLocalizations.of(context)!.understandStatistics,
+                    ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -489,7 +479,9 @@ AppHoverCard(
                   ListTile(
                     leading: const Icon(Icons.rocket_launch_outlined),
                     title: Text(AppLocalizations.of(context)!.version10),
-                    subtitle: Text(AppLocalizations.of(context)!.firstOfficialRelease),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.firstOfficialRelease,
+                    ),
                   ),
 
                   const Divider(height: 1),
@@ -558,7 +550,9 @@ AppHoverCard(
 
                   ListTile(
                     leading: const Icon(Icons.workspace_premium_outlined),
-                    title: Text(AppLocalizations.of(context)!.premiumSubscription),
+                    title: Text(
+                      AppLocalizations.of(context)!.premiumSubscription,
+                    ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -584,7 +578,9 @@ AppHoverCard(
 
                   ListTile(
                     leading: const Icon(Icons.info_outline),
-                    title: Text(AppLocalizations.of(context)!.consumerInformation),
+                    title: Text(
+                      AppLocalizations.of(context)!.consumerInformation,
+                    ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -651,15 +647,13 @@ AppHoverCard(
                   ListTile(
                     leading: const Icon(Icons.login),
                     title: Text(l10n.signIn),
-subtitle: Text(l10n.signInSubtitle),
+                    subtitle: Text(l10n.signInSubtitle),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => const LoginPage(),
-    ),
-  );
-},
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const LoginPage()),
+                      );
+                    },
                   ),
 
                   const Divider(),
@@ -667,125 +661,116 @@ subtitle: Text(l10n.signInSubtitle),
                   ListTile(
                     leading: const Icon(Icons.person_add_alt_1),
                     title: Text(l10n.createAccount),
-subtitle: Text(l10n.createAccountSubtitle),
+                    subtitle: Text(l10n.createAccountSubtitle),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => const RegisterPage(),
-    ),
-  );
-},
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const RegisterPage()),
+                      );
+                    },
                   ),
 
                   const Divider(),
 
                   ListTile(
-  leading: const Icon(Icons.logout),
-  title: Text(l10n.signOut),
-subtitle: Text(l10n.signOutSubtitle),
-  trailing: const Icon(Icons.chevron_right),
-  onTap: () async {
-  try {
-    await GuestService.disableGuestMode();
+                    leading: const Icon(Icons.logout),
+                    title: Text(l10n.signOut),
+                    subtitle: Text(l10n.signOutSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () async {
+                      try {
+                        await GuestService.disableGuestMode();
 
-    if (FirebaseAuth.instance.currentUser != null) {
-      await FirebaseAuth.instance.signOut();
-    }
+                        if (FirebaseAuth.instance.currentUser != null) {
+                          await FirebaseAuth.instance.signOut();
+                        }
 
-    if (!context.mounted) return;
+                        if (!context.mounted) return;
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (_) => const WelcomePage(),
-      ),
-      (route) => false,
-    );
-  } catch (e) {
-    if (!context.mounted) return;
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const WelcomePage(),
+                          ),
+                          (route) => false,
+                        );
+                      } catch (e) {
+                        if (!context.mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-  l10n.signOutFailed(e.toString()),
-),
-      ),
-    );
-  }
-},
-),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.signOutFailed(e.toString())),
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
           ),
 
           AppHoverCard(
-  child: ExpandableSettingsCard(
-    title: l10n.about,
-    icon: Icons.info_outline,
-    child: Column(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.apps),
-          title: const Text("FilaLog"),
-          subtitle: Text(l10n.version("1.0.0")),
-        ),
+            child: ExpandableSettingsCard(
+              title: l10n.about,
+              icon: Icons.info_outline,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.apps),
+                    title: const Text("FilaLog"),
+                    subtitle: Text(l10n.version("1.0.0")),
+                  ),
 
-        const Divider(),
+                  const Divider(),
 
-        ListTile(
-          leading: const Icon(Icons.person_outline),
-          title: Text(l10n.developer),
-          subtitle: const Text("Robin P."),
-        ),
+                  ListTile(
+                    leading: const Icon(Icons.person_outline),
+                    title: Text(l10n.developer),
+                    subtitle: const Text("Robin P."),
+                  ),
 
-        ListTile(
-          leading: const Icon(Icons.memory_outlined),
-          title: Text(l10n.technology),
-          subtitle: const Text("Flutter • Firebase"),
-        ),
+                  ListTile(
+                    leading: const Icon(Icons.memory_outlined),
+                    title: Text(l10n.technology),
+                    subtitle: const Text("Flutter • Firebase"),
+                  ),
 
-        const Divider(),
+                  const Divider(),
 
-        ListTile(
-          leading: const Icon(Icons.language),
-          title: Text(l10n.website),
-          subtitle: const Text("filalog.de"),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            _openUrl(AppLinks.website);
-          },
-        ),
+                  ListTile(
+                    leading: const Icon(Icons.language),
+                    title: Text(l10n.website),
+                    subtitle: const Text("filalog.de"),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      _openUrl(AppLinks.website);
+                    },
+                  ),
 
-        const Divider(),
+                  const Divider(),
 
-        ListTile(
-          leading: const Icon(Icons.favorite_outline),
-          title: Text(l10n.thankYou),
-          subtitle: Text(
-            l10n.thankYouMessage
+                  ListTile(
+                    leading: const Icon(Icons.favorite_outline),
+                    title: Text(l10n.thankYou),
+                    subtitle: Text(l10n.thankYouMessage),
+                  ),
+
+                  const Divider(),
+
+                  ListTile(
+                    leading: const Icon(Icons.description_outlined),
+                    title: Text(l10n.openSourceLicenses),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      showLicensePage(context: context);
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-
-        const Divider(),
-
-        ListTile(
-          leading: const Icon(Icons.description_outlined),
-          title: Text(l10n.openSourceLicenses),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            showLicensePage(context: context);
-          },
-        ),
-      ],
-    ),
-  ),
-),
         ],
       ),
     );
   }
 }
-
-
-

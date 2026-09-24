@@ -1,8 +1,12 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
 
 import '../../pages/main_navigation.dart';
+import '../../services/guest_analytics_service.dart';
 import '../../state/app_state.dart';
 import '../services/guest_service.dart';
 import '../widgets/guest_card.dart';
@@ -14,8 +18,15 @@ import '../../legal/imprint_page.dart';
 import '../../legal/privacy_policy_page.dart';
 import '../../legal/terms_of_service_page.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  bool _isStartingGuest = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,18 +101,41 @@ class WelcomePage extends StatelessWidget {
                       _TrialAndPricingCard(texts: texts),
                       const SizedBox(height: 32),
                       GuestCard(
+                        isLoading: _isStartingGuest,
                         onPressed: () async {
-                          await GuestService.enableGuestMode();
-
-                          if (!context.mounted) {
+                          if (_isStartingGuest) {
                             return;
                           }
 
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => const MainNavigation(),
-                            ),
-                          );
+                          final navigator = Navigator.of(context);
+
+                          setState(() {
+                            _isStartingGuest = true;
+                          });
+
+                          try {
+                            await GuestService.enableGuestMode();
+
+                            if (!mounted) {
+                              return;
+                            }
+
+                            navigator.pushReplacement(
+                              MaterialPageRoute(
+                                builder: (_) => const MainNavigation(),
+                              ),
+                            );
+
+                            unawaited(GuestAnalyticsService.trackGuestStart());
+                          } catch (_) {
+                            if (mounted) {
+                              setState(() {
+                                _isStartingGuest = false;
+                              });
+                            }
+
+                            rethrow;
+                          }
                         },
                       ),
                       const SizedBox(height: 20),
@@ -299,9 +333,15 @@ class _TrialAndPricingCard extends StatelessWidget {
             spacing: 16,
             runSpacing: 16,
             children: [
+              if (!kIsWeb)
+                _PriceOption(
+                  title: texts.monthly,
+                  price: texts.monthlyPrice,
+                  subtitle: texts.perMonth,
+                ),
               _PriceOption(
                 title: texts.yearly,
-                price: '19,99 €',
+                price: texts.yearlyPrice,
                 subtitle: texts.perYear,
                 highlighted: true,
               ),
@@ -412,7 +452,15 @@ class _WelcomeTexts {
 
   String get trialDescription => l10n.welcomeTrialDescription;
 
+  String get monthly => l10n.trialExpiredMonthlyTitle;
+
+  String get monthlyPrice => l10n.trialExpiredMonthlyPrice;
+
+  String get perMonth => l10n.welcomePerMonth;
+
   String get yearly => l10n.trialExpiredYearlyTitle;
+
+  String get yearlyPrice => l10n.trialExpiredYearlyPrice;
 
   String get perYear => l10n.welcomePerYear;
 

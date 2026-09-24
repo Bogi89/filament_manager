@@ -17,6 +17,7 @@
   "critical": "Critical",
   "criticalFilaments": "{count} critical filament(s)",
   "filter": "Filter",
+  "all": "All",
   "close": "Close",
   "searchFilament": "Search filament...",
   "manufacturer": "Manufacturer",
@@ -644,6 +645,16 @@
   "trialExpiredWebCheckoutStartError": "The Premium subscription could not be started.",
   "trialExpiredWebManagementInfo": "Payment and management of the web subscription are handled through Paddle.",
   "trialExpiredAndroidManagementInfo": "Payment and management of the Android subscription are handled through Google Play.",
-  "trialExpiredAndroidUnavailableInfo": "Google Play Billing is currently being set up."
+"trialExpiredRestorePurchases": "Restore purchases",
+"trialExpiredAndroidUnavailableInfo": "Google Play Billing is currently being set up.",
+"trialExpiredRestoreError": "Google Play purchases could not be restored.",
+"premiumSettingsTitle": "Premium",
+"premiumSettingsTrialActive": "Your free trial is active.",
+"premiumSettingsTrialInfo": "You can activate Premium now and continue using FilaLog without interruption.",
+"premiumSettingsActive": "FilaLog Premium is active.",
+"premiumSettingsActiveInfo": "You already have access to all Premium features.",
+"premiumSettingsPurchaseSuccess": "Premium has been activated successfully.",
+"premiumSettingsLoginRequired": "Sign in to purchase a Premium subscription.",
+"premiumSettingsPurchaseStartError": "The Google Play purchase could not be started."
 }
 

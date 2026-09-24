@@ -7,10 +7,7 @@ import '../widgets/common/page_header.dart';
 class PrintJobDetailPage extends StatelessWidget {
   final PrintJob job;
 
-  const PrintJobDetailPage({
-    super.key,
-    required this.job,
-  });
+  const PrintJobDetailPage({super.key, required this.job});
 
   String _localizedText(
     BuildContext context, {
@@ -22,35 +19,20 @@ class PrintJobDetailPage extends StatelessWidget {
     return languageCode == 'de' ? german : english;
   }
 
-  Widget _sectionTitle(
-    BuildContext context,
-    IconData icon,
-    String title,
-  ) {
+  Widget _sectionTitle(BuildContext context, IconData icon, String title) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 22,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        Icon(icon, size: 22, color: Theme.of(context).colorScheme.primary),
         const SizedBox(width: 8),
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
-  Widget _infoRow(
-    BuildContext context,
-    String label,
-    String value,
-  ) {
+  Widget _infoRow(BuildContext context, String label, String value) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
@@ -63,28 +45,20 @@ class PrintJobDetailPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: isDark
-                    ? Colors.grey.shade300
-                    : Colors.grey.shade700,
+                color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
               ),
             ),
           ),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
 
-  Widget _sectionCard(
-    BuildContext context,
-    Widget child,
-  ) {
+  Widget _sectionCard(BuildContext context, Widget child) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
@@ -98,10 +72,7 @@ class PrintJobDetailPage extends StatelessWidget {
               : Colors.black.withValues(alpha: 0.05),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(22),
-        child: child,
-      ),
+      child: Padding(padding: const EdgeInsets.all(22), child: child),
     );
   }
 
@@ -152,11 +123,7 @@ class PrintJobDetailPage extends StatelessWidget {
       english: 'Costs',
     );
 
-    final dateLabel = _localizedText(
-      context,
-      german: 'Datum',
-      english: 'Date',
-    );
+    final dateLabel = _localizedText(context, german: 'Datum', english: 'Date');
 
     final printedOnLabel = _localizedText(
       context,
@@ -170,22 +137,13 @@ class PrintJobDetailPage extends StatelessWidget {
           : const Color(0xFFE9EEF5),
       body: Column(
         children: [
-          PageHeader(
-            title: pageTitle,
-            showBackButton: true,
-          ),
+          PageHeader(title: pageTitle, showBackButton: true),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 40,
-                vertical: 28,
-              ),
+              padding: const EdgeInsets.fromLTRB(40, 28, 40, 100),
               children: [
                 Center(
-                  child: CircleAvatar(
-                    radius: 44,
-                    backgroundColor: job.color,
-                  ),
+                  child: CircleAvatar(radius: 44, backgroundColor: job.color),
                 ),
 
                 const SizedBox(height: 40),
@@ -202,32 +160,16 @@ class PrintJobDetailPage extends StatelessWidget {
                   context,
                   Column(
                     children: [
-                      _infoRow(
-                        context,
-                        l10n.manufacturer,
-                        job.filamentBrand,
-                      ),
-                      _infoRow(
-                        context,
-                        l10n.material,
-                        job.material,
-                      ),
-                      _infoRow(
-                        context,
-                        variantLabel,
-                        job.variant,
-                      ),
+                      _infoRow(context, l10n.manufacturer, job.filamentBrand),
+                      _infoRow(context, l10n.material, job.material),
+                      _infoRow(context, variantLabel, job.variant),
                     ],
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
-                _sectionTitle(
-                  context,
-                  Icons.print_outlined,
-                  printDataLabel,
-                ),
+                _sectionTitle(context, Icons.print_outlined, printDataLabel),
 
                 const SizedBox(height: 10),
 
@@ -266,11 +208,7 @@ class PrintJobDetailPage extends StatelessWidget {
 
                 _sectionCard(
                   context,
-                  _infoRow(
-                    context,
-                    printedOnLabel,
-                    formattedDate,
-                  ),
+                  _infoRow(context, printedOnLabel, formattedDate),
                 ),
               ],
             ),

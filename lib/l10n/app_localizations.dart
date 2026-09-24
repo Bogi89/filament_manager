@@ -197,6 +197,12 @@ abstract class AppLocalizations {
   /// **'Filter'**
   String get filter;
 
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
   /// No description provided for @close.
   ///
   /// In en, this message translates to:
@@ -3143,12 +3149,6 @@ abstract class AppLocalizations {
   /// **'Project name'**
   String get sortByProjectName;
 
-  /// No description provided for @all.
-  ///
-  /// In en, this message translates to:
-  /// **'All'**
-  String get all;
-
   /// No description provided for @today.
   ///
   /// In en, this message translates to:
@@ -3527,11 +3527,71 @@ abstract class AppLocalizations {
   /// **'Payment and management of the Android subscription are handled through Google Play.'**
   String get trialExpiredAndroidManagementInfo;
 
+  /// No description provided for @trialExpiredRestorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get trialExpiredRestorePurchases;
+
   /// No description provided for @trialExpiredAndroidUnavailableInfo.
   ///
   /// In en, this message translates to:
   /// **'Google Play Billing is currently being set up.'**
   String get trialExpiredAndroidUnavailableInfo;
+
+  /// No description provided for @trialExpiredRestoreError.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play purchases could not be restored.'**
+  String get trialExpiredRestoreError;
+
+  /// No description provided for @premiumSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get premiumSettingsTitle;
+
+  /// No description provided for @premiumSettingsTrialActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Your free trial is active.'**
+  String get premiumSettingsTrialActive;
+
+  /// No description provided for @premiumSettingsTrialInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'You can activate Premium now and continue using FilaLog without interruption.'**
+  String get premiumSettingsTrialInfo;
+
+  /// No description provided for @premiumSettingsActive.
+  ///
+  /// In en, this message translates to:
+  /// **'FilaLog Premium is active.'**
+  String get premiumSettingsActive;
+
+  /// No description provided for @premiumSettingsActiveInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have access to all Premium features.'**
+  String get premiumSettingsActiveInfo;
+
+  /// No description provided for @premiumSettingsPurchaseSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium has been activated successfully.'**
+  String get premiumSettingsPurchaseSuccess;
+
+  /// No description provided for @premiumSettingsLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to purchase a Premium subscription.'**
+  String get premiumSettingsLoginRequired;
+
+  /// No description provided for @premiumSettingsPurchaseStartError.
+  ///
+  /// In en, this message translates to:
+  /// **'The Google Play purchase could not be started.'**
+  String get premiumSettingsPurchaseStartError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

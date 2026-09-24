@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 
 class GuestCard extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool isLoading;
 
-  const GuestCard({super.key, required this.onPressed});
+  const GuestCard({super.key, required this.onPressed, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,7 @@ class GuestCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.person_outline,
-                  color: theme.colorScheme.primary,
-                ),
+                Icon(Icons.person_outline, color: theme.colorScheme.primary),
                 const SizedBox(width: 10),
                 Text(
                   l10n.guestMode,
@@ -32,30 +30,27 @@ class GuestCard extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 18),
-
-            Text(
-              l10n.guestModeDescription,
-              style: theme.textTheme.bodyLarge,
-            ),
-
+            Text(l10n.guestModeDescription, style: theme.textTheme.bodyLarge),
             const SizedBox(height: 12),
-
             Text(
               l10n.guestModeDataInfo,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
               ),
             ),
-
             const SizedBox(height: 24),
-
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: onPressed,
-                icon: const Icon(Icons.play_arrow_rounded),
+                onPressed: isLoading ? null : onPressed,
+                icon: isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.play_arrow_rounded),
                 label: Text(l10n.startAsGuest),
               ),
             ),

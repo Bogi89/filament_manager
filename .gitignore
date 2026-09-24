@@ -44,3 +44,14 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 filalog-upload-key.jks
+
+
+# Firebase generated files
+.firebase/
+functions/build/
+
+# Local release/test files
+FilaLog-*.apk
+FilaLog-*.aab
+FilaLog-*.zip
+download-test*
