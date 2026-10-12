@@ -478,9 +478,9 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.rocket_launch_outlined),
-                    title: Text(AppLocalizations.of(context)!.version10),
+                    title: Text(AppLocalizations.of(context)!.version11),
                     subtitle: Text(
-                      AppLocalizations.of(context)!.firstOfficialRelease,
+                      AppLocalizations.of(context)!.version11Description,
                     ),
                   ),
 

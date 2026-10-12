@@ -1217,6 +1217,30 @@ abstract class AppLocalizations {
   /// **'What\'s New'**
   String get whatsNew;
 
+  /// No description provided for @version11.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.1'**
+  String get version11;
+
+  /// No description provided for @version11Description.
+  ///
+  /// In en, this message translates to:
+  /// **'New features and improvements'**
+  String get version11Description;
+
+  /// No description provided for @whatsNewVersion110.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.1.0'**
+  String get whatsNewVersion110;
+
+  /// No description provided for @whatsNewVersion110Content.
+  ///
+  /// In en, this message translates to:
+  /// **'• New filament materials and matching spool images\n• Improved automatic temperature recommendations\n• Add and edit filament storage locations\n• Improved filament management and color display\n• Updated filament catalog with corrected color codes\n• Bug fixes and stability improvements'**
+  String get whatsNewVersion110Content;
+
   /// No description provided for @version10.
   ///
   /// In en, this message translates to:

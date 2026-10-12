@@ -10,18 +10,19 @@ class WhatsNewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return HelpPageTemplate(
       title: AppLocalizations.of(context)!.whatsNew,
-      introduction:
-          AppLocalizations.of(context)!.whatsNewIntroduction,
+      introduction: AppLocalizations.of(context)!.whatsNewIntroduction,
       children: [
         HelpSectionCard(
           icon: Icons.new_releases_outlined,
+          title: AppLocalizations.of(context)!.whatsNewVersion110,
+          content: AppLocalizations.of(context)!.whatsNewVersion110Content,
+        ),
+        HelpSectionCard(
+          icon: Icons.new_releases_outlined,
           title: AppLocalizations.of(context)!.whatsNewVersion100,
-          content:
-              AppLocalizations.of(context)!.whatsNewVersion100Content,
+          content: AppLocalizations.of(context)!.whatsNewVersion100Content,
         ),
-        HelpTipCard(
-          text: AppLocalizations.of(context)!.whatsNewTip,
-        ),
+        HelpTipCard(text: AppLocalizations.of(context)!.whatsNewTip),
       ],
     );
   }

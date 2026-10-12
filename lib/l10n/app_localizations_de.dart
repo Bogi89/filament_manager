@@ -582,6 +582,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get whatsNew => 'Was ist neu';
 
   @override
+  String get version11 => 'Version 1.1';
+
+  @override
+  String get version11Description => 'Neue Funktionen und Verbesserungen';
+
+  @override
+  String get whatsNewVersion110 => 'Version 1.1.0';
+
+  @override
+  String get whatsNewVersion110Content => '• Neue Filamentmaterialien und passende Spulenbilder\n• Verbesserte automatische Temperaturempfehlungen\n• Lagerorte für Filamente hinzufügen und bearbeiten\n• Verbesserte Filamentverwaltung und Farbdarstellung\n• Aktualisierter Filamentkatalog mit korrigierten Farbcodes\n• Fehlerbehebungen und Stabilitätsverbesserungen';
+
+  @override
   String get version10 => 'Version 1.0';
 
   @override

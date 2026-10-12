@@ -582,6 +582,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatsNew => 'What\'s New';
 
   @override
+  String get version11 => 'Version 1.1';
+
+  @override
+  String get version11Description => 'New features and improvements';
+
+  @override
+  String get whatsNewVersion110 => 'Version 1.1.0';
+
+  @override
+  String get whatsNewVersion110Content => '• New filament materials and matching spool images\n• Improved automatic temperature recommendations\n• Add and edit filament storage locations\n• Improved filament management and color display\n• Updated filament catalog with corrected color codes\n• Bug fixes and stability improvements';
+
+  @override
   String get version10 => 'Version 1.0';
 
   @override
