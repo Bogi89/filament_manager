@@ -79,6 +79,16 @@
   "editRemainingWeight": "Edit remaining weight",
 "remainingWeightGrams": "Remaining weight (g)",
 "spools": "Spools",
+"storageLocation": "Storage location",
+"storagePosition": "Position / compartment",
+"storagePlaceCount": "{count} storage locations",
+"@storagePlaceCount": {
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
 "spool": "Spool",
 "editSpool": "Edit spool",
   "weight": "Weight",
@@ -87,7 +97,10 @@
   "deleteLastSpool": "Delete last spool",
   "deleteSpool": "Delete spool",
   "delete": "Delete",
-  "newSpool": "New spool",
+  "deletePrintJob": "Delete print job",
+"deletePrintJobConfirm": "Do you really want to delete this print job?",
+"insufficientFilamentStock": "Not enough filament stock for this change.",
+"newSpool": "New spool",
   "addSpool": "Add spool",
   "selectMaterial": "Select material",
   "nozzle": "Nozzle",
@@ -648,7 +661,7 @@
 "trialExpiredRestorePurchases": "Restore purchases",
 "trialExpiredAndroidUnavailableInfo": "Google Play Billing is currently being set up.",
 "trialExpiredRestoreError": "Google Play purchases could not be restored.",
-"premiumSettingsTitle": "Premium",
+"premiumSettingsTitle": "Premium Subscription",
 "premiumSettingsTrialActive": "Your free trial is active.",
 "premiumSettingsTrialInfo": "You can activate Premium now and continue using FilaLog without interruption.",
 "premiumSettingsActive": "FilaLog Premium is active.",

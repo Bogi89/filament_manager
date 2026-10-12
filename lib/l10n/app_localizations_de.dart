@@ -242,6 +242,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get spools => 'Spulen';
 
   @override
+  String get storageLocation => 'Lagerort';
+
+  @override
+  String get storagePosition => 'Position / Fach';
+
+  @override
+  String storagePlaceCount(int count) {
+    return '$count Lagerplätze';
+  }
+
+  @override
   String get spool => 'Spule';
 
   @override
@@ -264,6 +275,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get delete => 'Löschen';
+
+  @override
+  String get deletePrintJob => 'Druckauftrag löschen';
+
+  @override
+  String get deletePrintJobConfirm => 'Möchtest du diesen Druckauftrag wirklich löschen?';
+
+  @override
+  String get insufficientFilamentStock => 'Nicht genügend Filamentbestand für diese Änderung.';
 
   @override
   String get newSpool => 'Neue Spule';
@@ -1752,7 +1772,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get trialExpiredRestoreError => 'Google-Play-Käufe konnten nicht wiederhergestellt werden.';
 
   @override
-  String get premiumSettingsTitle => 'Premium';
+  String get premiumSettingsTitle => 'Premium-Abo';
 
   @override
   String get premiumSettingsTrialActive => 'Deine kostenlose Testphase ist aktiv.';

@@ -194,6 +194,7 @@ class _AdminMonitoringPageState extends State<AdminMonitoringPage> {
 
     final registrations = _mapValue(data['registrations']);
     final guests = _mapValue(data['guests']);
+    final guestPlatforms = _mapValue(guests['platforms']);
 
     final premium = _mapValue(data['premium']);
     final conversion = _mapValue(premium['conversion']);
@@ -266,6 +267,34 @@ class _AdminMonitoringPageState extends State<AdminMonitoringPage> {
               _MonitoringValue(
                 label: 'Gastmodus gestartet gesamt',
                 value: _intValue(guests['starts']),
+              ),
+              _MonitoringValue(
+                label: 'Gast-App-Starts gesamt',
+                value: _intValue(guests['appStarts']),
+              ),
+              _MonitoringValue(
+                label: 'Aktive Gäste heute',
+                value: _intValue(guests['activeToday']),
+              ),
+              _MonitoringValue(
+                label: 'Aktive Gäste – letzte 7 Tage',
+                value: _intValue(guests['active7Days']),
+              ),
+              _MonitoringValue(
+                label: 'Aktive Gäste – letzte 30 Tage',
+                value: _intValue(guests['active30Days']),
+              ),
+              _MonitoringValue(
+                label: 'Gast-Installationen Android',
+                value: _intValue(guestPlatforms['android']),
+              ),
+              _MonitoringValue(
+                label: 'Gast-Installationen Web',
+                value: _intValue(guestPlatforms['web']),
+              ),
+              _MonitoringValue(
+                label: 'Gast-Installationen andere Plattformen',
+                value: _intValue(guestPlatforms['other']),
               ),
             ],
           ),

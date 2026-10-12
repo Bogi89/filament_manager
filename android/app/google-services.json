@@ -59,6 +59,14 @@
           }
         },
         {
+          "client_id": "304336909121-ushsmkski8ktm7v0h66tlrff87squ2pp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.filalog.app",
+            "certificate_hash": "c7b106df06b46df42fa9291e8316740472fabf8e"
+          }
+        },
+        {
           "client_id": "304336909121-ofo0j445gv11u7vl84cimao6165j6k5f.apps.googleusercontent.com",
           "client_type": 3
         }

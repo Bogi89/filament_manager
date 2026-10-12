@@ -23,7 +23,7 @@ class FilamentCatalogService {
   static final List<FilamentCatalogItem> _catalog = [];
 
   // 🆕 Benutzerdefinierte Materialien pro Hersteller
-static final Map<String, List<String>> _customMaterials = {};
+  static final Map<String, List<String>> _customMaterials = {};
 
   static bool _loaded = false;
 
@@ -63,236 +63,242 @@ static final Map<String, List<String>> _customMaterials = {};
 
     await loadCustomColors();
 
-_loaded = true;
+    _loaded = true;
   }
 
   // ==================== GETTERS ====================
 
-static final List<String> _customBrands = [];
+  static final List<String> _customBrands = [];
 
-static void addCustomBrand(String brand) {
-
-  if (!_customBrands.contains(brand)) {
-
-    _customBrands.add(brand);
-
+  static void addCustomBrand(String brand) {
+    if (!_customBrands.contains(brand)) {
+      _customBrands.add(brand);
+    }
   }
 
-}
+  static List<String> getBrands() {
+    final brands = _catalog.map((e) => e.brand).toSet().toList();
 
-static List<String> getBrands() {
+    final allBrands = [...brands, ..._customBrands];
 
-  final brands =
-      _catalog
-          .map((e) => e.brand)
-          .toSet()
-          .toList();
+    allBrands.sort();
 
-  final allBrands = [
-
-    ...brands,
-    ..._customBrands,
-
-  ];
-
-  allBrands.sort();
-
-  return allBrands;
-
-}
+    return allBrands;
+  }
 
   static List<String> getMaterials(String brand) {
-  final materials = _catalog
-      .where((e) => e.brand == brand)
-      .map((e) => e.material)
-      .toSet()
-      .toList();
+    final materials = _catalog
+        .where((e) => e.brand == brand)
+        .map((e) => e.material)
+        .toSet()
+        .toList();
 
-  // 🆕 eigene Materialien hinzufügen
-  if (_customMaterials.containsKey(brand)) {
-    materials.addAll(_customMaterials[brand]!);
+    // 🆕 eigene Materialien hinzufügen
+    if (_customMaterials.containsKey(brand)) {
+      materials.addAll(_customMaterials[brand]!);
+    }
+
+    // doppelte entfernen
+    final unique = materials.toSet().toList();
+
+    // unique.sort();
+    return unique;
   }
 
-  // doppelte entfernen
-  final unique = materials.toSet().toList();
+  static List<String> getColorsForVariant(
+    String brand,
+    String material,
+    String variant,
+  ) {
+    final colors = _catalog
+        .where(
+          (item) =>
+              item.brand == brand &&
+              item.material == material &&
+              item.variant == variant,
+        )
+        .map((item) => item.color)
+        .toSet()
+        .toList();
 
-  // unique.sort();
-  return unique;
-}
+    colors.sort();
 
-static List<String> getColorsForVariant(
-  String brand,
-  String material,
-  String variant,
-) {
-  final colors = _catalog
-      .where((item) =>
-          item.brand == brand &&
-          item.material == material &&
-          item.variant == variant)
-      .map((item) => item.color)
-      .toSet()
-      .toList();
-
-  colors.sort();
-
-  if (!colors.contains("Unknown")) {
-    colors.insert(0, "Unknown");
+    return colors;
   }
 
-  return colors;
-}
+  static void addCustomMaterial(String brand, String material) {
+    if (!_customMaterials.containsKey(brand)) {
+      _customMaterials[brand] = [];
+    }
 
-static void addCustomMaterial(
-  String brand,
-  String material,
-) {
-  if (!_customMaterials.containsKey(brand)) {
-    _customMaterials[brand] = [];
+    _customMaterials[brand]!.add(material);
   }
 
-  _customMaterials[brand]!.add(material);
-}
+  // 🆕 Benutzerdefinierte Varianten pro Brand + Material
+  static final Map<String, Map<String, List<String>>> _customVariants = {};
 
-// 🆕 Benutzerdefinierte Varianten pro Brand + Material
-static final Map<String, Map<String, List<String>>> _customVariants = {};
+  static void addCustomVariant(String brand, String material, String variant) {
+    if (!_customVariants.containsKey(brand)) {
+      _customVariants[brand] = {};
+    }
 
-static void addCustomVariant(
-  String brand,
-  String material,
-  String variant,
-) {
-  if (!_customVariants.containsKey(brand)) {
-    _customVariants[brand] = {};
+    if (!_customVariants[brand]!.containsKey(material)) {
+      _customVariants[brand]![material] = [];
+    }
+
+    _customVariants[brand]![material]!.add(variant);
   }
 
-  if (!_customVariants[brand]!.containsKey(material)) {
-    _customVariants[brand]![material] = [];
-  }
+  // 🆕 Benutzerdefinierte Farben pro Brand + Material + Variant
+  static final Map<String, Map<String, Map<String, List<String>>>>
+  _customColors = {};
 
-  _customVariants[brand]![material]!.add(variant);
-}
+  static void addCustomColor(
+    String brand,
+    String material,
+    String variant,
+    String color,
+    String hex,
+  ) {
+    if (!_customColors.containsKey(brand)) {
+      _customColors[brand] = {};
+    }
 
-// 🆕 Benutzerdefinierte Farben pro Brand + Material + Variant
-static final Map<String,
-    Map<String,
-        Map<String,
-            List<String>>>> _customColors = {};
+    if (!_customColors[brand]!.containsKey(material)) {
+      _customColors[brand]![material] = {};
+    }
 
-static void addCustomColor(
-  String brand,
-  String material,
-  String variant,
-  String color,
-  String hex,
-) {
+    if (!_customColors[brand]![material]!.containsKey(variant)) {
+      _customColors[brand]![material]![variant] = [];
+    }
 
-  if (!_customColors.containsKey(brand)) {
-    _customColors[brand] = {};
-  }
+    /// 🔥 NUR den Farbnamen speichern (ohne HEX!)
+    if (!_customColors[brand]![material]![variant]!.contains(color)) {
+      _customColors[brand]![material]![variant]!.add(color);
+    }
 
-  if (!_customColors[brand]!.containsKey(material)) {
-    _customColors[brand]![material] = {};
-  }
-
-  if (!_customColors[brand]![material]!
-      .containsKey(variant)) {
-    _customColors[brand]![material]![variant] = [];
-  }
-
-  /// 🔥 NUR den Farbnamen speichern (ohne HEX!)
-  if (!_customColors[brand]![material]![variant]!
-      .contains(color)) {
-
-    _customColors[brand]![material]![variant]!
-        .add(color);
-  }
-
-  /// HEX im Catalog speichern
-  final exists = _catalog.any((e) =>
-      e.brand == brand &&
-      e.material == material &&
-      e.variant == variant &&
-      e.color == color);
-
-  if (!exists) {
-  _catalog.add(
-    FilamentCatalogItem(
-      brand: brand,
-      material: material,
-      variant: variant,
-      color: color,
-      hex: hex,
-    ),
-  );
-}
-
-saveCustomColors();
-
-}
-
-  static List<String> getVariants(String brand, String material) {
-  final variants = _catalog
-      .where((e) => e.brand == brand && e.material == material)
-      .map((e) => e.variant)
-      .toSet()
-      .toList();
-
-  // 🆕 eigene Varianten hinzufügen
-  if (_customVariants.containsKey(brand) &&
-      _customVariants[brand]!.containsKey(material)) {
-
-    variants.addAll(
-      _customVariants[brand]![material]!,
-    );
-  }
-
-  // doppelte entfernen
-  final unique = variants.toSet().toList();
-
-  // unique.sort();
-  return unique;
-}
-
-  static List<String> getColors(
-  String brand,
-  String material,
-  String variant,
-) {
-  final colors = _catalog
-      .where((e) =>
+    /// HEX im Catalog speichern
+    final exists = _catalog.any(
+      (e) =>
           e.brand == brand &&
           e.material == material &&
-          e.variant == variant)
-      .map((e) => e.color)
-      .toSet()
-      .toList();
-
-  // 🆕 eigene Farben hinzufügen
-  if (_customColors.containsKey(brand) &&
-      _customColors[brand]!.containsKey(material) &&
-      _customColors[brand]![material]!
-          .containsKey(variant)) {
-
-    colors.addAll(
-      _customColors[brand]![material]![variant]!,
+          e.variant == variant &&
+          e.color == color,
     );
+
+    if (!exists) {
+      _catalog.add(
+        FilamentCatalogItem(
+          brand: brand,
+          material: material,
+          variant: variant,
+          color: color,
+          hex: hex,
+        ),
+      );
+    }
+
+    saveCustomColors();
   }
 
-  // doppelte entfernen
-  final unique = colors.toSet().toList();
+  static List<String> getVariants(String brand, String material) {
+    final variants = _catalog
+        .where((e) => e.brand == brand && e.material == material)
+        .map((e) => e.variant)
+        .toSet()
+        .toList();
 
-  // unique.sort();
-  return unique;
-}
+    // 🆕 eigene Varianten hinzufügen
+    if (_customVariants.containsKey(brand) &&
+        _customVariants[brand]!.containsKey(material)) {
+      variants.addAll(_customVariants[brand]![material]!);
+    }
+
+    // doppelte entfernen
+    final unique = variants.toSet().toList();
+
+    // unique.sort();
+    return unique;
+  }
+
+  static List<String> getColors(String brand, String material, String variant) {
+    final colors = _catalog
+        .where(
+          (e) =>
+              e.brand == brand &&
+              e.material == material &&
+              e.variant == variant,
+        )
+        .map((e) => e.color)
+        .toSet()
+        .toList();
+
+    // 🆕 eigene Farben hinzufügen
+    if (_customColors.containsKey(brand) &&
+        _customColors[brand]!.containsKey(material) &&
+        _customColors[brand]![material]!.containsKey(variant)) {
+      colors.addAll(_customColors[brand]![material]![variant]!);
+    }
+
+    // doppelte entfernen
+    final unique = colors.toSet().toList();
+
+    // unique.sort();
+    return unique;
+  }
 
   // ================= HEX → COLOR =================
 
+  static List<Color>? tryGetColorsFromHex(
+    String brand,
+    String material,
+    String variant,
+    String colorName,
+  ) {
+    for (final item in _catalog) {
+      if (item.brand.trim() != brand.trim() ||
+          item.material.trim() != material.trim() ||
+          item.variant.trim() != variant.trim() ||
+          item.color.trim().toLowerCase() != colorName.trim().toLowerCase()) {
+        continue;
+      }
+
+      final hex = item.hex;
+
+      if (hex == null || hex.trim().isEmpty) {
+        return null;
+      }
+
+      final parts = hex
+          .split(RegExp(r'[+,;]'))
+          .map((part) => part.trim())
+          .where((part) => part.isNotEmpty)
+          .toList();
+
+      if (parts.isEmpty) return null;
+
+      final result = <Color>[];
+
+      try {
+        for (final part in parts) {
+          result.add(_hexToColor(part));
+        }
+      } catch (_) {
+        return null;
+      }
+
+      return result.isEmpty ? null : result;
+    }
+
+    return null;
+  }
+
   static List<Color> getColorsFromHex(
-      String brand,
-      String material,
-      String variant,
-      String colorName) {
+    String brand,
+    String material,
+    String variant,
+    String colorName,
+  ) {
     final item = _catalog.firstWhere(
       (e) =>
           e.brand.trim() == brand.trim() &&
@@ -313,10 +319,10 @@ saveCustomColors();
     }
 
     final parts = item.hex!
-    .split(RegExp(r'[+,;]'))
-    .map((e) => e.trim())
-    .where((e) => e.isNotEmpty)
-    .toList();
+        .split(RegExp(r'[+,;]'))
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
 
     List<Color> result = [];
 
@@ -332,195 +338,152 @@ saveCustomColors();
   }
 
   static Color _hexToColor(String hex) {
+    String clean = hex.replaceAll('#', '').trim();
 
-  String clean =
-      hex.replaceAll('#', '').trim();
-
-  if (clean.length == 6) {
-    clean = 'FF$clean';
-  }
-
-  final value =
-      int.parse(clean, radix: 16);
-
-  return Color(value);
-}
-  
-  // ================= HEX → NAME =================
-
-static String findColorNameByHex(String hex) {
-
-  String clean =
-      hex.replaceAll('#', '').toLowerCase();
-
-  for (final item in _catalog) {
-
-    if (item.hex == null) continue;
-
-    final parts =
-        item.hex!
-            .toLowerCase()
-            .replaceAll('#', '')
-            .split('+');
-
-    for (final p in parts) {
-
-      if (p.trim() == clean.trim()) {
-
-        return item.color;
-
-      }
-
+    if (clean.length == 6) {
+      clean = 'FF$clean';
     }
 
+    final value = int.parse(clean, radix: 16);
+
+    return Color(value);
   }
 
-  return "Unknown";
-}
+  // ================= HEX → NAME =================
 
-/// 🔥 Custom Colors laden
-/// 🔥 Custom Colors laden (Web + App kompatibel)
-static Future<void> loadCustomColors() async {
+  static String findColorNameByHex(String hex) {
+    String clean = hex.replaceAll('#', '').toLowerCase();
 
-  final prefs =
-      await SharedPreferences.getInstance();
+    for (final item in _catalog) {
+      if (item.hex == null) continue;
 
-  final jsonString =
-      prefs.getString('custom_colors');
+      final parts = item.hex!.toLowerCase().replaceAll('#', '').split('+');
 
-  if (jsonString == null) return;
-
-  final Map<String, dynamic> data =
-      jsonDecode(jsonString);
-
-  data.forEach((brand, materials) {
-
-    _customColors[brand] = {};
-
-    (materials as Map<String, dynamic>)
-        .forEach((material, variants) {
-
-      _customColors[brand]![material] = {};
-
-      (variants as Map<String, dynamic>)
-          .forEach((variant, colors) {
-
-        _customColors[brand]![material]![variant] = [];
-
-        for (final entry in colors) {
-
-          if (entry.contains('|')) {
-
-            final parts = entry.split('|');
-
-            final name = parts[0];
-            final hex = parts[1];
-
-            _customColors[brand]![material]![variant]!
-                .add(name);
-
-            final exists = _catalog.any((e) =>
-                e.brand == brand &&
-                e.material == material &&
-                e.variant == variant &&
-                e.color == name);
-
-            if (!exists) {
-              _catalog.add(
-                FilamentCatalogItem(
-                  brand: brand,
-                  material: material,
-                  variant: variant,
-                  color: name,
-                  hex: hex,
-                ),
-              );
-            }
-
-          } else {
-
-            _customColors[brand]![material]![variant]!
-                .add(entry);
-
-          }
-
+      for (final p in parts) {
+        if (p.trim() == clean.trim()) {
+          return item.color;
         }
+      }
+    }
 
+    return "Unknown";
+  }
+
+  /// 🔥 Custom Colors laden
+  /// 🔥 Custom Colors laden (Web + App kompatibel)
+  static Future<void> loadCustomColors() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final jsonString = prefs.getString('custom_colors');
+
+    if (jsonString == null) return;
+
+    final decoded = jsonDecode(jsonString);
+
+    // Altes Listenformat des CustomColorService:
+    // Nicht als verschachtelten Katalog interpretieren.
+    if (decoded is List) {
+      return;
+    }
+
+    if (decoded is! Map<String, dynamic>) {
+      return;
+    }
+
+    final Map<String, dynamic> data = decoded;
+
+    data.forEach((brand, materials) {
+      _customColors[brand] = {};
+
+      (materials as Map<String, dynamic>).forEach((material, variants) {
+        _customColors[brand]![material] = {};
+
+        (variants as Map<String, dynamic>).forEach((variant, colors) {
+          _customColors[brand]![material]![variant] = [];
+
+          for (final entry in colors) {
+            if (entry.contains('|')) {
+              final parts = entry.split('|');
+
+              final name = parts[0];
+              final hex = parts[1];
+
+              _customColors[brand]![material]![variant]!.add(name);
+
+              final exists = _catalog.any(
+                (e) =>
+                    e.brand == brand &&
+                    e.material == material &&
+                    e.variant == variant &&
+                    e.color == name,
+              );
+
+              if (!exists) {
+                _catalog.add(
+                  FilamentCatalogItem(
+                    brand: brand,
+                    material: material,
+                    variant: variant,
+                    color: name,
+                    hex: hex,
+                  ),
+                );
+              }
+            } else {
+              _customColors[brand]![material]![variant]!.add(entry);
+            }
+          }
+        });
       });
-
     });
+  }
 
-  });
+  /// 🔥 FIX — Custom Colors korrekt mit HEX speichern
+  static Future<void> saveCustomColors() async {
+    final Map<String, dynamic> data = {};
 
-}
+    _customColors.forEach((brand, materials) {
+      data[brand] = {};
 
-/// 🔥 FIX — Custom Colors korrekt mit HEX speichern
-static Future<void> saveCustomColors() async {
+      materials.forEach((material, variants) {
+        data[brand][material] = {};
 
-  final Map<String, dynamic> data = {};
+        variants.forEach((variant, colors) {
+          final List<String> savedColors = [];
 
-  _customColors.forEach((brand, materials) {
-
-    data[brand] = {};
-
-    materials.forEach((material, variants) {
-
-      data[brand][material] = {};
-
-      variants.forEach((variant, colors) {
-
-        final List<String> savedColors = [];
-
-        for (final colorName in colors) {
-
-          // HEX aus Catalog holen
-          final item = _catalog.firstWhere(
-            (e) =>
-                e.brand == brand &&
-                e.material == material &&
-                e.variant == variant &&
-                e.color == colorName,
-            orElse: () => FilamentCatalogItem(
-              brand: brand,
-              material: material,
-              variant: variant,
-              color: colorName,
-              hex: null,
-            ),
-          );
-
-          if (item.hex != null) {
-
-            savedColors.add(
-              "$colorName|${item.hex}"
+          for (final colorName in colors) {
+            // HEX aus Catalog holen
+            final item = _catalog.firstWhere(
+              (e) =>
+                  e.brand == brand &&
+                  e.material == material &&
+                  e.variant == variant &&
+                  e.color == colorName,
+              orElse: () => FilamentCatalogItem(
+                brand: brand,
+                material: material,
+                variant: variant,
+                color: colorName,
+                hex: null,
+              ),
             );
 
-          } else {
-
-            savedColors.add(colorName);
-
+            if (item.hex != null) {
+              savedColors.add("$colorName|${item.hex}");
+            } else {
+              savedColors.add(colorName);
+            }
           }
 
-        }
-
-        data[brand][material][variant] =
-            savedColors;
-
+          data[brand][material][variant] = savedColors;
+        });
       });
-
     });
 
-  });
+    final jsonString = jsonEncode(data);
 
-  final jsonString = jsonEncode(data);
+    final prefs = await SharedPreferences.getInstance();
 
-  final prefs =
-      await SharedPreferences.getInstance();
-
-  await prefs.setString(
-    'custom_colors',
-    jsonString,
-  );
-
-}
+    await prefs.setString('custom_colors', jsonString);
+  }
 }

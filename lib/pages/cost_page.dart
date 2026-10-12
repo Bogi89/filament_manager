@@ -126,6 +126,7 @@ class _CostPageState extends State<CostPage> {
 
     final job = PrintJob(
       projectName: projectController.text,
+      filamentId: selectedFilament!.id,
       filamentBrand: selectedFilament!.brand,
       material: selectedFilament!.material,
       variant: selectedFilament!.variant,
@@ -188,9 +189,7 @@ class _CostPageState extends State<CostPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(
-            printer == null ? l10n.addPrinter : l10n.editPrinter,
-          ),
+          title: Text(printer == null ? l10n.addPrinter : l10n.editPrinter),
           content: SizedBox(
             width: 400,
             child: Column(
@@ -206,9 +205,7 @@ class _CostPageState extends State<CostPage> {
                 TextField(
                   controller: newPrinterWattController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: l10n.averageWatt,
-                  ),
+                  decoration: InputDecoration(labelText: l10n.averageWatt),
                 ),
               ],
             ),
@@ -228,9 +225,7 @@ class _CostPageState extends State<CostPage> {
 
                 if (name.isEmpty || watt == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.enterPrinterNameAndWatt),
-                    ),
+                    SnackBar(content: Text(l10n.enterPrinterNameAndWatt)),
                   );
                   return;
                 }
@@ -250,12 +245,14 @@ class _CostPageState extends State<CostPage> {
 
                 await loadPrinters();
 
+                if (!mounted || !context.mounted) return;
+
                 setState(() {
                   selectedPrinter = updatedPrinter;
                   wattController.text = watt.toStringAsFixed(0);
                 });
 
-Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Text(l10n.save),
             ),
@@ -294,9 +291,7 @@ Navigator.pop(context);
             child: customPrinters.isEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Text(
-                      l10n.noCustomPrinters,
-                    ),
+                    child: Text(l10n.noCustomPrinters),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
@@ -351,7 +346,9 @@ Navigator.pop(context);
                                       return AlertDialog(
                                         title: Text(l10n.deletePrinter),
                                         content: Text(
-                                          l10n.confirmDeletePrinter(printer.name),
+                                          l10n.confirmDeletePrinter(
+                                            printer.name,
+                                          ),
                                         ),
                                         actions: [
                                           TextButton(
@@ -384,7 +381,7 @@ Navigator.pop(context);
 
                                   await loadPrinters();
 
-                                  if (!mounted) return;
+                                  if (!mounted || !context.mounted) return;
 
                                   Navigator.pop(context);
 
@@ -467,9 +464,9 @@ Navigator.pop(context);
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final formattedDate = MaterialLocalizations.of(context).formatMediumDate(
-      selectedDate,
-    );
+    final formattedDate = MaterialLocalizations.of(
+      context,
+    ).formatMediumDate(selectedDate);
 
     final isMobile = MediaQuery.of(context).size.width < 1000;
 
@@ -857,10 +854,10 @@ Navigator.pop(context);
                               return "${printer.brand} ${printer.name}";
                             },
                             decoratorProps: DropDownDecoratorProps(
-  decoration: InputDecoration(
-    labelText: l10n.selectPrinter,
-  ),
-),
+                              decoration: InputDecoration(
+                                labelText: l10n.selectPrinter,
+                              ),
+                            ),
                             popupProps: PopupProps.menu(
                               showSearchBox: true,
                               itemBuilder:
@@ -1061,10 +1058,7 @@ Navigator.pop(context);
                           ),
                           const SizedBox(height: 10),
 
-                          numberField(
-                            l10n.spoolWeight,
-                            spoolWeightController,
-                          ),
+                          numberField(l10n.spoolWeight, spoolWeightController),
                           const SizedBox(height: 10),
 
                           numberField(l10n.spoolPrice, spoolPriceController),
@@ -1238,10 +1232,7 @@ Navigator.pop(context);
 
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: save,
-                child: Text(l10n.save),
-              ),
+              child: ElevatedButton(onPressed: save, child: Text(l10n.save)),
             ),
           ],
         ),

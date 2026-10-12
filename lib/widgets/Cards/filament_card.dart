@@ -294,7 +294,7 @@ class _FilamentCardState extends State<FilamentCard> {
         _weightButton('-10', () => _changeWeight(-10, filament)),
         _weightButton('-', () => _changeWeight(-1, filament)),
         SizedBox(
-          width: 64,
+          width: 72,
           child: TextField(
             controller: weightController,
             keyboardType: TextInputType.number,
@@ -380,6 +380,39 @@ class _FilamentCardState extends State<FilamentCard> {
     );
   }
 
+  String _buildStorageInfo(Filament filament) {
+    final l10n = AppLocalizations.of(context)!;
+
+    final storagePlaces = <String>{};
+
+    for (final spool in filament.spools) {
+      final location = spool.storageLocation.trim();
+      final position = spool.storagePosition.trim();
+
+      if (location.isEmpty && position.isEmpty) {
+        continue;
+      }
+
+      if (location.isNotEmpty && position.isNotEmpty) {
+        storagePlaces.add('$location / $position');
+      } else if (location.isNotEmpty) {
+        storagePlaces.add(location);
+      } else {
+        storagePlaces.add(position);
+      }
+    }
+
+    if (storagePlaces.isEmpty) {
+      return '';
+    }
+
+    if (storagePlaces.length == 1) {
+      return storagePlaces.first;
+    }
+
+    return l10n.storagePlaceCount(storagePlaces.length);
+  }
+
   Widget _buildWeightInfo(
     Filament filament,
     double remainingWeight,
@@ -387,6 +420,7 @@ class _FilamentCardState extends State<FilamentCard> {
     double percent,
   ) {
     final l10n = AppLocalizations.of(context)!;
+    final storageInfo = _buildStorageInfo(filament);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,12 +429,15 @@ class _FilamentCardState extends State<FilamentCard> {
           children: [
             Expanded(
               child: Text(
-                l10n.remainingWeightOfTotal(
-                  remainingWeight.toInt(),
-                  totalWeight.toInt(),
-                ),
+                storageInfo.isEmpty
+                    ? l10n.remainingWeightOfTotal(
+                        remainingWeight.toInt(),
+                        totalWeight.toInt(),
+                      )
+                    : '${l10n.remainingWeightOfTotal(remainingWeight.toInt(), totalWeight.toInt())} · $storageInfo',
                 maxLines: 1,
                 softWrap: false,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 13, color: Colors.grey),
               ),
             ),

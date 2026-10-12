@@ -557,6 +557,24 @@ abstract class AppLocalizations {
   /// **'Spools'**
   String get spools;
 
+  /// No description provided for @storageLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage location'**
+  String get storageLocation;
+
+  /// No description provided for @storagePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Position / compartment'**
+  String get storagePosition;
+
+  /// No description provided for @storagePlaceCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} storage locations'**
+  String storagePlaceCount(int count);
+
   /// No description provided for @spool.
   ///
   /// In en, this message translates to:
@@ -604,6 +622,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @deletePrintJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete print job'**
+  String get deletePrintJob;
+
+  /// No description provided for @deletePrintJobConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to delete this print job?'**
+  String get deletePrintJobConfirm;
+
+  /// No description provided for @insufficientFilamentStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough filament stock for this change.'**
+  String get insufficientFilamentStock;
 
   /// No description provided for @newSpool.
   ///
@@ -3548,7 +3584,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumSettingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Premium'**
+  /// **'Premium Subscription'**
   String get premiumSettingsTitle;
 
   /// No description provided for @premiumSettingsTrialActive.

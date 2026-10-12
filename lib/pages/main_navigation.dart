@@ -19,10 +19,9 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index){
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -30,12 +29,10 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-
     final appState = context.watch<AppState>();
-final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
     final pages = [
-
       DashboardPage(
         onNavigate: (index) {
           setState(() {
@@ -54,73 +51,57 @@ final l10n = AppLocalizations.of(context)!;
 
       HistoryPage(
         jobs: appState.jobs,
+        onDeleteJob: appState.removeJob,
+        onUpdateJob: appState.updateJob,
       ),
 
-      StatisticsPage(
-        jobs: appState.jobs,
-        filaments: appState.filaments,
-      ),
+      StatisticsPage(jobs: appState.jobs, filaments: appState.filaments),
 
       const SettingsPage(),
-
     ];
 
     return Scaffold(
-
-      backgroundColor:
-          Theme.of(context).brightness == Brightness.dark
-              ? const Color(0xFF0F0F14)
-              : Colors.grey[100],
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? const Color(0xFF0F0F14)
+          : Colors.grey[100],
 
       body: pages[_selectedIndex],
 
       bottomNavigationBar: Builder(
         builder: (context) {
-
-          final isDark =
-              Theme.of(context).brightness == Brightness.dark;
+          final isDark = Theme.of(context).brightness == Brightness.dark;
 
           return BottomNavigationBar(
-
-            backgroundColor:
-                isDark
-                    ? const Color(0xFF111118)
-                    : Colors.white,
+            backgroundColor: isDark ? const Color(0xFF111118) : Colors.white,
 
             elevation: 10,
 
             type: BottomNavigationBarType.fixed,
 
-            selectedItemColor:
-                isDark
-                    ? const Color(0xFF7C4DFF) // Dark → Lila
-                    : const Color(0xFF3B82F6), // Light → Blau
+            selectedItemColor: isDark
+                ? const Color(0xFF7C4DFF) // Dark → Lila
+                : const Color(0xFF3B82F6), // Light → Blau
 
-            unselectedItemColor:
-                isDark
-                    ? Colors.grey.shade400
-                    : Colors.grey.shade600,
+            unselectedItemColor: isDark
+                ? Colors.grey.shade400
+                : Colors.grey.shade600,
 
             currentIndex: _selectedIndex,
 
             onTap: _onItemTapped,
 
             items: [
-
               BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard),
                 label: l10n.dashboard,
               ),
 
               BottomNavigationBarItem(
-  icon: SpoolIcon(size: 26),
-  label: l10n.filament,
-),
-
-              BottomNavigationBarItem(
-                icon: Icon(Icons.euro),
-                label: l10n.cost,
+                icon: SpoolIcon(size: 26),
+                label: l10n.filament,
               ),
+
+              BottomNavigationBarItem(icon: Icon(Icons.euro), label: l10n.cost),
 
               BottomNavigationBarItem(
                 icon: Icon(Icons.history),
@@ -136,14 +117,10 @@ final l10n = AppLocalizations.of(context)!;
                 icon: Icon(Icons.settings),
                 label: l10n.settings,
               ),
-
             ],
-
           );
-
         },
       ),
-
     );
   }
 }

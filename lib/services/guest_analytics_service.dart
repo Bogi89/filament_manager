@@ -31,6 +31,22 @@ class GuestAnalyticsService {
     }
   }
 
+  /// Erfasst einen tatsächlichen App-Start eines aktiven Gastnutzers.
+  ///
+  /// Verwendet dieselbe anonyme Gast-ID wie das bestehende Gast-Tracking.
+  static Future<void> trackGuestActivity() async {
+    try {
+      final guestId = await _getOrCreateGuestId();
+
+      await _functions.httpsCallable('trackGuestActivity').call({
+        'guestId': guestId,
+        'platform': _platformName,
+      });
+    } catch (error) {
+      debugPrint('Guest activity could not be recorded: $error');
+    }
+  }
+
   static Future<String> _getOrCreateGuestId() async {
     final preferences = await SharedPreferences.getInstance();
 

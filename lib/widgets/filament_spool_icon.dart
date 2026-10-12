@@ -47,6 +47,31 @@ class FilamentSpoolIcon extends StatelessWidget {
       return 'assets/images/spool_hips.png';
     }
 
+    // Zusätzliche Materialbilder für v1.1
+    if (material.contains('cpe')) {
+      return 'assets/images/spool_cpe.png';
+    }
+
+    if (material.contains('tpc')) {
+      return 'assets/images/spool_tpc.png';
+    }
+
+    if (material.contains('tpe')) {
+      return 'assets/images/spool_tpe.png';
+    }
+
+    if (material.contains('pvb')) {
+      return 'assets/images/spool_pvb.png';
+    }
+
+    if (material.contains('pva')) {
+      return 'assets/images/spool_pva.png';
+    }
+
+    if (material.contains('pmma')) {
+      return 'assets/images/spool_pmma.png';
+    }
+
     if (material.contains('carbon')) {
       return 'assets/images/spool_carbon.png';
     }
@@ -83,21 +108,13 @@ class FilamentSpoolIcon extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      margin: EdgeInsets.only(
-        right: rightMargin ?? AppSpacing.lg,
-      ),
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-      ),
+      margin: EdgeInsets.only(right: rightMargin ?? AppSpacing.lg),
+      decoration: const BoxDecoration(shape: BoxShape.circle),
       child: ClipOval(
         child: Image.asset(
           _getSpoolImage(),
           fit: BoxFit.contain,
-          errorBuilder: (
-            context,
-            error,
-            stackTrace,
-          ) {
+          errorBuilder: (context, error, stackTrace) {
             return Image.asset(
               'assets/images/spool_base.png',
               fit: BoxFit.contain,

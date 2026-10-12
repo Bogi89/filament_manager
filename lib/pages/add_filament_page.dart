@@ -3,7 +3,9 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import '../models/filament.dart';
 import '../services/filament_catalog_service.dart';
+import '../models/spool.dart';
 import '../services/custom_color_service.dart';
+import '../services/material_temperature_service.dart';
 import '../models/filament_color.dart';
 import '../widgets/add_filament/sections/inventory_cost_section.dart';
 import '../widgets/add_filament/sections/print_settings_section.dart';
@@ -59,6 +61,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   final priceController = TextEditingController();
 
+  final storageLocationController = TextEditingController();
+
+  final storagePositionController = TextEditingController();
+
   final TextEditingController brandSearchController = TextEditingController();
 
   final TextEditingController materialSearchController =
@@ -76,28 +82,6 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
   List<String> colors = [];
 
   final diameters = [1.75, 2.85, 3.0];
-
-  final Map<String, Map<String, int>> materialTemps = {
-    "PLA": {"nozzle": 200, "bed": 60},
-    "PLA+": {"nozzle": 210, "bed": 60},
-    "PLA CF": {"nozzle": 210, "bed": 60},
-
-    "PETG": {"nozzle": 240, "bed": 80},
-    "PETG+": {"nozzle": 245, "bed": 80},
-
-    "ABS": {"nozzle": 250, "bed": 100},
-    "ABS+": {"nozzle": 255, "bed": 100},
-
-    "ASA": {"nozzle": 250, "bed": 100},
-
-    "TPU": {"nozzle": 220, "bed": 50},
-
-    "PET": {"nozzle": 235, "bed": 70},
-
-    "PC": {"nozzle": 270, "bed": 110},
-
-    "PA": {"nozzle": 260, "bed": 90},
-  };
 
   @override
   void initState() {
@@ -157,15 +141,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     selectedFilamentColors = [];
     preloadColorMap.clear();
 
-    final temperatures = materialTemps[material.toUpperCase()];
+    final temperatures = MaterialTemperatureService.getTemperatures(material);
 
-    if (temperatures != null) {
-      nozzleTemp = temperatures['nozzle'];
-      bedTemp = temperatures['bed'];
-    } else {
-      nozzleTemp = null;
-      bedTemp = null;
-    }
+    nozzleTemp = temperatures?.nozzle;
+    bedTemp = temperatures?.bed;
 
     setState(() {});
   }
@@ -323,6 +302,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
     selectedColor = null;
     selectedFilamentColors = [];
+
+    // Temperatur anhand von Material, Hersteller und Variante bestimmen.
+    if (selectedMaterial != null && selectedBrand != null) {
+      final temperatures = MaterialTemperatureService.getTemperatures(
+        selectedMaterial!,
+        brand: selectedBrand,
+        variant: selectedVariant,
+      );
+
+      nozzleTemp = temperatures?.nozzle;
+      bedTemp = temperatures?.bed;
+    }
 
     setState(() {});
   }
@@ -486,6 +477,14 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       ),
 
       colorType: parsedColors.length > 1 ? "multi" : "single",
+
+      spools: [
+        Spool(
+          weight: remainingWeight,
+          storageLocation: storageLocationController.text.trim(),
+          storagePosition: storagePositionController.text.trim(),
+        ),
+      ],
     );
 
     widget.onSave(filament);
@@ -1781,6 +1780,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 totalWeightController: totalWeightController,
                 remainingWeightController: remainingWeightController,
                 priceController: priceController,
+                storageLocationController: storageLocationController,
+                storagePositionController: storagePositionController,
 
                 onSpoolWeightChanged: (value) {
                   setState(() {

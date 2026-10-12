@@ -117,7 +117,10 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    await GoogleSignIn.instance.initialize();
+    await GoogleSignIn.instance.initialize(
+      serverClientId:
+          '304336909121-ofo0j445gv11u7vl84cimao6165j6k5f.apps.googleusercontent.com',
+    );
 
     _googleSignInInitialized = true;
   }

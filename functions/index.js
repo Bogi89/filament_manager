@@ -229,6 +229,76 @@ exports.trackGuestStart = onCall(
 );
 
 /**
+ * Erfasst einen anonymen App-Start eines bereits aktiven Gastnutzers.
+ *
+ * Der Client übermittelt ausschließlich die bereits vorhandene
+ * zufällige anonyme Gast-ID und die Plattform.
+ */
+exports.trackGuestActivity = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      const guestId = request.data && request.data.guestId;
+      const platform = request.data && request.data.platform;
+
+      const allowedPlatforms = new Set([
+        "web",
+        "android",
+        "ios",
+        "windows",
+        "macos",
+        "linux",
+        "fuchsia",
+      ]);
+
+      if (
+        typeof guestId !== "string" ||
+      !/^[a-f0-9]{32}$/.test(guestId)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid guest ID.",
+        );
+      }
+
+      if (
+        typeof platform !== "string" ||
+      !allowedPlatforms.has(platform)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid platform.",
+        );
+      }
+
+      const guestReference = db
+          .collection("guestAnalytics")
+          .doc(guestId);
+
+      await db.runTransaction(async (transaction) => {
+        const snapshot = await transaction.get(guestReference);
+
+        // Activity darf keinen neuen Gast erzeugen.
+        // Ein Gast muss zuvor über trackGuestStart registriert worden sein.
+        if (!snapshot.exists) {
+          return;
+        }
+
+        transaction.update(guestReference, {
+          lastActiveAt: FieldValue.serverTimestamp(),
+          appStartCount: FieldValue.increment(1),
+          platform,
+        });
+      });
+
+      return {
+        recorded: true,
+      };
+    },
+);
+
+/**
  * Prüft einen Google-Play-Kauftoken serverseitig und aktiviert
  * FilaLog Premium ausschließlich nach erfolgreicher Play-Verifizierung.
  */
@@ -1024,6 +1094,8 @@ exports.initializeUserTrial = onCall(
  * Diese Funktion ist vorerst ausschließlich für die
  * serverseitige Entwicklung vorgesehen.
  */
+const MONITORING_START_AT = new Date("2026-09-25T01:30:00+02:00");
+
 exports.getMonitoringOverview = onCall(
     {
       region: "europe-west1",
@@ -1061,10 +1133,12 @@ exports.getMonitoringOverview = onCall(
               .get();
 
       const purchaseSnapshot =
-          await db
-              .collection("purchaseAnalytics")
-              .get();
+              await db
+                  .collection("purchaseAnalytics")
+                  .where("purchasedAt", ">=", MONITORING_START_AT)
+                  .get();
 
+      let totalRegistrations = 0;
       let registrationsToday = 0;
       let registrations7Days = 0;
       let registrations30Days = 0;
@@ -1073,6 +1147,7 @@ exports.getMonitoringOverview = onCall(
       let premiumUsers = 0;
       let manualPremiumUsers = 0;
       let paidPremiumUsers = 0;
+      let newPaidPremiumUsers = 0;
       let paddleLiveUsers = 0;
       let paddleSandboxUsers = 0;
       let paddleActiveUsers = 0;
@@ -1107,9 +1182,19 @@ exports.getMonitoringOverview = onCall(
       let paddleRevenue30DaysCents = 0;
 
       let guestStarts = 0;
+      let uniqueGuests = 0;
       let guestsToday = 0;
       let guests7Days = 0;
       let guests30Days = 0;
+
+      let guestAppStarts = 0;
+      let activeGuestsToday = 0;
+      let activeGuests7Days = 0;
+      let activeGuests30Days = 0;
+
+      let androidGuests = 0;
+      let webGuests = 0;
+      let otherPlatformGuests = 0;
 
       const now = Date.now();
 
@@ -1134,6 +1219,12 @@ exports.getMonitoringOverview = onCall(
         if (!Number.isFinite(creationTime)) {
           continue;
         }
+
+        if (creationTime < MONITORING_START_AT.getTime()) {
+          continue;
+        }
+
+        totalRegistrations += 1;
 
         recentRegistrations.push({
           uid: user.uid,
@@ -1169,9 +1260,14 @@ exports.getMonitoringOverview = onCall(
 
         const data = document.data();
 
+        const trialStart =
+    typeof data.trialStart === "string" ?
+      Date.parse(data.trialStart) :
+      NaN;
+
         if (
-          data.trialUsed === true ||
-        data.trialStart != null
+          Number.isFinite(trialStart) &&
+  trialStart >= MONITORING_START_AT.getTime()
         ) {
           trialUsers += 1;
         }
@@ -1246,6 +1342,21 @@ exports.getMonitoringOverview = onCall(
       for (const document of guestSnapshot.docs) {
         const data = document.data();
 
+        const firstStartedAt =
+          data.firstStartedAt &&
+          typeof data.firstStartedAt.toMillis === "function" ?
+            data.firstStartedAt.toMillis() :
+            null;
+
+        if (
+          firstStartedAt === null ||
+          firstStartedAt < MONITORING_START_AT.getTime()
+        ) {
+          continue;
+        }
+
+        uniqueGuests += 1;
+
         if (
           typeof data.startCount === "number" &&
           Number.isFinite(data.startCount)
@@ -1253,14 +1364,19 @@ exports.getMonitoringOverview = onCall(
           guestStarts += data.startCount;
         }
 
-        const firstStartedAt =
-            data.firstStartedAt &&
-            typeof data.firstStartedAt.toMillis === "function" ?
-              data.firstStartedAt.toMillis() :
-              null;
+        if (
+          typeof data.appStartCount === "number" &&
+          Number.isFinite(data.appStartCount)
+        ) {
+          guestAppStarts += data.appStartCount;
+        }
 
-        if (firstStartedAt === null) {
-          continue;
+        if (data.platform === "android") {
+          androidGuests += 1;
+        } else if (data.platform === "web") {
+          webGuests += 1;
+        } else {
+          otherPlatformGuests += 1;
         }
 
         if (firstStartedAt >= startOfToday.getTime()) {
@@ -1274,9 +1390,30 @@ exports.getMonitoringOverview = onCall(
         if (firstStartedAt >= thirtyDaysAgo) {
           guests30Days += 1;
         }
+
+        const lastActiveAt =
+          data.lastActiveAt &&
+          typeof data.lastActiveAt.toMillis === "function" ?
+            data.lastActiveAt.toMillis() :
+            null;
+
+        if (lastActiveAt !== null) {
+          if (lastActiveAt >= startOfToday.getTime()) {
+            activeGuestsToday += 1;
+          }
+
+          if (lastActiveAt >= sevenDaysAgo) {
+            activeGuests7Days += 1;
+          }
+
+          if (lastActiveAt >= thirtyDaysAgo) {
+            activeGuests30Days += 1;
+          }
+        }
       }
 
       const recentPurchases = [];
+      const newPaidPremiumUids = new Set();
 
       for (const document of purchaseSnapshot.docs) {
         const data = document.data();
@@ -1296,6 +1433,13 @@ exports.getMonitoringOverview = onCall(
           !Number.isFinite(data.amount)
         ) {
           continue;
+        }
+
+        if (
+          typeof data.uid === "string" &&
+          data.uid.length > 0
+        ) {
+          newPaidPremiumUids.add(data.uid);
         }
 
         if (isPaddlePurchase) {
@@ -1371,6 +1515,8 @@ exports.getMonitoringOverview = onCall(
         }
       }
 
+      newPaidPremiumUsers = newPaidPremiumUids.size;
+
       recentPurchases.sort(
           (a, b) =>
             Date.parse(b.purchasedAt) -
@@ -1381,13 +1527,13 @@ exports.getMonitoringOverview = onCall(
         recentPurchases.slice(0, 10);
 
       const registrationToPaidConversion =
-    authResult.users.length > 0 ?
-      (paidPremiumUsers / authResult.users.length) * 100 :
-      0;
+        totalRegistrations > 0 ?
+          (newPaidPremiumUsers / totalRegistrations) * 100 :
+          0;
 
       const trialToPaidConversion =
     trialUsers > 0 ?
-      (paidPremiumUsers / trialUsers) * 100 :
+      (newPaidPremiumUsers / trialUsers) * 100 :
       0;
 
       return {
@@ -1396,7 +1542,7 @@ exports.getMonitoringOverview = onCall(
 
         registrations: {
           total:
-            authResult.users.length,
+  authResult.users.length,
           today:
             registrationsToday,
           last7Days:
@@ -1412,7 +1558,7 @@ exports.getMonitoringOverview = onCall(
 
         guests: {
           unique:
-            guestSnapshot.size,
+            uniqueGuests,
           starts:
             guestStarts,
           today:
@@ -1421,6 +1567,25 @@ exports.getMonitoringOverview = onCall(
             guests7Days,
           last30Days:
             guests30Days,
+
+          appStarts:
+            guestAppStarts,
+
+          activeToday:
+            activeGuestsToday,
+          active7Days:
+            activeGuests7Days,
+          active30Days:
+            activeGuests30Days,
+
+          platforms: {
+            android:
+              androidGuests,
+            web:
+              webGuests,
+            other:
+              otherPlatformGuests,
+          },
         },
 
         premium: {

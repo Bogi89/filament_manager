@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../pages/main_navigation.dart';
 import '../../services/access_service.dart';
+import '../../services/guest_analytics_service.dart';
 import 'splash_page.dart';
 import 'trial_expired_page.dart';
 import 'verify_email_page.dart';
@@ -18,15 +19,13 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  static const Duration _minimumSplashDuration =
-      Duration(milliseconds: 1200);
+  static const Duration _minimumSplashDuration = Duration(milliseconds: 1200);
 
   bool _loading = true;
 
   User? _firebaseUser;
 
-  AccessStatus _accessStatus =
-      AccessStatus.noAccess;
+  AccessStatus _accessStatus = AccessStatus.noAccess;
 
   StreamSubscription<User?>? _authSubscription;
 
@@ -50,12 +49,11 @@ class _AuthGateState extends State<AuthGate> {
      * Deshalb registrieren wir den Auth-Listener BEVOR der erste
      * Zugriffsstatus ausgewertet wird.
      */
-    _authSubscription =
-        FirebaseAuth.instance.authStateChanges().listen(
-      (_) async {
-        await _loadState();
-      },
-    );
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((
+      _,
+    ) async {
+      await _loadState();
+    });
 
     /*
      * Auf den ersten von Firebase vollständig aufgelösten Auth-Status
@@ -66,13 +64,16 @@ class _AuthGateState extends State<AuthGate> {
 
     await _loadState();
 
-    final remaining =
-        _minimumSplashDuration - stopwatch.elapsed;
+    if (_firebaseUser == null &&
+        (_accessStatus == AccessStatus.guestTrialActive ||
+            _accessStatus == AccessStatus.guestTrialExpired)) {
+      unawaited(GuestAnalyticsService.trackGuestActivity());
+    }
+
+    final remaining = _minimumSplashDuration - stopwatch.elapsed;
 
     if (remaining > Duration.zero) {
-      await Future<void>.delayed(
-        remaining,
-      );
+      await Future<void>.delayed(remaining);
     }
 
     if (!mounted) {
@@ -85,11 +86,9 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> _loadState() async {
-    final firebaseUser =
-        FirebaseAuth.instance.currentUser;
+    final firebaseUser = FirebaseAuth.instance.currentUser;
 
-    final accessStatus =
-        await AccessService.getAccessStatus();
+    final accessStatus = await AccessService.getAccessStatus();
 
     if (!mounted) {
       return;
@@ -118,27 +117,21 @@ class _AuthGateState extends State<AuthGate> {
 
     /// Ein angemeldeter Benutzer muss zuerst
     /// seine E-Mail-Adresse bestätigen.
-    if (firebaseUser != null &&
-        !firebaseUser.emailVerified) {
+    if (firebaseUser != null && !firebaseUser.emailVerified) {
       return const VerifyEmailPage();
     }
 
     /// Voller Zugriff während der Testphase
     /// oder bei aktivem Premium.
-    if (_accessStatus ==
-            AccessStatus.guestTrialActive ||
-        _accessStatus ==
-            AccessStatus.accountTrialActive ||
-        _accessStatus ==
-            AccessStatus.premiumActive) {
+    if (_accessStatus == AccessStatus.guestTrialActive ||
+        _accessStatus == AccessStatus.accountTrialActive ||
+        _accessStatus == AccessStatus.premiumActive) {
       return const MainNavigation();
     }
 
     /// Testphase ist abgelaufen.
-    if (_accessStatus ==
-            AccessStatus.guestTrialExpired ||
-        _accessStatus ==
-            AccessStatus.accountTrialExpired) {
+    if (_accessStatus == AccessStatus.guestTrialExpired ||
+        _accessStatus == AccessStatus.accountTrialExpired) {
       return const TrialExpiredPage();
     }
 

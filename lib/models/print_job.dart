@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class PrintJob {
   String projectName;
 
+  String? filamentId;
+
   String filamentBrand;
   String material;
   String variant;
@@ -16,6 +18,7 @@ class PrintJob {
 
   PrintJob({
     required this.projectName,
+    this.filamentId,
     required this.filamentBrand,
     required this.material,
     required this.variant,
@@ -27,32 +30,30 @@ class PrintJob {
   });
 
   Map<String, dynamic> toJson() => {
-        'projectName': projectName,
-        'filamentBrand': filamentBrand,
-        'material': material,
-        'variant': variant,
-        'color': color.toARGB32(),
-        'weightUsed': weightUsed,
-        'printHours': printHours,
-        'totalCost': totalCost,
-        'date': date.toIso8601String(),
-      };
+    'projectName': projectName,
+    'filamentId': filamentId,
+    'filamentBrand': filamentBrand,
+    'material': material,
+    'variant': variant,
+    'color': color.toARGB32(),
+    'weightUsed': weightUsed,
+    'printHours': printHours,
+    'totalCost': totalCost,
+    'date': date.toIso8601String(),
+  };
 
   factory PrintJob.fromJson(Map<String, dynamic> json) {
     return PrintJob(
       projectName: json['projectName']?.toString() ?? '',
+      filamentId: json['filamentId']?.toString(),
       filamentBrand: json['filamentBrand']?.toString() ?? '',
       material: json['material']?.toString() ?? '',
       variant: json['variant']?.toString() ?? '',
-      color: Color(
-        (json['color'] as num).toInt(),
-      ),
+      color: Color((json['color'] as num).toInt()),
       weightUsed: (json['weightUsed'] as num).toDouble(),
       printHours: (json['printHours'] as num).toDouble(),
       totalCost: (json['totalCost'] as num).toDouble(),
-      date: DateTime.parse(
-        json['date'].toString(),
-      ),
+      date: DateTime.parse(json['date'].toString()),
     );
   }
 }

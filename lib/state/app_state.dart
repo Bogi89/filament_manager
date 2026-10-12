@@ -431,7 +431,75 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// ================= DISPOSE =================
+  void removeJob(PrintJob job) {
+    jobs.remove(job);
+
+    saveData();
+
+    notifyListeners();
+  }
+
+  bool updateJob(PrintJob oldJob, PrintJob updatedJob) {
+    final index = jobs.indexOf(oldJob);
+
+    if (index == -1) {
+      return false;
+    }
+
+    final filamentId = oldJob.filamentId;
+    final weightDifference = updatedJob.weightUsed - oldJob.weightUsed;
+
+    if (filamentId != null && weightDifference != 0) {
+      final filamentIndex = filaments.indexWhere(
+        (filament) => filament.id == filamentId,
+      );
+
+      if (filamentIndex != -1) {
+        final filament = filaments[filamentIndex];
+
+        if (weightDifference > 0) {
+          if (filament.remainingWeight < weightDifference) {
+            return false;
+          }
+
+          double remainingToSubtract = weightDifference;
+
+          for (final spool in filament.spools) {
+            if (remainingToSubtract <= 0) {
+              break;
+            }
+
+            if (spool.weight >= remainingToSubtract) {
+              spool.weight -= remainingToSubtract;
+              remainingToSubtract = 0;
+            } else {
+              remainingToSubtract -= spool.weight;
+              spool.weight = 0;
+            }
+          }
+        } else {
+          final weightToRestore = -weightDifference;
+
+          if (filament.spools.isNotEmpty) {
+            filament.spools.first.weight += weightToRestore;
+          }
+        }
+
+        filament.remainingWeight = filament.spools.fold(
+          0.0,
+          (sum, spool) => sum + spool.weight,
+        );
+      }
+    }
+
+    jobs[index] = updatedJob;
+
+    saveData();
+
+    notifyListeners();
+
+    return true;
+  }
 
   @override
   void dispose() {

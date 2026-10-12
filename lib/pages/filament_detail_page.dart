@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import '../models/filament.dart';
+import '../models/filament_color.dart';
 import '../models/spool.dart';
 import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 import '../services/filament_catalog_service.dart';
+import '../services/custom_color_service.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/color_name_localizer.dart';
 import '../widgets/add_filament/sections/print_settings_section.dart';
+import '../services/material_temperature_service.dart';
 
 class FilamentDetailPage extends StatefulWidget {
   final Filament filament;
@@ -26,7 +29,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     "Sunlu",
   ];
 
-  final List<String> materials = ["PLA", "PETG", "ABS", "TPU"];
+  List<String> materials = [];
 
   final List<double> diameters = [1.75, 2.85, 3.0];
 
@@ -40,13 +43,6 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     "TPU": ["Flex 95A"],
   };
 
-  final Map<String, Map<String, int>> materialTemps = {
-    "PLA": {"nozzle": 200, "bed": 60},
-    "PETG": {"nozzle": 240, "bed": 80},
-    "ABS": {"nozzle": 250, "bed": 100},
-    "TPU": {"nozzle": 220, "bed": 50},
-  };
-
   String? selectedBrand;
   String? selectedMaterial;
   String? selectedVariant;
@@ -54,6 +50,8 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
   double? selectedDiameter;
 
   List<String> colorNamesList = [];
+
+  final Map<String, Color> customColorMap = {};
 
   int? nozzleTemp;
   int? bedTemp;
@@ -65,15 +63,21 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
   void initState() {
     super.initState();
 
+    _loadCustomColors();
+
     final f = widget.filament;
 
     selectedColor = f.colorNames.isNotEmpty ? f.colorNames.join(' + ') : null;
 
-    colorNamesList = FilamentCatalogService.getColorsForVariant(
+    colorNamesList = FilamentCatalogService.getColors(
       f.brand,
       f.material,
       f.variant,
     );
+
+    if (selectedColor != null && !colorNamesList.contains(selectedColor)) {
+      colorNamesList.add(selectedColor!);
+    }
 
     /// 🔴 WICHTIG: Werte absichern
 
@@ -85,7 +89,17 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
     selectedBrand = f.brand;
 
-    selectedMaterial = materials.contains(f.material) ? f.material : null;
+    materials = FilamentCatalogService.getMaterials(f.brand);
+
+    if (!materials.contains(f.material)) {
+      materials.add(f.material);
+    }
+
+    selectedMaterial = f.material;
+
+    if (!materials.contains(f.material)) {
+      materials.add(f.material);
+    }
 
     selectedDiameter = diameters.contains(f.diameter) ? f.diameter : null;
 
@@ -99,25 +113,77 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
         .fold(0.0, (sum, spool) => sum + spool.weight)
         .toString();
 
-    /// Variante absichern
+    /// Varianten aus dem Katalog laden.
+    /// Bereits gespeicherte Varianten bleiben erhalten.
 
-    if (selectedMaterial != null) {
-      final list = variantsByMaterial[selectedMaterial]!;
+    if (selectedMaterial != null && selectedBrand != null) {
+      final variants = FilamentCatalogService.getVariants(
+        selectedBrand!,
+        selectedMaterial!,
+      );
 
-      if (selectedVariant != null && !list.contains(selectedVariant)) {
-        list.add(selectedVariant!);
+      if (selectedVariant != null && !variants.contains(selectedVariant)) {
+        variants.add(selectedVariant!);
       }
+
+      variantsByMaterial[selectedMaterial!] = variants;
     }
   }
 
+  Future<void> _loadCustomColors() async {
+    final customColors = await CustomColorService.loadCustomColors();
+
+    if (!mounted) return;
+
+    final loadedColors = <String, Color>{};
+
+    for (final entry in customColors) {
+      final name = entry['name']?.toString().trim();
+      final hex = entry['hex']?.toString().replaceAll('#', '').trim();
+
+      if (name == null || name.isEmpty || hex == null) {
+        continue;
+      }
+
+      if (hex.length != 6 && hex.length != 8) {
+        continue;
+      }
+
+      try {
+        final normalized = hex.length == 6 ? 'FF$hex' : hex;
+
+        loadedColors[name.toLowerCase()] = Color(
+          int.parse(normalized, radix: 16),
+        );
+      } catch (_) {
+        // Ungültige HEX-Werte nicht übernehmen.
+      }
+    }
+
+    setState(() {
+      customColorMap
+        ..clear()
+        ..addAll(loadedColors);
+    });
+  }
+
   void _onMaterialChanged(String material) {
+    final temperatures = MaterialTemperatureService.getTemperatures(material);
+
+    final variants = selectedBrand == null
+        ? <String>[]
+        : FilamentCatalogService.getVariants(selectedBrand!, material);
+
     setState(() {
       selectedMaterial = material;
       selectedVariant = null;
+      selectedColor = null;
 
-      nozzleTemp = materialTemps[material]!["nozzle"];
+      variantsByMaterial[material] = variants;
+      colorNamesList = [];
 
-      bedTemp = materialTemps[material]!["bed"];
+      nozzleTemp = temperatures?.nozzle;
+      bedTemp = temperatures?.bed;
     });
   }
 
@@ -198,14 +264,42 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
     f.remainingWeight = remainingWeight;
 
-    if (selectedColor != null) {
-      f.colorNames = selectedColor!
-          .split('+')
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toList();
-    } else {
-      f.colorNames = ["Unknown"];
+    if (selectedColor != null &&
+        selectedColor != widget.filament.colorNames.join(' + ') &&
+        selectedBrand != null &&
+        selectedMaterial != null &&
+        selectedVariant != null) {
+      final colorName = selectedColor!.trim();
+
+      final catalogColors = FilamentCatalogService.tryGetColorsFromHex(
+        selectedBrand!,
+        selectedMaterial!,
+        selectedVariant!,
+        colorName,
+      );
+
+      final customColor = customColorMap[colorName.toLowerCase()];
+
+      final List<Color> resolvedColors =
+          catalogColors ??
+          (customColor != null ? <Color>[customColor] : <Color>[]);
+
+      if (resolvedColors.isNotEmpty) {
+        f.colorNames = [colorName];
+        f.colors = resolvedColors;
+        f.color = resolvedColors.first;
+        f.colorType = resolvedColors.length > 1 ? 'multi' : 'single';
+
+        f.filamentColors = resolvedColors.map((color) {
+          final hex = color.toARGB32().toRadixString(16).padLeft(8, '0');
+
+          return FilamentColor(
+            name: colorName,
+            hex: '#${hex.substring(2).toUpperCase()}',
+            isCustom: catalogColors == null,
+          );
+        }).toList();
+      }
     }
 
     /// 🔥 FILAMENT SPEICHERN
@@ -342,13 +436,27 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 .toList(),
 
             onChanged: (val) {
-              setState(() => selectedBrand = val);
+              if (val == null) return;
+
+              setState(() {
+                selectedBrand = val;
+
+                materials = FilamentCatalogService.getMaterials(val);
+
+                selectedMaterial = null;
+                selectedVariant = null;
+                selectedColor = null;
+
+                colorNamesList = [];
+                variantsByMaterial.clear();
+              });
             },
           ),
 
           const SizedBox(height: 16),
 
           DropdownButtonFormField<String>(
+            key: ValueKey('material_$selectedBrand'),
             initialValue: materials.contains(selectedMaterial)
                 ? selectedMaterial
                 : null,
@@ -380,6 +488,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
           const SizedBox(height: 16),
 
           DropdownButtonFormField<String>(
+            key: ValueKey('variant_${selectedBrand}_$selectedMaterial'),
             initialValue:
                 selectedMaterial != null &&
                     variantsByMaterial[selectedMaterial]!.contains(
@@ -408,13 +517,31 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                       .toList(),
 
             onChanged: (val) {
-              setState(() => selectedVariant = val);
+              setState(() {
+                selectedVariant = val;
+                selectedColor = null;
+
+                if (selectedBrand != null &&
+                    selectedMaterial != null &&
+                    val != null) {
+                  colorNamesList = FilamentCatalogService.getColors(
+                    selectedBrand!,
+                    selectedMaterial!,
+                    val,
+                  );
+                } else {
+                  colorNamesList = [];
+                }
+              });
             },
           ),
 
           const SizedBox(height: 16),
 
           DropdownButtonFormField<String>(
+            key: ValueKey(
+              'color_${selectedBrand}_${selectedMaterial}_$selectedVariant',
+            ),
             initialValue: colorNamesList.contains(selectedColor)
                 ? selectedColor
                 : null,
@@ -432,14 +559,77 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
               ),
             ),
 
-            items: colorNamesList
-                .map(
-                  (c) => DropdownMenuItem(
-                    value: c,
-                    child: Text(ColorNameLocalizer.localize(context, c)),
-                  ),
-                )
-                .toList(),
+            items: colorNamesList.map((c) {
+              final catalogColors = FilamentCatalogService.tryGetColorsFromHex(
+                selectedBrand ?? '',
+                selectedMaterial ?? '',
+                selectedVariant ?? '',
+                c,
+              );
+
+              final savedColors = widget.filament.filamentColors
+                  .where(
+                    (entry) =>
+                        entry.name.trim().toLowerCase() ==
+                        c.trim().toLowerCase(),
+                  )
+                  .map((entry) {
+                    try {
+                      final hex = entry.hex.replaceAll('#', '').trim();
+                      final normalized = hex.length == 6 ? 'FF$hex' : hex;
+                      return Color(int.parse(normalized, radix: 16));
+                    } catch (_) {
+                      return null;
+                    }
+                  })
+                  .whereType<Color>()
+                  .toList();
+
+              final customColor = customColorMap[c.trim().toLowerCase()];
+
+              final previewColors =
+                  catalogColors ??
+                  (customColor != null
+                      ? <Color>[customColor]
+                      : savedColors.isNotEmpty
+                      ? savedColors
+                      : c == widget.filament.colorNames.join(' + ')
+                      ? widget.filament.colors
+                      : <Color>[]);
+
+              return DropdownMenuItem<String>(
+                value: c,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: previewColors.map((color) {
+                        return Container(
+                          width: 14,
+                          height: 14,
+                          margin: const EdgeInsets.only(right: 3),
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        ColorNameLocalizer.localize(context, c),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
 
             onChanged: (val) {
               setState(() {
@@ -556,7 +746,30 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                     const SizedBox(width: 10),
 
-                    Text(l10n.spoolNumber(index + 1)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.spoolNumber(index + 1)),
+                          if (spool.storageLocation.trim().isNotEmpty ||
+                              spool.storagePosition.trim().isNotEmpty) ...[
+                            const SizedBox(height: 3),
+                            Text(
+                              [
+                                spool.storageLocation.trim(),
+                                spool.storagePosition.trim(),
+                              ].where((value) => value.isNotEmpty).join(' / '),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
 
                     const Spacer(),
 
@@ -579,19 +792,46 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                           text: spool.weight.toInt().toString(),
                         );
 
-                        final result = await showDialog<double>(
+                        final storageLocationController = TextEditingController(
+                          text: spool.storageLocation,
+                        );
+
+                        final storagePositionController = TextEditingController(
+                          text: spool.storagePosition,
+                        );
+
+                        final result = await showDialog<Map<String, dynamic>>(
                           context: context,
 
                           builder: (context) {
                             return AlertDialog(
                               title: Text(l10n.editSpool),
 
-                              content: TextField(
-                                controller: controller,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  labelText: l10n.weight,
-                                ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    controller: controller,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      labelText: l10n.weight,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  TextField(
+                                    controller: storageLocationController,
+                                    decoration: InputDecoration(
+                                      labelText: l10n.storageLocation,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  TextField(
+                                    controller: storagePositionController,
+                                    decoration: InputDecoration(
+                                      labelText: l10n.storagePosition,
+                                    ),
+                                  ),
+                                ],
                               ),
 
                               actions: [
@@ -610,7 +850,15 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                     );
 
                                     if (weight != null && weight > 0) {
-                                      Navigator.pop(context, weight);
+                                      Navigator.pop(context, {
+                                        'weight': weight,
+                                        'storageLocation':
+                                            storageLocationController.text
+                                                .trim(),
+                                        'storagePosition':
+                                            storagePositionController.text
+                                                .trim(),
+                                      });
                                     }
                                   },
 
@@ -623,10 +871,13 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
                         if (result != null) {
                           setState(() {
-                            spool.weight = result;
+                            spool.weight = result['weight'] as double;
+                            spool.storageLocation =
+                                result['storageLocation'] as String;
+                            spool.storagePosition =
+                                result['storagePosition'] as String;
 
                             /// Restgewicht neu berechnen
-
                             double total = 0;
 
                             for (final s in widget.filament.spools) {
@@ -767,17 +1018,39 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
             onPressed: () async {
               final controller = TextEditingController();
 
-              final result = await showDialog<double>(
+              final storageLocationController = TextEditingController();
+              final storagePositionController = TextEditingController();
+
+              final result = await showDialog<Map<String, dynamic>>(
                 context: context,
 
                 builder: (context) {
                   return AlertDialog(
                     title: Text(l10n.newSpool),
 
-                    content: TextField(
-                      controller: controller,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(labelText: l10n.weight),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          controller: controller,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(labelText: l10n.weight),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: storageLocationController,
+                          decoration: InputDecoration(
+                            labelText: l10n.storageLocation,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: storagePositionController,
+                          decoration: InputDecoration(
+                            labelText: l10n.storagePosition,
+                          ),
+                        ),
+                      ],
                     ),
 
                     actions: [
@@ -794,7 +1067,13 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                           final weight = double.tryParse(controller.text);
 
                           if (weight != null && weight > 0) {
-                            Navigator.pop(context, weight);
+                            Navigator.pop(context, {
+                              'weight': weight,
+                              'storageLocation': storageLocationController.text
+                                  .trim(),
+                              'storagePosition': storagePositionController.text
+                                  .trim(),
+                            });
                           }
                         },
 
@@ -807,7 +1086,15 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
 
               if (result != null) {
                 setState(() {
-                  widget.filament.spools.add(Spool(weight: result));
+                  final weight = result['weight'] as double;
+
+                  widget.filament.spools.add(
+                    Spool(
+                      weight: weight,
+                      storageLocation: result['storageLocation'] as String,
+                      storagePosition: result['storagePosition'] as String,
+                    ),
+                  );
 
                   double total = 0;
 
@@ -815,7 +1102,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                     total += s.weight;
                   }
 
-                  widget.filament.totalWeight += result;
+                  widget.filament.totalWeight += weight;
 
                   weightController.text = total.toString();
                 });

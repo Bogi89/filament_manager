@@ -242,6 +242,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spools => 'Spools';
 
   @override
+  String get storageLocation => 'Storage location';
+
+  @override
+  String get storagePosition => 'Position / compartment';
+
+  @override
+  String storagePlaceCount(int count) {
+    return '$count storage locations';
+  }
+
+  @override
   String get spool => 'Spool';
 
   @override
@@ -264,6 +275,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get deletePrintJob => 'Delete print job';
+
+  @override
+  String get deletePrintJobConfirm => 'Do you really want to delete this print job?';
+
+  @override
+  String get insufficientFilamentStock => 'Not enough filament stock for this change.';
 
   @override
   String get newSpool => 'New spool';
@@ -1752,7 +1772,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trialExpiredRestoreError => 'Google Play purchases could not be restored.';
 
   @override
-  String get premiumSettingsTitle => 'Premium';
+  String get premiumSettingsTitle => 'Premium Subscription';
 
   @override
   String get premiumSettingsTrialActive => 'Your free trial is active.';

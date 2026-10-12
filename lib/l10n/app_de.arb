@@ -79,6 +79,16 @@
   "editRemainingWeight": "Restgewicht ändern",
 "remainingWeightGrams": "Restgewicht (g)",
   "spools": "Spulen",
+  "storageLocation": "Lagerort",
+"storagePosition": "Position / Fach",
+"storagePlaceCount": "{count} Lagerplätze",
+"@storagePlaceCount": {
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
   "spool": "Spule",
   "editSpool": "Spule bearbeiten",
   "weight": "Gewicht",
@@ -87,7 +97,10 @@
   "deleteLastSpool": "Letzte Spule löschen",
   "deleteSpool": "Spule löschen",
   "delete": "Löschen",
-  "newSpool": "Neue Spule",
+  "deletePrintJob": "Druckauftrag löschen",
+"deletePrintJobConfirm": "Möchtest du diesen Druckauftrag wirklich löschen?",
+"insufficientFilamentStock": "Nicht genügend Filamentbestand für diese Änderung.",
+"newSpool": "Neue Spule",
   "addSpool": "Spule hinzufügen",
   "selectMaterial": "Material auswählen",
   "nozzle": "Nozzle",
@@ -648,7 +661,7 @@
 "trialExpiredRestorePurchases": "Käufe wiederherstellen",
 "trialExpiredAndroidUnavailableInfo": "Google Play Billing wird derzeit noch eingerichtet.",
 "trialExpiredRestoreError": "Google-Play-Käufe konnten nicht wiederhergestellt werden.",
-"premiumSettingsTitle": "Premium",
+"premiumSettingsTitle": "Premium-Abo",
 "premiumSettingsTrialActive": "Deine kostenlose Testphase ist aktiv.",
 "premiumSettingsTrialInfo": "Du kannst Premium bereits jetzt freischalten und FilaLog ohne Unterbrechung weiter nutzen.",
 "premiumSettingsActive": "FilaLog Premium ist aktiv.",

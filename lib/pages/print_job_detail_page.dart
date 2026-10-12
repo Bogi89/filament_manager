@@ -4,10 +4,28 @@ import '../l10n/app_localizations.dart';
 import '../models/print_job.dart';
 import '../widgets/common/page_header.dart';
 
-class PrintJobDetailPage extends StatelessWidget {
+class PrintJobDetailPage extends StatefulWidget {
   final PrintJob job;
+  final bool Function(PrintJob) onUpdateJob;
 
-  const PrintJobDetailPage({super.key, required this.job});
+  const PrintJobDetailPage({
+    super.key,
+    required this.job,
+    required this.onUpdateJob,
+  });
+
+  @override
+  State<PrintJobDetailPage> createState() => _PrintJobDetailPageState();
+}
+
+class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
+  late PrintJob job;
+
+  @override
+  void initState() {
+    super.initState();
+    job = widget.job;
+  }
 
   String _localizedText(
     BuildContext context, {
@@ -76,6 +94,204 @@ class PrintJobDetailPage extends StatelessWidget {
     );
   }
 
+  Future<void> _showEditDialog() async {
+    final projectController = TextEditingController(text: job.projectName);
+    final weightController = TextEditingController(
+      text: job.weightUsed.toStringAsFixed(0),
+    );
+    final timeController = TextEditingController(
+      text: job.printHours.toStringAsFixed(1),
+    );
+    final costController = TextEditingController(
+      text: job.totalCost.toStringAsFixed(2),
+    );
+
+    DateTime selectedDate = job.date;
+
+    final updatedJob = await showDialog<PrintJob>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(
+                _localizedText(
+                  context,
+                  german: 'Druckauftrag bearbeiten',
+                  english: 'Edit print job',
+                ),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: projectController,
+                      decoration: InputDecoration(
+                        labelText: _localizedText(
+                          context,
+                          german: 'Projektname',
+                          english: 'Project name',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: weightController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: _localizedText(
+                          context,
+                          german: 'Gewicht (g)',
+                          english: 'Weight (g)',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: timeController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: _localizedText(
+                          context,
+                          german: 'Druckzeit (h)',
+                          english: 'Print time (h)',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: costController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: _localizedText(
+                          context,
+                          german: 'Kosten (€)',
+                          english: 'Costs (€)',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.calendar_today_outlined),
+                      title: Text(
+                        '${selectedDate.day.toString().padLeft(2, '0')}.'
+                        '${selectedDate.month.toString().padLeft(2, '0')}.'
+                        '${selectedDate.year}',
+                      ),
+                      trailing: const Icon(Icons.edit_calendar_outlined),
+                      onTap: () async {
+                        final picked = await showDatePicker(
+                          context: dialogContext,
+                          initialDate: selectedDate,
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2100),
+                        );
+
+                        if (picked != null) {
+                          setDialogState(() {
+                            selectedDate = picked;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: Text(
+                    _localizedText(
+                      context,
+                      german: 'Abbrechen',
+                      english: 'Cancel',
+                    ),
+                  ),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    final weight = double.tryParse(
+                      weightController.text.replaceAll(',', '.'),
+                    );
+                    final printTime = double.tryParse(
+                      timeController.text.replaceAll(',', '.'),
+                    );
+                    final costs = double.tryParse(
+                      costController.text.replaceAll(',', '.'),
+                    );
+
+                    if (weight == null ||
+                        printTime == null ||
+                        costs == null ||
+                        weight < 0 ||
+                        printTime < 0 ||
+                        costs < 0) {
+                      return;
+                    }
+
+                    Navigator.of(dialogContext).pop(
+                      PrintJob(
+                        projectName: projectController.text.trim(),
+                        filamentId: job.filamentId,
+                        filamentBrand: job.filamentBrand,
+                        material: job.material,
+                        variant: job.variant,
+                        color: job.color,
+                        weightUsed: weight,
+                        printHours: printTime,
+                        totalCost: costs,
+                        date: selectedDate,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    _localizedText(
+                      context,
+                      german: 'Speichern',
+                      english: 'Save',
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (updatedJob == null || !mounted) {
+      return;
+    }
+
+    final updateSuccessful = widget.onUpdateJob(updatedJob);
+
+    if (!updateSuccessful) {
+      if (!mounted) {
+        return;
+      }
+
+      final l10n = AppLocalizations.of(context)!;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.insufficientFilamentStock)));
+
+      return;
+    }
+
+    setState(() {
+      job = updatedJob;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -138,6 +354,23 @@ class PrintJobDetailPage extends StatelessWidget {
       body: Column(
         children: [
           PageHeader(title: pageTitle, showBackButton: true),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton.icon(
+                onPressed: _showEditDialog,
+                icon: const Icon(Icons.edit_outlined),
+                label: Text(
+                  _localizedText(
+                    context,
+                    german: 'Bearbeiten',
+                    english: 'Edit',
+                  ),
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(40, 28, 40, 100),
