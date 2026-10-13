@@ -759,8 +759,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                 spool.storageLocation.trim(),
                                 spool.storagePosition.trim(),
                               ].where((value) => value.isNotEmpty).join(' / '),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                                                            softWrap: true,
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey,
@@ -771,7 +770,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                       ),
                     ),
 
-                    const Spacer(),
+                                        const SizedBox(width: 12),
 
                     Text(
                       "${spool.weight.toInt()} g",
