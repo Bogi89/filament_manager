@@ -429,14 +429,11 @@ class _FilamentCardState extends State<FilamentCard> {
           children: [
             Expanded(
               child: Text(
-                storageInfo.isEmpty
-                    ? l10n.remainingWeightOfTotal(
-                        remainingWeight.toInt(),
-                        totalWeight.toInt(),
-                      )
-                    : '${l10n.remainingWeightOfTotal(remainingWeight.toInt(), totalWeight.toInt())} · $storageInfo',
+                l10n.remainingWeightOfTotal(
+                  remainingWeight.toInt(),
+                  totalWeight.toInt(),
+                ),
                 maxLines: 1,
-                softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 13, color: Colors.grey),
               ),
@@ -448,7 +445,16 @@ class _FilamentCardState extends State<FilamentCard> {
             ),
           ],
         ),
+        if (storageInfo.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(
+            storageInfo,
+            softWrap: true,
+            style: const TextStyle(fontSize: 13, color: Colors.grey),
+          ),
+        ],
         const SizedBox(height: 6),
+
         FilamentProgressBar(percent: percent),
       ],
     );
