@@ -47,6 +47,18 @@ class GuestAnalyticsService {
     }
   }
 
+  /// Erfasst den App-Start eines angemeldeten Benutzers.
+  ///
+  /// Die Firebase Function ermittelt die Benutzer-ID selbst
+  /// aus der bestehenden Firebase-Anmeldung.
+  static Future<void> trackRegisteredUserActivity() async {
+    try {
+      await _functions.httpsCallable('trackRegisteredUserActivity').call();
+    } catch (error) {
+      debugPrint('Registered user activity could not be recorded: $error');
+    }
+  }
+
   static Future<String> _getOrCreateGuestId() async {
     final preferences = await SharedPreferences.getInstance();
 

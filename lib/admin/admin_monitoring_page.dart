@@ -245,6 +245,22 @@ class _AdminMonitoringPageState extends State<AdminMonitoringPage> {
                 value: _intValue(registrations['last30Days']),
               ),
               _MonitoringValue(
+                label: 'Registrierte Nutzer mit Filamentbestand',
+                value: _intValue(registrations['withFilaments']),
+              ),
+              _MonitoringValue(
+                label: 'Aktive registrierte Nutzer heute',
+                value: _intValue(registrations['activeToday']),
+              ),
+              _MonitoringValue(
+                label: 'Aktive registrierte Nutzer – letzte 7 Tage',
+                value: _intValue(registrations['active7Days']),
+              ),
+              _MonitoringValue(
+                label: 'Aktive registrierte Nutzer – letzte 30 Tage',
+                value: _intValue(registrations['active30Days']),
+              ),
+              _MonitoringValue(
                 label: 'Gestartete Testphasen',
                 value: _intValue(data['trials']),
               ),

@@ -299,6 +299,46 @@ exports.trackGuestActivity = onCall(
 );
 
 /**
+ * Erfasst den App-Start eines angemeldeten FilaLog-Benutzers.
+ *
+ * Die Benutzer-ID stammt ausschließlich aus Firebase Authentication.
+ * Bestehende App- und Premium-Daten werden nicht verändert.
+ */
+exports.trackRegisteredUserActivity = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      if (!request.auth) {
+        throw new HttpsError(
+            "unauthenticated",
+            "Authentication required.",
+        );
+      }
+
+      const uid = request.auth.uid;
+
+      const activityReference = db
+          .collection("users")
+          .doc(uid)
+          .collection("monitoring")
+          .doc("activity");
+
+      await activityReference.set(
+          {
+            lastActiveAt: FieldValue.serverTimestamp(),
+            appStartCount: FieldValue.increment(1),
+          },
+          {merge: true},
+      );
+
+      return {
+        recorded: true,
+      };
+    },
+);
+
+/**
  * Prüft einen Google-Play-Kauftoken serverseitig und aktiviert
  * FilaLog Premium ausschließlich nach erfolgreicher Play-Verifizierung.
  */
@@ -1132,6 +1172,11 @@ exports.getMonitoringOverview = onCall(
               .collection("guestAnalytics")
               .get();
 
+      const registeredActivitySnapshot =
+              await db
+                  .collectionGroup("monitoring")
+                  .get();
+
       const purchaseSnapshot =
               await db
                   .collection("purchaseAnalytics")
@@ -1142,6 +1187,11 @@ exports.getMonitoringOverview = onCall(
       let registrationsToday = 0;
       let registrations7Days = 0;
       let registrations30Days = 0;
+
+      let registeredUsersWithFilaments = 0;
+      let activeRegisteredToday = 0;
+      let activeRegistered7Days = 0;
+      let activeRegistered30Days = 0;
 
       let trialUsers = 0;
       let premiumUsers = 0;
@@ -1208,6 +1258,7 @@ exports.getMonitoringOverview = onCall(
     now - (30 * 24 * 60 * 60 * 1000);
 
       const recentRegistrations = [];
+      const registeredUserUids = new Set();
 
       for (const user of authResult.users) {
         const creationTime =
@@ -1225,6 +1276,8 @@ exports.getMonitoringOverview = onCall(
         }
 
         totalRegistrations += 1;
+
+        registeredUserUids.add(user.uid);
 
         recentRegistrations.push({
           uid: user.uid,
@@ -1259,6 +1312,19 @@ exports.getMonitoringOverview = onCall(
         }
 
         const data = document.data();
+
+        const filaments = data.filaments;
+        const userUid = document.ref.parent.parent ?
+  document.ref.parent.parent.id : null;
+
+        if (
+          userUid &&
+          registeredUserUids.has(userUid) &&
+          Array.isArray(filaments) &&
+          filaments.length > 0
+        ) {
+          registeredUsersWithFilaments += 1;
+        }
 
         const trialStart =
     typeof data.trialStart === "string" ?
@@ -1412,6 +1478,47 @@ exports.getMonitoringOverview = onCall(
         }
       }
 
+      for (const document of registeredActivitySnapshot.docs) {
+        if (document.id !== "activity") {
+          continue;
+        }
+
+        const monitoringCollection = document.ref.parent;
+        const userReference = monitoringCollection.parent;
+
+        if (
+          !userReference ||
+          userReference.parent.id !== "users" ||
+          !registeredUserUids.has(userReference.id)
+        ) {
+          continue;
+        }
+
+        const data = document.data();
+
+        const lastActiveAt =
+          data.lastActiveAt &&
+          typeof data.lastActiveAt.toMillis === "function" ?
+            data.lastActiveAt.toMillis() :
+            null;
+
+        if (lastActiveAt === null) {
+          continue;
+        }
+
+        if (lastActiveAt >= startOfToday.getTime()) {
+          activeRegisteredToday += 1;
+        }
+
+        if (lastActiveAt >= sevenDaysAgo) {
+          activeRegistered7Days += 1;
+        }
+
+        if (lastActiveAt >= thirtyDaysAgo) {
+          activeRegistered30Days += 1;
+        }
+      }
+
       const recentPurchases = [];
       const newPaidPremiumUids = new Set();
 
@@ -1549,6 +1656,14 @@ exports.getMonitoringOverview = onCall(
             registrations7Days,
           last30Days:
             registrations30Days,
+          withFilaments:
+            registeredUsersWithFilaments,
+          activeToday:
+            activeRegisteredToday,
+          active7Days:
+            activeRegistered7Days,
+          active30Days:
+            activeRegistered30Days,
           recent:
             latestRegistrations,
         },

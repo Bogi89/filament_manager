@@ -68,6 +68,8 @@ class _AuthGateState extends State<AuthGate> {
         (_accessStatus == AccessStatus.guestTrialActive ||
             _accessStatus == AccessStatus.guestTrialExpired)) {
       unawaited(GuestAnalyticsService.trackGuestActivity());
+    } else if (_firebaseUser != null && _firebaseUser!.emailVerified) {
+      unawaited(GuestAnalyticsService.trackRegisteredUserActivity());
     }
 
     final remaining = _minimumSplashDuration - stopwatch.elapsed;
