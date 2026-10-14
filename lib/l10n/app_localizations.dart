@@ -1229,6 +1229,18 @@ abstract class AppLocalizations {
   /// **'New features and improvements'**
   String get version11Description;
 
+  /// No description provided for @whatsNewVersion111.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.1.1'**
+  String get whatsNewVersion111;
+
+  /// No description provided for @whatsNewVersion111Content.
+  ///
+  /// In en, this message translates to:
+  /// **'• Storage locations are now fully displayed in the filament overview\n• Improved display of storage locations for individual spools\n• Minor improvements to filament management'**
+  String get whatsNewVersion111Content;
+
   /// No description provided for @whatsNewVersion110.
   ///
   /// In en, this message translates to:

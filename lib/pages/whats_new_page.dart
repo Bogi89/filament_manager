@@ -14,6 +14,11 @@ class WhatsNewPage extends StatelessWidget {
       children: [
         HelpSectionCard(
           icon: Icons.new_releases_outlined,
+          title: AppLocalizations.of(context)!.whatsNewVersion111,
+          content: AppLocalizations.of(context)!.whatsNewVersion111Content,
+        ),
+        HelpSectionCard(
+          icon: Icons.new_releases_outlined,
           title: AppLocalizations.of(context)!.whatsNewVersion110,
           content: AppLocalizations.of(context)!.whatsNewVersion110Content,
         ),

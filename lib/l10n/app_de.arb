@@ -229,6 +229,8 @@
     "whatsNew": "Was ist neu",
   "version11": "Version 1.1",
   "version11Description": "Neue Funktionen und Verbesserungen",
+  "whatsNewVersion111": "Version 1.1.1",
+"whatsNewVersion111Content": "• Lagerorte werden in der Filamentübersicht jetzt vollständig angezeigt\n• Verbesserte Darstellung der Lagerorte bei einzelnen Spulen\n• Kleinere Verbesserungen an der Filamentverwaltung",
   "whatsNewVersion110": "Version 1.1.0",
   "whatsNewVersion110Content": "• Neue Filamentmaterialien und passende Spulenbilder\n• Verbesserte automatische Temperaturempfehlungen\n• Lagerorte für Filamente hinzufügen und bearbeiten\n• Verbesserte Filamentverwaltung und Farbdarstellung\n• Aktualisierter Filamentkatalog mit korrigierten Farbcodes\n• Fehlerbehebungen und Stabilitätsverbesserungen",
   "version10": "Version 1.0",
