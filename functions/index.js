@@ -1271,13 +1271,13 @@ exports.getMonitoringOverview = onCall(
           continue;
         }
 
+        registeredUserUids.add(user.uid);
+
         if (creationTime < MONITORING_START_AT.getTime()) {
           continue;
         }
 
         totalRegistrations += 1;
-
-        registeredUserUids.add(user.uid);
 
         recentRegistrations.push({
           uid: user.uid,
