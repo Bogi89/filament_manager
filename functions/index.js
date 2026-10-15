@@ -391,8 +391,6 @@ exports.trackGuestFilamentStatus = onCall(
     async (request) => {
       const guestId = request.data && request.data.guestId;
       const hasFilaments = request.data && request.data.hasFilaments;
-      const accountTransferCompleted =
-        request.data && request.data.accountTransferCompleted;
 
       if (
         typeof guestId !== "string" ||
@@ -411,29 +409,6 @@ exports.trackGuestFilamentStatus = onCall(
         );
       }
 
-      if (
-        typeof accountTransferCompleted !== "boolean"
-      ) {
-        throw new HttpsError(
-            "invalid-argument",
-            "Invalid account transfer status.",
-        );
-      }
-
-      if (accountTransferCompleted && !request.auth) {
-        throw new HttpsError(
-            "unauthenticated",
-            "Authentication required for account transfer.",
-        );
-      }
-
-      if (accountTransferCompleted && hasFilaments) {
-        throw new HttpsError(
-            "invalid-argument",
-            "Completed account transfers cannot retain guest filaments.",
-        );
-      }
-
       const guestReference = db
           .collection("guestAnalytics")
           .doc(guestId);
@@ -446,30 +421,12 @@ exports.trackGuestFilamentStatus = onCall(
           return false;
         }
 
-        const data = snapshot.data();
-
-        // Eine abgeschlossene Kontoübernahme ist endgültig.
-        // Verspätete Bestandsmeldungen werden ignoriert.
-        if (data.accountTransferCompleted === true) {
-          return false;
-        }
-
-        if (accountTransferCompleted) {
-          transaction.update(guestReference, {
-            hasFilaments: false,
-            accountTransferCompleted: true,
-            accountTransferCompletedAt:
-              FieldValue.serverTimestamp(),
-            filamentStatusUpdatedAt:
-              FieldValue.serverTimestamp(),
-          });
-        } else {
-          transaction.update(guestReference, {
-            hasFilaments,
-            filamentStatusUpdatedAt:
-              FieldValue.serverTimestamp(),
-          });
-        }
+        // Aktuellen Filamentbestand des Gastes speichern.
+        transaction.update(guestReference, {
+          hasFilaments,
+          filamentStatusUpdatedAt:
+                    FieldValue.serverTimestamp(),
+        });
 
         return true;
       });
