@@ -264,14 +264,20 @@ class _AdminMonitoringPageState extends State<AdminMonitoringPage> {
                 label: 'Gestartete Testphasen',
                 value: _intValue(data['trials']),
               ),
+
               _MonitoringValue(
                 label: 'Eindeutige Gast-Installationen gesamt',
                 value: _intValue(guests['unique']),
               ),
               _MonitoringValue(
+                label: 'Gäste mit erfasstem Filamentbestand',
+                value: _intValue(guests['withFilaments']),
+              ),
+              _MonitoringValue(
                 label: 'Neue Gäste heute',
                 value: _intValue(guests['today']),
               ),
+
               _MonitoringValue(
                 label: 'Neue Gäste – letzte 7 Tage',
                 value: _intValue(guests['last7Days']),

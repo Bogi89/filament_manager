@@ -64,10 +64,17 @@ class _AuthGateState extends State<AuthGate> {
 
     await _loadState();
 
+    // Ausstehende Gastbestandsmeldungen erneut übertragen.
+    // Der App-Start wartet nicht auf die Statistik.
+    unawaited(GuestAnalyticsService.retryPendingFilamentStatus());
+
     if (_firebaseUser == null &&
         (_accessStatus == AccessStatus.guestTrialActive ||
             _accessStatus == AccessStatus.guestTrialExpired)) {
-      unawaited(GuestAnalyticsService.trackGuestActivity());
+      unawaited(() async {
+        await GuestAnalyticsService.ensureGuestRegistered();
+        await GuestAnalyticsService.trackGuestActivity();
+      }());
     } else if (_firebaseUser != null && _firebaseUser!.emailVerified) {
       unawaited(GuestAnalyticsService.trackRegisteredUserActivity());
     }

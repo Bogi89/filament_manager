@@ -228,6 +228,82 @@ exports.trackGuestStart = onCall(
     },
 );
 
+
+/**
+ * Registriert eine fehlende Gastinstallation nachträglich.
+ *
+ * Bereits vorhandene Gäste bleiben unverändert.
+ * Die bisherigen Start- und Aktivitätszähler werden nicht erhöht.
+ */
+exports.ensureGuestRegistered = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      const guestId = request.data && request.data.guestId;
+      const platform = request.data && request.data.platform;
+
+      const allowedPlatforms = new Set([
+        "web",
+        "android",
+        "ios",
+        "windows",
+        "macos",
+        "linux",
+        "fuchsia",
+      ]);
+
+      if (
+        typeof guestId !== "string" ||
+      !/^[a-f0-9]{32}$/.test(guestId)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid guest ID.",
+        );
+      }
+
+      if (
+        typeof platform !== "string" ||
+      !allowedPlatforms.has(platform)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid platform.",
+        );
+      }
+
+      const guestReference = db
+          .collection("guestAnalytics")
+          .doc(guestId);
+
+      let created = false;
+
+      await db.runTransaction(async (transaction) => {
+        const snapshot = await transaction.get(guestReference);
+
+        if (snapshot.exists) {
+          return;
+        }
+
+        transaction.set(guestReference, {
+          firstStartedAt: FieldValue.serverTimestamp(),
+          lastStartedAt: FieldValue.serverTimestamp(),
+          startCount: 1,
+          platform,
+        });
+
+        created = true;
+      });
+
+      return {
+        recorded: true,
+        created,
+      };
+    },
+);
+
+
 /**
  * Erfasst einen anonymen App-Start eines bereits aktiven Gastnutzers.
  *
@@ -297,6 +373,113 @@ exports.trackGuestActivity = onCall(
       };
     },
 );
+
+
+/**
+ * Erfasst, ob ein bereits bekannter Gast Filamente gespeichert hat.
+ *
+ * Es werden keine Filamentdaten übertragen, sondern ausschließlich
+ * eine anonyme Gast-ID und der Bestandsstatus.
+ *
+ * Bestehende Gaststatistiken bleiben unverändert.
+ */
+
+exports.trackGuestFilamentStatus = onCall(
+    {
+      region: "europe-west1",
+    },
+    async (request) => {
+      const guestId = request.data && request.data.guestId;
+      const hasFilaments = request.data && request.data.hasFilaments;
+      const accountTransferCompleted =
+        request.data && request.data.accountTransferCompleted;
+
+      if (
+        typeof guestId !== "string" ||
+      !/^[a-f0-9]{32}$/.test(guestId)
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid guest ID.",
+        );
+      }
+
+      if (typeof hasFilaments !== "boolean") {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid filament status.",
+        );
+      }
+
+      if (
+        typeof accountTransferCompleted !== "boolean"
+      ) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Invalid account transfer status.",
+        );
+      }
+
+      if (accountTransferCompleted && !request.auth) {
+        throw new HttpsError(
+            "unauthenticated",
+            "Authentication required for account transfer.",
+        );
+      }
+
+      if (accountTransferCompleted && hasFilaments) {
+        throw new HttpsError(
+            "invalid-argument",
+            "Completed account transfers cannot retain guest filaments.",
+        );
+      }
+
+      const guestReference = db
+          .collection("guestAnalytics")
+          .doc(guestId);
+
+      const recorded = await db.runTransaction(async (transaction) => {
+        const snapshot = await transaction.get(guestReference);
+
+        // Keine neuen Gastinstallationen erzeugen.
+        if (!snapshot.exists) {
+          return false;
+        }
+
+        const data = snapshot.data();
+
+        // Eine abgeschlossene Kontoübernahme ist endgültig.
+        // Verspätete Bestandsmeldungen werden ignoriert.
+        if (data.accountTransferCompleted === true) {
+          return false;
+        }
+
+        if (accountTransferCompleted) {
+          transaction.update(guestReference, {
+            hasFilaments: false,
+            accountTransferCompleted: true,
+            accountTransferCompletedAt:
+              FieldValue.serverTimestamp(),
+            filamentStatusUpdatedAt:
+              FieldValue.serverTimestamp(),
+          });
+        } else {
+          transaction.update(guestReference, {
+            hasFilaments,
+            filamentStatusUpdatedAt:
+              FieldValue.serverTimestamp(),
+          });
+        }
+
+        return true;
+      });
+
+      return {
+        recorded,
+      };
+    },
+);
+
 
 /**
  * Erfasst den App-Start eines angemeldeten FilaLog-Benutzers.
@@ -1231,13 +1414,16 @@ exports.getMonitoringOverview = onCall(
       let paddleRevenue7DaysCents = 0;
       let paddleRevenue30DaysCents = 0;
 
+
       let guestStarts = 0;
       let uniqueGuests = 0;
+      let guestsWithFilaments = 0;
       let guestsToday = 0;
       let guests7Days = 0;
       let guests30Days = 0;
 
       let guestAppStarts = 0;
+
       let activeGuestsToday = 0;
       let activeGuests7Days = 0;
       let activeGuests30Days = 0;
@@ -1421,7 +1607,17 @@ exports.getMonitoringOverview = onCall(
           continue;
         }
 
+
         uniqueGuests += 1;
+
+        // Gäste zählen, die aktuell Filamente gespeichert haben.
+        // Bereits übertragene Gastbestände nicht mitzählen.
+        if (
+          data.hasFilaments === true &&
+          data.accountTransferCompleted !== true
+        ) {
+          guestsWithFilaments += 1;
+        }
 
         if (
           typeof data.startCount === "number" &&
@@ -1429,6 +1625,7 @@ exports.getMonitoringOverview = onCall(
         ) {
           guestStarts += data.startCount;
         }
+
 
         if (
           typeof data.appStartCount === "number" &&
@@ -1671,13 +1868,17 @@ exports.getMonitoringOverview = onCall(
         trials:
         trialUsers,
 
+
         guests: {
           unique:
             uniqueGuests,
+          withFilaments:
+            guestsWithFilaments,
           starts:
             guestStarts,
           today:
             guestsToday,
+
           last7Days:
             guests7Days,
           last30Days:

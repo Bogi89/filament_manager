@@ -8,6 +8,10 @@ class GuestAnalyticsService {
   GuestAnalyticsService._();
 
   static const String _guestAnalyticsIdKey = 'guest_analytics_id';
+  static const String _pendingFilamentStatusKey =
+      'guest_pending_filament_status';
+
+  static Future<void> _filamentStatusQueue = Future<void>.value();
 
   static final FirebaseFunctions _functions = FirebaseFunctions.instanceFor(
     region: 'europe-west1',
@@ -28,6 +32,23 @@ class GuestAnalyticsService {
       });
     } catch (error) {
       debugPrint('Guest analytics could not be recorded: $error');
+    }
+  }
+
+  /// Registriert eine fehlende Gastinstallation nachträglich.
+  ///
+  /// Bereits registrierte Gäste bleiben unverändert.
+  /// Netzwerkfehler dürfen die App-Nutzung nicht beeinträchtigen.
+  static Future<void> ensureGuestRegistered() async {
+    try {
+      final guestId = await _getOrCreateGuestId();
+
+      await _functions.httpsCallable('ensureGuestRegistered').call({
+        'guestId': guestId,
+        'platform': _platformName,
+      });
+    } catch (error) {
+      debugPrint('Guest registration could not be ensured: $error');
     }
   }
 
@@ -57,6 +78,100 @@ class GuestAnalyticsService {
     } catch (error) {
       debugPrint('Registered user activity could not be recorded: $error');
     }
+  }
+
+  /// Meldet, ob ein Gast aktuell Filamente gespeichert hat.
+  ///
+  /// Der neueste Status wird vor dem Firebase-Aufruf lokal
+  /// gespeichert. Ältere Meldungen werden nicht erneut gesendet,
+  /// wenn inzwischen ein neuerer Status vorliegt.
+  static Future<void> trackGuestFilamentStatus({
+    required bool hasFilaments,
+  }) async {
+    try {
+      final preferences = await SharedPreferences.getInstance();
+
+      // Neuesten Status sofort vormerken.
+      await preferences.setBool(_pendingFilamentStatusKey, hasFilaments);
+
+      _filamentStatusQueue = _filamentStatusQueue.then((_) async {
+        try {
+          final currentPreferences = await SharedPreferences.getInstance();
+
+          // Inzwischen überholte Meldungen überspringen.
+          final currentStatus = currentPreferences.getBool(
+            _pendingFilamentStatusKey,
+          );
+
+          if (currentStatus != hasFilaments) {
+            return;
+          }
+
+          await ensureGuestRegistered();
+
+          final guestId = await _getOrCreateGuestId();
+
+          await _functions.httpsCallable('trackGuestFilamentStatus').call({
+            'guestId': guestId,
+            'hasFilaments': hasFilaments,
+          });
+
+          // Nur löschen, wenn weiterhin derselbe Status vorgemerkt ist.
+          final latestStatus = currentPreferences.getBool(
+            _pendingFilamentStatusKey,
+          );
+
+          if (latestStatus == hasFilaments) {
+            await currentPreferences.remove(_pendingFilamentStatusKey);
+          }
+        } catch (error) {
+          debugPrint('Guest filament status could not be recorded: $error');
+        }
+      });
+
+      await _filamentStatusQueue;
+    } catch (error) {
+      debugPrint('Guest filament status could not be queued: $error');
+    }
+  }
+
+  /// Wiederholt eine noch nicht erfolgreich übertragene
+  /// Bestandsmeldung, beispielsweise nach einem Netzwerkfehler.
+  static Future<void> retryPendingFilamentStatus() {
+    _filamentStatusQueue = _filamentStatusQueue.then((_) async {
+      try {
+        final preferences = await SharedPreferences.getInstance();
+
+        final hasFilaments = preferences.getBool(_pendingFilamentStatusKey);
+
+        if (hasFilaments == null) {
+          return;
+        }
+
+        await ensureGuestRegistered();
+
+        final guestId = await _getOrCreateGuestId();
+
+        // Vor dem Senden prüfen, ob der Status noch aktuell ist.
+        if (preferences.getBool(_pendingFilamentStatusKey) != hasFilaments) {
+          return;
+        }
+
+        await _functions.httpsCallable('trackGuestFilamentStatus').call({
+          'guestId': guestId,
+          'hasFilaments': hasFilaments,
+        });
+
+        // Neuere Bestandsmeldungen nicht versehentlich löschen.
+        if (preferences.getBool(_pendingFilamentStatusKey) == hasFilaments) {
+          await preferences.remove(_pendingFilamentStatusKey);
+        }
+      } catch (error) {
+        debugPrint('Pending guest filament status retry failed: $error');
+      }
+    });
+
+    return _filamentStatusQueue;
   }
 
   static Future<String> _getOrCreateGuestId() async {

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -116,6 +114,9 @@ class _WelcomePageState extends State<WelcomePage> {
                           try {
                             await GuestService.enableGuestMode();
 
+                            // Gastinstallation vor dem Öffnen der App erfassen.
+                            await GuestAnalyticsService.trackGuestStart();
+
                             if (!mounted) {
                               return;
                             }
@@ -125,8 +126,6 @@ class _WelcomePageState extends State<WelcomePage> {
                                 builder: (_) => const MainNavigation(),
                               ),
                             );
-
-                            unawaited(GuestAnalyticsService.trackGuestStart());
                           } catch (_) {
                             if (mounted) {
                               setState(() {

@@ -11,6 +11,7 @@ import '../services/settings_service.dart';
 import '../services/storage_service.dart';
 import '../services/filament_catalog_service.dart';
 import '../services/firestore_service.dart';
+import '../services/guest_analytics_service.dart';
 
 class AppState extends ChangeNotifier {
   List<Filament> filaments = [];
@@ -146,7 +147,15 @@ class AppState extends ChangeNotifier {
 
         /// Lokale Daten dürfen erst entfernt werden,
         /// nachdem das Speichern in Firestore erfolgreich war.
+
         await StorageService.clearLocalData();
+
+        // Gastbestand nach erfolgreicher Filamentübernahme zurücksetzen.
+        if (localFilaments.isNotEmpty) {
+          unawaited(
+            GuestAnalyticsService.trackGuestFilamentStatus(hasFilaments: false),
+          );
+        }
 
         return;
       }
@@ -176,7 +185,15 @@ class AppState extends ChangeNotifier {
 
       /// Erst NACH erfolgreichem Cloud-Speichern werden
       /// die lokalen Gastdaten entfernt.
+
       await StorageService.clearLocalData();
+
+      // Gastbestand nach erfolgreicher Filamentübernahme zurücksetzen.
+      if (localFilaments.isNotEmpty) {
+        unawaited(
+          GuestAnalyticsService.trackGuestFilamentStatus(hasFilaments: false),
+        );
+      }
 
       filaments = mergedFilaments;
       jobs = mergedJobs;
@@ -267,6 +284,16 @@ class AppState extends ChangeNotifier {
     filaments = await StorageService.loadFilaments();
 
     jobs = await StorageService.loadJobs();
+
+    // Bereits vorhandenen Gastbestand beim Laden erfassen.
+    // Nur melden, wenn tatsächlich kein Firebase-Benutzer angemeldet ist.
+    if (FirebaseAuth.instance.currentUser == null) {
+      unawaited(
+        GuestAnalyticsService.trackGuestFilamentStatus(
+          hasFilaments: filaments.isNotEmpty,
+        ),
+      );
+    }
   }
 
   /// ================= SETTINGS =================
@@ -302,6 +329,16 @@ class AppState extends ChangeNotifier {
     await StorageService.saveFilaments(filaments);
 
     await StorageService.saveJobs(jobs);
+
+    // Gastbestand erst nach erfolgreicher lokaler Speicherung melden.
+    // Die Meldung darf das Speichern nicht blockieren.
+    if (FirebaseAuth.instance.currentUser == null) {
+      unawaited(
+        GuestAnalyticsService.trackGuestFilamentStatus(
+          hasFilaments: filaments.isNotEmpty,
+        ),
+      );
+    }
   }
 
   /// ================= SETTINGS =================
