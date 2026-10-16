@@ -314,10 +314,6 @@ class _AdminMonitoringPageState extends State<AdminMonitoringPage> {
                 label: 'Gast-Installationen Web',
                 value: _intValue(guestPlatforms['web']),
               ),
-              _MonitoringValue(
-                label: 'Gast-Installationen andere Plattformen',
-                value: _intValue(guestPlatforms['other']),
-              ),
             ],
           ),
           const SizedBox(height: 16),

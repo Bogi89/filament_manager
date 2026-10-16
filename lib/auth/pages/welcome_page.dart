@@ -114,8 +114,13 @@ class _WelcomePageState extends State<WelcomePage> {
                           try {
                             await GuestService.enableGuestMode();
 
+                            await GuestService.enableGuestMode();
+
                             // Gastinstallation vor dem Öffnen der App erfassen.
                             await GuestAnalyticsService.trackGuestStart();
+
+                            // Ersten tatsächlichen Gast-App-Start ebenfalls erfassen.
+                            await GuestAnalyticsService.trackGuestActivity();
 
                             if (!mounted) {
                               return;
