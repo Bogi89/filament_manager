@@ -9,6 +9,8 @@ class PrintSettingsSection extends StatefulWidget {
     super.key,
     required this.selectedDiameter,
     required this.diameters,
+    this.density,
+    this.onDensityChanged,
     required this.nozzleTemp,
     required this.bedTemp,
     required this.onDiameterChanged,
@@ -18,6 +20,11 @@ class PrintSettingsSection extends StatefulWidget {
 
   final double? selectedDiameter;
   final List<double> diameters;
+
+  /// Optionale Materialdichte in g/cm³.
+  final double? density;
+  final ValueChanged<double?>? onDensityChanged;
+
   final int? nozzleTemp;
   final int? bedTemp;
   final ValueChanged<double?> onDiameterChanged;
@@ -38,18 +45,60 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DropdownButtonFormField<double>(
-            initialValue: widget.selectedDiameter,
-            hint: Text(l10n.diameter),
-            items: widget.diameters
-                .map(
-                  (d) => DropdownMenuItem(
-                    value: d,
-                    child: Text('$d mm'),
-                  ),
-                )
-                .toList(),
-            onChanged: widget.onDiameterChanged,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isCompact = constraints.maxWidth < 500;
+
+              final diameterField = DropdownButtonFormField<double>(
+                initialValue: widget.selectedDiameter,
+                hint: Text(l10n.diameter),
+                items: widget.diameters
+                    .map(
+                      (d) => DropdownMenuItem(value: d, child: Text('$d mm')),
+                    )
+                    .toList(),
+                onChanged: widget.onDiameterChanged,
+              );
+
+              final densityField = TextFormField(
+                key: ValueKey(widget.density),
+                initialValue: widget.density?.toString() ?? '',
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                decoration: InputDecoration(
+                  labelText: l10n.materialDensity,
+                  hintText: l10n.optional,
+                ),
+                onChanged: (text) {
+                  final value = double.tryParse(
+                    text.trim().replaceAll(',', '.'),
+                  );
+
+                  widget.onDensityChanged?.call(
+                    value != null && value > 0 ? value : null,
+                  );
+                },
+              );
+
+              if (isCompact) {
+                return Column(
+                  children: [
+                    diameterField,
+                    const SizedBox(height: 16),
+                    densityField,
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  Expanded(child: diameterField),
+                  const SizedBox(width: 16),
+                  Expanded(child: densityField),
+                ],
+              );
+            },
           ),
 
           const SizedBox(height: 24),
@@ -105,9 +154,9 @@ class _PrintSettingsSectionState extends State<PrintSettingsSection> {
                         Container(
                           width: 1,
                           height: 60,
-                          color: Theme.of(context).dividerColor.withValues(
-                                alpha: 0.35,
-                              ),
+                          color: Theme.of(
+                            context,
+                          ).dividerColor.withValues(alpha: 0.35),
                         ),
 
                       Expanded(

@@ -13,40 +13,29 @@ import '../widgets/Cards/filament_brand_section.dart';
 import '../widgets/common/page_header.dart';
 
 class FilamentPage extends StatefulWidget {
-  const FilamentPage({
-    super.key,
-  });
+  const FilamentPage({super.key});
 
   @override
-  State<FilamentPage> createState() =>
-      _FilamentPageState();
+  State<FilamentPage> createState() => _FilamentPageState();
 }
 
-class _FilamentPageState
-    extends State<FilamentPage> {
-  final ScrollController _scrollController =
-      ScrollController();
+class _FilamentPageState extends State<FilamentPage> {
+  final ScrollController _scrollController = ScrollController();
 
-  final Map<String, bool>
-      expandedBrands = {};
+  final Map<String, bool> expandedBrands = {};
 
   Filament? editingFilament;
 
-  final TextEditingController
-      weightController =
-      TextEditingController();
+  final TextEditingController weightController = TextEditingController();
 
-  final TextEditingController
-      searchController =
-      TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   String searchText = '';
 
   String? selectedBrand;
   String? selectedMaterial;
 
-  FilamentSortMode selectedSort =
-      FilamentSortMode.material;
+  FilamentSortMode selectedSort = FilamentSortMode.material;
 
   List<String> catalogSuggestions = [];
 
@@ -59,41 +48,28 @@ class _FilamentPageState
   }
 
   void _prepareCatalogSuggestions() {
-    final brands =
-        FilamentCatalogService.getBrands();
+    final brands = FilamentCatalogService.getBrands();
 
     final Set<String> suggestions = {};
 
     for (final brand in brands) {
-      final materials =
-          FilamentCatalogService
-              .getMaterials(brand);
+      final materials = FilamentCatalogService.getMaterials(brand);
 
       for (final material in materials) {
-        final variants =
-            FilamentCatalogService
-                .getVariants(
-          brand,
-          material,
-        );
+        final variants = FilamentCatalogService.getVariants(brand, material);
 
         for (final variant in variants) {
-          suggestions.add(
-            '$brand $material $variant',
-          );
+          suggestions.add('$brand $material $variant');
         }
       }
     }
 
-    catalogSuggestions =
-        suggestions.toList();
+    catalogSuggestions = suggestions.toList();
 
     catalogSuggestions.sort();
   }
 
-  String _normalizeMaterial(
-    String material,
-  ) {
+  String _normalizeMaterial(String material) {
     material = material.toLowerCase();
 
     if (material.contains('rifd')) {
@@ -127,359 +103,230 @@ class _FilamentPageState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final appState =
-        context.watch<AppState>();
+    final appState = context.watch<AppState>();
 
-    selectedSort =
-        appState.sortMode;
+    selectedSort = appState.sortMode;
 
-    final warning =
-        appState.warningPercent / 100;
+    final warning = appState.warningPercent / 100;
 
-    final List<Filament> filaments =
-        [...appState.filaments];
+    final List<Filament> filaments = [...appState.filaments];
 
-    List<Filament> filtered =
-        filaments;
+    List<Filament> filtered = filaments;
 
     if (selectedBrand != null) {
-      filtered = filtered
-          .where(
-            (f) =>
-                f.brand ==
-                selectedBrand,
-          )
-          .toList();
+      filtered = filtered.where((f) => f.brand == selectedBrand).toList();
     }
 
     if (selectedMaterial != null) {
-      filtered = filtered
-          .where(
-            (f) =>
-                f.material ==
-                selectedMaterial,
-          )
-          .toList();
+      filtered = filtered.where((f) => f.material == selectedMaterial).toList();
     }
 
     if (searchText.isNotEmpty) {
-      final query =
-          searchText.toLowerCase();
+      final query = searchText.toLowerCase();
 
-      filtered =
-          filtered.where((f) {
-        return f.brand
-                .toLowerCase()
-                .contains(query) ||
-            f.material
-                .toLowerCase()
-                .contains(query) ||
-            f.variant
-                .toLowerCase()
-                .contains(query);
+      filtered = filtered.where((f) {
+        return f.brand.toLowerCase().contains(query) ||
+            f.material.toLowerCase().contains(query) ||
+            f.variant.toLowerCase().contains(query);
       }).toList();
     }
 
-    final grouped =
-        <String, List<Filament>>{};
+    final grouped = <String, List<Filament>>{};
 
     for (final filament in filtered) {
-      grouped.putIfAbsent(
-        filament.brand,
-        () => [],
-      );
+      grouped.putIfAbsent(filament.brand, () => []);
 
-      grouped[filament.brand]!
-          .add(filament);
+      grouped[filament.brand]!.add(filament);
     }
 
     for (final brand in grouped.keys) {
-      grouped[brand]!.sort(
-        (a, b) {
-          switch (selectedSort) {
-            case FilamentSortMode.remainingWeight:
-              final pa =
-                  a.remainingWeight /
-                      a.totalWeight;
+      grouped[brand]!.sort((a, b) {
+        switch (selectedSort) {
+          case FilamentSortMode.remainingWeight:
+            final pa = a.remainingWeight / a.totalWeight;
 
-              final pb =
-                  b.remainingWeight /
-                      b.totalWeight;
+            final pb = b.remainingWeight / b.totalWeight;
 
-              return pa.compareTo(pb);
+            return pa.compareTo(pb);
 
-            case FilamentSortMode.name:
-              return a.variant.compareTo(
-                b.variant,
-              );
+          case FilamentSortMode.name:
+            return a.variant.compareTo(b.variant);
 
-            case FilamentSortMode.material:
-              final matA =
-                  _normalizeMaterial(
-                a.material,
-              );
+          case FilamentSortMode.material:
+            final matA = _normalizeMaterial(a.material);
 
-              final matB =
-                  _normalizeMaterial(
-                b.material,
-              );
+            final matB = _normalizeMaterial(b.material);
 
-              final matCompare =
-                  matA.compareTo(matB);
+            final matCompare = matA.compareTo(matB);
 
-              if (matCompare != 0) {
-                return matCompare;
-              }
+            if (matCompare != 0) {
+              return matCompare;
+            }
 
-              return a.variant.compareTo(
-                b.variant,
-              );
-          }
-        },
-      );
+            return a.variant.compareTo(b.variant);
+        }
+      });
     }
 
-    final criticalCount =
-        filaments
-            .where(
-              (f) =>
-                  (f.remainingWeight /
-                      f.totalWeight) <=
-                  warning,
-            )
-            .length;
+    final criticalCount = filaments
+        .where((f) => (f.remainingWeight / f.totalWeight) <= warning)
+        .length;
+
+    // Gesamtanzahl aller vorhandenen Spulen.
+    final spoolCount = filaments.fold<int>(
+      0,
+      (sum, filament) => sum + filament.spools.length,
+    );
 
     return Scaffold(
-      backgroundColor:
-          Theme.of(context).brightness ==
-                  Brightness.dark
-              ? Colors.black
-              : const Color(0xFFE9EEF5),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : const Color(0xFFE9EEF5),
 
-      floatingActionButton:
-          FloatingActionButton.extended(
-        backgroundColor:
-            const Color(0xFF3B82F6),
-        foregroundColor:
-            Colors.white,
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
         elevation: 6,
         onPressed: () async {
           await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) =>
-                  AddFilamentPage(
+              builder: (_) => AddFilamentPage(
                 onSave: (filament) {
-                  context
-                      .read<AppState>()
-                      .addFilament(
-                        filament,
-                      );
+                  context.read<AppState>().addFilament(filament);
                 },
               ),
             ),
           );
         },
-        icon:
-            const Icon(Icons.add),
-        label:
-            Text(l10n.filament),
+        icon: const Icon(Icons.add),
+        label: Text(l10n.filament),
       ),
 
       body: Column(
         children: [
-          PageHeader(
-            title: l10n.filaments,
-          ),
+          PageHeader(title: l10n.filaments),
 
           Padding(
-            padding:
-                const EdgeInsets.fromLTRB(
-              20,
-              0,
-              20,
-              16,
-            ),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
             child: Row(
               children: [
                 _topCard(
-                  icon:
-                      const SpoolIcon(
-                    size: 24,
-                  ),
-                  value:
-                      filaments.length
-                          .toString(),
-                  label:
-                      l10n.filaments,
+                  icon: const SpoolIcon(size: 24),
+                  value: filaments.length.toString(),
+                  label: l10n.filaments,
                 ),
 
-                const SizedBox(
-                  width: 24,
-                ),
+                const SizedBox(width: 8),
 
                 _topCard(
-                  icon: const Icon(
-                    Icons.warning,
-                  ),
-                  value:
-                      criticalCount
-                          .toString(),
-                  label:
-                      l10n.critical,
-                  color:
-                      Colors.red,
+                  icon: const SpoolIcon(size: 24),
+                  value: spoolCount.toString(),
+                  label: 'Spulen',
+                ),
+
+                const SizedBox(width: 8),
+
+                _topCard(
+                  icon: const Icon(Icons.warning),
+                  value: criticalCount.toString(),
+                  label: l10n.critical,
+                  color: Colors.red,
                 ),
               ],
             ),
           ),
 
           Container(
-            margin:
-                const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color:
-                  Theme.of(context)
-                      .cardColor,
-              borderRadius:
-                  BorderRadius.circular(
-                16,
-              ),
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color:
-                      Colors.black.withValues(
-                    alpha: 0.05,
-                  ),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 8,
-                  offset:
-                      const Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Theme(
-              data:
-                  Theme.of(context).copyWith(
-                dividerColor:
-                    Colors.transparent,
-              ),
+              data: Theme.of(
+                context,
+              ).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
-                tilePadding:
-                    const EdgeInsets.symmetric(
+                tilePadding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 6,
                 ),
-                childrenPadding:
-                    const EdgeInsets.only(
+                childrenPadding: const EdgeInsets.only(
                   left: 16,
                   right: 16,
                   bottom: 16,
                 ),
                 title: Row(
                   children: [
-                    const Icon(
-                      Icons.filter_list,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const Icon(Icons.filter_list),
+                    const SizedBox(width: 8),
                     Text(
                       l10n.filter,
-                      style:
-                          const TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
-                        fontWeight:
-                            FontWeight.w600,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
                 ),
                 children: [
                   FilamentFilterBar(
-                    searchController:
-                        searchController,
-                    brandItems:
-                        filaments
-                            .map(
-                              (f) =>
-                                  f.brand,
-                            )
-                            .toSet()
-                            .toList(),
-                    materialItems:
-                        filaments
-                            .map(
-                              (f) =>
-                                  f.material,
-                            )
-                            .toSet()
-                            .toList(),
-                    selectedBrand:
-                        selectedBrand,
-                    selectedMaterial:
-                        selectedMaterial,
-                    selectedSort:
-                        selectedSort,
-                    onBrandChanged:
-                        (value) {
+                    searchController: searchController,
+                    brandItems: filaments.map((f) => f.brand).toSet().toList(),
+                    materialItems: filaments
+                        .map((f) => f.material)
+                        .toSet()
+                        .toList(),
+                    selectedBrand: selectedBrand,
+                    selectedMaterial: selectedMaterial,
+                    selectedSort: selectedSort,
+                    onBrandChanged: (value) {
                       setState(() {
-                        selectedBrand =
-                            value;
+                        selectedBrand = value;
                       });
                     },
-                    onMaterialChanged:
-                        (value) {
+                    onMaterialChanged: (value) {
                       setState(() {
-                        selectedMaterial =
-                            value;
+                        selectedMaterial = value;
                       });
                     },
-                    onSortChanged:
-                        (value) {
+                    onSortChanged: (value) {
                       if (value == null) {
                         return;
                       }
 
                       setState(() {
-                        selectedSort =
-                            value;
+                        selectedSort = value;
 
-                        appState.setSortMode(
-                          value,
-                        );
+                        appState.setSortMode(value);
                       });
                     },
-                    onSearchChanged:
-                        (value) {
+                    onSearchChanged: (value) {
                       setState(() {
-                        searchText =
-                            value;
+                        searchText = value;
                       });
                     },
                     onReset: () {
                       setState(() {
-                        selectedBrand =
-                            null;
+                        selectedBrand = null;
 
-                        selectedMaterial =
-                            null;
+                        selectedMaterial = null;
 
                         searchText = '';
 
-                        searchController
-                            .clear();
+                        searchController.clear();
 
-                        selectedSort =
-                            FilamentSortMode
-                                .material;
+                        selectedSort = FilamentSortMode.material;
 
-                        appState.setSortMode(
-                          FilamentSortMode
-                              .material,
-                        );
+                        appState.setSortMode(FilamentSortMode.material);
                       });
                     },
                   ),
@@ -488,51 +335,30 @@ class _FilamentPageState
             ),
           ),
 
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
 
           Expanded(
             child: ListView(
-              controller:
-                  _scrollController,
-              padding:
-                  const EdgeInsets.only(
-                bottom: 120,
-              ),
-              children:
-                  grouped.entries
-                      .map<Widget>(
-                        (entry) {
-                  final brand =
-                      entry.key;
+              controller: _scrollController,
+              padding: const EdgeInsets.only(bottom: 120),
+              children: grouped.entries.map<Widget>((entry) {
+                final brand = entry.key;
 
-                  final filaments =
-                      entry.value;
+                final filaments = entry.value;
 
-                  expandedBrands
-                      .putIfAbsent(
-                    brand,
-                    () => true,
-                  );
+                expandedBrands.putIfAbsent(brand, () => true);
 
-                  return FilamentBrandSection(
-                    brand: brand,
-                    filaments:
-                        filaments,
-                    isExpanded:
-                        expandedBrands[
-                            brand]!,
-                    onToggle: () {
-                      setState(() {
-                        expandedBrands[
-                                brand] =
-                            !expandedBrands[
-                                brand]!;
-                      });
-                    },
-                  );
-                }).toList(),
+                return FilamentBrandSection(
+                  brand: brand,
+                  filaments: filaments,
+                  isExpanded: expandedBrands[brand]!,
+                  onToggle: () {
+                    setState(() {
+                      expandedBrands[brand] = !expandedBrands[brand]!;
+                    });
+                  },
+                );
+              }).toList(),
             ),
           ),
         ],
@@ -547,100 +373,87 @@ class _FilamentPageState
     Color? color,
   }) {
     return Expanded(
-      child: Container(
-        padding:
-            const EdgeInsets.symmetric(
-          vertical: 28,
-          horizontal: 16,
-        ),
-        decoration: BoxDecoration(
-          borderRadius:
-              BorderRadius.circular(20),
-          color:
-              Theme.of(context)
-                          .brightness ==
-                      Brightness.dark
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final compact = constraints.maxWidth < 180;
+
+          final iconWidget = Container(
+            width: compact ? 36 : 44,
+            height: compact ? 36 : 44,
+            decoration: BoxDecoration(
+              color: (color ?? Theme.of(context).colorScheme.primary)
+                  .withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(child: icon),
+          );
+
+          final textWidget = Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: compact
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                label,
+                textAlign: compact ? TextAlign.center : TextAlign.start,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          );
+
+          return Container(
+            padding: EdgeInsets.symmetric(
+              vertical: compact ? 12 : 28,
+              horizontal: compact ? 4 : 16,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.grey.shade900
                   : Colors.white,
-          border: Border.all(
-            color:
-                Theme.of(context)
-                            .brightness ==
-                        Brightness.dark
-                    ? Colors.white.withValues(
-                        alpha: 0.06,
-                      )
-                    : Colors.black.withValues(
-                        alpha: 0.05,
-                      ),
-          ),
-          boxShadow:
-              Theme.of(context)
-                          .brightness ==
-                      Brightness.dark
+              border: Border.all(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white.withValues(alpha: 0.06)
+                    : Colors.black.withValues(alpha: 0.05),
+              ),
+              boxShadow: Theme.of(context).brightness == Brightness.dark
                   ? []
                   : [
                       BoxShadow(
-                        color: Colors.black
-                            .withValues(
-                          alpha: 0.06,
-                        ),
+                        color: Colors.black.withValues(alpha: 0.06),
                         blurRadius: 16,
-                        offset:
-                            const Offset(
-                          0,
-                          6,
-                        ),
+                        offset: const Offset(0, 6),
                       ),
                     ],
-        ),
-        child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: (color ??
-                        Theme.of(context)
-                            .colorScheme
-                            .primary)
-                    .withValues(
-                  alpha: 0.15,
-                ),
-                borderRadius:
-                    BorderRadius.circular(
-                  12,
-                ),
-              ),
-              child:
-                  Center(child: icon),
             ),
-
-            const SizedBox(
-              width: 12,
-            ),
-
-            Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  value,
-                  style:
-                      const TextStyle(
-                    fontSize: 20,
-                    fontWeight:
-                        FontWeight.bold,
+            child: compact
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      iconWidget,
+                      const SizedBox(height: 6),
+                      textWidget,
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      iconWidget,
+                      const SizedBox(width: 12),
+                      textWidget,
+                    ],
                   ),
-                ),
-
-                Text(label),
-              ],
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

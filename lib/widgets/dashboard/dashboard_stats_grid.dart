@@ -23,27 +23,50 @@ class DashboardStatsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
+    // Gesamtanzahl aller gespeicherten Spulen.
+    final spoolCount = filaments.fold<int>(
+      0,
+      (sum, filament) => sum + filament.spools.length,
+    );
+
     return Column(
       children: [
         Row(
           children: [
+            // Filamente
             Expanded(
               child: DashboardStatCard(
                 icon: const SpoolIcon(size: 24),
                 value: "${filaments.length}",
                 label: l10n.filaments,
                 iconBackgroundColor: const Color(0xFFE8F0FF),
+                compact: true,
               ),
             ),
 
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
 
+            // Spulen
+            Expanded(
+              child: DashboardStatCard(
+                icon: const SpoolIcon(size: 24),
+                value: "$spoolCount",
+                label: 'Spulen',
+                iconBackgroundColor: const Color(0xFFE8F0FF),
+                compact: true,
+              ),
+            ),
+
+            const SizedBox(width: 8),
+
+            // Kritisch
             Expanded(
               child: DashboardStatCard(
                 icon: const Icon(Icons.warning, color: Colors.red),
                 value: "${criticalFilaments.length}",
                 label: l10n.critical,
                 iconBackgroundColor: const Color(0xFFFFE8E8),
+                compact: true,
               ),
             ),
           ],

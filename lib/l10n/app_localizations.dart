@@ -251,6 +251,18 @@ abstract class AppLocalizations {
   /// **'Diameter'**
   String get diameter;
 
+  /// No description provided for @materialDensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Material density (g/cm³)'**
+  String get materialDensity;
+
+  /// No description provided for @optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optional;
+
   /// No description provided for @price.
   ///
   /// In en, this message translates to:

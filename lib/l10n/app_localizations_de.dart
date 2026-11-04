@@ -89,6 +89,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get diameter => 'Durchmesser';
 
   @override
+  String get materialDensity => 'Materialdichte (g/cm³)';
+
+  @override
+  String get optional => 'Optional';
+
+  @override
   String get price => 'Preis';
 
   @override

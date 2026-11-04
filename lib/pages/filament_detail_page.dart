@@ -49,6 +49,12 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
   String? selectedColor;
   double? selectedDiameter;
 
+  // Optionale Materialdichte in g/cm³.
+  double? selectedDensity;
+
+  // Schützt gespeicherte und manuell geänderte Dichtewerte.
+  bool densityManuallyEdited = false;
+
   List<String> colorNamesList = [];
 
   final Map<String, Color> customColorMap = {};
@@ -102,6 +108,12 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     }
 
     selectedDiameter = diameters.contains(f.diameter) ? f.diameter : null;
+
+    // Bereits gespeicherte Materialdichte übernehmen.
+    selectedDensity = f.density;
+
+    // Gespeicherte Werte vor automatischen Vorschlägen schützen.
+    densityManuallyEdited = f.density != null;
 
     selectedVariant = f.variant;
 
@@ -167,6 +179,25 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     });
   }
 
+  void updateDensityFromCatalog() {
+    if (densityManuallyEdited) return;
+
+    final brand = selectedBrand;
+    final material = selectedMaterial;
+    final variant = selectedVariant;
+
+    if (brand == null || material == null || variant == null) {
+      selectedDensity = null;
+      return;
+    }
+
+    selectedDensity = FilamentCatalogService.getDensity(
+      brand,
+      material,
+      variant,
+    );
+  }
+
   void _onMaterialChanged(String material) {
     final temperatures = MaterialTemperatureService.getTemperatures(material);
 
@@ -178,6 +209,10 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
       selectedMaterial = material;
       selectedVariant = null;
       selectedColor = null;
+
+      // Automatische Dichte bei Materialwechsel aktualisieren.
+      // Gespeicherte und manuelle Werte bleiben geschützt.
+      updateDensityFromCatalog();
 
       variantsByMaterial[material] = variants;
       colorNamesList = [];
@@ -248,6 +283,10 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     f.variant = selectedVariant ?? f.variant;
 
     f.diameter = selectedDiameter ?? f.diameter;
+
+    // Optionale Materialdichte speichern.
+    // Auch das Entfernen eines vorhandenen Wertes ist erlaubt.
+    f.density = selectedDensity;
 
     f.nozzleTemp = nozzleTemp ?? f.nozzleTemp;
 
@@ -447,6 +486,10 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                 selectedVariant = null;
                 selectedColor = null;
 
+                // Automatische Dichte bei Herstellerwechsel zurücksetzen.
+                // Gespeicherte und manuelle Werte bleiben erhalten.
+                updateDensityFromCatalog();
+
                 colorNamesList = [];
                 variantsByMaterial.clear();
               });
@@ -520,6 +563,10 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
               setState(() {
                 selectedVariant = val;
                 selectedColor = null;
+
+                // Eindeutige Materialdichte aus dem Katalog übernehmen.
+                // Gespeicherte und manuelle Werte bleiben geschützt.
+                updateDensityFromCatalog();
 
                 if (selectedBrand != null &&
                     selectedMaterial != null &&
@@ -643,11 +690,18 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
           PrintSettingsSection(
             selectedDiameter: selectedDiameter,
             diameters: diameters,
+            density: selectedDensity,
             nozzleTemp: nozzleTemp,
             bedTemp: bedTemp,
             onDiameterChanged: (value) {
               setState(() {
                 selectedDiameter = value;
+              });
+            },
+            onDensityChanged: (value) {
+              setState(() {
+                selectedDensity = value;
+                densityManuallyEdited = true;
               });
             },
             onNozzleTempChanged: (value) {
@@ -759,7 +813,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                                 spool.storageLocation.trim(),
                                 spool.storagePosition.trim(),
                               ].where((value) => value.isNotEmpty).join(' / '),
-                                                            softWrap: true,
+                              softWrap: true,
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey,
@@ -770,7 +824,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
                       ),
                     ),
 
-                                        const SizedBox(width: 12),
+                    const SizedBox(width: 12),
 
                     Text(
                       "${spool.weight.toInt()} g",

@@ -10,6 +10,7 @@ import '../models/print_job.dart';
 import '../services/settings_service.dart';
 import '../services/storage_service.dart';
 import '../services/filament_catalog_service.dart';
+import '../services/filament_density_migration_service.dart';
 import '../services/firestore_service.dart';
 import '../services/guest_analytics_service.dart';
 
@@ -130,6 +131,16 @@ class AppState extends ChangeNotifier {
           jobs = [];
         }
 
+        /// Fehlende Dichten aus dem Katalog ergänzen.
+        ///
+        /// Nur bei tatsächlichen Änderungen wird der
+        /// vollständige Cloud-Bestand erneut gespeichert.
+        final updatedCount = FilamentDensityMigrationService.migrate(filaments);
+
+        if (updatedCount > 0) {
+          await FirestoreService.saveData(filaments: filaments, jobs: jobs);
+        }
+
         return;
       }
 
@@ -143,11 +154,13 @@ class AppState extends ChangeNotifier {
         filaments = List<Filament>.from(localFilaments);
         jobs = List<PrintJob>.from(localJobs);
 
+        /// Dichten vor der Übernahme ergänzen.
+        FilamentDensityMigrationService.migrate(filaments);
+
         await FirestoreService.saveData(filaments: filaments, jobs: jobs);
 
         /// Lokale Daten dürfen erst entfernt werden,
         /// nachdem das Speichern in Firestore erfolgreich war.
-
         await StorageService.clearLocalData();
 
         // Gastbestand nach erfolgreicher Filamentübernahme zurücksetzen.
@@ -176,6 +189,10 @@ class AppState extends ChangeNotifier {
 
       final mergedJobs = _mergeJobs(cloudData.jobs, localJobs);
 
+      /// Fehlende Dichten im zusammengeführten Bestand
+      /// automatisch ergänzen.
+      FilamentDensityMigrationService.migrate(mergedFilaments);
+
       /// Zuerst den vollständigen zusammengeführten Bestand
       /// erfolgreich in Firestore speichern.
       await FirestoreService.saveData(
@@ -185,7 +202,6 @@ class AppState extends ChangeNotifier {
 
       /// Erst NACH erfolgreichem Cloud-Speichern werden
       /// die lokalen Gastdaten entfernt.
-
       await StorageService.clearLocalData();
 
       // Gastbestand nach erfolgreicher Filamentübernahme zurücksetzen.
@@ -284,6 +300,14 @@ class AppState extends ChangeNotifier {
     filaments = await StorageService.loadFilaments();
 
     jobs = await StorageService.loadJobs();
+
+    /// Fehlende Dichten im Gastbestand ergänzen.
+    final updatedCount = FilamentDensityMigrationService.migrate(filaments);
+
+    /// Nur geänderte Filamente erneut speichern.
+    if (updatedCount > 0) {
+      await StorageService.saveFilaments(filaments);
+    }
 
     // Bereits vorhandenen Gastbestand beim Laden erfassen.
     // Nur melden, wenn tatsächlich kein Firebase-Benutzer angemeldet ist.

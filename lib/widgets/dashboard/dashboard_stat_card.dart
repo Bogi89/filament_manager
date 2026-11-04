@@ -9,19 +9,24 @@ class DashboardStatCard extends StatelessWidget {
     required this.value,
     required this.label,
     required this.iconBackgroundColor,
+    this.compact = false,
   });
 
   final Widget icon;
   final String value;
   final String label;
   final Color iconBackgroundColor;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return DashboardCard(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 6 : 20,
+        vertical: compact ? 14 : 18,
+      ),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -52,6 +52,12 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   double? selectedDiameter;
 
+  // Optionale Materialdichte in g/cm³.
+  double? selectedDensity;
+
+  // Verhindert das Überschreiben einer manuellen Dichteingabe.
+  bool densityManuallyEdited = false;
+
   int? nozzleTemp;
   int? bedTemp;
 
@@ -113,6 +119,25 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     });
   }
 
+  void updateDensityFromCatalog() {
+    if (densityManuallyEdited) return;
+
+    final brand = selectedBrand;
+    final material = selectedMaterial;
+    final variant = selectedVariant;
+
+    if (brand == null || material == null || variant == null) {
+      selectedDensity = null;
+      return;
+    }
+
+    selectedDensity = FilamentCatalogService.getDensity(
+      brand,
+      material,
+      variant,
+    );
+  }
+
   void selectBrand(String brand) {
     selectedBrand = brand;
 
@@ -121,6 +146,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
     selectedMaterial = null;
     selectedVariant = null;
     selectedColor = null;
+
+    // Automatischen Dichtewert bei Herstellerwechsel zurücksetzen.
+    // Manuelle Eingaben bleiben erhalten.
+    updateDensityFromCatalog();
 
     variants = [];
     colors = [];
@@ -136,6 +165,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
     selectedVariant = null;
     selectedColor = null;
+
+    // Automatischen Dichtewert bei Materialwechsel zurücksetzen.
+    // Manuelle Eingaben bleiben erhalten.
+    updateDensityFromCatalog();
 
     colors = [];
     selectedFilamentColors = [];
@@ -247,6 +280,10 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   void selectVariant(String variant) {
     selectedVariant = variant;
+
+    // Dichte automatisch aus dem Katalog übernehmen,
+    // sofern sie nicht manuell geändert wurde.
+    updateDensityFromCatalog();
 
     final newColors = FilamentCatalogService.getColors(
       selectedBrand!,
@@ -444,6 +481,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
           : "Standard",
 
       diameter: selectedDiameter ?? 1.75,
+      density: selectedDensity,
       totalWeight: totalWeight,
       remainingWeight: remainingWeight,
       price: price,
@@ -737,6 +775,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                         variants = variants.toSet().toList();
                                         variants.sort();
                                         selectedVariant = result;
+
+                                        // Dichte für die neue Variante prüfen.
+                                        updateDensityFromCatalog();
                                       });
                                     }
                                   },
@@ -1144,11 +1185,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                       child: PrintSettingsSection(
                         selectedDiameter: selectedDiameter,
                         diameters: diameters,
+                        density: selectedDensity,
                         nozzleTemp: nozzleTemp,
                         bedTemp: bedTemp,
                         onDiameterChanged: (value) {
                           setState(() {
                             selectedDiameter = value;
+                          });
+                        },
+                        onDensityChanged: (value) {
+                          setState(() {
+                            selectedDensity = value;
+                            densityManuallyEdited = true;
                           });
                         },
                         onNozzleTempChanged: (value) {
@@ -1372,6 +1420,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                   variants.sort();
 
                                   selectedVariant = result;
+
+                                  // Dichte für die neue Variante prüfen.
+                                  updateDensityFromCatalog();
                                 });
                               }
                             },
@@ -1753,11 +1804,18 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                 PrintSettingsSection(
                   selectedDiameter: selectedDiameter,
                   diameters: diameters,
+                  density: selectedDensity,
                   nozzleTemp: nozzleTemp,
                   bedTemp: bedTemp,
                   onDiameterChanged: (value) {
                     setState(() {
                       selectedDiameter = value;
+                    });
+                  },
+                  onDensityChanged: (value) {
+                    setState(() {
+                      selectedDensity = value;
+                      densityManuallyEdited = true;
                     });
                   },
                   onNozzleTempChanged: (value) {
