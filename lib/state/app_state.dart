@@ -290,7 +290,7 @@ class AppState extends ChangeNotifier {
       job.variant,
       job.color.toARGB32().toString(),
       job.weightUsed.toString(),
-      job.printHours.toString(),
+      job.printMinutes.toString(),
       job.totalCost.toString(),
       job.date.toIso8601String(),
     ].join('|');

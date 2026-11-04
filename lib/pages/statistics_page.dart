@@ -49,7 +49,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     for (final job in widget.jobs) {
       totalWeight += job.weightUsed;
       totalCost += job.totalCost;
-      totalHours += job.printHours;
+      totalHours += job.printMinutes / 60;
 
       materialUsage[job.material] =
           (materialUsage[job.material] ?? 0) + job.weightUsed;
@@ -134,10 +134,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     final selectedSection = sectionLabels.entries
                         .firstWhere(
                           (entry) => entry.value == value,
-                          orElse: () => const MapEntry(
-                            _materialUsageSection,
-                            '',
-                          ),
+                          orElse: () =>
+                              const MapEntry(_materialUsageSection, ''),
                         )
                         .key;
 
@@ -163,10 +161,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Text(
             l10n.overallOverview,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Row(
@@ -199,11 +194,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  Widget _buildOverviewItem(
-    IconData icon,
-    String value,
-    String label,
-  ) {
+  Widget _buildOverviewItem(IconData icon, String value, String label) {
     Color iconColor;
 
     switch (icon) {
@@ -226,27 +217,17 @@ class _StatisticsPageState extends State<StatisticsPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: iconColor,
-        ),
+        Icon(icon, size: 20, color: iconColor),
         const SizedBox(height: 6),
         Text(
           value,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 2),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           textAlign: TextAlign.center,
         ),
       ],
@@ -268,10 +249,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Text(
             l10n.averagePerPrint,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Row(
@@ -313,23 +291,16 @@ class _StatisticsPageState extends State<StatisticsPage> {
       (a, b) => a.value > b.value ? a : b,
     );
 
-    final percentage =
-        totalWeight > 0 ? (top.value / totalWeight) * 100 : 0.0;
+    final percentage = totalWeight > 0 ? (top.value / totalWeight) * 100 : 0.0;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 18,
-        vertical: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            Color(0xFF6D3FD3),
-            Color(0xFFD73AF5),
-          ],
+          colors: [Color(0xFF6D3FD3), Color(0xFFD73AF5)],
         ),
       ),
       child: Column(
@@ -378,9 +349,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               value: percentage / 100,
               minHeight: 6,
               backgroundColor: Colors.white24,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                Colors.white,
-              ),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
             ),
           ),
         ],
@@ -434,9 +403,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
       return Text(l10n.noPrintData);
     }
 
-    final maxValue = data.values.reduce(
-      (a, b) => a > b ? a : b,
-    );
+    final maxValue = data.values.reduce((a, b) => a > b ? a : b);
 
     return AppCard(
       child: Column(
@@ -444,10 +411,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           ...data.entries.map((entry) {
@@ -473,8 +437,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         unit == '€'
                             ? _formatCurrency(entry.value)
                             : unit == 'h'
-                                ? _formatHours(entry.value)
-                                : _formatWeight(entry.value),
+                            ? _formatHours(entry.value)
+                            : _formatWeight(entry.value),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade700,

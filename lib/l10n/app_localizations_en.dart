@@ -1818,4 +1818,127 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get premiumSettingsPurchaseStartError => 'The Google Play purchase could not be started.';
+
+  @override
+  String get v12Color => 'Color';
+
+  @override
+  String get v12Variant => 'Variant';
+
+  @override
+  String get v12PrintData => 'Print data';
+
+  @override
+  String get v12Weight => 'Weight';
+
+  @override
+  String get v12PrintTime => 'Print time';
+
+  @override
+  String get v12Costs => 'Costs (€)';
+
+  @override
+  String get v12Date => 'Date';
+
+  @override
+  String get v12ProductionCosts => 'Production costs';
+
+  @override
+  String get v12TotalProductionCost => 'Total production cost';
+
+  @override
+  String get v12SalesCalculation => 'Sales calculation';
+
+  @override
+  String get v12NetSellingPrice => 'Net selling price';
+
+  @override
+  String get v12GrossSellingPrice => 'Gross selling price';
+
+  @override
+  String get v12CostBreakdown => 'Cost breakdown';
+
+  @override
+  String get v12EditPrintJob => 'Edit print job';
+
+  @override
+  String get v12ProjectName => 'Project name';
+
+  @override
+  String get v12WeightG => 'Weight (g)';
+
+  @override
+  String get v12PrintTimeMin => 'Print time (min)';
+
+  @override
+  String get v12Cancel => 'Cancel';
+
+  @override
+  String get v12Save => 'Save';
+
+  @override
+  String get v12PrintDetails => 'Print details';
+
+  @override
+  String get v12Edit => 'Edit';
+
+  @override
+  String get v12PrintedOn => 'Printed on';
+
+  @override
+  String get v12FilamentCost => 'Filament cost';
+
+  @override
+  String get v12ElectricityCost => 'Electricity cost';
+
+  @override
+  String get v12PrinterDepreciation => 'Printer depreciation';
+
+  @override
+  String get v12Maintenance => 'Maintenance';
+
+  @override
+  String get v12AdditionalWear => 'Additional wear';
+
+  @override
+  String get v12Preparation => 'Preparation';
+
+  @override
+  String get v12PostProcessing => 'Post-processing';
+
+  @override
+  String get v12PackagingLabor => 'Packaging labor';
+
+  @override
+  String get v12FailedPrints => 'Failed prints';
+
+  @override
+  String get v12SupportAndWaste => 'Support and waste';
+
+  @override
+  String get v12AdditionalMaterials => 'Additional materials';
+
+  @override
+  String get v12PackagingAndShipping => 'Packaging and shipping';
+
+  @override
+  String get v12Overhead => 'Overhead';
+
+  @override
+  String get v12ProfitMarkup => 'Profit markup';
+
+  @override
+  String get v12PlatformFees => 'Platform fees';
+
+  @override
+  String get v12Vat => 'VAT';
+
+  @override
+  String get v12ActualProfit => 'Actual profit';
+
+  @override
+  String get v12AdditionalProductionCosts => 'Additional production costs';
+
+  @override
+  String get v12InvalidSellingFees => 'Invalid selling fees. Please check the percentage.';
 }

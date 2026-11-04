@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/print_job.dart';
+import '../utils/print_duration_formatter.dart';
 import '../widgets/common/app_hover_card.dart';
 import '../widgets/common/page_header.dart';
+import '../widgets/common/filament_color_circle.dart';
 import 'print_job_detail_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -579,42 +581,59 @@ class _HistoryPageState extends State<HistoryPage> {
                                             ),
                                           ListTile(
                                             contentPadding: EdgeInsets.zero,
-                                            leading: CircleAvatar(
-                                              backgroundColor: job.color,
-                                              child: job.color == Colors.white
-                                                  ? Container(
-                                                      width: 36,
-                                                      height: 36,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: Colors
-                                                              .grey
-                                                              .shade400,
-                                                          width: 1.5,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : null,
+                                            leading: FilamentColorCircle(
+                                              colors: job.colors,
+                                              fallbackColor: job.color,
+                                              size: 42,
                                             ),
-                                            title: Text(
-                                              '${job.filamentBrand} '
-                                              '${job.material} '
-                                              '${job.variant}',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color:
-                                                    Theme.of(
-                                                          context,
-                                                        ).brightness ==
-                                                        Brightness.dark
-                                                    ? Colors.grey.shade300
-                                                    : Colors.grey.shade700,
-                                              ),
+                                            title: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${job.filamentBrand} '
+                                                  '${job.material} '
+                                                  '${job.variant}',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurfaceVariant,
+                                                  ),
+                                                ),
+                                                if (job.colorNames.any(
+                                                  (name) =>
+                                                      name.trim().isNotEmpty &&
+                                                      name
+                                                              .trim()
+                                                              .toLowerCase() !=
+                                                          'unknown',
+                                                ))
+                                                  Text(
+                                                    job.colorNames
+                                                        .where(
+                                                          (name) =>
+                                                              name
+                                                                  .trim()
+                                                                  .isNotEmpty &&
+                                                              name
+                                                                      .trim()
+                                                                      .toLowerCase() !=
+                                                                  'unknown',
+                                                        )
+                                                        .join(' + '),
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurfaceVariant,
+                                                    ),
+                                                  ),
+                                              ],
                                             ),
                                             subtitle: Text(
                                               '${job.weightUsed.toStringAsFixed(0)} g • '
-                                              '${job.printHours.toStringAsFixed(1)} h\n'
+                                              '${PrintDurationFormatter.format(job.printMinutes)}\n'
                                               '${job.date.day}.'
                                               '${job.date.month}.'
                                               '${job.date.year}',

@@ -3676,6 +3676,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The Google Play purchase could not be started.'**
   String get premiumSettingsPurchaseStartError;
+
+  /// No description provided for @v12Color.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get v12Color;
+
+  /// No description provided for @v12Variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Variant'**
+  String get v12Variant;
+
+  /// No description provided for @v12PrintData.
+  ///
+  /// In en, this message translates to:
+  /// **'Print data'**
+  String get v12PrintData;
+
+  /// No description provided for @v12Weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get v12Weight;
+
+  /// No description provided for @v12PrintTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Print time'**
+  String get v12PrintTime;
+
+  /// No description provided for @v12Costs.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs (€)'**
+  String get v12Costs;
+
+  /// No description provided for @v12Date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get v12Date;
+
+  /// No description provided for @v12ProductionCosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Production costs'**
+  String get v12ProductionCosts;
+
+  /// No description provided for @v12TotalProductionCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total production cost'**
+  String get v12TotalProductionCost;
+
+  /// No description provided for @v12SalesCalculation.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales calculation'**
+  String get v12SalesCalculation;
+
+  /// No description provided for @v12NetSellingPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Net selling price'**
+  String get v12NetSellingPrice;
+
+  /// No description provided for @v12GrossSellingPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross selling price'**
+  String get v12GrossSellingPrice;
+
+  /// No description provided for @v12CostBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost breakdown'**
+  String get v12CostBreakdown;
+
+  /// No description provided for @v12EditPrintJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit print job'**
+  String get v12EditPrintJob;
+
+  /// No description provided for @v12ProjectName.
+  ///
+  /// In en, this message translates to:
+  /// **'Project name'**
+  String get v12ProjectName;
+
+  /// No description provided for @v12WeightG.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (g)'**
+  String get v12WeightG;
+
+  /// No description provided for @v12PrintTimeMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Print time (min)'**
+  String get v12PrintTimeMin;
+
+  /// No description provided for @v12Cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get v12Cancel;
+
+  /// No description provided for @v12Save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get v12Save;
+
+  /// No description provided for @v12PrintDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Print details'**
+  String get v12PrintDetails;
+
+  /// No description provided for @v12Edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get v12Edit;
+
+  /// No description provided for @v12PrintedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Printed on'**
+  String get v12PrintedOn;
+
+  /// No description provided for @v12FilamentCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Filament cost'**
+  String get v12FilamentCost;
+
+  /// No description provided for @v12ElectricityCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity cost'**
+  String get v12ElectricityCost;
+
+  /// No description provided for @v12PrinterDepreciation.
+  ///
+  /// In en, this message translates to:
+  /// **'Printer depreciation'**
+  String get v12PrinterDepreciation;
+
+  /// No description provided for @v12Maintenance.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get v12Maintenance;
+
+  /// No description provided for @v12AdditionalWear.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional wear'**
+  String get v12AdditionalWear;
+
+  /// No description provided for @v12Preparation.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparation'**
+  String get v12Preparation;
+
+  /// No description provided for @v12PostProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-processing'**
+  String get v12PostProcessing;
+
+  /// No description provided for @v12PackagingLabor.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging labor'**
+  String get v12PackagingLabor;
+
+  /// No description provided for @v12FailedPrints.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed prints'**
+  String get v12FailedPrints;
+
+  /// No description provided for @v12SupportAndWaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Support and waste'**
+  String get v12SupportAndWaste;
+
+  /// No description provided for @v12AdditionalMaterials.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional materials'**
+  String get v12AdditionalMaterials;
+
+  /// No description provided for @v12PackagingAndShipping.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging and shipping'**
+  String get v12PackagingAndShipping;
+
+  /// No description provided for @v12Overhead.
+  ///
+  /// In en, this message translates to:
+  /// **'Overhead'**
+  String get v12Overhead;
+
+  /// No description provided for @v12ProfitMarkup.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit markup'**
+  String get v12ProfitMarkup;
+
+  /// No description provided for @v12PlatformFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform fees'**
+  String get v12PlatformFees;
+
+  /// No description provided for @v12Vat.
+  ///
+  /// In en, this message translates to:
+  /// **'VAT'**
+  String get v12Vat;
+
+  /// No description provided for @v12ActualProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual profit'**
+  String get v12ActualProfit;
+
+  /// No description provided for @v12AdditionalProductionCosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional production costs'**
+  String get v12AdditionalProductionCosts;
+
+  /// No description provided for @v12InvalidSellingFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid selling fees. Please check the percentage.'**
+  String get v12InvalidSellingFees;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

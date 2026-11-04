@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/extended_costs.dart';
 import '../models/filament.dart';
 import '../models/print_job.dart';
 import '../models/printer.dart';
+import '../services/extended_cost_calculator.dart';
 import '../services/printer_service.dart';
+import '../widgets/cost/extended_costs_section.dart';
+import '../widgets/cost/filament_dropdown_item.dart';
 import '../widgets/common/page_header.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
@@ -52,6 +56,54 @@ class _CostPageState extends State<CostPage> {
 
   bool subtractFromStock = true;
 
+  ExtendedCosts extendedCosts = ExtendedCosts();
+  ExtendedCostResult? extendedResult;
+
+  void _updateExtendedCosts(ExtendedCosts updated) {
+    setState(() {
+      extendedCosts = updated;
+      extendedResult = null;
+      filamentCost = 0;
+      electricityCost = 0;
+      totalCost = 0;
+    });
+  }
+
+  Widget _extendedCostSummary(BuildContext context) {
+    final result = extendedResult;
+    if (result == null || !extendedCosts.enabled) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Column(
+        children: [
+          _buildResultCard(
+            context,
+            title: AppLocalizations.of(context)!.v12AdditionalProductionCosts,
+            value: '${result.additionalCostTotal.toStringAsFixed(2)} €',
+          ),
+          if (result.sellingCalculationEnabled) ...[
+            const SizedBox(height: 12),
+            _buildResultCard(
+              context,
+              title: AppLocalizations.of(context)!.v12NetSellingPrice,
+              value: '${result.netSellingPrice.toStringAsFixed(2)} €',
+            ),
+            const SizedBox(height: 12),
+            _buildResultCard(
+              context,
+              title: AppLocalizations.of(context)!.v12GrossSellingPrice,
+              value: '${result.grossSellingPrice.toStringAsFixed(2)} €',
+              isTotal: true,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   /// 📅 NEU — Datum
   DateTime selectedDate = DateTime.now();
 
@@ -82,9 +134,32 @@ class _CostPageState extends State<CostPage> {
 
     electricityCost = (watt / 1000) * (printTime / 60) * electricityPrice;
 
-    totalCost = filamentCost + electricityCost;
+    try {
+      final result = ExtendedCostCalculator.calculate(
+        filamentCost: filamentCost,
+        electricityCost: electricityCost,
+        printTimeMinutes: printTime,
+        objectWeightGrams: objectWeight,
+        spoolWeightGrams: spoolWeight,
+        spoolPrice: spoolPrice,
+        settings: extendedCosts,
+      );
 
-    setState(() {});
+      setState(() {
+        extendedResult = result;
+        totalCost = result.productionCost;
+      });
+    } on ArgumentError {
+      setState(() {
+        extendedResult = null;
+        totalCost = 0;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.v12InvalidSellingFees),
+        ),
+      );
+    }
   }
 
   /// 📅 Datum auswählen
@@ -119,10 +194,30 @@ class _CostPageState extends State<CostPage> {
     final usedWeight =
         double.tryParse(objectWeightController.text.replaceAll(',', '.')) ?? 0;
 
-    final hours =
+    final minutes =
         double.tryParse(printTimeController.text.replaceAll(',', '.')) ?? 0;
 
     if (usedWeight == 0 || totalCost == 0) return;
+
+    final result = extendedResult;
+    final breakdown = <String, double>{
+      'filamentCost': filamentCost,
+      'electricityCost': electricityCost,
+    };
+    if (extendedCosts.enabled && result != null) {
+      for (final entry in result.additionalCosts.entries) {
+        breakdown[entry.key.name] = entry.value;
+      }
+      breakdown['productionCost'] = result.productionCost;
+      if (result.sellingCalculationEnabled) {
+        breakdown['profitMarkupAmount'] = result.profitMarkupAmount;
+        breakdown['platformFeeAmount'] = result.platformFeeAmount;
+        breakdown['vatAmount'] = result.vatAmount;
+        breakdown['netSellingPrice'] = result.netSellingPrice;
+        breakdown['grossSellingPrice'] = result.grossSellingPrice;
+        breakdown['actualProfit'] = result.actualProfit;
+      }
+    }
 
     final job = PrintJob(
       projectName: projectController.text,
@@ -130,10 +225,20 @@ class _CostPageState extends State<CostPage> {
       filamentBrand: selectedFilament!.brand,
       material: selectedFilament!.material,
       variant: selectedFilament!.variant,
-      color: selectedFilament!.color,
+      color: selectedFilament!.effectiveColors.first,
       weightUsed: usedWeight,
-      printHours: hours,
+      printMinutes: minutes,
+      colors: selectedFilament!.effectiveColors,
+      colorNames: selectedFilament!.effectiveColorNames,
       totalCost: totalCost,
+      extendedCosts: extendedCosts,
+      costBreakdown: breakdown,
+      sellingPrice:
+          extendedCosts.enabled &&
+              result != null &&
+              result.sellingCalculationEnabled
+          ? result.grossSellingPrice
+          : null,
 
       /// 📅 GEÄNDERT
       date: selectedDate,
@@ -532,26 +637,15 @@ class _CostPageState extends State<CostPage> {
                     const SizedBox(height: 10),
 
                     DropdownButtonFormField<Filament>(
+                      isExpanded: true,
                       decoration: InputDecoration(
                         labelText: l10n.selectFilament,
                       ),
 
                       items: widget.filaments.map((f) {
-                        final percent =
-                            (f.remainingWeight / f.totalWeight) * 100;
-
-                        String weightText = "${f.remainingWeight.toInt()} g";
-
-                        if (percent <= 10) {
-                          weightText = "${f.remainingWeight.toInt()} g ⚠";
-                        }
-
-                        return DropdownMenuItem(
+                        return DropdownMenuItem<Filament>(
                           value: f,
-
-                          child: Text(
-                            "${f.brand} ${f.material} ${f.variant} ($weightText)",
-                          ),
+                          child: FilamentDropdownItem(filament: f),
                         );
                       }).toList(),
 
@@ -648,6 +742,13 @@ class _CostPageState extends State<CostPage> {
                 ),
               ),
 
+              const SizedBox(height: 20),
+              ExtendedCostsSection(
+                settings: extendedCosts,
+                onChanged: _updateExtendedCosts,
+              ),
+              const SizedBox(height: 16),
+
               Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
@@ -720,6 +821,8 @@ class _CostPageState extends State<CostPage> {
                 ],
               ),
 
+              _extendedCostSummary(context),
+
               const SizedBox(height: 20),
 
               ElevatedButton(onPressed: save, child: Text(l10n.save)),
@@ -790,25 +893,14 @@ class _CostPageState extends State<CostPage> {
                           const SizedBox(height: 12),
 
                           DropdownButtonFormField<Filament>(
+                            isExpanded: true,
                             decoration: InputDecoration(
                               labelText: l10n.selectFilament,
                             ),
                             items: widget.filaments.map((f) {
-                              final percent =
-                                  (f.remainingWeight / f.totalWeight) * 100;
-
-                              String weightText =
-                                  "${f.remainingWeight.toInt()} g";
-
-                              if (percent <= 10) {
-                                weightText = "${f.remainingWeight.toInt()} g ⚠";
-                              }
-
-                              return DropdownMenuItem(
+                              return DropdownMenuItem<Filament>(
                                 value: f,
-                                child: Text(
-                                  "${f.brand} ${f.material} ${f.variant} ($weightText)",
-                                ),
+                                child: FilamentDropdownItem(filament: f),
                               );
                             }).toList(),
                             onChanged: (val) {
@@ -1078,6 +1170,12 @@ class _CostPageState extends State<CostPage> {
             ),
             const SizedBox(height: 24),
 
+            ExtendedCostsSection(
+              settings: extendedCosts,
+              onChanged: _updateExtendedCosts,
+            ),
+            const SizedBox(height: 16),
+
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
@@ -1228,6 +1326,8 @@ class _CostPageState extends State<CostPage> {
                 ),
               ],
             ),
+            _extendedCostSummary(context),
+
             const SizedBox(height: 24),
 
             SizedBox(

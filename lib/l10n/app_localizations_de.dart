@@ -1818,4 +1818,127 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get premiumSettingsPurchaseStartError => 'Der Google-Play-Kauf konnte nicht gestartet werden.';
+
+  @override
+  String get v12Color => 'Farbe';
+
+  @override
+  String get v12Variant => 'Variante';
+
+  @override
+  String get v12PrintData => 'Druckdaten';
+
+  @override
+  String get v12Weight => 'Gewicht';
+
+  @override
+  String get v12PrintTime => 'Druckzeit';
+
+  @override
+  String get v12Costs => 'Kosten (€)';
+
+  @override
+  String get v12Date => 'Datum';
+
+  @override
+  String get v12ProductionCosts => 'Produktionskosten';
+
+  @override
+  String get v12TotalProductionCost => 'Produktionskosten gesamt';
+
+  @override
+  String get v12SalesCalculation => 'Verkaufskalkulation';
+
+  @override
+  String get v12NetSellingPrice => 'Nettoverkaufspreis';
+
+  @override
+  String get v12GrossSellingPrice => 'Bruttoverkaufspreis';
+
+  @override
+  String get v12CostBreakdown => 'Kostenaufschlüsselung';
+
+  @override
+  String get v12EditPrintJob => 'Druckauftrag bearbeiten';
+
+  @override
+  String get v12ProjectName => 'Projektname';
+
+  @override
+  String get v12WeightG => 'Gewicht (g)';
+
+  @override
+  String get v12PrintTimeMin => 'Druckzeit (min)';
+
+  @override
+  String get v12Cancel => 'Abbrechen';
+
+  @override
+  String get v12Save => 'Speichern';
+
+  @override
+  String get v12PrintDetails => 'Druckdetails';
+
+  @override
+  String get v12Edit => 'Bearbeiten';
+
+  @override
+  String get v12PrintedOn => 'Gedruckt am';
+
+  @override
+  String get v12FilamentCost => 'Filamentkosten';
+
+  @override
+  String get v12ElectricityCost => 'Stromkosten';
+
+  @override
+  String get v12PrinterDepreciation => 'Druckerabschreibung';
+
+  @override
+  String get v12Maintenance => 'Wartung';
+
+  @override
+  String get v12AdditionalWear => 'Zusätzlicher Verschleiß';
+
+  @override
+  String get v12Preparation => 'Vorbereitung';
+
+  @override
+  String get v12PostProcessing => 'Nachbearbeitung';
+
+  @override
+  String get v12PackagingLabor => 'Verpackungsarbeit';
+
+  @override
+  String get v12FailedPrints => 'Fehldrucke';
+
+  @override
+  String get v12SupportAndWaste => 'Support und Ausschuss';
+
+  @override
+  String get v12AdditionalMaterials => 'Zusätzliche Materialien';
+
+  @override
+  String get v12PackagingAndShipping => 'Verpackung und Versand';
+
+  @override
+  String get v12Overhead => 'Gemeinkosten';
+
+  @override
+  String get v12ProfitMarkup => 'Gewinnaufschlag';
+
+  @override
+  String get v12PlatformFees => 'Plattformgebühren';
+
+  @override
+  String get v12Vat => 'Mehrwertsteuer';
+
+  @override
+  String get v12ActualProfit => 'Tatsächlicher Gewinn';
+
+  @override
+  String get v12AdditionalProductionCosts => 'Zusätzliche Produktionskosten';
+
+  @override
+  String get v12InvalidSellingFees => 'Ungültige Verkaufsgebühren. Bitte Prozentsatz prüfen.';
 }

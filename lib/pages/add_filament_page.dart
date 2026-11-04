@@ -447,12 +447,30 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       return;
     }
 
-    final List<Color> parsedColors = FilamentCatalogService.getColorsFromHex(
+    final catalogColors = FilamentCatalogService.getColorsFromHex(
       selectedBrand!,
       selectedMaterial!,
       selectedVariant!,
       selectedColor!,
     );
+    final selectedHexColors = selectedFilamentColors
+        .map((entry) {
+          final hex = entry.hex.trim().replaceFirst('#', '');
+          if (!RegExp(r'^(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$').hasMatch(hex)) {
+            return null;
+          }
+          final value = int.tryParse(hex, radix: 16);
+          if (value == null) return null;
+          return Color(hex.length == 6 ? 0xFF000000 | value : value);
+        })
+        .whereType<Color>()
+        .toList();
+    final List<Color> parsedColors =
+        selectedHexColors.isNotEmpty &&
+            (selectedHexColors.length >= catalogColors.length ||
+                catalogColors.isEmpty)
+        ? selectedHexColors
+        : catalogColors;
 
     final List<String> colorNames = selectedFilamentColors.isNotEmpty
         ? selectedFilamentColors
@@ -507,7 +525,9 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       filamentColors: List.generate(
         parsedColors.length,
         (index) => FilamentColor(
-          name: colorNames.isNotEmpty ? colorNames.first : "Unknown",
+          name: colorNames.length == parsedColors.length
+              ? colorNames[index]
+              : (colorNames.isNotEmpty ? colorNames.first : "Unknown"),
           hex:
               '#${parsedColors[index].toARGB32().toRadixString(16).substring(2).toUpperCase()}',
           isCustom: false,
