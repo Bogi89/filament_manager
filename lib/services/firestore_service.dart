@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/filament.dart';
 import '../models/print_job.dart';
@@ -9,30 +10,16 @@ class FirestoreService {
   FirestoreService._();
 
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static const String _appDataCollection = 'appData';
   static const String _mainDocument = 'main';
 
-  /// Gibt den aktuell angemeldeten Benutzer zurück.
-  ///
-  /// Im Gastmodus ist kein Firebase-Benutzer vorhanden.
   static User? get currentUser => _auth.currentUser;
 
-  /// Referenz auf die persönlichen App-Daten des aktuell
-  /// angemeldeten Benutzers.
-  ///
-  /// Struktur:
-  ///
-  /// users/{uid}/appData/main
   static DocumentReference<Map<String, dynamic>>? get _dataReference {
     final user = _auth.currentUser;
-
-    if (user == null) {
-      return null;
-    }
-
+    if (user == null) return null;
     return _firestore
         .collection('users')
         .doc(user.uid)
@@ -40,44 +27,20 @@ class FirestoreService {
         .doc(_mainDocument);
   }
 
-  /// Prüft, ob aktuell ein Firebase-Benutzer angemeldet ist.
-  static bool get isSignedIn {
-    return _auth.currentUser != null;
-  }
+  static bool get isSignedIn => _auth.currentUser != null;
 
-  /// ================= TEST / PREMIUM STATUS =================
-
-  /// Lädt den gespeicherten Test-/Premium-Status
-  /// des aktuell angemeldeten Benutzers.
-  ///
-  /// Gibt null zurück, wenn noch kein Status vorhanden ist.
   static Future<UserAccessStatus?> loadUserAccessStatus() async {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return null;
-    }
-
+    if (reference == null) return null;
     final snapshot = await reference.get();
-
-    if (!snapshot.exists) {
-      return null;
-    }
-
+    if (!snapshot.exists) return null;
     final data = snapshot.data();
-
-    if (data == null) {
-      return null;
-    }
-
+    if (data == null) return null;
     final trialStartValue = data['trialStart'];
-
     DateTime? trialStart;
-
     if (trialStartValue is String) {
       trialStart = DateTime.tryParse(trialStartValue);
     }
-
     return UserAccessStatus(
       trialStart: trialStart,
       trialUsed: data['trialUsed'] == true,
@@ -86,38 +49,18 @@ class FirestoreService {
     );
   }
 
-  /// Beobachtet den Test-/Premium-Status des aktuell
-  /// angemeldeten Benutzers in Echtzeit.
-  ///
-  /// Wird der Premium-Status serverseitig geändert,
-  /// zum Beispiel durch den Paddle-Webhook, wird der
-  /// neue Status automatisch ausgegeben.
   static Stream<UserAccessStatus?> watchUserAccessStatus() {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return Stream<UserAccessStatus?>.value(null);
-    }
-
+    if (reference == null) return Stream<UserAccessStatus?>.value(null);
     return reference.snapshots().map((snapshot) {
-      if (!snapshot.exists) {
-        return null;
-      }
-
+      if (!snapshot.exists) return null;
       final data = snapshot.data();
-
-      if (data == null) {
-        return null;
-      }
-
+      if (data == null) return null;
       final trialStartValue = data['trialStart'];
-
       DateTime? trialStart;
-
       if (trialStartValue is String) {
         trialStart = DateTime.tryParse(trialStartValue);
       }
-
       return UserAccessStatus(
         trialStart: trialStart,
         trialUsed: data['trialUsed'] == true,
@@ -127,216 +70,250 @@ class FirestoreService {
     });
   }
 
-  /// Initialisiert den Start der kostenlosen Testphase
-  /// serverseitig über Firebase Functions.
-  ///
-  /// Ein vorhandener Teststatus wird vom Backend
-  /// nicht überschrieben.
   static Future<void> saveTrialStart(DateTime trialStart) async {
     final user = _auth.currentUser;
-
-    if (user == null) {
-      return;
-    }
-
+    if (user == null) return;
     final functions = FirebaseFunctions.instanceFor(region: 'europe-west1');
-
     final callable = functions.httpsCallable('initializeUserTrial');
-
     await callable.call({'trialStart': trialStart.toIso8601String()});
   }
 
-  /// Lädt die gespeicherten Filamente des angemeldeten Benutzers.
-  ///
-  /// Gibt null zurück, wenn:
-  /// - kein Benutzer angemeldet ist
-  /// - noch keine Cloud-Daten existieren
+  static List<Filament> _parseFilaments(dynamic raw) {
+    if (raw is! List) {
+      throw const FormatException(
+        'Firestore: Das Feld "filaments" ist keine Liste.',
+      );
+    }
+    final result = <Filament>[];
+    for (var index = 0; index < raw.length; index++) {
+      final item = raw[index];
+      try {
+        if (item is! Map) {
+          throw const FormatException('Filament-Eintrag ist kein JSON-Objekt.');
+        }
+        result.add(Filament.fromJson(Map<String, dynamic>.from(item)));
+      } catch (error, stackTrace) {
+        debugPrint(
+          '[FirestoreService] FEHLER beim Filament ${index + 1}/${raw.length}: $error',
+        );
+        debugPrintStack(stackTrace: stackTrace);
+        Error.throwWithStackTrace(
+          FormatException(
+            'Filament ${index + 1}/${raw.length} konnte nicht geladen werden: $error',
+          ),
+          stackTrace,
+        );
+      }
+    }
+    debugPrint(
+      '[FirestoreService] Filamente erfolgreich geladen: ${result.length}/${raw.length}',
+    );
+    return result;
+  }
+
+  static List<PrintJob> _parseJobs(dynamic raw) {
+    if (raw is! List) {
+      throw const FormatException(
+        'Firestore: Das Feld "jobs" ist keine Liste.',
+      );
+    }
+    final result = <PrintJob>[];
+    for (var index = 0; index < raw.length; index++) {
+      final item = raw[index];
+      try {
+        if (item is! Map) {
+          throw const FormatException('Druckauftrag ist kein JSON-Objekt.');
+        }
+        result.add(PrintJob.fromJson(Map<String, dynamic>.from(item)));
+      } catch (error, stackTrace) {
+        debugPrint(
+          '[FirestoreService] FEHLER beim Druckauftrag ${index + 1}/${raw.length}: $error',
+        );
+        debugPrintStack(stackTrace: stackTrace);
+        Error.throwWithStackTrace(
+          FormatException(
+            'Druckauftrag ${index + 1}/${raw.length} konnte nicht geladen werden: $error',
+          ),
+          stackTrace,
+        );
+      }
+    }
+    debugPrint(
+      '[FirestoreService] Druckaufträge erfolgreich geladen: ${result.length}/${raw.length}',
+    );
+    return result;
+  }
+
   static Future<List<Filament>?> loadFilaments() async {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return null;
-    }
-
+    if (reference == null) return null;
     final snapshot = await reference.get();
-
-    if (!snapshot.exists) {
-      return null;
-    }
-
+    if (!snapshot.exists) return null;
     final data = snapshot.data();
-
-    if (data == null || data['filaments'] == null) {
-      return null;
-    }
-
-    final rawFilaments = data['filaments'];
-
-    if (rawFilaments is! List) {
-      return null;
-    }
-
-    final filaments = <Filament>[];
-
-    for (final item in rawFilaments) {
-      if (item is Map) {
-        try {
-          filaments.add(Filament.fromJson(Map<String, dynamic>.from(item)));
-        } catch (_) {
-          // Ein fehlerhaftes einzelnes Element darf nicht
-          // verhindern, dass die übrigen Daten geladen werden.
-        }
-      }
-    }
-
-    return filaments;
+    if (data == null || data['filaments'] == null) return null;
+    return _parseFilaments(data['filaments']);
   }
 
-  /// Lädt die gespeicherten Druckaufträge des angemeldeten Benutzers.
-  ///
-  /// Gibt null zurück, wenn:
-  /// - kein Benutzer angemeldet ist
-  /// - noch keine Cloud-Daten existieren
   static Future<List<PrintJob>?> loadJobs() async {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return null;
-    }
-
+    if (reference == null) return null;
     final snapshot = await reference.get();
-
-    if (!snapshot.exists) {
-      return null;
-    }
-
+    if (!snapshot.exists) return null;
     final data = snapshot.data();
-
-    if (data == null || data['jobs'] == null) {
-      return null;
-    }
-
-    final rawJobs = data['jobs'];
-
-    if (rawJobs is! List) {
-      return null;
-    }
-
-    final jobs = <PrintJob>[];
-
-    for (final item in rawJobs) {
-      if (item is Map) {
-        try {
-          jobs.add(PrintJob.fromJson(Map<String, dynamic>.from(item)));
-        } catch (_) {
-          // Ein fehlerhafter einzelner Auftrag darf nicht
-          // den kompletten Datenbestand unbrauchbar machen.
-        }
-      }
-    }
-
-    return jobs;
+    if (data == null || data['jobs'] == null) return null;
+    return _parseJobs(data['jobs']);
   }
 
-  /// Speichert Filamente und Druckaufträge gemeinsam.
-  ///
-  /// Die vorhandenen Daten werden nicht gelöscht, wenn nur einer
-  /// der beiden Werte übergeben wird.
   static Future<void> saveData({
     required List<Filament> filaments,
     required List<PrintJob> jobs,
   }) async {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return;
-    }
-
+    if (reference == null) return;
     final filamentData = filaments
         .map((filament) => filament.toJson())
         .toList();
-
     final jobData = jobs.map((job) => job.toJson()).toList();
-
     await reference.set({
       'filaments': filamentData,
       'jobs': jobData,
     }, SetOptions(merge: true));
   }
 
-  /// Lädt den kompletten Cloud-Datenbestand.
-  ///
-  /// Gibt null zurück, wenn keine Cloud-Daten vorhanden sind.
+  /// Ergänzt fehlende Spulen-IDs atomar und idempotent.
+  /// Andere Dokumentfelder (insbesondere jobs und Premiumdaten) werden
+  /// nicht geschrieben. Bei ungültigen Bestandsdaten wird abgebrochen.
+  static Future<int> migrateMissingSpoolIds({
+    required String expectedUid,
+  }) async {
+    final user = _auth.currentUser;
+    if (user == null || user.uid != expectedUid) {
+      throw StateError(
+        'Spulen-ID-Migration: Benutzer nicht angemeldet oder gewechselt.',
+      );
+    }
+    final reference = _firestore
+        .collection('users')
+        .doc(expectedUid)
+        .collection(_appDataCollection)
+        .doc(_mainDocument);
+
+    return _firestore.runTransaction<int>((transaction) async {
+      final snapshot = await transaction.get(reference);
+      if (!snapshot.exists) return 0;
+      final data = snapshot.data();
+      if (data == null || data['filaments'] is! List || data['jobs'] is! List) {
+        throw const FormatException(
+          'Spulen-ID-Migration: unvollständiges App-Dokument.',
+        );
+      }
+      final rawFilaments = data['filaments'] as List;
+      final updatedFilaments = <Map<String, dynamic>>[];
+      final usedIds = <String>{};
+      var addedIds = 0;
+
+      // Zuerst alle vorhandenen IDs erfassen und doppelte IDs erkennen.
+      for (final rawFilament in rawFilaments) {
+        if (rawFilament is! Map) {
+          throw const FormatException(
+            'Spulen-ID-Migration: ungültiges Filament.',
+          );
+        }
+        final filament = Map<String, dynamic>.from(rawFilament);
+        final spools = filament['spools'];
+        if (filament['id'] == null || spools is! List) {
+          throw const FormatException(
+            'Spulen-ID-Migration: Filament-ID oder Spulenliste fehlt.',
+          );
+        }
+        for (final rawSpool in spools) {
+          if (rawSpool is! Map) {
+            throw const FormatException(
+              'Spulen-ID-Migration: ungültige Spule.',
+            );
+          }
+          final id = rawSpool['id']?.toString().trim() ?? '';
+          if (id.isNotEmpty && !usedIds.add(id)) {
+            throw StateError(
+              'Spulen-ID-Migration: doppelte vorhandene Spulen-ID.',
+            );
+          }
+        }
+      }
+
+      for (
+        var filamentIndex = 0;
+        filamentIndex < rawFilaments.length;
+        filamentIndex++
+      ) {
+        final filament = Map<String, dynamic>.from(
+          rawFilaments[filamentIndex] as Map,
+        );
+        final rawSpools = filament['spools'] as List;
+        final updatedSpools = <Map<String, dynamic>>[];
+        for (var spoolIndex = 0; spoolIndex < rawSpools.length; spoolIndex++) {
+          final spool = Map<String, dynamic>.from(rawSpools[spoolIndex] as Map);
+          final existingId = spool['id']?.toString().trim() ?? '';
+          if (existingId.isEmpty) {
+            // Deterministische ID, keine Zufallszahl und keine Kollision
+            // mit einer bereits gespeicherten Spulen-ID.
+            final base = 'legacy-${filament['id']}-$spoolIndex';
+            var candidate = base;
+            var suffix = 1;
+            while (usedIds.contains(candidate)) {
+              candidate = '$base-${suffix++}';
+            }
+            usedIds.add(candidate);
+            spool['id'] = candidate;
+            addedIds++;
+          }
+          updatedSpools.add(spool);
+        }
+        filament['spools'] = updatedSpools;
+        updatedFilaments.add(filament);
+      }
+      if (addedIds > 0) {
+        transaction.update(reference, {'filaments': updatedFilaments});
+      }
+      return addedIds;
+    });
+  }
+
   static Future<FirestoreData?> loadData() async {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return null;
-    }
-
+    if (reference == null) return null;
     final snapshot = await reference.get();
-
-    if (!snapshot.exists) {
-      return null;
-    }
-
+    if (!snapshot.exists) return null;
     final data = snapshot.data();
-
     if (data == null) {
-      return null;
+      throw const FormatException(
+        'Firestore-Dokument existiert, enthält aber keine lesbaren Daten.',
+      );
     }
-
-    final filaments = <Filament>[];
-    final jobs = <PrintJob>[];
-
     final rawFilaments = data['filaments'];
-
-    if (rawFilaments is List) {
-      for (final item in rawFilaments) {
-        if (item is Map) {
-          try {
-            filaments.add(Filament.fromJson(Map<String, dynamic>.from(item)));
-          } catch (_) {
-            // Fehlerhafte Einträge werden übersprungen.
-          }
-        }
-      }
-    }
-
     final rawJobs = data['jobs'];
-
-    if (rawJobs is List) {
-      for (final item in rawJobs) {
-        if (item is Map) {
-          try {
-            jobs.add(PrintJob.fromJson(Map<String, dynamic>.from(item)));
-          } catch (_) {
-            // Fehlerhafte Einträge werden übersprungen.
-          }
-        }
-      }
+    if (rawFilaments == null || rawJobs == null) {
+      throw const FormatException(
+        'Firestore-Dokument enthält nicht beide erforderlichen Datenfelder.',
+      );
     }
-
+    debugPrint('[FirestoreService] Cloud-Daten werden geladen.');
+    final filaments = _parseFilaments(rawFilaments);
+    final jobs = _parseJobs(rawJobs);
+    debugPrint(
+      '[FirestoreService] Laden abgeschlossen: ${filaments.length} Filamente, ${jobs.length} Druckaufträge.',
+    );
     return FirestoreData(filaments: filaments, jobs: jobs);
   }
 
-  /// Prüft, ob für den aktuell angemeldeten Benutzer bereits
-  /// Cloud-Daten existieren.
   static Future<bool> hasCloudData() async {
     final reference = _dataReference;
-
-    if (reference == null) {
-      return false;
-    }
-
+    if (reference == null) return false;
     final snapshot = await reference.get();
-
     return snapshot.exists;
   }
 }
 
-/// Container für den kompletten Firestore-Datenbestand
-/// eines Benutzers.
 class FirestoreData {
   final List<Filament> filaments;
   final List<PrintJob> jobs;
@@ -344,7 +321,6 @@ class FirestoreData {
   const FirestoreData({required this.filaments, required this.jobs});
 }
 
-/// Enthält den Zugriffsstatus eines Benutzerkontos.
 class UserAccessStatus {
   final DateTime? trialStart;
   final bool trialUsed;

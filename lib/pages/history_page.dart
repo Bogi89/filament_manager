@@ -16,13 +16,15 @@ enum DateFilterOption { all, today, week, month, year }
 
 class HistoryPage extends StatefulWidget {
   final List<PrintJob> jobs;
-  final Function(PrintJob) onDeleteJob;
+  final bool Function(PrintJob, bool) onDeleteJob;
+  final bool Function(PrintJob) canRestoreJob;
   final bool Function(PrintJob, PrintJob) onUpdateJob;
 
   const HistoryPage({
     super.key,
     required this.jobs,
     required this.onDeleteJob,
+    required this.canRestoreJob,
     required this.onUpdateJob,
   });
 
@@ -69,29 +71,39 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Future<void> _confirmDeleteJob(PrintJob job) async {
     final l10n = AppLocalizations.of(context)!;
-
-    final shouldDelete = await showDialog<bool>(
+    final canRestore = widget.canRestoreJob(job);
+    final decision = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(l10n.deletePrintJob),
-          content: Text(l10n.deletePrintJobConfirm),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text(l10n.cancel),
-            ),
-            TextButton(
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.deletePrintJob),
+        content: Text(
+          canRestore
+              ? l10n.v12DeleteJobStockQuestion
+              : l10n.v12DeleteJobNoRefund,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.v12DeleteWithoutRefund),
+          ),
+          if (canRestore)
+            FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: Text(l10n.delete),
+              child: Text(l10n.v12DeleteAndRefund),
             ),
-          ],
-        );
-      },
+        ],
+      ),
     );
-
-    if (shouldDelete == true) {
-      widget.onDeleteJob(job);
+    if (decision == null || !mounted) return;
+    final success = widget.onDeleteJob(job, decision);
+    if (!success && mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.v12StockRefundUnavailable)));
     }
   }
 
@@ -545,16 +557,21 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ),
                                   child: InkWell(
                                     onTap: () {
+                                      var currentJob = job;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) => PrintJobDetailPage(
                                             job: job,
                                             onUpdateJob: (updatedJob) {
-                                              return widget.onUpdateJob(
-                                                job,
+                                              final saved = widget.onUpdateJob(
+                                                currentJob,
                                                 updatedJob,
                                               );
+                                              if (saved) {
+                                                currentJob = updatedJob;
+                                              }
+                                              return saved;
                                             },
                                           ),
                                         ),

@@ -710,5 +710,10 @@
   "v12Vat": "Mehrwertsteuer",
   "v12ActualProfit": "Tatsächlicher Gewinn",
   "v12AdditionalProductionCosts": "Zusätzliche Produktionskosten",
-  "v12InvalidSellingFees": "Ungültige Verkaufsgebühren. Bitte Prozentsatz prüfen."
+  "v12InvalidSellingFees": "Ungültige Verkaufsgebühren. Bitte Prozentsatz prüfen.",
+  "v12DeleteJobStockQuestion": "Möchtest du den Druckauftrag löschen und das verbrauchte Filament den ursprünglichen Spulen zurückbuchen?",
+  "v12DeleteJobNoRefund": "Für diesen Druckauftrag ist keine sichere Rückbuchung möglich. Du kannst ihn ohne Bestandsänderung löschen.",
+  "v12DeleteWithoutRefund": "Nur löschen",
+  "v12DeleteAndRefund": "Löschen & zurückbuchen",
+  "v12StockRefundUnavailable": "Rückbuchung nicht möglich. Der Druckauftrag wurde nicht gelöscht."
 }

@@ -286,10 +286,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get deletePrintJob => 'Druckauftrag löschen';
 
   @override
-  String get deletePrintJobConfirm => 'Möchtest du diesen Druckauftrag wirklich löschen?';
+  String get deletePrintJobConfirm =>
+      'Möchtest du diesen Druckauftrag wirklich löschen?';
 
   @override
-  String get insufficientFilamentStock => 'Nicht genügend Filamentbestand für diese Änderung.';
+  String get insufficientFilamentStock =>
+      'Nicht genügend Filamentbestand für diese Änderung.';
 
   @override
   String get newSpool => 'Neue Spule';
@@ -323,10 +325,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get deleteFilamentTitle => 'Filament löschen?';
 
   @override
-  String get deleteFilamentConfirmation => 'Möchtest du dieses Filament wirklich löschen?';
+  String get deleteFilamentConfirmation =>
+      'Möchtest du dieses Filament wirklich löschen?';
 
   @override
-  String get deleteLastSpoolWarning => 'Dieses Filament enthält danach keine Spulen mehr.\n\nFilament komplett löschen?';
+  String get deleteLastSpoolWarning =>
+      'Dieses Filament enthält danach keine Spulen mehr.\n\nFilament komplett löschen?';
 
   @override
   String deleteSpoolConfirmation(int number) {
@@ -378,7 +382,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get backupLoadError => 'Fehler beim Laden des Backups';
 
   @override
-  String get backupDescription => 'Exportiert und importiert Filamente und Druckjobs.';
+  String get backupDescription =>
+      'Exportiert und importiert Filamente und Druckjobs.';
 
   @override
   String get support => 'Support';
@@ -423,166 +428,196 @@ class AppLocalizationsDe extends AppLocalizations {
   String get helpFirstStepsTitle => 'Erste Schritte';
 
   @override
-  String get helpFirstStepsIntroduction => 'Willkommen bei FilaLog. Diese Anleitung hilft dir beim Einstieg und erklärt die wichtigsten Funktionen der App.';
+  String get helpFirstStepsIntroduction =>
+      'Willkommen bei FilaLog. Diese Anleitung hilft dir beim Einstieg und erklärt die wichtigsten Funktionen der App.';
 
   @override
   String get helpFirstStepsFilamentTitle => '1. Filament hinzufügen';
 
   @override
-  String get helpFirstStepsFilamentContent => 'Lege zunächst dein erstes Filament an. Alle weiteren Funktionen bauen auf deinen Filamentbestand auf.';
+  String get helpFirstStepsFilamentContent =>
+      'Lege zunächst dein erstes Filament an. Alle weiteren Funktionen bauen auf deinen Filamentbestand auf.';
 
   @override
   String get helpFirstStepsPrintTitle => '2. Druckauftrag erstellen';
 
   @override
-  String get helpFirstStepsPrintContent => 'Erstelle anschließend einen Druckauftrag. Der Filamentverbrauch wird automatisch berechnet und vom Bestand abgezogen.';
+  String get helpFirstStepsPrintContent =>
+      'Erstelle anschließend einen Druckauftrag. Der Filamentverbrauch wird automatisch berechnet und vom Bestand abgezogen.';
 
   @override
   String get helpFirstStepsStatisticsTitle => '3. Statistiken nutzen';
 
   @override
-  String get helpFirstStepsStatisticsContent => 'Im Statistikbereich erhältst du einen Überblick über deinen Verbrauch, deine Kosten und deine Druckhistorie.';
+  String get helpFirstStepsStatisticsContent =>
+      'Im Statistikbereich erhältst du einen Überblick über deinen Verbrauch, deine Kosten und deine Druckhistorie.';
 
   @override
   String get helpFirstStepsBackupTitle => '4. Backup erstellen';
 
   @override
-  String get helpFirstStepsBackupContent => 'Erstelle regelmäßig ein Backup deiner Daten, damit dein Filamentbestand und deine Druckhistorie jederzeit gesichert sind.';
+  String get helpFirstStepsBackupContent =>
+      'Erstelle regelmäßig ein Backup deiner Daten, damit dein Filamentbestand und deine Druckhistorie jederzeit gesichert sind.';
 
   @override
-  String get helpFirstStepsTip => 'Tipp: Beginne mit wenigen Filamenten. So lernst du die App schnell kennen und behältst jederzeit den Überblick.';
+  String get helpFirstStepsTip =>
+      'Tipp: Beginne mit wenigen Filamenten. So lernst du die App schnell kennen und behältst jederzeit den Überblick.';
 
   @override
   String get helpAddFilamentTitle => 'Filament hinzufügen';
 
   @override
-  String get helpAddFilamentIntroduction => 'Auf dieser Seite erfährst du, wie du ein neues Filament korrekt anlegst und welche Informationen dafür benötigt werden.';
+  String get helpAddFilamentIntroduction =>
+      'Auf dieser Seite erfährst du, wie du ein neues Filament korrekt anlegst und welche Informationen dafür benötigt werden.';
 
   @override
   String get helpAddFilamentNewTitle => 'Neues Filament anlegen';
 
   @override
-  String get helpAddFilamentNewContent => 'Öffne den Filamentbereich und tippe auf die Schaltfläche zum Hinzufügen eines neuen Filaments.';
+  String get helpAddFilamentNewContent =>
+      'Öffne den Filamentbereich und tippe auf die Schaltfläche zum Hinzufügen eines neuen Filaments.';
 
   @override
   String get helpAddFilamentSelectTitle => 'Filament auswählen';
 
   @override
-  String get helpAddFilamentSelectContent => 'Wähle Hersteller, Material, Variante und Farbe aus. Viele Werte werden automatisch aus dem Filamentkatalog übernommen.';
+  String get helpAddFilamentSelectContent =>
+      'Wähle Hersteller, Material, Variante und Farbe aus. Viele Werte werden automatisch aus dem Filamentkatalog übernommen.';
 
   @override
   String get helpAddFilamentSettingsTitle => 'Druckeinstellungen';
 
   @override
-  String get helpAddFilamentSettingsContent => 'Kontrolliere Durchmesser sowie Düsen- und Betttemperatur. Diese Werte werden abhängig vom Material automatisch vorgeschlagen.';
+  String get helpAddFilamentSettingsContent =>
+      'Kontrolliere Durchmesser sowie Düsen- und Betttemperatur. Diese Werte werden abhängig vom Material automatisch vorgeschlagen.';
 
   @override
   String get helpAddFilamentStockTitle => 'Bestand und Kosten';
 
   @override
-  String get helpAddFilamentStockContent => 'Lege das Spulengewicht, den aktuellen Bestand und den Kaufpreis fest. Diese Angaben werden später für Kostenberechnung und Lagerverwaltung verwendet.';
+  String get helpAddFilamentStockContent =>
+      'Lege das Spulengewicht, den aktuellen Bestand und den Kaufpreis fest. Diese Angaben werden später für Kostenberechnung und Lagerverwaltung verwendet.';
 
   @override
-  String get helpAddFilamentTip => 'Tipp: Nutze möglichst den integrierten Filamentkatalog. Dadurch werden viele Eingaben automatisch ausgefüllt und Eingabefehler vermieden.';
+  String get helpAddFilamentTip =>
+      'Tipp: Nutze möglichst den integrierten Filamentkatalog. Dadurch werden viele Eingaben automatisch ausgefüllt und Eingabefehler vermieden.';
 
   @override
   String get helpPrintJobTitle => 'Druckauftrag erstellen';
 
   @override
-  String get helpPrintJobIntroduction => 'Mit einem Druckauftrag dokumentierst du deine Drucke und der Filamentverbrauch wird automatisch berechnet.';
+  String get helpPrintJobIntroduction =>
+      'Mit einem Druckauftrag dokumentierst du deine Drucke und der Filamentverbrauch wird automatisch berechnet.';
 
   @override
   String get helpPrintJobNewTitle => 'Neuen Druckauftrag erstellen';
 
   @override
-  String get helpPrintJobNewContent => 'Öffne den Bereich \"Historie\" und lege einen neuen Druckauftrag an.';
+  String get helpPrintJobNewContent =>
+      'Öffne den Bereich \"Historie\" und lege einen neuen Druckauftrag an.';
 
   @override
   String get helpPrintJobFilamentTitle => 'Filament auswählen';
 
   @override
-  String get helpPrintJobFilamentContent => 'Wähle das verwendete Filament aus deinem Bestand aus. Nur vorhandene Filamente können verwendet werden.';
+  String get helpPrintJobFilamentContent =>
+      'Wähle das verwendete Filament aus deinem Bestand aus. Nur vorhandene Filamente können verwendet werden.';
 
   @override
   String get helpPrintJobUsageTitle => 'Verbrauch eingeben';
 
   @override
-  String get helpPrintJobUsageContent => 'Gib an, wie viele Gramm Filament verbraucht wurden. Der Bestand wird anschließend automatisch aktualisiert.';
+  String get helpPrintJobUsageContent =>
+      'Gib an, wie viele Gramm Filament verbraucht wurden. Der Bestand wird anschließend automatisch aktualisiert.';
 
   @override
   String get helpPrintJobInfoTitle => 'Druckinformationen';
 
   @override
-  String get helpPrintJobInfoContent => 'Optional kannst du Druckdauer, Drucker, Notizen oder weitere Informationen speichern, um später den Überblick zu behalten.';
+  String get helpPrintJobInfoContent =>
+      'Optional kannst du Druckdauer, Drucker, Notizen oder weitere Informationen speichern, um später den Überblick zu behalten.';
 
   @override
-  String get helpPrintJobTip => 'Tipp: Trage deine Druckaufträge möglichst direkt nach dem Druck ein. So bleiben Bestand und Statistiken immer aktuell.';
+  String get helpPrintJobTip =>
+      'Tipp: Trage deine Druckaufträge möglichst direkt nach dem Druck ein. So bleiben Bestand und Statistiken immer aktuell.';
 
   @override
   String get helpStatisticsTitle => 'Statistiken verstehen';
 
   @override
-  String get helpStatisticsIntroduction => 'Die Statistik zeigt dir eine Übersicht über deinen Filamentverbrauch, deine Druckaufträge und die entstandenen Kosten.';
+  String get helpStatisticsIntroduction =>
+      'Die Statistik zeigt dir eine Übersicht über deinen Filamentverbrauch, deine Druckaufträge und die entstandenen Kosten.';
 
   @override
   String get helpStatisticsUsageTitle => 'Verbrauch';
 
   @override
-  String get helpStatisticsUsageContent => 'Hier siehst du, wie viel Filament insgesamt verbraucht wurde und welche Materialien am häufigsten verwendet werden.';
+  String get helpStatisticsUsageContent =>
+      'Hier siehst du, wie viel Filament insgesamt verbraucht wurde und welche Materialien am häufigsten verwendet werden.';
 
   @override
   String get helpStatisticsCostsTitle => 'Kosten';
 
   @override
-  String get helpStatisticsCostsContent => 'Die Kostenübersicht berechnet deine Materialkosten anhand des hinterlegten Filamentpreises und des tatsächlichen Verbrauchs.';
+  String get helpStatisticsCostsContent =>
+      'Die Kostenübersicht berechnet deine Materialkosten anhand des hinterlegten Filamentpreises und des tatsächlichen Verbrauchs.';
 
   @override
   String get helpStatisticsHistoryTitle => 'Druckhistorie';
 
   @override
-  String get helpStatisticsHistoryContent => 'Alle abgeschlossenen Druckaufträge fließen automatisch in deine Statistiken ein.';
+  String get helpStatisticsHistoryContent =>
+      'Alle abgeschlossenen Druckaufträge fließen automatisch in deine Statistiken ein.';
 
   @override
   String get helpStatisticsAnalysisTitle => 'Auswertungen';
 
   @override
-  String get helpStatisticsAnalysisContent => 'Nutze die Diagramme und Übersichten, um Verbrauch, Kosten und Materialeinsatz langfristig auszuwerten.';
+  String get helpStatisticsAnalysisContent =>
+      'Nutze die Diagramme und Übersichten, um Verbrauch, Kosten und Materialeinsatz langfristig auszuwerten.';
 
   @override
-  String get helpStatisticsTip => 'Tipp: Je vollständiger deine Druckaufträge gepflegt sind, desto genauer werden die Statistiken.';
+  String get helpStatisticsTip =>
+      'Tipp: Je vollständiger deine Druckaufträge gepflegt sind, desto genauer werden die Statistiken.';
 
   @override
   String get helpBackupTitle => 'Backup & Wiederherstellung';
 
   @override
-  String get helpBackupIntroduction => 'Mit einem Backup kannst du deine Filamente, Druckaufträge und Einstellungen sichern und später wiederherstellen.';
+  String get helpBackupIntroduction =>
+      'Mit einem Backup kannst du deine Filamente, Druckaufträge und Einstellungen sichern und später wiederherstellen.';
 
   @override
   String get helpBackupCreateTitle => 'Backup erstellen';
 
   @override
-  String get helpBackupCreateContent => 'Erstelle regelmäßig ein Backup deiner Daten, damit keine Informationen verloren gehen.';
+  String get helpBackupCreateContent =>
+      'Erstelle regelmäßig ein Backup deiner Daten, damit keine Informationen verloren gehen.';
 
   @override
   String get helpBackupRestoreTitle => 'Backup wiederherstellen';
 
   @override
-  String get helpBackupRestoreContent => 'Wähle eine zuvor erstellte Sicherungsdatei aus, um deine Daten wieder in FilaLog zu importieren.';
+  String get helpBackupRestoreContent =>
+      'Wähle eine zuvor erstellte Sicherungsdatei aus, um deine Daten wieder in FilaLog zu importieren.';
 
   @override
   String get helpBackupFileTitle => 'Sicherungsdatei';
 
   @override
-  String get helpBackupFileContent => 'Bewahre deine Backup-Dateien an einem sicheren Ort auf, beispielsweise in einer Cloud oder auf einem externen Datenträger.';
+  String get helpBackupFileContent =>
+      'Bewahre deine Backup-Dateien an einem sicheren Ort auf, beispielsweise in einer Cloud oder auf einem externen Datenträger.';
 
   @override
   String get helpBackupRegularTitle => 'Regelmäßig sichern';
 
   @override
-  String get helpBackupRegularContent => 'Erstelle besonders vor größeren Änderungen oder App-Updates ein aktuelles Backup.';
+  String get helpBackupRegularContent =>
+      'Erstelle besonders vor größeren Änderungen oder App-Updates ein aktuelles Backup.';
 
   @override
-  String get helpBackupTip => 'Tipp: Mit regelmäßigen Backups kannst du deine Daten jederzeit problemlos wiederherstellen.';
+  String get helpBackupTip =>
+      'Tipp: Mit regelmäßigen Backups kannst du deine Daten jederzeit problemlos wiederherstellen.';
 
   @override
   String get whatsNew => 'Was ist neu';
@@ -597,13 +632,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get whatsNewVersion111 => 'Version 1.1.1';
 
   @override
-  String get whatsNewVersion111Content => '• Lagerorte werden in der Filamentübersicht jetzt vollständig angezeigt\n• Verbesserte Darstellung der Lagerorte bei einzelnen Spulen\n• Kleinere Verbesserungen an der Filamentverwaltung';
+  String get whatsNewVersion111Content =>
+      '• Lagerorte werden in der Filamentübersicht jetzt vollständig angezeigt\n• Verbesserte Darstellung der Lagerorte bei einzelnen Spulen\n• Kleinere Verbesserungen an der Filamentverwaltung';
 
   @override
   String get whatsNewVersion110 => 'Version 1.1.0';
 
   @override
-  String get whatsNewVersion110Content => '• Neue Filamentmaterialien und passende Spulenbilder\n• Verbesserte automatische Temperaturempfehlungen\n• Lagerorte für Filamente hinzufügen und bearbeiten\n• Verbesserte Filamentverwaltung und Farbdarstellung\n• Aktualisierter Filamentkatalog mit korrigierten Farbcodes\n• Fehlerbehebungen und Stabilitätsverbesserungen';
+  String get whatsNewVersion110Content =>
+      '• Neue Filamentmaterialien und passende Spulenbilder\n• Verbesserte automatische Temperaturempfehlungen\n• Lagerorte für Filamente hinzufügen und bearbeiten\n• Verbesserte Filamentverwaltung und Farbdarstellung\n• Aktualisierter Filamentkatalog mit korrigierten Farbcodes\n• Fehlerbehebungen und Stabilitätsverbesserungen';
 
   @override
   String get version10 => 'Version 1.0';
@@ -615,16 +652,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get versionHistory => 'Versionsverlauf';
 
   @override
-  String get whatsNewIntroduction => 'Hier findest du die Neuerungen und Verbesserungen jeder Version von FilaLog.';
+  String get whatsNewIntroduction =>
+      'Hier findest du die Neuerungen und Verbesserungen jeder Version von FilaLog.';
 
   @override
   String get whatsNewVersion100 => 'Version 1.0.0';
 
   @override
-  String get whatsNewVersion100Content => '• Erste offizielle Veröffentlichung\n• Filamentverwaltung\n• Druckhistorie\n• Kostenberechnung\n• Statistiken\n• Backup & Wiederherstellung\n• Benutzerkonto\n• Gastmodus\n• Hilfebereich\n• Rechtliche Informationen';
+  String get whatsNewVersion100Content =>
+      '• Erste offizielle Veröffentlichung\n• Filamentverwaltung\n• Druckhistorie\n• Kostenberechnung\n• Statistiken\n• Backup & Wiederherstellung\n• Benutzerkonto\n• Gastmodus\n• Hilfebereich\n• Rechtliche Informationen';
 
   @override
-  String get whatsNewTip => 'Neue Funktionen werden nach jedem Update hier ergänzt. So behältst du jederzeit den Überblick über alle Änderungen.';
+  String get whatsNewTip =>
+      'Neue Funktionen werden nach jedem Update hier ergänzt. So behältst du jederzeit den Überblick über alle Änderungen.';
 
   @override
   String get legal => 'Rechtliches';
@@ -657,7 +697,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyPolicyContact => 'Kontakt';
 
   @override
-  String get privacyPolicyContactMissing => 'Diebesweg 8b\n58507 Lüdenscheid\nE-Mail: support@filalog.de';
+  String get privacyPolicyContactMissing =>
+      'Diebesweg 8b\n58507 Lüdenscheid\nE-Mail: support@filalog.de';
 
   @override
   String get privacyPolicyStoredDataTitle => 'Welche Daten werden gespeichert?';
@@ -666,13 +707,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyPolicyLocalDataTitle => 'Lokal gespeicherte Daten';
 
   @override
-  String get privacyPolicyLocalDataContent => 'Filamente, Druckaufträge, Einstellungen und Statistiken werden lokal auf deinem Gerät gespeichert.';
+  String get privacyPolicyLocalDataContent =>
+      'Filamente, Druckaufträge, Einstellungen und Statistiken werden lokal auf deinem Gerät gespeichert.';
 
   @override
   String get privacyPolicyNoSharingTitle => 'Keine Weitergabe';
 
   @override
-  String get privacyPolicyNoSharingContent => 'Es erfolgt keine Weitergabe personenbezogener Daten an Dritte, sofern dies nicht für die Nutzung der App erforderlich ist.';
+  String get privacyPolicyNoSharingContent =>
+      'Es erfolgt keine Weitergabe personenbezogener Daten an Dritte, sofern dies nicht für die Nutzung der App erforderlich ist.';
 
   @override
   String get privacyPolicyAccountTitle => 'Gastmodus & Benutzerkonto';
@@ -681,7 +724,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyPolicyGuestModeTitle => 'Gastmodus';
 
   @override
-  String get privacyPolicyGuestModeContent => 'Die Nutzung der App ist im Gastmodus ohne Registrierung möglich. Die Daten bleiben ausschließlich auf dem Gerät gespeichert.';
+  String get privacyPolicyGuestModeContent =>
+      'Die Nutzung der App ist im Gastmodus ohne Registrierung möglich. Die Daten bleiben ausschließlich auf dem Gerät gespeichert.';
 
   @override
   String get privacyPolicyUserAccountTitle => 'Benutzerkonto';
@@ -696,13 +740,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get termsOfServiceAppUsageTitle => 'Nutzung der App';
 
   @override
-  String get termsOfServiceAppUsageContent => 'Diese Nutzungsbedingungen gelten für die Nutzung von FilaLog auf allen unterstützten Plattformen.';
+  String get termsOfServiceAppUsageContent =>
+      'Diese Nutzungsbedingungen gelten für die Nutzung von FilaLog auf allen unterstützten Plattformen.';
 
   @override
   String get termsOfServiceAgreementTitle => 'Zustimmung';
 
   @override
-  String get termsOfServiceAgreementContent => 'Mit der Nutzung der App erklärst du dich mit diesen Nutzungsbedingungen einverstanden.';
+  String get termsOfServiceAgreementContent =>
+      'Mit der Nutzung der App erklärst du dich mit diesen Nutzungsbedingungen einverstanden.';
 
   @override
   String get termsOfServiceUserObligations => 'Pflichten des Nutzers';
@@ -711,13 +757,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get termsOfServiceResponsibilityTitle => 'Verantwortung';
 
   @override
-  String get termsOfServiceResponsibilityContent => 'Der Nutzer ist für die von ihm eingegebenen Daten selbst verantwortlich.';
+  String get termsOfServiceResponsibilityContent =>
+      'Der Nutzer ist für die von ihm eingegebenen Daten selbst verantwortlich.';
 
   @override
   String get termsOfServiceMisuseTitle => 'Missbrauch';
 
   @override
-  String get termsOfServiceMisuseContent => 'Die App darf nicht missbräuchlich oder zur Durchführung rechtswidriger Handlungen verwendet werden.';
+  String get termsOfServiceMisuseContent =>
+      'Die App darf nicht missbräuchlich oder zur Durchführung rechtswidriger Handlungen verwendet werden.';
 
   @override
   String get termsOfServiceLicensesRights => 'Lizenzen & Nutzungsrechte';
@@ -726,13 +774,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get termsOfServiceCopyrightTitle => 'Urheberrechte';
 
   @override
-  String get termsOfServiceCopyrightContent => 'Alle Rechte an der App, ihrem Design und ihren Inhalten verbleiben beim Entwickler.';
+  String get termsOfServiceCopyrightContent =>
+      'Alle Rechte an der App, ihrem Design und ihren Inhalten verbleiben beim Entwickler.';
 
   @override
   String get termsOfServiceNoDistributionTitle => 'Keine Weitergabe';
 
   @override
-  String get termsOfServiceNoDistributionContent => 'Die App darf ohne ausdrückliche Zustimmung nicht kopiert, verändert oder weiterverbreitet werden, soweit dies gesetzlich nicht erlaubt ist.';
+  String get termsOfServiceNoDistributionContent =>
+      'Die App darf ohne ausdrückliche Zustimmung nicht kopiert, verändert oder weiterverbreitet werden, soweit dies gesetzlich nicht erlaubt ist.';
 
   @override
   String get termsOfServiceChanges => 'Änderungen';
@@ -741,7 +791,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get termsOfServiceUpdatesTitle => 'Aktualisierung der Bedingungen';
 
   @override
-  String get termsOfServiceUpdatesContent => 'Die Nutzungsbedingungen können bei neuen Funktionen oder gesetzlichen Änderungen angepasst werden.';
+  String get termsOfServiceUpdatesContent =>
+      'Die Nutzungsbedingungen können bei neuen Funktionen oder gesetzlichen Änderungen angepasst werden.';
 
   @override
   String get termsOfServiceFinalProvisions => 'Schlussbestimmungen';
@@ -750,10 +801,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get termsOfServiceApplicableLawTitle => 'Geltendes Recht';
 
   @override
-  String get termsOfServiceApplicableLawContent => 'Es gilt das jeweils anwendbare Recht am Sitz des Anbieters, soweit gesetzlich zulässig.';
+  String get termsOfServiceApplicableLawContent =>
+      'Es gilt das jeweils anwendbare Recht am Sitz des Anbieters, soweit gesetzlich zulässig.';
 
   @override
-  String get privacyPolicyUserAccountContent => 'Bei Verwendung eines Benutzerkontos werden die Daten über die Cloud mit unterstützten Geräten synchronisiert.';
+  String get privacyPolicyUserAccountContent =>
+      'Bei Verwendung eines Benutzerkontos werden die Daten über die Cloud mit unterstützten Geräten synchronisiert.';
 
   @override
   String get privacyPolicyRightsTitle => 'Deine Rechte';
@@ -762,7 +815,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyPolicyRightsLabel => 'Datenschutzrechte';
 
   @override
-  String get privacyPolicyRightsContent => 'Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung deiner personenbezogenen Daten im Rahmen der geltenden Datenschutzgesetze.';
+  String get privacyPolicyRightsContent =>
+      'Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung deiner personenbezogenen Daten im Rahmen der geltenden Datenschutzgesetze.';
 
   @override
   String get privacyPolicyQuestionsTitle => 'Fragen zum Datenschutz';
@@ -771,7 +825,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyPolicyQuestionsContactTitle => 'Kontakt';
 
   @override
-  String get privacyPolicyQuestionsContactContent => 'Bei Fragen zum Datenschutz kannst du uns über die im Impressum angegebenen Kontaktdaten erreichen.';
+  String get privacyPolicyQuestionsContactContent =>
+      'Bei Fragen zum Datenschutz kannst du uns über die im Impressum angegebenen Kontaktdaten erreichen.';
 
   @override
   String get imprint => 'Impressum';
@@ -825,7 +880,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get imprintBusinessPurposeLabel => 'Unternehmensgegenstand';
 
   @override
-  String get imprintBusinessPurposeValue => 'Entwicklung und Bereitstellung der Softwareanwendung FilaLog zur Verwaltung von 3D-Druck-Filamenten sowie zugehöriger Funktionen.';
+  String get imprintBusinessPurposeValue =>
+      'Entwicklung und Bereitstellung der Softwareanwendung FilaLog zur Verwaltung von 3D-Druck-Filamenten sowie zugehöriger Funktionen.';
 
   @override
   String get imprintLegalNotesTitle => 'Rechtliche Hinweise';
@@ -834,13 +890,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get imprintLiabilityLabel => 'Haftung';
 
   @override
-  String get imprintLiabilityContent => 'Weitere Informationen findest du auf der Seite „Haftung“.';
+  String get imprintLiabilityContent =>
+      'Weitere Informationen findest du auf der Seite „Haftung“.';
 
   @override
   String get imprintCopyrightLabel => 'Urheberrecht';
 
   @override
-  String get imprintCopyrightContent => 'Weitere Informationen findest du auf der Seite „Urheberrecht“.';
+  String get imprintCopyrightContent =>
+      'Weitere Informationen findest du auf der Seite „Urheberrecht“.';
 
   @override
   String get premiumSubscription => 'Premium & Abonnement';
@@ -852,13 +910,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get premiumTitle => 'Premium';
 
   @override
-  String get premiumContent => 'FilaLog kann sieben Tage kostenlos getestet werden. Anschließend ist für die weitere Nutzung eine Premium-Mitgliedschaft erforderlich.';
+  String get premiumContent =>
+      'FilaLog kann sieben Tage kostenlos getestet werden. Anschließend ist für die weitere Nutzung eine Premium-Mitgliedschaft erforderlich.';
 
   @override
   String get premiumTrialTitle => 'Testphase';
 
   @override
-  String get premiumTrialContent => 'Während der siebentägigen Testphase stehen sämtliche Funktionen uneingeschränkt zur Verfügung.';
+  String get premiumTrialContent =>
+      'Während der siebentägigen Testphase stehen sämtliche Funktionen uneingeschränkt zur Verfügung.';
 
   @override
   String get premiumBillingTitle => 'Abrechnung';
@@ -867,13 +927,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get premiumPaymentProcessingTitle => 'Zahlungsabwicklung';
 
   @override
-  String get premiumPaymentProcessingContent => 'Für die Web-Version erfolgt die Zahlungsabwicklung über Paddle. Auf Android erfolgt die Zahlungsabwicklung über Google Play.';
+  String get premiumPaymentProcessingContent =>
+      'Für die Web-Version erfolgt die Zahlungsabwicklung über Paddle. Auf Android erfolgt die Zahlungsabwicklung über Google Play.';
 
   @override
   String get premiumPlatformsTitle => 'Plattformen';
 
   @override
-  String get premiumPlatformsContent => 'Für die Web-Version kann Premium über die offizielle FilaLog-Website mit Paddle erworben werden. Auf Android erfolgt der Abschluss über Google Play.';
+  String get premiumPlatformsContent =>
+      'Für die Web-Version kann Premium über die offizielle FilaLog-Website mit Paddle erworben werden. Auf Android erfolgt der Abschluss über Google Play.';
 
   @override
   String get premiumTrialAndPremiumTitle => 'Testphase & Premium';
@@ -882,13 +944,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get premiumSevenDayTrialTitle => '7-Tage-Test';
 
   @override
-  String get premiumSevenDayTrialContent => 'Neue Nutzer können FilaLog sieben Tage kostenlos testen.';
+  String get premiumSevenDayTrialContent =>
+      'Neue Nutzer können FilaLog sieben Tage kostenlos testen.';
 
   @override
   String get premiumAfterTrialTitle => 'Nach Ablauf';
 
   @override
-  String get premiumAfterTrialContent => 'Nach Ablauf der Testphase ist eine Premium-Mitgliedschaft erforderlich, um FilaLog weiter nutzen zu können.';
+  String get premiumAfterTrialContent =>
+      'Nach Ablauf der Testphase ist eine Premium-Mitgliedschaft erforderlich, um FilaLog weiter nutzen zu können.';
 
   @override
   String get premiumMembershipTermsTitle => 'Mitgliedschaft';
@@ -897,13 +961,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get premiumDurationTitle => 'Laufzeiten';
 
   @override
-  String get premiumDurationContent => 'Für die Web-Version wird Premium als Jahresabonnement für 19,99 € pro Jahr angeboten. Auf Android stehen Monats- und Jahresabonnements über Google Play zur Verfügung.';
+  String get premiumDurationContent =>
+      'Für die Web-Version wird Premium als Jahresabonnement für 19,99 € pro Jahr angeboten. Auf Android stehen Monats- und Jahresabonnements über Google Play zur Verfügung.';
 
   @override
   String get premiumCancellationTitle => 'Kündigung';
 
   @override
-  String get premiumCancellationContent => 'Eine Kündigung ist jederzeit zum Ende der jeweiligen Laufzeit möglich.';
+  String get premiumCancellationContent =>
+      'Eine Kündigung ist jederzeit zum Ende der jeweiligen Laufzeit möglich.';
 
   @override
   String get withdrawal => 'Widerrufsbelehrung';
@@ -915,13 +981,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get withdrawalPeriodTitle => 'Widerrufsfrist';
 
   @override
-  String get withdrawalPeriodContent => 'Verbraucher haben grundsätzlich das Recht, einen Vertrag binnen vierzehn Tagen zu widerrufen.';
+  String get withdrawalPeriodContent =>
+      'Verbraucher haben grundsätzlich das Recht, einen Vertrag binnen vierzehn Tagen zu widerrufen.';
 
   @override
   String get withdrawalReasonTitle => 'Ohne Angabe von Gründen';
 
   @override
-  String get withdrawalReasonContent => 'Der Widerruf kann innerhalb der gesetzlichen Widerrufsfrist ohne Angabe von Gründen erfolgen.';
+  String get withdrawalReasonContent =>
+      'Der Widerruf kann innerhalb der gesetzlichen Widerrufsfrist ohne Angabe von Gründen erfolgen.';
 
   @override
   String get withdrawalExerciseTitle => 'Ausübung des Widerrufs';
@@ -930,13 +998,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get withdrawalDeclarationTitle => 'Eindeutige Erklärung';
 
   @override
-  String get withdrawalDeclarationContent => 'Zur Ausübung des Widerrufsrechts ist eine eindeutige Erklärung erforderlich, aus der der Entschluss zum Widerruf des Vertrags hervorgeht.';
+  String get withdrawalDeclarationContent =>
+      'Zur Ausübung des Widerrufsrechts ist eine eindeutige Erklärung erforderlich, aus der der Entschluss zum Widerruf des Vertrags hervorgeht.';
 
   @override
   String get withdrawalDeadlineTitle => 'Wahrung der Frist';
 
   @override
-  String get withdrawalDeadlineContent => 'Zur Wahrung der Widerrufsfrist genügt die rechtzeitige Absendung der Erklärung vor Ablauf der Widerrufsfrist.';
+  String get withdrawalDeadlineContent =>
+      'Zur Wahrung der Widerrufsfrist genügt die rechtzeitige Absendung der Erklärung vor Ablauf der Widerrufsfrist.';
 
   @override
   String get withdrawalPremiumTitle => 'Premium & digitale Leistungen';
@@ -945,13 +1015,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get withdrawalDigitalServiceTitle => 'Digitale Leistung';
 
   @override
-  String get withdrawalDigitalServiceContent => 'Die Premium-Mitgliedschaft ermöglicht den Zugriff auf zusätzliche digitale Funktionen und Leistungen von FilaLog.';
+  String get withdrawalDigitalServiceContent =>
+      'Die Premium-Mitgliedschaft ermöglicht den Zugriff auf zusätzliche digitale Funktionen und Leistungen von FilaLog.';
 
   @override
   String get withdrawalEarlyExpiryTitle => 'Vorzeitiger Beginn der Leistung';
 
   @override
-  String get withdrawalEarlyExpiryContent => 'Ein vorzeitiger Beginn der Bereitstellung digitaler Leistungen oder ein mögliches Erlöschen des Widerrufsrechts richtet sich nach den jeweils geltenden gesetzlichen Voraussetzungen und den beim Vertragsabschluss erteilten Informationen.';
+  String get withdrawalEarlyExpiryContent =>
+      'Ein vorzeitiger Beginn der Bereitstellung digitaler Leistungen oder ein mögliches Erlöschen des Widerrufsrechts richtet sich nach den jeweils geltenden gesetzlichen Voraussetzungen und den beim Vertragsabschluss erteilten Informationen.';
 
   @override
   String get withdrawalInformationTitle => 'Weitere Informationen';
@@ -960,7 +1032,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get withdrawalPurchaseInfoTitle => 'Informationen beim Abschluss';
 
   @override
-  String get withdrawalPurchaseInfoContent => 'Vor Abschluss einer Premium-Mitgliedschaft werden die für den jeweiligen Vertrag gesetzlich erforderlichen Informationen zum Widerrufsrecht und zur Vertragsabwicklung bereitgestellt.';
+  String get withdrawalPurchaseInfoContent =>
+      'Vor Abschluss einer Premium-Mitgliedschaft werden die für den jeweiligen Vertrag gesetzlich erforderlichen Informationen zum Widerrufsrecht und zur Vertragsabwicklung bereitgestellt.';
 
   @override
   String get refundPolicy => 'Rückerstattungsrichtlinie';
@@ -969,37 +1042,43 @@ class AppLocalizationsDe extends AppLocalizations {
   String get refundGeneralTitle => 'Rückerstattungen';
 
   @override
-  String get refundGeneralContent => 'Zahlungen für FilaLog Premium werden über den jeweiligen Zahlungsanbieter abgewickelt. Rückerstattungen richten sich nach den dort geltenden Bedingungen sowie nach den zwingenden gesetzlichen Verbraucherrechten.';
+  String get refundGeneralContent =>
+      'Zahlungen für FilaLog Premium werden über den jeweiligen Zahlungsanbieter abgewickelt. Rückerstattungen richten sich nach den dort geltenden Bedingungen sowie nach den zwingenden gesetzlichen Verbraucherrechten.';
 
   @override
   String get refundWebTitle => 'Web-Version über Paddle';
 
   @override
-  String get refundWebContent => 'Für über die FilaLog-Web-Version abgeschlossene Premium-Abonnements erfolgt die Zahlungsabwicklung durch Paddle. Anfragen zu Rückerstattungen können über den Paddle-Käufersupport gestellt werden. Gesetzliche Verbraucherrechte bleiben unberührt.';
+  String get refundWebContent =>
+      'Für über die FilaLog-Web-Version abgeschlossene Premium-Abonnements erfolgt die Zahlungsabwicklung durch Paddle. Anfragen zu Rückerstattungen können über den Paddle-Käufersupport gestellt werden. Gesetzliche Verbraucherrechte bleiben unberührt.';
 
   @override
   String get refundAndroidTitle => 'Android über Google Play';
 
   @override
-  String get refundAndroidContent => 'Für über die Android-App abgeschlossene Premium-Abonnements erfolgt die Zahlungsabwicklung über Google Play. Rückerstattungen richten sich nach den Bedingungen und Verfahren von Google Play. Gesetzliche Verbraucherrechte bleiben unberührt.';
+  String get refundAndroidContent =>
+      'Für über die Android-App abgeschlossene Premium-Abonnements erfolgt die Zahlungsabwicklung über Google Play. Rückerstattungen richten sich nach den Bedingungen und Verfahren von Google Play. Gesetzliche Verbraucherrechte bleiben unberührt.';
 
   @override
   String get refundCancellationTitle => 'Kündigung eines Abonnements';
 
   @override
-  String get refundCancellationContent => 'Eine Kündigung beendet die automatische Verlängerung des Abonnements. Bereits gezahlte Beträge werden durch eine Kündigung nicht automatisch zurückerstattet. Eine mögliche Rückerstattung wird unabhängig von der Kündigung geprüft.';
+  String get refundCancellationContent =>
+      'Eine Kündigung beendet die automatische Verlängerung des Abonnements. Bereits gezahlte Beträge werden durch eine Kündigung nicht automatisch zurückerstattet. Eine mögliche Rückerstattung wird unabhängig von der Kündigung geprüft.';
 
   @override
   String get refundWithdrawalTitle => 'Widerrufsrecht';
 
   @override
-  String get refundWithdrawalContent => 'Diese Rückerstattungsrichtlinie schränkt gesetzliche Widerrufs- und Verbraucherrechte nicht ein. Weitere Informationen enthält die separate Widerrufsbelehrung von FilaLog.';
+  String get refundWithdrawalContent =>
+      'Diese Rückerstattungsrichtlinie schränkt gesetzliche Widerrufs- und Verbraucherrechte nicht ein. Weitere Informationen enthält die separate Widerrufsbelehrung von FilaLog.';
 
   @override
   String get refundSupportTitle => 'Fragen und Unterstützung';
 
   @override
-  String get refundSupportContent => 'Bei Fragen zu einem Kauf oder einer Rückerstattung kannst du dich an support@filalog.de wenden.';
+  String get refundSupportContent =>
+      'Bei Fragen zu einem Kauf oder einer Rückerstattung kannst du dich an support@filalog.de wenden.';
 
   @override
   String get consumerInformation => 'Verbraucherinformationen';
@@ -1011,13 +1090,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get consumerResponsibleTitle => 'Verantwortlicher';
 
   @override
-  String get consumerResponsibleContent => 'Die Angaben zum Anbieter befinden sich im Impressum.';
+  String get consumerResponsibleContent =>
+      'Die Angaben zum Anbieter befinden sich im Impressum.';
 
   @override
   String get consumerContactTitle => 'Kontakt';
 
   @override
-  String get consumerContactContent => 'Fragen können jederzeit über die im Impressum angegebenen Kontaktdaten gestellt werden.';
+  String get consumerContactContent =>
+      'Fragen können jederzeit über die im Impressum angegebenen Kontaktdaten gestellt werden.';
 
   @override
   String get consumerContractTitle => 'Vertragsinformationen';
@@ -1026,13 +1107,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get consumerPremiumTitle => 'Premium-Mitgliedschaft';
 
   @override
-  String get consumerPremiumContent => 'Vor Abschluss einer Premium-Mitgliedschaft werden alle wesentlichen Informationen zu Preis, Laufzeit und Zahlungsweise angezeigt.';
+  String get consumerPremiumContent =>
+      'Vor Abschluss einer Premium-Mitgliedschaft werden alle wesentlichen Informationen zu Preis, Laufzeit und Zahlungsweise angezeigt.';
 
   @override
   String get consumerContractConclusionTitle => 'Vertragsschluss';
 
   @override
-  String get consumerContractConclusionContent => 'Der Vertrag kommt erst mit erfolgreichem Abschluss des jeweiligen Kaufvorgangs zustande.';
+  String get consumerContractConclusionContent =>
+      'Der Vertrag kommt erst mit erfolgreichem Abschluss des jeweiligen Kaufvorgangs zustande.';
 
   @override
   String get consumerSupportTitle => 'Support';
@@ -1041,7 +1124,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get consumerHelpTitle => 'Hilfe';
 
   @override
-  String get consumerHelpContent => 'Bei Fragen oder Problemen steht der Support über die offiziellen Kontaktmöglichkeiten zur Verfügung.';
+  String get consumerHelpContent =>
+      'Bei Fragen oder Problemen steht der Support über die offiziellen Kontaktmöglichkeiten zur Verfügung.';
 
   @override
   String get liability => 'Haftung';
@@ -1056,13 +1140,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get liabilityCareTitle => 'Sorgfalt';
 
   @override
-  String get liabilityCareContent => 'Die Inhalte von FilaLog werden mit Sorgfalt erstellt und regelmäßig überprüft.';
+  String get liabilityCareContent =>
+      'Die Inhalte von FilaLog werden mit Sorgfalt erstellt und regelmäßig überprüft.';
 
   @override
   String get liabilityNoWarrantyTitle => 'Keine Gewähr';
 
   @override
-  String get liabilityNoWarrantyContent => 'Trotz sorgfältiger Erstellung kann keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität sämtlicher bereitgestellter Informationen übernommen werden.';
+  String get liabilityNoWarrantyContent =>
+      'Trotz sorgfältiger Erstellung kann keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität sämtlicher bereitgestellter Informationen übernommen werden.';
 
   @override
   String get liabilityExternalContentTitle => 'Externe Inhalte';
@@ -1071,7 +1157,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get liabilityExternalLinksTitle => 'Links und externe Dienste';
 
   @override
-  String get liabilityExternalLinksContent => 'Für Inhalte externer Websites oder Dienste, auf die innerhalb von FilaLog verwiesen wird, sind die jeweiligen Betreiber verantwortlich.';
+  String get liabilityExternalLinksContent =>
+      'Für Inhalte externer Websites oder Dienste, auf die innerhalb von FilaLog verwiesen wird, sind die jeweiligen Betreiber verantwortlich.';
 
   @override
   String get liabilityUsageTitle => 'Hinweis zur Nutzung';
@@ -1080,7 +1167,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get liabilityGeneralInformationTitle => 'Allgemeine Informationen';
 
   @override
-  String get liabilityGeneralInformationContent => 'Die in FilaLog bereitgestellten Informationen dienen der Unterstützung bei der Verwaltung und Organisation von Filament und 3D-Druck-bezogenen Daten.';
+  String get liabilityGeneralInformationContent =>
+      'Die in FilaLog bereitgestellten Informationen dienen der Unterstützung bei der Verwaltung und Organisation von Filament und 3D-Druck-bezogenen Daten.';
 
   @override
   String get copyright => 'Urheberrecht';
@@ -1092,13 +1180,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get copyrightAppTitle => 'App';
 
   @override
-  String get copyrightAppContent => 'FilaLog sowie sämtliche Inhalte, Designs und Quelltexte sind urheberrechtlich geschützt.';
+  String get copyrightAppContent =>
+      'FilaLog sowie sämtliche Inhalte, Designs und Quelltexte sind urheberrechtlich geschützt.';
 
   @override
   String get copyrightUsageTitle => 'Nutzung';
 
   @override
-  String get copyrightUsageContent => 'Eine Vervielfältigung, Veröffentlichung oder Weitergabe ist ohne ausdrückliche Zustimmung nicht gestattet.';
+  String get copyrightUsageContent =>
+      'Eine Vervielfältigung, Veröffentlichung oder Weitergabe ist ohne ausdrückliche Zustimmung nicht gestattet.';
 
   @override
   String get copyrightGraphicsContentTitle => 'Grafiken & Inhalte';
@@ -1107,13 +1197,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get copyrightOwnContentTitle => 'Eigene Inhalte';
 
   @override
-  String get copyrightOwnContentContent => 'Eigene Grafiken, Texte und Logos unterliegen dem Urheberrecht des Entwicklers.';
+  String get copyrightOwnContentContent =>
+      'Eigene Grafiken, Texte und Logos unterliegen dem Urheberrecht des Entwicklers.';
 
   @override
   String get copyrightThirdPartyTitle => 'Drittanbieter';
 
   @override
-  String get copyrightThirdPartyContent => 'Verwendete Inhalte Dritter werden entsprechend ihrer jeweiligen Lizenz eingesetzt.';
+  String get copyrightThirdPartyContent =>
+      'Verwendete Inhalte Dritter werden entsprechend ihrer jeweiligen Lizenz eingesetzt.';
 
   @override
   String get copyrightLicenseNoticeTitle => 'Lizenzhinweis';
@@ -1122,7 +1214,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get copyrightOpenSourceTitle => 'Open-Source';
 
   @override
-  String get copyrightOpenSourceContent => 'Open-Source-Komponenten werden entsprechend ihrer jeweiligen Lizenz verwendet.';
+  String get copyrightOpenSourceContent =>
+      'Open-Source-Komponenten werden entsprechend ihrer jeweiligen Lizenz verwendet.';
 
   @override
   String get imageCredits => 'Bildnachweise';
@@ -1134,13 +1227,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get imageCreditsOwnGraphicsTitle => 'Eigene Grafiken';
 
   @override
-  String get imageCreditsOwnGraphicsContent => 'Alle selbst erstellten Grafiken, Logos und Illustrationen unterliegen dem Urheberrecht des Entwicklers.';
+  String get imageCreditsOwnGraphicsContent =>
+      'Alle selbst erstellten Grafiken, Logos und Illustrationen unterliegen dem Urheberrecht des Entwicklers.';
 
   @override
   String get imageCreditsAppIconsTitle => 'App-Icons';
 
   @override
-  String get imageCreditsAppIconsContent => 'Verwendete Icons stammen aus den offiziellen Flutter Material Icons.';
+  String get imageCreditsAppIconsContent =>
+      'Verwendete Icons stammen aus den offiziellen Flutter Material Icons.';
 
   @override
   String get imageCreditsColorsDesignTitle => 'Farben & Design';
@@ -1149,13 +1244,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get imageCreditsInterfaceTitle => 'Benutzeroberfläche';
 
   @override
-  String get imageCreditsInterfaceContent => 'Das Design von FilaLog wurde eigenständig entwickelt.';
+  String get imageCreditsInterfaceContent =>
+      'Das Design von FilaLog wurde eigenständig entwickelt.';
 
   @override
   String get imageCreditsBrandsTitle => 'Marken';
 
   @override
-  String get imageCreditsBrandsContent => 'Markennamen und Herstellerbezeichnungen bleiben Eigentum ihrer jeweiligen Inhaber.';
+  String get imageCreditsBrandsContent =>
+      'Markennamen und Herstellerbezeichnungen bleiben Eigentum ihrer jeweiligen Inhaber.';
 
   @override
   String get imageCreditsNoticeTitle => 'Hinweis';
@@ -1164,7 +1261,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get imageCreditsUpdateTitle => 'Aktualisierung';
 
   @override
-  String get imageCreditsUpdateContent => 'Sollten künftig weitere Bilder oder externe Grafiken verwendet werden, werden deren Bildnachweise an dieser Stelle ergänzt.';
+  String get imageCreditsUpdateContent =>
+      'Sollten künftig weitere Bilder oder externe Grafiken verwendet werden, werden deren Bildnachweise an dieser Stelle ergänzt.';
 
   @override
   String get account => 'Konto';
@@ -1197,7 +1295,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get resetPassword => 'Passwort zurücksetzen';
 
   @override
-  String get resetPasswordSubtitle => 'Gib deine E-Mail-Adresse ein. Wir senden dir einen Link zum Zurücksetzen deines Passworts.';
+  String get resetPasswordSubtitle =>
+      'Gib deine E-Mail-Adresse ein. Wir senden dir einen Link zum Zurücksetzen deines Passworts.';
 
   @override
   String get sendingResetLink => 'Link wird gesendet...';
@@ -1209,10 +1308,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get resetLinkSent => 'Link gesendet';
 
   @override
-  String get resetPasswordSent => 'Wir haben dir eine E-Mail zum Zurücksetzen deines Passworts gesendet.';
+  String get resetPasswordSent =>
+      'Wir haben dir eine E-Mail zum Zurücksetzen deines Passworts gesendet.';
 
   @override
-  String get resetPasswordFailed => 'Das Zurücksetzen des Passworts ist fehlgeschlagen.';
+  String get resetPasswordFailed =>
+      'Das Zurücksetzen des Passworts ist fehlgeschlagen.';
 
   @override
   String get signingIn => 'Anmeldung...';
@@ -1248,7 +1349,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get registrationFailed => 'Registrierung fehlgeschlagen.';
 
   @override
-  String get emailAlreadyInUse => 'Diese E-Mail-Adresse wird bereits verwendet.';
+  String get emailAlreadyInUse =>
+      'Diese E-Mail-Adresse wird bereits verwendet.';
 
   @override
   String get weakPassword => 'Das Passwort ist zu schwach.';
@@ -1300,13 +1402,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get feedbackMailGreeting => 'Hallo,\n\n';
 
   @override
-  String get feedbackMailDescription => 'ich habe folgendes Feedback oder einen Verbesserungsvorschlag:\n\n';
+  String get feedbackMailDescription =>
+      'ich habe folgendes Feedback oder einen Verbesserungsvorschlag:\n\n';
 
   @override
   String get errorReportMailGreeting => 'Hallo,\n\n';
 
   @override
-  String get errorReportMailDescription => 'ich habe folgenden Fehler gefunden.\n\n';
+  String get errorReportMailDescription =>
+      'ich habe folgenden Fehler gefunden.\n\n';
 
   @override
   String get appVersionLabel => 'App-Version:';
@@ -1327,7 +1431,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get supportMailGreeting => 'Hallo,\n\n';
 
   @override
-  String get supportMailDescription => 'ich benötige Hilfe bei folgendem Thema.\n\n';
+  String get supportMailDescription =>
+      'ich benötige Hilfe bei folgendem Thema.\n\n';
 
   @override
   String get thankYouMail => 'Vielen Dank.';
@@ -1447,7 +1552,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get averageWatt => 'Durchschnittliche Leistung';
 
   @override
-  String get enterPrinterNameAndWatt => 'Bitte Druckername und Leistung eingeben.';
+  String get enterPrinterNameAndWatt =>
+      'Bitte Druckername und Leistung eingeben.';
 
   @override
   String get managePrinters => 'Drucker verwalten';
@@ -1545,7 +1651,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get welcomeTrialTitle => '7 Tage kostenlos testen';
 
   @override
-  String get welcomeTrialDescription => 'Teste FilaLog 7 Tage kostenlos und entscheide danach, ob du Premium nutzen möchtest.';
+  String get welcomeTrialDescription =>
+      'Teste FilaLog 7 Tage kostenlos und entscheide danach, ob du Premium nutzen möchtest.';
 
   @override
   String get welcomePerMonth => 'pro Monat';
@@ -1557,7 +1664,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get welcomeCheaper => 'Günstiger';
 
   @override
-  String get welcomeTrialFooter => 'Nach Ablauf der Testphase kannst du entscheiden, ob du FilaLog Premium weiter nutzen möchtest.';
+  String get welcomeTrialFooter =>
+      'Nach Ablauf der Testphase kannst du entscheiden, ob du FilaLog Premium weiter nutzen möchtest.';
 
   @override
   String get averagePerPrint => 'Durchschnitt pro Druck';
@@ -1628,10 +1736,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get guestMode => 'Gastmodus';
 
   @override
-  String get guestModeDescription => 'Testen Sie FilaLog 7 Tage kostenlos und ohne Registrierung.';
+  String get guestModeDescription =>
+      'Testen Sie FilaLog 7 Tage kostenlos und ohne Registrierung.';
 
   @override
-  String get guestModeDataInfo => 'Alle während dieser Zeit erstellten Daten bleiben erhalten und können später in ein Benutzerkonto übernommen werden.';
+  String get guestModeDataInfo =>
+      'Alle während dieser Zeit erstellten Daten bleiben erhalten und können später in ein Benutzerkonto übernommen werden.';
 
   @override
   String get startAsGuest => 'Als Gast starten';
@@ -1640,19 +1750,23 @@ class AppLocalizationsDe extends AppLocalizations {
   String get login => 'Anmelden';
 
   @override
-  String get loginDescription => 'Melden Sie sich mit Ihrem bestehenden Benutzerkonto an.';
+  String get loginDescription =>
+      'Melden Sie sich mit Ihrem bestehenden Benutzerkonto an.';
 
   @override
-  String get loginDataInfo => 'Ihre Daten werden automatisch synchronisiert und stehen Ihnen auf Android und in der Web-Version zur Verfügung.';
+  String get loginDataInfo =>
+      'Ihre Daten werden automatisch synchronisiert und stehen Ihnen auf Android und in der Web-Version zur Verfügung.';
 
   @override
   String get registerAccount => 'Konto erstellen';
 
   @override
-  String get registerAccountDescription => 'Erstellen Sie ein neues Benutzerkonto und sichern Sie Ihre Daten dauerhaft.';
+  String get registerAccountDescription =>
+      'Erstellen Sie ein neues Benutzerkonto und sichern Sie Ihre Daten dauerhaft.';
 
   @override
-  String get registerAccountDataInfo => 'Ihre vorhandenen Daten aus dem Gastmodus werden automatisch übernommen und stehen Ihnen anschließend auf allen unterstützten Geräten zur Verfügung.';
+  String get registerAccountDataInfo =>
+      'Ihre vorhandenen Daten aus dem Gastmodus werden automatisch übernommen und stehen Ihnen anschließend auf allen unterstützten Geräten zur Verfügung.';
 
   @override
   String get accountCreated => 'Konto erstellt';
@@ -1661,7 +1775,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get accountSuccessfullyCreated => 'Konto erfolgreich erstellt';
 
   @override
-  String get accountCreatedDescription => 'Dein Benutzerkonto wurde erfolgreich erstellt.';
+  String get accountCreatedDescription =>
+      'Dein Benutzerkonto wurde erfolgreich erstellt.';
 
   @override
   String get verifyEmailTitle => 'E-Mail bestätigen';
@@ -1670,19 +1785,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get verifyEmailAlmostDone => 'Fast geschafft';
 
   @override
-  String get verifyEmailInstructions => 'Wir haben dir eine Bestätigungs-E-Mail gesendet.\n\nBitte öffne den Link in der E-Mail, um dein Benutzerkonto zu aktivieren.';
+  String get verifyEmailInstructions =>
+      'Wir haben dir eine Bestätigungs-E-Mail gesendet.\n\nBitte öffne den Link in der E-Mail, um dein Benutzerkonto zu aktivieren.';
 
   @override
   String get verifyEmailNotVerified => 'E-Mail wurde noch nicht bestätigt.';
 
   @override
-  String get verifyEmailCheckFailed => 'Die E-Mail-Bestätigung konnte nicht überprüft werden. Bitte versuche es erneut.';
+  String get verifyEmailCheckFailed =>
+      'Die E-Mail-Bestätigung konnte nicht überprüft werden. Bitte versuche es erneut.';
 
   @override
   String get verifyEmailResent => 'Bestätigungs-E-Mail wurde erneut gesendet.';
 
   @override
-  String get verifyEmailSendFailed => 'Die Bestätigungs-E-Mail konnte nicht gesendet werden.';
+  String get verifyEmailSendFailed =>
+      'Die Bestätigungs-E-Mail konnte nicht gesendet werden.';
 
   @override
   String get verifyEmailChecking => 'Wird geprüft...';
@@ -1697,7 +1815,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get verifyEmailResend => 'E-Mail erneut senden';
 
   @override
-  String get accountCreatedEmailVerificationInfo => 'Bitte bestätige jetzt deine E-Mail-Adresse. Anschließend kannst du dich anmelden und FilaLog nutzen.';
+  String get accountCreatedEmailVerificationInfo =>
+      'Bitte bestätige jetzt deine E-Mail-Adresse. Anschließend kannst du dich anmelden und FilaLog nutzen.';
 
   @override
   String get emailConfirmed => 'E-Mail bestätigt';
@@ -1712,7 +1831,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get passwordRequired => 'Bitte gib dein Passwort ein.';
 
   @override
-  String get passwordTooShort => 'Das Passwort muss mindestens 8 Zeichen lang sein.';
+  String get passwordTooShort =>
+      'Das Passwort muss mindestens 8 Zeichen lang sein.';
 
   @override
   String get confirmPasswordRequired => 'Bitte wiederhole dein Passwort.';
@@ -1727,13 +1847,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get trialExpiredTitle => 'Deine Testphase ist beendet';
 
   @override
-  String get trialExpiredSubtitle => 'Du hast FilaLog 7 Tage lang kostenlos getestet.';
+  String get trialExpiredSubtitle =>
+      'Du hast FilaLog 7 Tage lang kostenlos getestet.';
 
   @override
-  String get trialExpiredLoginHint => 'Melde dich mit deinem FilaLog-Konto an, um Premium freizuschalten.';
+  String get trialExpiredLoginHint =>
+      'Melde dich mit deinem FilaLog-Konto an, um Premium freizuschalten.';
 
   @override
-  String get trialExpiredPremiumHint => 'Wähle jetzt dein Premium-Abonnement und nutze weiterhin alle Funktionen ohne Einschränkungen.';
+  String get trialExpiredPremiumHint =>
+      'Wähle jetzt dein Premium-Abonnement und nutze weiterhin alle Funktionen ohne Einschränkungen.';
 
   @override
   String get trialExpiredLoginButton => 'Anmelden';
@@ -1742,7 +1865,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get trialExpiredRegisterButton => 'Konto erstellen';
 
   @override
-  String get trialExpiredLoginRequiredInfo => 'Ein Premium-Abonnement kann erst nach der Anmeldung eindeutig deinem FilaLog-Konto zugeordnet werden.';
+  String get trialExpiredLoginRequiredInfo =>
+      'Ein Premium-Abonnement kann erst nach der Anmeldung eindeutig deinem FilaLog-Konto zugeordnet werden.';
 
   @override
   String get trialExpiredMonthlyTitle => 'Monatlich';
@@ -1766,58 +1890,73 @@ class AppLocalizationsDe extends AppLocalizations {
   String get trialExpiredYearlyBadge => 'Günstiger';
 
   @override
-  String get trialExpiredWebCheckoutOpened => 'Paddle wurde geöffnet. Schließe dort das Abonnement ab.';
+  String get trialExpiredWebCheckoutOpened =>
+      'Paddle wurde geöffnet. Schließe dort das Abonnement ab.';
 
   @override
-  String get trialExpiredWebCheckoutOpenedInfo => 'Der Paddle-Checkout wurde geöffnet. Schließe dort das Abonnement ab. Die Freischaltung erfolgt anschließend automatisch.';
+  String get trialExpiredWebCheckoutOpenedInfo =>
+      'Der Paddle-Checkout wurde geöffnet. Schließe dort das Abonnement ab. Die Freischaltung erfolgt anschließend automatisch.';
 
   @override
-  String get trialExpiredPurchaseSuccessTitle => 'Vielen Dank für deinen Einkauf!';
+  String get trialExpiredPurchaseSuccessTitle =>
+      'Vielen Dank für deinen Einkauf!';
 
   @override
-  String get trialExpiredPurchaseSuccessMessage => 'Dein Premium-Zugang wurde erfolgreich aktiviert. Du wirst jetzt zum Dashboard weitergeleitet.';
+  String get trialExpiredPurchaseSuccessMessage =>
+      'Dein Premium-Zugang wurde erfolgreich aktiviert. Du wirst jetzt zum Dashboard weitergeleitet.';
 
   @override
-  String get trialExpiredWebCheckoutStartError => 'Das Premium-Abonnement konnte nicht gestartet werden.';
+  String get trialExpiredWebCheckoutStartError =>
+      'Das Premium-Abonnement konnte nicht gestartet werden.';
 
   @override
-  String get trialExpiredWebManagementInfo => 'Die Zahlung und Verwaltung des Web-Abonnements erfolgt über Paddle.';
+  String get trialExpiredWebManagementInfo =>
+      'Die Zahlung und Verwaltung des Web-Abonnements erfolgt über Paddle.';
 
   @override
-  String get trialExpiredAndroidManagementInfo => 'Die Zahlung und Verwaltung des Android-Abonnements erfolgt über Google Play.';
+  String get trialExpiredAndroidManagementInfo =>
+      'Die Zahlung und Verwaltung des Android-Abonnements erfolgt über Google Play.';
 
   @override
   String get trialExpiredRestorePurchases => 'Käufe wiederherstellen';
 
   @override
-  String get trialExpiredAndroidUnavailableInfo => 'Google Play Billing wird derzeit noch eingerichtet.';
+  String get trialExpiredAndroidUnavailableInfo =>
+      'Google Play Billing wird derzeit noch eingerichtet.';
 
   @override
-  String get trialExpiredRestoreError => 'Google-Play-Käufe konnten nicht wiederhergestellt werden.';
+  String get trialExpiredRestoreError =>
+      'Google-Play-Käufe konnten nicht wiederhergestellt werden.';
 
   @override
   String get premiumSettingsTitle => 'Premium-Abo';
 
   @override
-  String get premiumSettingsTrialActive => 'Deine kostenlose Testphase ist aktiv.';
+  String get premiumSettingsTrialActive =>
+      'Deine kostenlose Testphase ist aktiv.';
 
   @override
-  String get premiumSettingsTrialInfo => 'Du kannst Premium bereits jetzt freischalten und FilaLog ohne Unterbrechung weiter nutzen.';
+  String get premiumSettingsTrialInfo =>
+      'Du kannst Premium bereits jetzt freischalten und FilaLog ohne Unterbrechung weiter nutzen.';
 
   @override
   String get premiumSettingsActive => 'FilaLog Premium ist aktiv.';
 
   @override
-  String get premiumSettingsActiveInfo => 'Du hast bereits Zugriff auf alle Premium-Funktionen.';
+  String get premiumSettingsActiveInfo =>
+      'Du hast bereits Zugriff auf alle Premium-Funktionen.';
 
   @override
-  String get premiumSettingsPurchaseSuccess => 'Premium wurde erfolgreich aktiviert.';
+  String get premiumSettingsPurchaseSuccess =>
+      'Premium wurde erfolgreich aktiviert.';
 
   @override
-  String get premiumSettingsLoginRequired => 'Melde dich an, um ein Premium-Abonnement abzuschließen.';
+  String get premiumSettingsLoginRequired =>
+      'Melde dich an, um ein Premium-Abonnement abzuschließen.';
 
   @override
-  String get premiumSettingsPurchaseStartError => 'Der Google-Play-Kauf konnte nicht gestartet werden.';
+  String get premiumSettingsPurchaseStartError =>
+      'Der Google-Play-Kauf konnte nicht gestartet werden.';
 
   @override
   String get v12Color => 'Farbe';
@@ -1940,5 +2079,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get v12AdditionalProductionCosts => 'Zusätzliche Produktionskosten';
 
   @override
-  String get v12InvalidSellingFees => 'Ungültige Verkaufsgebühren. Bitte Prozentsatz prüfen.';
+  String get v12InvalidSellingFees =>
+      'Ungültige Verkaufsgebühren. Bitte Prozentsatz prüfen.';
+
+  @override
+  String get v12DeleteJobStockQuestion =>
+      'Möchtest du den Druckauftrag löschen und das verbrauchte Filament den ursprünglichen Spulen zurückbuchen?';
+
+  @override
+  String get v12DeleteJobNoRefund =>
+      'Für diesen Druckauftrag ist keine sichere Rückbuchung möglich. Du kannst ihn ohne Bestandsänderung löschen.';
+
+  @override
+  String get v12DeleteWithoutRefund => 'Nur löschen';
+
+  @override
+  String get v12DeleteAndRefund => 'Löschen & zurückbuchen';
+
+  @override
+  String get v12StockRefundUnavailable =>
+      'Rückbuchung nicht möglich. Der Druckauftrag wurde nicht gelöscht.';
 }

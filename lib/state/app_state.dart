@@ -32,6 +32,26 @@ class AppState extends ChangeNotifier {
   bool _isSyncing = false;
   bool _isDisposed = false;
 
+  // Nur nach vollständig erfolgreichem Cloud-Laden dürfen Daten
+  // für die aktuelle Anmeldung geschrieben werden.
+  String? _cloudWriteAuthorizedUid;
+  bool _cloudLoadFailed = false;
+
+  bool get cloudLoadFailed => _cloudLoadFailed;
+
+  void _ensureCloudWriteAllowed() {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null ||
+        _isSyncing ||
+        _cloudLoadFailed ||
+        _cloudWriteAuthorizedUid != uid) {
+      throw StateError(
+        'Cloud-Speicherung blockiert: Daten wurden nicht vollständig '
+        'für den aktuellen Benutzer geladen.',
+      );
+    }
+  }
+
   AppState() {
     init();
   }
@@ -82,6 +102,8 @@ class AppState extends ChangeNotifier {
     }
 
     _isSyncing = true;
+    _cloudWriteAuthorizedUid = null;
+    _cloudLoadFailed = false;
 
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -111,7 +133,19 @@ class AppState extends ChangeNotifier {
       ///
       /// Dadurch kann ein bestehender Cloud-Bestand nicht mehr
       /// versehentlich durch lokale Gastdaten überschrieben werden.
+      // Fehlende Legacy-Spulen-IDs einmalig atomar in Firestore ergänzen.
+      // Die Transaktion schreibt ausschließlich das Feld "filaments".
+      // Erst danach laden wir den Bestand mit den dauerhaften IDs.
+      final migratedSpools = await FirestoreService.migrateMissingSpoolIds(
+        expectedUid: user.uid,
+      );
+      if (migratedSpools > 0) {
+        debugPrint('[AppState] $migratedSpools Spulen-IDs dauerhaft ergänzt.');
+      }
       final cloudData = await FirestoreService.loadData();
+      if (_isDisposed || FirebaseAuth.instance.currentUser?.uid != user.uid) {
+        throw StateError('Benutzerwechsel während des Cloud-Ladevorgangs.');
+      }
 
       final hasCloudAppData =
           cloudData != null &&
@@ -137,10 +171,12 @@ class AppState extends ChangeNotifier {
         /// vollständige Cloud-Bestand erneut gespeichert.
         final updatedCount = FilamentDensityMigrationService.migrate(filaments);
 
+        // Keine automatische Cloud-Schreiboperation beim ersten Laden.
+        // Eine Migration bleibt zunächst nur im Arbeitsspeicher.
         if (updatedCount > 0) {
-          await FirestoreService.saveData(filaments: filaments, jobs: jobs);
+          debugPrint('[AppState] $updatedCount Dichten lokal ergänzt.');
         }
-
+        _cloudWriteAuthorizedUid = user.uid;
         return;
       }
 
@@ -157,11 +193,15 @@ class AppState extends ChangeNotifier {
         /// Dichten vor der Übernahme ergänzen.
         FilamentDensityMigrationService.migrate(filaments);
 
+        if (FirebaseAuth.instance.currentUser?.uid != user.uid) {
+          throw StateError('Benutzerwechsel vor Cloud-Speicherung.');
+        }
         await FirestoreService.saveData(filaments: filaments, jobs: jobs);
 
         /// Lokale Daten dürfen erst entfernt werden,
         /// nachdem das Speichern in Firestore erfolgreich war.
         await StorageService.clearLocalData();
+        _cloudWriteAuthorizedUid = user.uid;
 
         // Gastbestand nach erfolgreicher Filamentübernahme zurücksetzen.
         if (localFilaments.isNotEmpty) {
@@ -195,6 +235,9 @@ class AppState extends ChangeNotifier {
 
       /// Zuerst den vollständigen zusammengeführten Bestand
       /// erfolgreich in Firestore speichern.
+      if (FirebaseAuth.instance.currentUser?.uid != user.uid) {
+        throw StateError('Benutzerwechsel vor Cloud-Speicherung.');
+      }
       await FirestoreService.saveData(
         filaments: mergedFilaments,
         jobs: mergedJobs,
@@ -203,6 +246,7 @@ class AppState extends ChangeNotifier {
       /// Erst NACH erfolgreichem Cloud-Speichern werden
       /// die lokalen Gastdaten entfernt.
       await StorageService.clearLocalData();
+      _cloudWriteAuthorizedUid = user.uid;
 
       // Gastbestand nach erfolgreicher Filamentübernahme zurücksetzen.
       if (localFilaments.isNotEmpty) {
@@ -213,7 +257,12 @@ class AppState extends ChangeNotifier {
 
       filaments = mergedFilaments;
       jobs = mergedJobs;
-    } catch (_) {
+    } catch (error, stackTrace) {
+      _cloudWriteAuthorizedUid = null;
+      _cloudLoadFailed = true;
+      debugPrint('[AppState] Cloud-Ladevorgang fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+
       /// Falls während des Vorgangs keine Anmeldung mehr
       /// vorhanden ist, werden weiterhin die lokalen Daten geladen.
       ///
@@ -345,6 +394,7 @@ class AppState extends ChangeNotifier {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
+      _ensureCloudWriteAllowed();
       await FirestoreService.saveData(filaments: filaments, jobs: jobs);
 
       return;
@@ -369,53 +419,38 @@ class AppState extends ChangeNotifier {
 
   void setLocale(Locale newLocale) async {
     locale = newLocale;
-
     await SettingsService.saveLocale(newLocale);
-
     notifyListeners();
   }
 
   void setThemeMode(ThemeMode newTheme) async {
     themeMode = newTheme;
-
     await SettingsService.saveThemeMode(newTheme);
-
     notifyListeners();
   }
 
   void setWarningPercent(double value) async {
     warningPercent = value;
-
     await SettingsService.saveWarningPercent(value);
-
     notifyListeners();
   }
 
   void setSortMode(FilamentSortMode mode) async {
     sortMode = mode;
-
     await SettingsService.saveSortMode(mode);
-
     notifyListeners();
   }
 
   /// ================= WARNLOGIK =================
 
   double getRemainingPercent(Filament f) {
-    if (f.totalWeight == 0) {
-      return 0;
-    }
-
+    if (f.totalWeight == 0) return 0;
     return (f.remainingWeight / f.totalWeight) * 100;
   }
 
-  bool isCritical(Filament f) {
-    return getRemainingPercent(f) <= warningPercent;
-  }
+  bool isCritical(Filament f) => getRemainingPercent(f) <= warningPercent;
 
-  int get criticalCount {
-    return filaments.where((f) => isCritical(f)).length;
-  }
+  int get criticalCount => filaments.where(isCritical).length;
 
   /// ================= FILAMENT =================
 
@@ -429,145 +464,187 @@ class AppState extends ChangeNotifier {
       filament.colorNames = existingValidNames.toSet().toList();
     } else {
       final List<String> detectedNames = [];
-
       for (final color in filament.colors) {
         final hex = color
             .toARGB32()
             .toRadixString(16)
             .substring(2)
             .toUpperCase();
-
         final name = FilamentCatalogService.findColorNameByHex(hex);
-
-        if (!detectedNames.contains(name)) {
-          detectedNames.add(name);
-        }
+        if (!detectedNames.contains(name)) detectedNames.add(name);
       }
-
       final validNames = detectedNames
           .where(
             (name) => name.trim().isNotEmpty && name.toLowerCase() != 'unknown',
           )
           .toList();
-
       filament.colorNames = validNames.isNotEmpty
           ? validNames.toSet().toList()
           : ['Unknown'];
     }
 
     filaments.add(filament);
-
     saveData();
-
     notifyListeners();
   }
 
   void removeFilament(Filament filament) {
     filaments.removeWhere((f) => f.id == filament.id);
-
     saveData();
-
     notifyListeners();
   }
 
   void updateFilament(Filament updated) {
     final index = filaments.indexWhere((f) => f.id == updated.id);
-
-    if (index != -1) {
-      filaments[index] = updated;
-    }
-
+    if (index != -1) filaments[index] = updated;
     saveData();
-
     notifyListeners();
   }
 
   /// ================= PRINT JOBS =================
 
-  void addJob(PrintJob job) {
+  bool addJob(PrintJob job, bool deductStock) {
+    if (!job.weightUsed.isFinite || job.weightUsed <= 0) return false;
+    final filamentIndex = filaments.indexWhere((f) => f.id == job.filamentId);
+    if (filamentIndex < 0) return false;
+    final filament = filaments[filamentIndex];
+    if (deductStock && !_canDebit(filament, job.weightUsed)) return false;
+    if (deductStock) {
+      final usage = _debit(filament, job.weightUsed);
+      job.spoolUsage = usage;
+      job.stockDeducted = true;
+    } else {
+      job.spoolUsage = {};
+      job.stockDeducted = false;
+    }
     jobs.add(job);
-
     saveData();
-
     notifyListeners();
+    return true;
   }
 
-  void removeJob(PrintJob job) {
+  bool canRestoreJob(PrintJob job) {
+    if (!jobs.contains(job) || !job.stockDeducted || job.spoolUsage.isEmpty) {
+      return false;
+    }
+    final filamentIndex = filaments.indexWhere((f) => f.id == job.filamentId);
+    if (filamentIndex < 0) return false;
+    final filament = filaments[filamentIndex];
+    return job.spoolUsage.keys.every(
+      (id) => filament.spools.any((spool) => spool.id == id),
+    );
+  }
+
+  bool removeJob(PrintJob job, bool restoreStock) {
+    if (!jobs.contains(job)) return false;
+    if (restoreStock) {
+      if (!canRestoreJob(job)) return false;
+      final filament = filaments.firstWhere((f) => f.id == job.filamentId);
+      _credit(filament, job.spoolUsage);
+    }
     jobs.remove(job);
-
     saveData();
-
     notifyListeners();
+    return true;
+  }
+
+  bool _canDebit(Filament filament, double amount) {
+    if (!amount.isFinite || amount < 0) return false;
+    final available = filament.spools.fold<double>(
+      0,
+      (sum, spool) => sum + spool.weight,
+    );
+    return available + 0.000001 >= amount;
+  }
+
+  Map<String, double> _debit(Filament filament, double amount) {
+    var remaining = amount;
+    final usage = <String, double>{};
+    for (final spool in filament.spools) {
+      if (remaining <= 0.000001) break;
+      final taken = spool.weight < remaining ? spool.weight : remaining;
+      if (taken <= 0) continue;
+      spool.weight -= taken;
+      remaining -= taken;
+      usage[spool.id] = taken;
+    }
+    _recalculateStock(filament);
+    return usage;
+  }
+
+  void _credit(Filament filament, Map<String, double> usage) {
+    for (final entry in usage.entries) {
+      final spool = filament.spools.firstWhere((s) => s.id == entry.key);
+      spool.weight += entry.value;
+    }
+    _recalculateStock(filament);
+  }
+
+  void _recalculateStock(Filament filament) {
+    filament.remainingWeight = filament.spools.fold<double>(
+      0,
+      (sum, spool) => sum + spool.weight,
+    );
   }
 
   bool updateJob(PrintJob oldJob, PrintJob updatedJob) {
     final index = jobs.indexOf(oldJob);
-
-    if (index == -1) {
+    if (index == -1) return false;
+    if (!updatedJob.weightUsed.isFinite || updatedJob.weightUsed < 0) {
       return false;
     }
-
-    final filamentId = oldJob.filamentId;
-    final weightDifference = updatedJob.weightUsed - oldJob.weightUsed;
-
-    if (filamentId != null && weightDifference != 0) {
-      final filamentIndex = filaments.indexWhere(
-        (filament) => filament.id == filamentId,
-      );
-
-      if (filamentIndex != -1) {
-        final filament = filaments[filamentIndex];
-
-        if (weightDifference > 0) {
-          if (filament.remainingWeight < weightDifference) {
-            return false;
-          }
-
-          double remainingToSubtract = weightDifference;
-
-          for (final spool in filament.spools) {
-            if (remainingToSubtract <= 0) {
-              break;
-            }
-
-            if (spool.weight >= remainingToSubtract) {
-              spool.weight -= remainingToSubtract;
-              remainingToSubtract = 0;
-            } else {
-              remainingToSubtract -= spool.weight;
-              spool.weight = 0;
-            }
-          }
-        } else {
-          final weightToRestore = -weightDifference;
-
-          if (filament.spools.isNotEmpty) {
-            filament.spools.first.weight += weightToRestore;
-          }
-        }
-
-        filament.remainingWeight = filament.spools.fold(
-          0.0,
-          (sum, spool) => sum + spool.weight,
+    if (!oldJob.stockDeducted) {
+      updatedJob.stockDeducted = false;
+      updatedJob.spoolUsage = {};
+      jobs[index] = updatedJob;
+      saveData();
+      notifyListeners();
+      return true;
+    }
+    if (!canRestoreJob(oldJob)) return false;
+    final filament = filaments.firstWhere((f) => f.id == oldJob.filamentId);
+    final difference = updatedJob.weightUsed - oldJob.weightUsed;
+    final usage = Map<String, double>.from(oldJob.spoolUsage);
+    if (difference > 0.000001) {
+      if (!_canDebit(filament, difference)) return false;
+      final additional = _debit(filament, difference);
+      for (final entry in additional.entries) {
+        usage.update(
+          entry.key,
+          (old) => old + entry.value,
+          ifAbsent: () => entry.value,
         );
       }
+    } else if (difference < -0.000001) {
+      var toRestore = -difference;
+      final credit = <String, double>{};
+      for (final id in usage.keys.toList().reversed) {
+        if (toRestore <= 0.000001) break;
+        final existing = usage[id]!;
+        final amount = existing < toRestore ? existing : toRestore;
+        credit[id] = amount;
+        final newAmount = existing - amount;
+        if (newAmount <= 0.000001) {
+          usage.remove(id);
+        } else {
+          usage[id] = newAmount;
+        }
+        toRestore -= amount;
+      }
+      _credit(filament, credit);
     }
-
+    updatedJob.stockDeducted = true;
+    updatedJob.spoolUsage = usage;
     jobs[index] = updatedJob;
-
     saveData();
-
     notifyListeners();
-
     return true;
   }
 
   @override
   void dispose() {
     _isDisposed = true;
-
     _authSubscription?.cancel();
-
     super.dispose();
   }
 }

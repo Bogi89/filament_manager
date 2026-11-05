@@ -40,23 +40,19 @@ class _MainNavigationState extends State<MainNavigation> {
           });
         },
       ),
-
       const FilamentPage(),
-
       CostPage(
         filaments: appState.filaments,
         onSaveJob: appState.addJob,
         onUpdateFilament: appState.updateFilament,
       ),
-
       HistoryPage(
         jobs: appState.jobs,
         onDeleteJob: appState.removeJob,
+        canRestoreJob: appState.canRestoreJob,
         onUpdateJob: appState.updateJob,
       ),
-
       StatisticsPage(jobs: appState.jobs, filaments: appState.filaments),
-
       const SettingsPage(),
     ];
 
@@ -64,55 +60,40 @@ class _MainNavigationState extends State<MainNavigation> {
       backgroundColor: Theme.of(context).brightness == Brightness.dark
           ? const Color(0xFF0F0F14)
           : Colors.grey[100],
-
       body: pages[_selectedIndex],
-
       bottomNavigationBar: Builder(
         builder: (context) {
           final isDark = Theme.of(context).brightness == Brightness.dark;
-
           return BottomNavigationBar(
             backgroundColor: isDark ? const Color(0xFF111118) : Colors.white,
-
             elevation: 10,
-
             type: BottomNavigationBarType.fixed,
-
             selectedItemColor: isDark
-                ? const Color(0xFF7C4DFF) // Dark → Lila
-                : const Color(0xFF3B82F6), // Light → Blau
-
+                ? const Color(0xFF7C4DFF)
+                : const Color(0xFF3B82F6),
             unselectedItemColor: isDark
                 ? Colors.grey.shade400
                 : Colors.grey.shade600,
-
             currentIndex: _selectedIndex,
-
             onTap: _onItemTapped,
-
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard),
                 label: l10n.dashboard,
               ),
-
               BottomNavigationBarItem(
                 icon: SpoolIcon(size: 26),
                 label: l10n.filament,
               ),
-
               BottomNavigationBarItem(icon: Icon(Icons.euro), label: l10n.cost),
-
               BottomNavigationBarItem(
                 icon: Icon(Icons.history),
                 label: l10n.history,
               ),
-
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart),
                 label: l10n.statistics,
               ),
-
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
                 label: l10n.settings,

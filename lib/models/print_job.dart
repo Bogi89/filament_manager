@@ -17,6 +17,8 @@ class PrintJob {
   ExtendedCosts extendedCosts;
   Map<String, double> costBreakdown;
   double? sellingPrice;
+  bool stockDeducted;
+  Map<String, double> spoolUsage;
 
   PrintJob({
     required this.projectName,
@@ -34,10 +36,13 @@ class PrintJob {
     ExtendedCosts? extendedCosts,
     Map<String, double>? costBreakdown,
     this.sellingPrice,
+    this.stockDeducted = false,
+    Map<String, double>? spoolUsage,
   }) : colors = List<Color>.from(colors ?? [color]),
        colorNames = List<String>.from(colorNames ?? const []),
        extendedCosts = extendedCosts ?? ExtendedCosts(),
-       costBreakdown = Map<String, double>.from(costBreakdown ?? const {});
+       costBreakdown = Map<String, double>.from(costBreakdown ?? const {}),
+       spoolUsage = Map<String, double>.from(spoolUsage ?? const {});
 
   Map<String, dynamic> toJson() => {
     'projectName': projectName,
@@ -55,6 +60,8 @@ class PrintJob {
     'extendedCosts': extendedCosts.toJson(),
     'costBreakdown': costBreakdown,
     'sellingPrice': sellingPrice,
+    'stockDeducted': stockDeducted,
+    'spoolUsage': spoolUsage,
   };
 
   factory PrintJob.fromJson(Map<String, dynamic> json) {
@@ -118,7 +125,25 @@ class PrintJob {
       extendedCosts: extendedCosts,
       costBreakdown: breakdown,
       sellingPrice: sellingPrice,
+      stockDeducted: json['stockDeducted'] == true,
+      spoolUsage: _parseSpoolUsage(json['spoolUsage']),
     );
+  }
+
+  static Map<String, double> _parseSpoolUsage(dynamic raw) {
+    final result = <String, double>{};
+    if (raw is Map) {
+      for (final entry in raw.entries) {
+        final value = entry.value;
+        final amount = value is num
+            ? value.toDouble()
+            : double.tryParse(value.toString());
+        if (amount != null && amount.isFinite && amount > 0) {
+          result[entry.key.toString()] = amount;
+        }
+      }
+    }
+    return result;
   }
 
   PrintJob copyWith({
@@ -137,6 +162,8 @@ class PrintJob {
     ExtendedCosts? extendedCosts,
     Map<String, double>? costBreakdown,
     double? sellingPrice,
+    bool? stockDeducted,
+    Map<String, double>? spoolUsage,
   }) {
     return PrintJob(
       projectName: projectName ?? this.projectName,
@@ -154,6 +181,8 @@ class PrintJob {
       extendedCosts: extendedCosts ?? this.extendedCosts,
       costBreakdown: costBreakdown ?? this.costBreakdown,
       sellingPrice: sellingPrice ?? this.sellingPrice,
+      stockDeducted: stockDeducted ?? this.stockDeducted,
+      spoolUsage: spoolUsage ?? this.spoolUsage,
     );
   }
 }

@@ -14,7 +14,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 
 class CostPage extends StatefulWidget {
   final List<Filament> filaments;
-  final Function(PrintJob) onSaveJob;
+  final bool Function(PrintJob, bool) onSaveJob;
   final Function(Filament) onUpdateFilament;
 
   const CostPage({
@@ -244,31 +244,12 @@ class _CostPageState extends State<CostPage> {
       date: selectedDate,
     );
 
-    widget.onSaveJob(job);
-
-    if (subtractFromStock) {
-      double remainingToSubtract = usedWeight;
-
-      for (final spool in selectedFilament!.spools) {
-        if (remainingToSubtract <= 0) {
-          break;
-        }
-
-        if (spool.weight >= remainingToSubtract) {
-          spool.weight -= remainingToSubtract;
-          remainingToSubtract = 0;
-        } else {
-          remainingToSubtract -= spool.weight;
-          spool.weight = 0;
-        }
-      }
-
-      selectedFilament!.remainingWeight = selectedFilament!.spools.fold(
-        0.0,
-        (sum, spool) => sum + spool.weight,
-      );
-
-      widget.onUpdateFilament(selectedFilament!);
+    final saved = widget.onSaveJob(job, subtractFromStock);
+    if (!saved) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.insufficientFilamentStock)));
+      return;
     }
 
     ScaffoldMessenger.of(
