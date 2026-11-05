@@ -13,8 +13,11 @@ import '../services/filament_catalog_service.dart';
 import '../services/filament_density_migration_service.dart';
 import '../services/firestore_service.dart';
 import '../services/guest_analytics_service.dart';
+import '../services/monitoring_v2_service.dart';
 
 class AppState extends ChangeNotifier {
+  final MonitoringV2Service _monitoringV2 = MonitoringV2Service();
+
   List<Filament> filaments = [];
   List<PrintJob> jobs = [];
 
@@ -452,6 +455,43 @@ class AppState extends ChangeNotifier {
 
   int get criticalCount => filaments.where(isCritical).length;
 
+  // Erfasst eine Benutzeraktion nur nach erfolgreichem Abschluss von
+  // saveData(). Monitoring-Fehler beeinflussen die Bestandsverwaltung nicht.
+  Future<void> _saveFilamentAction(
+    String eventName, {
+    int spoolsAdded = 0,
+    int spoolsDeleted = 0,
+  }) async {
+    final uidAtStart = FirebaseAuth.instance.currentUser?.uid;
+
+    try {
+      await saveData();
+    } catch (error, stackTrace) {
+      debugPrint('[AppState] Filament-Speicherung fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      return;
+    }
+
+    if (uidAtStart == null ||
+        FirebaseAuth.instance.currentUser?.uid != uidAtStart ||
+        _isDisposed) {
+      return;
+    }
+
+    try {
+      await _monitoringV2.trackEvent(eventName);
+      for (var i = 0; i < spoolsAdded; i++) {
+        await _monitoringV2.trackEvent('spool_added');
+      }
+      for (var i = 0; i < spoolsDeleted; i++) {
+        await _monitoringV2.trackEvent('spool_deleted');
+      }
+    } catch (error, stackTrace) {
+      debugPrint('[AppState] Monitoring-Ereignis fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
+  }
+
   /// ================= FILAMENT =================
 
   void addFilament(Filament filament) {
@@ -484,39 +524,110 @@ class AppState extends ChangeNotifier {
     }
 
     filaments.add(filament);
-    saveData();
+    unawaited(
+      _saveFilamentAction(
+        'filament_added',
+        spoolsAdded: filament.spools.length,
+      ),
+    );
     notifyListeners();
   }
 
   void removeFilament(Filament filament) {
+    final existed = filaments.any((f) => f.id == filament.id);
+    if (!existed) return;
     filaments.removeWhere((f) => f.id == filament.id);
-    saveData();
+    unawaited(_saveFilamentAction('filament_deleted'));
     notifyListeners();
   }
 
-  void updateFilament(Filament updated) {
+  void updateFilament(Filament updated, {Set<String>? previousSpoolIds}) {
     final index = filaments.indexWhere((f) => f.id == updated.id);
-    if (index != -1) filaments[index] = updated;
-    saveData();
+    if (index == -1) return;
+
+    // Eine unveränderliche Momentaufnahme der IDs muss vor dem Bearbeiten
+    // erstellt werden, weil Filament-Objekte teilweise direkt mutiert werden.
+    final currentSpoolIds = updated.spools.map((s) => s.id).toSet();
+    final added = previousSpoolIds == null
+        ? 0
+        : currentSpoolIds.difference(previousSpoolIds).length;
+    final deleted = previousSpoolIds == null
+        ? 0
+        : previousSpoolIds.difference(currentSpoolIds).length;
+
+    filaments[index] = updated;
+    unawaited(
+      _saveFilamentAction(
+        'filament_updated',
+        spoolsAdded: added,
+        spoolsDeleted: deleted,
+      ),
+    );
     notifyListeners();
+  }
+
+  Future<void> _trackJobEvent(String eventName) async {
+    if (_isDisposed || FirebaseAuth.instance.currentUser == null) return;
+    try {
+      await _monitoringV2.trackEvent(eventName);
+    } catch (error, stackTrace) {
+      debugPrint('[AppState] Druckjob-Monitoring fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
+  }
+
+  bool _rejectJobSave() {
+    unawaited(_trackJobEvent('print_job_save_failed'));
+    return false;
+  }
+
+  Future<void> _saveJobAction(String successEvent, {bool isNew = false}) async {
+    final uidAtStart = FirebaseAuth.instance.currentUser?.uid;
+    try {
+      await saveData();
+    } catch (error, stackTrace) {
+      debugPrint('[AppState] Druckjob-Speicherung fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      if (isNew &&
+          uidAtStart != null &&
+          FirebaseAuth.instance.currentUser?.uid == uidAtStart &&
+          !_isDisposed) {
+        await _trackJobEvent('print_job_save_failed');
+      }
+      return;
+    }
+    if (uidAtStart == null ||
+        _isDisposed ||
+        FirebaseAuth.instance.currentUser?.uid != uidAtStart) {
+      return;
+    }
+    await _trackJobEvent(successEvent);
   }
 
   /// ================= PRINT JOBS =================
 
   bool addJob(PrintJob job, bool deductStock) {
-    if (!job.weightUsed.isFinite || job.weightUsed <= 0) return false;
+    unawaited(_trackJobEvent('print_job_save_attempted'));
+    if (!job.weightUsed.isFinite || job.weightUsed <= 0) {
+      return _rejectJobSave();
+    }
     final filamentIndex = filaments.indexWhere((f) => f.id == job.filamentId);
-    if (filamentIndex < 0) return false;
+    if (filamentIndex < 0) {
+      return _rejectJobSave();
+    }
     final filament = filaments[filamentIndex];
     if (deductStock) {
-      if (job.spoolUsage.length != 1) return false;
+      if (job.spoolUsage.length != 1) {
+        return _rejectJobSave();
+      }
       final selectedId = job.spoolUsage.keys.single;
       final matches = filament.spools.where((s) => s.id == selectedId);
-      if (matches.length != 1) return false;
+      if (matches.length != 1) {
+        return _rejectJobSave();
+      }
       final spool = matches.single;
-      if (!spool.weight.isFinite ||
-          spool.weight + 0.000001 < job.weightUsed) {
-        return false;
+      if (!spool.weight.isFinite || spool.weight + 0.000001 < job.weightUsed) {
+        return _rejectJobSave();
       }
       spool.weight -= job.weightUsed;
       _recalculateStock(filament);
@@ -527,7 +638,7 @@ class AppState extends ChangeNotifier {
       job.stockDeducted = false;
     }
     jobs.add(job);
-    saveData();
+    unawaited(_saveJobAction('print_job_saved', isNew: true));
     notifyListeners();
     return true;
   }
@@ -537,7 +648,9 @@ class AppState extends ChangeNotifier {
       return false;
     }
     final filamentIndex = filaments.indexWhere((f) => f.id == job.filamentId);
-    if (filamentIndex < 0) return false;
+    if (filamentIndex < 0) {
+      return false;
+    }
     final filament = filaments[filamentIndex];
     return job.spoolUsage.keys.every(
       (id) => filament.spools.any((spool) => spool.id == id),
@@ -545,20 +658,26 @@ class AppState extends ChangeNotifier {
   }
 
   bool removeJob(PrintJob job, bool restoreStock) {
-    if (!jobs.contains(job)) return false;
+    if (!jobs.contains(job)) {
+      return false;
+    }
     if (restoreStock) {
-      if (!canRestoreJob(job)) return false;
+      if (!canRestoreJob(job)) {
+        return false;
+      }
       final filament = filaments.firstWhere((f) => f.id == job.filamentId);
       _credit(filament, job.spoolUsage);
     }
     jobs.remove(job);
-    saveData();
+    unawaited(_saveJobAction('print_job_deleted'));
     notifyListeners();
     return true;
   }
 
   bool _canDebit(Filament filament, double amount) {
-    if (!amount.isFinite || amount < 0) return false;
+    if (!amount.isFinite || amount < 0) {
+      return false;
+    }
     final available = filament.spools.fold<double>(
       0,
       (sum, spool) => sum + spool.weight,
@@ -598,7 +717,9 @@ class AppState extends ChangeNotifier {
 
   bool updateJob(PrintJob oldJob, PrintJob updatedJob) {
     final index = jobs.indexOf(oldJob);
-    if (index == -1) return false;
+    if (index == -1) {
+      return false;
+    }
     if (!updatedJob.weightUsed.isFinite || updatedJob.weightUsed < 0) {
       return false;
     }
@@ -606,11 +727,13 @@ class AppState extends ChangeNotifier {
       updatedJob.stockDeducted = false;
       updatedJob.spoolUsage = {};
       jobs[index] = updatedJob;
-      saveData();
+      unawaited(_saveJobAction('print_job_updated'));
       notifyListeners();
       return true;
     }
-    if (!canRestoreJob(oldJob)) return false;
+    if (!canRestoreJob(oldJob)) {
+      return false;
+    }
     final filament = filaments.firstWhere((f) => f.id == oldJob.filamentId);
     final difference = updatedJob.weightUsed - oldJob.weightUsed;
     final usage = Map<String, double>.from(oldJob.spoolUsage);
@@ -622,12 +745,16 @@ class AppState extends ChangeNotifier {
           : oldId;
       final oldMatches = filament.spools.where((s) => s.id == oldId);
       final targetMatches = filament.spools.where((s) => s.id == targetId);
-      if (oldMatches.length != 1 || targetMatches.length != 1) return false;
+      if (oldMatches.length != 1 || targetMatches.length != 1) {
+        return false;
+      }
       final oldSpool = oldMatches.single;
       final targetSpool = targetMatches.single;
-      final available = targetSpool.weight +
-          (targetId == oldId ? oldJob.weightUsed : 0);
-      if (available + 0.000001 < updatedJob.weightUsed) return false;
+      final available =
+          targetSpool.weight + (targetId == oldId ? oldJob.weightUsed : 0);
+      if (available + 0.000001 < updatedJob.weightUsed) {
+        return false;
+      }
       oldSpool.weight += oldJob.weightUsed;
       targetSpool.weight -= updatedJob.weightUsed;
       _recalculateStock(filament);
@@ -636,12 +763,14 @@ class AppState extends ChangeNotifier {
           ? {targetId: updatedJob.weightUsed}
           : <String, double>{};
       jobs[index] = updatedJob;
-      saveData();
+      unawaited(_saveJobAction('print_job_updated'));
       notifyListeners();
       return true;
     }
     if (difference > 0.000001) {
-      if (!_canDebit(filament, difference)) return false;
+      if (!_canDebit(filament, difference)) {
+        return false;
+      }
       final additional = _debit(filament, difference);
       for (final entry in additional.entries) {
         usage.update(
@@ -671,7 +800,7 @@ class AppState extends ChangeNotifier {
     updatedJob.stockDeducted = true;
     updatedJob.spoolUsage = usage;
     jobs[index] = updatedJob;
-    saveData();
+    unawaited(_saveJobAction('print_job_updated'));
     notifyListeners();
     return true;
   }

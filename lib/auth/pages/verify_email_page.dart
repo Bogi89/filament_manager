@@ -1,21 +1,35 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../pages/main_navigation.dart';
-import '../services/guest_service.dart';
 import '../../l10n/app_localizations.dart';
+import '../../pages/main_navigation.dart';
+import '../../services/monitoring_v2_service.dart';
+import '../services/guest_service.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
 
   @override
-  State<VerifyEmailPage> createState() =>
-      _VerifyEmailPageState();
+  State<VerifyEmailPage> createState() => _VerifyEmailPageState();
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
+  final MonitoringV2Service _monitoringV2 = MonitoringV2Service();
+
   bool _isChecking = false;
   bool _isResending = false;
+  bool _verificationEventRecorded = false;
+
+  Future<void> _trackVerifiedEmail() async {
+    try {
+      await _monitoringV2.trackEvent('email_verified');
+    } catch (error, stackTrace) {
+      debugPrint('[VerifyEmailPage] Monitoring fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
+  }
 
   Future<void> _checkEmailVerification() async {
     if (_isChecking) {
@@ -35,8 +49,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
       await user.reload();
 
-      final updatedUser =
-          FirebaseAuth.instance.currentUser;
+      final updatedUser = FirebaseAuth.instance.currentUser;
 
       if (updatedUser?.emailVerified != true) {
         if (!mounted) {
@@ -44,13 +57,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(
-    content: Text(
-      AppLocalizations.of(context)!.verifyEmailNotVerified,
-    ),
-  ),
-);
-
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.verifyEmailNotVerified,
+            ),
+          ),
+        );
         return;
       }
 
@@ -58,6 +70,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
       if (!mounted) {
         return;
+      }
+
+      if (!_verificationEventRecorded) {
+        _verificationEventRecorded = true;
+        unawaited(_trackVerifiedEmail());
       }
 
       Navigator.of(context).pushAndRemoveUntil(
@@ -73,10 +90,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.verifyEmailCheckFailed,
-  ),
-),
+          content: Text(
+            AppLocalizations.of(context)!.verifyEmailCheckFailed,
+          ),
+        ),
       );
     } catch (_) {
       if (!mounted) {
@@ -85,10 +102,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.verifyEmailCheckFailed,
-  ),
-),
+          content: Text(
+            AppLocalizations.of(context)!.verifyEmailCheckFailed,
+          ),
+        ),
       );
     } finally {
       if (mounted) {
@@ -123,10 +140,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.verifyEmailResent,
-  ),
-),
+          content: Text(
+            AppLocalizations.of(context)!.verifyEmailResent,
+          ),
+        ),
       );
     } on FirebaseAuthException catch (_) {
       if (!mounted) {
@@ -135,10 +152,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-  content: Text(
-    AppLocalizations.of(context)!.verifyEmailSendFailed,
-  ),
-),
+          content: Text(
+            AppLocalizations.of(context)!.verifyEmailSendFailed,
+          ),
+        ),
       );
     } finally {
       if (mounted) {
@@ -161,14 +178,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 450,
-            ),
+            constraints: const BoxConstraints(maxWidth: 450),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Icon(
                     Icons.mark_email_read_outlined,
@@ -179,8 +193,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   Text(
                     l10n.verifyEmailAlmostDone,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineSmall
-                        ?.copyWith(
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -192,43 +205,35 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   ),
                   const SizedBox(height: 32),
                   FilledButton.icon(
-                    onPressed: _isChecking
-                        ? null
-                        : _checkEmailVerification,
+                    onPressed: _isChecking ? null : _checkEmailVerification,
                     icon: _isChecking
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.refresh),
                     label: Text(
-  _isChecking
-      ? l10n.verifyEmailChecking
-      : l10n.verifyEmailCheckAgain,
-),
+                      _isChecking
+                          ? l10n.verifyEmailChecking
+                          : l10n.verifyEmailCheckAgain,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton.icon(
-                    onPressed: _isResending
-                        ? null
-                        : _sendVerificationEmail,
+                    onPressed: _isResending ? null : _sendVerificationEmail,
                     icon: _isResending
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.mail_outline),
                     label: Text(
-  _isResending
-      ? l10n.verifyEmailSending
-      : l10n.verifyEmailResend,
-),
+                      _isResending
+                          ? l10n.verifyEmailSending
+                          : l10n.verifyEmailResend,
+                    ),
                   ),
                 ],
               ),

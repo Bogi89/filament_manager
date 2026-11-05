@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../state/app_state.dart';
+import '../../services/monitoring_v2_service.dart';
 import '../services/auth_loading_service.dart';
 import '../services/auth_validator.dart';
 import '../services/guest_service.dart';
@@ -22,6 +25,28 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final MonitoringV2Service _monitoringV2 = MonitoringV2Service();
+
+  @override
+  void initState() {
+    super.initState();
+    // Der Monitoring-Service ist standardmäßig deaktiviert.
+    _trackMonitoringEvent('login_opened');
+  }
+
+  void _trackMonitoringEvent(String eventName) {
+    // Monitoring darf die Authentifizierung niemals blockieren.
+    unawaited(_trackMonitoringEventSafely(eventName));
+  }
+
+  Future<void> _trackMonitoringEventSafely(String eventName) async {
+    try {
+      await _monitoringV2.trackEvent(eventName);
+    } catch (error, stackTrace) {
+      debugPrint('[LoginPage] Monitoring fehlgeschlagen: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
+  }
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -77,6 +102,8 @@ class _LoginPageState extends State<LoginPage> {
 
         return;
       }
+
+      _trackMonitoringEvent('login_completed');
 
       if (!user.emailVerified) {
         Navigator.of(context).pushAndRemoveUntil(
@@ -152,6 +179,10 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       await GuestService.disableGuestMode();
+
+      if (FirebaseAuth.instance.currentUser != null) {
+        _trackMonitoringEvent('login_completed');
+      }
 
       if (!mounted) {
         return;

@@ -63,6 +63,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
   int? bedTemp;
 
   late final List<Spool> _editingSpools;
+  late final Set<String> _originalSpoolIds;
   double _addedSpoolWeight = 0;
 
   double get _remainingSpoolWeight =>
@@ -90,6 +91,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     _loadCustomColors();
 
     final f = widget.filament;
+    _originalSpoolIds = f.spools.map((spool) => spool.id).toSet();
     _editingSpools = f.spools
         .map(
           (spool) => Spool(
@@ -364,7 +366,7 @@ class _FilamentDetailPageState extends State<FilamentDetailPage> {
     }
 
     /// 🔥 FILAMENT SPEICHERN
-    appState.updateFilament(f);
+    appState.updateFilament(f, previousSpoolIds: _originalSpoolIds);
 
     Navigator.pop(context);
   }

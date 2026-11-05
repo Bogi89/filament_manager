@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
@@ -6,6 +8,7 @@ import '../models/filament.dart';
 import '../models/print_job.dart';
 import '../models/printer.dart';
 import '../services/extended_cost_calculator.dart';
+import '../services/monitoring_v2_service.dart';
 import '../services/printer_service.dart';
 import '../widgets/cost/extended_costs_section.dart';
 import '../widgets/cost/filament_dropdown_item.dart';
@@ -29,6 +32,8 @@ class CostPage extends StatefulWidget {
 }
 
 class _CostPageState extends State<CostPage> {
+  final MonitoringV2Service _monitoring = MonitoringV2Service();
+
   @override
   void initState() {
     super.initState();
@@ -254,6 +259,13 @@ class _CostPageState extends State<CostPage> {
         label: Text(label),
       ),
     );
+  }
+
+  void _calculateFromButton() {
+    calculate();
+    if (_calculationIsCurrent) {
+      unawaited(_monitoring.trackEvent('calculation_completed'));
+    }
   }
 
   void calculate() {
@@ -939,7 +951,7 @@ class _CostPageState extends State<CostPage> {
               const SizedBox(height: 10),
 
               ElevatedButton(
-                onPressed: calculate,
+                onPressed: _calculateFromButton,
                 child: Text(l10n.calculateCosts),
               ),
 
@@ -1361,7 +1373,7 @@ class _CostPageState extends State<CostPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: calculate,
+                onPressed: _calculateFromButton,
                 child: Text(l10n.calculateCosts),
               ),
             ),

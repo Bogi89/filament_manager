@@ -4441,3 +4441,9 @@ exports.paddleWebhook = onRequest(
       }
     },
 );
+
+// FilaLog Monitoring 2.0 - separate, disabled-by-default handlers.
+const {createMonitoringFunctions} = require("./monitoring_v2/handlers");
+const monitoringV2Functions = createMonitoringFunctions();
+exports.monitoringV2TrackEvent = monitoringV2Functions.monitoringV2TrackEvent;
+exports.monitoringV2GetOverview = monitoringV2Functions.monitoringV2GetOverview;

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/firestore_service.dart';
+import '../../services/monitoring_v2_service.dart';
 import '../services/auth_validator.dart';
 import '../services/guest_service.dart';
 import 'verify_email_page.dart';
@@ -15,6 +18,14 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final MonitoringV2Service _monitoringV2 = MonitoringV2Service();
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_monitoringV2.trackEvent('registration_opened'));
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -49,10 +60,14 @@ class _RegisterPageState extends State<RegisterPage> {
       final guestTrialStart =
           await GuestService.getGuestStartDate();
 
+      unawaited(_monitoringV2.trackEvent('registration_attempted'));
+
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      unawaited(_monitoringV2.trackEvent('registration_completed'));
 
       /// ================= TESTSTATUS =================
       ///
