@@ -222,7 +222,7 @@ class _FilamentPageState extends State<FilamentPage> {
                 _topCard(
                   icon: const SpoolIcon(size: 24),
                   value: spoolCount.toString(),
-                  label: 'Spulen',
+                  label: l10n.spools,
                 ),
 
                 const SizedBox(width: 8),

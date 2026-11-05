@@ -9,6 +9,7 @@ import 'history_page.dart';
 import 'statistics_page.dart';
 import 'settings_page.dart';
 import '../widgets/spool_icon.dart';
+import '../widgets/common/responsive_content.dart';
 import '../l10n/app_localizations.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -58,9 +59,11 @@ class _MainNavigationState extends State<MainNavigation> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xFF0F0F14)
-          : Colors.grey[100],
-      body: pages[_selectedIndex],
+          ? Colors.black
+          : const Color(0xFFE9EEF5),
+      body: ResponsiveContent(
+        child: pages[_selectedIndex],
+      ),
       bottomNavigationBar: Builder(
         builder: (context) {
           final isDark = Theme.of(context).brightness == Brightness.dark;

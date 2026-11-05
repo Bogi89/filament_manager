@@ -43,22 +43,18 @@ class DashboardStatsGrid extends StatelessWidget {
                 compact: true,
               ),
             ),
-
             const SizedBox(width: 8),
-
             // Spulen
             Expanded(
               child: DashboardStatCard(
                 icon: const SpoolIcon(size: 24),
                 value: "$spoolCount",
-                label: 'Spulen',
+                label: l10n.spools,
                 iconBackgroundColor: const Color(0xFFE8F0FF),
                 compact: true,
               ),
             ),
-
             const SizedBox(width: 8),
-
             // Kritisch
             Expanded(
               child: DashboardStatCard(
@@ -71,9 +67,7 @@ class DashboardStatsGrid extends StatelessWidget {
             ),
           ],
         ),
-
         const SizedBox(height: 12),
-
         Row(
           children: [
             Expanded(
@@ -84,9 +78,7 @@ class DashboardStatsGrid extends StatelessWidget {
                 iconBackgroundColor: const Color(0xFFEAF8EC),
               ),
             ),
-
             const SizedBox(width: 12),
-
             Expanded(
               child: DashboardStatCard(
                 icon: const Icon(Icons.scale),

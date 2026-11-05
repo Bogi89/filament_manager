@@ -508,10 +508,19 @@ class AppState extends ChangeNotifier {
     final filamentIndex = filaments.indexWhere((f) => f.id == job.filamentId);
     if (filamentIndex < 0) return false;
     final filament = filaments[filamentIndex];
-    if (deductStock && !_canDebit(filament, job.weightUsed)) return false;
     if (deductStock) {
-      final usage = _debit(filament, job.weightUsed);
-      job.spoolUsage = usage;
+      if (job.spoolUsage.length != 1) return false;
+      final selectedId = job.spoolUsage.keys.single;
+      final matches = filament.spools.where((s) => s.id == selectedId);
+      if (matches.length != 1) return false;
+      final spool = matches.single;
+      if (!spool.weight.isFinite ||
+          spool.weight + 0.000001 < job.weightUsed) {
+        return false;
+      }
+      spool.weight -= job.weightUsed;
+      _recalculateStock(filament);
+      job.spoolUsage = {selectedId: job.weightUsed};
       job.stockDeducted = true;
     } else {
       job.spoolUsage = {};
@@ -605,6 +614,32 @@ class AppState extends ChangeNotifier {
     final filament = filaments.firstWhere((f) => f.id == oldJob.filamentId);
     final difference = updatedJob.weightUsed - oldJob.weightUsed;
     final usage = Map<String, double>.from(oldJob.spoolUsage);
+    // Jobs with one spool must never silently debit another spool.
+    if (usage.length == 1) {
+      final oldId = usage.keys.single;
+      final targetId = updatedJob.spoolUsage.length == 1
+          ? updatedJob.spoolUsage.keys.single
+          : oldId;
+      final oldMatches = filament.spools.where((s) => s.id == oldId);
+      final targetMatches = filament.spools.where((s) => s.id == targetId);
+      if (oldMatches.length != 1 || targetMatches.length != 1) return false;
+      final oldSpool = oldMatches.single;
+      final targetSpool = targetMatches.single;
+      final available = targetSpool.weight +
+          (targetId == oldId ? oldJob.weightUsed : 0);
+      if (available + 0.000001 < updatedJob.weightUsed) return false;
+      oldSpool.weight += oldJob.weightUsed;
+      targetSpool.weight -= updatedJob.weightUsed;
+      _recalculateStock(filament);
+      updatedJob.stockDeducted = true;
+      updatedJob.spoolUsage = updatedJob.weightUsed > 0
+          ? {targetId: updatedJob.weightUsed}
+          : <String, double>{};
+      jobs[index] = updatedJob;
+      saveData();
+      notifyListeners();
+      return true;
+    }
     if (difference > 0.000001) {
       if (!_canDebit(filament, difference)) return false;
       final additional = _debit(filament, difference);

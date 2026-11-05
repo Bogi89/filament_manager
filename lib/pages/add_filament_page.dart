@@ -82,6 +82,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
   String? selectedSpoolWeight;
 
+  List<AdditionalSpoolInput> additionalSpools = [];
+
   List<String> brands = [];
   List<String> materials = [];
   List<String> variants = [];
@@ -447,6 +449,69 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
       return;
     }
 
+    // Validate the first physical spool and all additional spools before saving.
+    if (!totalWeight.isFinite ||
+        totalWeight <= 0 ||
+        !remainingWeight.isFinite ||
+        remainingWeight < 0 ||
+        remainingWeight > totalWeight ||
+        !price.isFinite ||
+        price < 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Bitte Gewicht, Restgewicht und Preis prüfen.'),
+        ),
+      );
+      return;
+    }
+
+    final newSpools = <Spool>[
+      Spool(
+        weight: remainingWeight,
+        price: price,
+        storageLocation: storageLocationController.text.trim(),
+        storagePosition: storagePositionController.text.trim(),
+      ),
+    ];
+    var combinedTotalWeight = totalWeight;
+    var combinedRemainingWeight = remainingWeight;
+    for (final input in additionalSpools) {
+      double? parse(String value) =>
+          double.tryParse(value.trim().replaceAll(',', '.'));
+      final nominal = parse(input.totalWeight);
+      final remaining = parse(input.remainingWeight);
+      final individualPrice = input.price.trim().isEmpty
+          ? price
+          : parse(input.price);
+      if (nominal == null ||
+          !nominal.isFinite ||
+          nominal <= 0 ||
+          remaining == null ||
+          !remaining.isFinite ||
+          remaining < 0 ||
+          remaining > nominal ||
+          individualPrice == null ||
+          !individualPrice.isFinite ||
+          individualPrice < 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.checkAllSpoolDetails),
+          ),
+        );
+        return;
+      }
+      newSpools.add(
+        Spool(
+          weight: remaining,
+          price: individualPrice,
+          storageLocation: input.storageLocation.trim(),
+          storagePosition: input.storagePosition.trim(),
+        ),
+      );
+      combinedTotalWeight += nominal;
+      combinedRemainingWeight += remaining;
+    }
+
     final catalogColors = FilamentCatalogService.getColorsFromHex(
       selectedBrand!,
       selectedMaterial!,
@@ -500,8 +565,8 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
       diameter: selectedDiameter ?? 1.75,
       density: selectedDensity,
-      totalWeight: totalWeight,
-      remainingWeight: remainingWeight,
+      totalWeight: combinedTotalWeight,
+      remainingWeight: combinedRemainingWeight,
       price: price,
 
       nozzleTemp: nozzleTemp ?? 0,
@@ -536,13 +601,7 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
       colorType: parsedColors.length > 1 ? "multi" : "single",
 
-      spools: [
-        Spool(
-          weight: remainingWeight,
-          storageLocation: storageLocationController.text.trim(),
-          storagePosition: storagePositionController.text.trim(),
-        ),
-      ],
+      spools: newSpools,
     );
 
     widget.onSave(filament);
@@ -572,1086 +631,1130 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
 
       body: Stack(
         children: [
-          ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 20 : 32,
-              vertical: 20,
-            ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1400),
+              child: ListView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 20 : 32,
+                  vertical: 20,
+                ),
 
-            children: [
-              PageHeader(title: l10n.addFilament),
+                children: [
+                  PageHeader(title: l10n.addFilament),
 
-              const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-              if (isDesktop) ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white.withValues(alpha: 0.06)
-                                : Colors.black.withValues(alpha: 0.05),
-                          ),
-                          boxShadow:
-                              Theme.of(context).brightness == Brightness.dark
-                              ? null
-                              : [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.03),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l10n.filament,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                  if (isDesktop) ...[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white.withValues(alpha: 0.06)
+                                    : Colors.black.withValues(alpha: 0.05),
                               ),
-                            ),
-
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: DropdownSearch<String>(
-                                    items: (filter, infiniteScrollProps) =>
-                                        brands,
-                                    selectedItem: selectedBrand,
-                                    popupProps: PopupProps.menu(
-                                      showSearchBox: true,
-                                      searchFieldProps: TextFieldProps(
-                                        controller: brandSearchController,
-                                        decoration: InputDecoration(
-                                          hintText: l10n.searchManufacturer,
-                                          suffixIcon: IconButton(
-                                            icon: const Icon(Icons.clear),
-                                            onPressed: () {
-                                              brandSearchController.clear();
-                                            },
-                                          ),
+                              boxShadow:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? null
+                                  : [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.03,
                                         ),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 4),
                                       ),
-                                    ),
-                                    decoratorProps: DropDownDecoratorProps(
-                                      decoration: InputDecoration(
-                                        hintText: l10n.manufacturer,
-                                        border: const OutlineInputBorder(),
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        selectBrand(value);
-                                      }
-                                    },
+                                    ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n.filament,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
 
-                                buildAlignedAddButton(
-                                  onPressed: _addBrandDialog,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: DropdownSearch<String>(
-                                    items: (filter, infiniteScrollProps) =>
-                                        materials,
-                                    selectedItem: selectedMaterial,
-                                    popupProps: PopupProps.menu(
-                                      showSearchBox: true,
-                                      searchFieldProps: TextFieldProps(
-                                        controller: materialSearchController,
-                                        decoration: InputDecoration(
-                                          hintText: l10n.searchMaterial,
-                                          suffixIcon: IconButton(
-                                            icon: const Icon(Icons.clear),
-                                            onPressed: () {
-                                              materialSearchController.clear();
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    decoratorProps: DropDownDecoratorProps(
-                                      decoration: InputDecoration(
-                                        hintText: l10n.material,
-                                        border: const OutlineInputBorder(),
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        selectMaterial(value);
-                                      }
-                                    },
-                                  ),
-                                ),
-
-                                buildAlignedAddButton(
-                                  onPressed: _addMaterialDialog,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: DropdownSearch<String>(
-                                    items: (filter, infiniteScrollProps) =>
-                                        variants,
-                                    selectedItem: selectedVariant,
-                                    popupProps: PopupProps.menu(
-                                      showSearchBox: true,
-                                      searchFieldProps: TextFieldProps(
-                                        controller: variantSearchController,
-                                        decoration: InputDecoration(
-                                          hintText: l10n.searchVariant,
-                                          suffixIcon: IconButton(
-                                            icon: const Icon(Icons.clear),
-                                            onPressed: () {
-                                              variantSearchController.clear();
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    decoratorProps: DropDownDecoratorProps(
-                                      decoration: InputDecoration(
-                                        hintText: l10n.variant,
-                                        border: const OutlineInputBorder(),
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        selectVariant(value);
-                                      }
-                                    },
-                                  ),
-                                ),
-
-                                buildAlignedAddButton(
-                                  onPressed: () async {
-                                    final controller = TextEditingController();
-
-                                    final result = await showDialog<String>(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(l10n.newVariant),
-                                          content: TextField(
-                                            controller: controller,
+                                const SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: DropdownSearch<String>(
+                                        items: (filter, infiniteScrollProps) =>
+                                            brands,
+                                        selectedItem: selectedBrand,
+                                        popupProps: PopupProps.menu(
+                                          showSearchBox: true,
+                                          searchFieldProps: TextFieldProps(
+                                            controller: brandSearchController,
                                             decoration: InputDecoration(
-                                              hintText: l10n.variantName,
+                                              hintText: l10n.searchManufacturer,
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  brandSearchController.clear();
+                                                },
+                                              ),
                                             ),
                                           ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Text(l10n.cancel),
+                                        ),
+                                        decoratorProps: DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            hintText: l10n.manufacturer,
+                                            border: const OutlineInputBorder(),
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            selectBrand(value);
+                                          }
+                                        },
+                                      ),
+                                    ),
+
+                                    buildAlignedAddButton(
+                                      onPressed: _addBrandDialog,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: DropdownSearch<String>(
+                                        items: (filter, infiniteScrollProps) =>
+                                            materials,
+                                        selectedItem: selectedMaterial,
+                                        popupProps: PopupProps.menu(
+                                          showSearchBox: true,
+                                          searchFieldProps: TextFieldProps(
+                                            controller:
+                                                materialSearchController,
+                                            decoration: InputDecoration(
+                                              hintText: l10n.searchMaterial,
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  materialSearchController
+                                                      .clear();
+                                                },
+                                              ),
                                             ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(
-                                                  context,
-                                                  controller.text.trim(),
+                                          ),
+                                        ),
+                                        decoratorProps: DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            hintText: l10n.material,
+                                            border: const OutlineInputBorder(),
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            selectMaterial(value);
+                                          }
+                                        },
+                                      ),
+                                    ),
+
+                                    buildAlignedAddButton(
+                                      onPressed: _addMaterialDialog,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: DropdownSearch<String>(
+                                        items: (filter, infiniteScrollProps) =>
+                                            variants,
+                                        selectedItem: selectedVariant,
+                                        popupProps: PopupProps.menu(
+                                          showSearchBox: true,
+                                          searchFieldProps: TextFieldProps(
+                                            controller: variantSearchController,
+                                            decoration: InputDecoration(
+                                              hintText: l10n.searchVariant,
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  variantSearchController
+                                                      .clear();
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        decoratorProps: DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            hintText: l10n.variant,
+                                            border: const OutlineInputBorder(),
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            selectVariant(value);
+                                          }
+                                        },
+                                      ),
+                                    ),
+
+                                    buildAlignedAddButton(
+                                      onPressed: () async {
+                                        final controller =
+                                            TextEditingController();
+
+                                        final result = await showDialog<String>(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text(l10n.newVariant),
+                                              content: TextField(
+                                                controller: controller,
+                                                decoration: InputDecoration(
+                                                  hintText: l10n.variantName,
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text(l10n.cancel),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(
+                                                      context,
+                                                      controller.text.trim(),
+                                                    );
+                                                  },
+                                                  child: Text(l10n.save),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+
+                                        if (result != null &&
+                                            result.isNotEmpty &&
+                                            selectedBrand != null &&
+                                            selectedMaterial != null) {
+                                          setState(() {
+                                            variants.add(result);
+
+                                            FilamentCatalogService.addCustomVariant(
+                                              selectedBrand!,
+                                              selectedMaterial!,
+                                              result,
+                                            );
+
+                                            variants = variants
+                                                .toSet()
+                                                .toList();
+                                            variants.sort();
+                                            selectedVariant = result;
+
+                                            // Dichte für die neue Variante prüfen.
+                                            updateDensityFromCatalog();
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: DropdownSearch<String>(
+                                        items: (filter, infiniteScrollProps) =>
+                                            colors,
+                                        selectedItem:
+                                            colors.contains(selectedColor)
+                                            ? selectedColor
+                                            : null,
+
+                                        dropdownBuilder: (context, item) {
+                                          if (item == null) {
+                                            return const Text('');
+                                          }
+                                          return buildColorItem(item);
+                                        },
+
+                                        popupProps: PopupProps.menu(
+                                          itemBuilder:
+                                              (
+                                                context,
+                                                item,
+                                                isDisabled,
+                                                isSelected,
+                                              ) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 10,
+                                                      ),
+                                                  child: buildColorItem(item),
                                                 );
                                               },
-                                              child: Text(l10n.save),
+
+                                          showSearchBox: true,
+                                          searchFieldProps: TextFieldProps(
+                                            controller: colorSearchController,
+                                            decoration: InputDecoration(
+                                              hintText: l10n.searchColor,
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  colorSearchController.clear();
+                                                },
+                                              ),
                                             ),
-                                          ],
+                                          ),
+                                        ),
+                                        decoratorProps: DropDownDecoratorProps(
+                                          decoration: InputDecoration(
+                                            labelText: l10n.color,
+                                            border: const OutlineInputBorder(),
+                                          ),
+                                        ),
+                                        onChanged: (val) {
+                                          if (val != null) {
+                                            setState(() {
+                                              selectedColor = val;
+
+                                              selectedFilamentColors = [];
+
+                                              final catalogColors =
+                                                  FilamentCatalogService.getColors(
+                                                    selectedBrand!,
+                                                    selectedMaterial!,
+                                                    selectedVariant!,
+                                                  );
+
+                                              final selectedCatalogColor =
+                                                  catalogColors
+                                                      .where(
+                                                        (catalogColor) =>
+                                                            catalogColor
+                                                                .split('|')
+                                                                .first
+                                                                .trim() ==
+                                                            val.trim(),
+                                                      )
+                                                      .toList();
+
+                                              if (selectedCatalogColor
+                                                  .isNotEmpty) {
+                                                final parts =
+                                                    selectedCatalogColor.first
+                                                        .split('|');
+
+                                                if (parts.length > 1) {
+                                                  final hexParts = parts[1]
+                                                      .split('+')
+                                                      .map((hex) => hex.trim())
+                                                      .where(
+                                                        (hex) => hex.isNotEmpty,
+                                                      )
+                                                      .toList();
+
+                                                  selectedFilamentColors =
+                                                      hexParts
+                                                          .map(
+                                                            (
+                                                              hex,
+                                                            ) => FilamentColor(
+                                                              name: val.trim(),
+                                                              hex:
+                                                                  hex.startsWith(
+                                                                    '#',
+                                                                  )
+                                                                  ? hex
+                                                                  : '#$hex',
+                                                              isCustom: false,
+                                                            ),
+                                                          )
+                                                          .toList();
+                                                }
+                                              }
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ),
+
+                                    buildAlignedAddButton(
+                                      onPressed: () async {
+                                        final controller =
+                                            TextEditingController();
+
+                                        final pickedColors = <Color>[
+                                          selectedColorValue ?? Colors.blue,
+                                        ];
+
+                                        int activeColorIndex = 0;
+
+                                        final result = await showDialog<Map<String, dynamic>>(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text(l10n.newColor),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  TextField(
+                                                    controller: controller,
+                                                    decoration: InputDecoration(
+                                                      hintText: l10n.colorName,
+                                                    ),
+                                                  ),
+
+                                                  const SizedBox(height: 16),
+
+                                                  // 🎨 Farbauswahl
+                                                  StatefulBuilder(
+                                                    builder: (context, setStateDialog) {
+                                                      return Column(
+                                                        children: [
+                                                          Wrap(
+                                                            spacing: 8,
+                                                            runSpacing: 8,
+                                                            alignment:
+                                                                WrapAlignment
+                                                                    .center,
+                                                            children: [
+                                                              ...List.generate(
+                                                                pickedColors
+                                                                    .length,
+                                                                (index) {
+                                                                  final isActive =
+                                                                      index ==
+                                                                      activeColorIndex;
+
+                                                                  return GestureDetector(
+                                                                    onTap: () {
+                                                                      setStateDialog(() {
+                                                                        activeColorIndex =
+                                                                            index;
+                                                                        selectedColorValue =
+                                                                            pickedColors[index];
+                                                                      });
+                                                                    },
+                                                                    child: Container(
+                                                                      width: 34,
+                                                                      height:
+                                                                          34,
+                                                                      decoration: BoxDecoration(
+                                                                        color:
+                                                                            pickedColors[index],
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        border: Border.all(
+                                                                          color:
+                                                                              isActive
+                                                                              ? Colors.white
+                                                                              : Colors.grey,
+                                                                          width:
+                                                                              isActive
+                                                                              ? 3
+                                                                              : 1,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                              if (pickedColors
+                                                                      .length <
+                                                                  4)
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    setStateDialog(() {
+                                                                      pickedColors.add(
+                                                                        Colors
+                                                                            .blue,
+                                                                      );
+                                                                      activeColorIndex =
+                                                                          pickedColors
+                                                                              .length -
+                                                                          1;
+                                                                      selectedColorValue =
+                                                                          pickedColors[activeColorIndex];
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    width: 34,
+                                                                    height: 34,
+                                                                    decoration: BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                      border: Border.all(
+                                                                        color: Colors
+                                                                            .grey,
+                                                                      ),
+                                                                    ),
+                                                                    child: const Icon(
+                                                                      Icons.add,
+                                                                      size: 20,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                            ],
+                                                          ),
+
+                                                          const SizedBox(
+                                                            height: 16,
+                                                          ),
+
+                                                          ColorPicker(
+                                                            pickerColor:
+                                                                pickedColors[activeColorIndex],
+                                                            onColorChanged: (color) {
+                                                              setStateDialog(() {
+                                                                selectedColorValue =
+                                                                    color;
+                                                                pickedColors[activeColorIndex] =
+                                                                    color;
+                                                              });
+                                                            },
+                                                            enableAlpha: false,
+                                                            displayThumbColor:
+                                                                true,
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(l10n.cancel),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context, {
+                                                      "name": controller.text
+                                                          .trim(),
+                                                      "color":
+                                                          pickedColors[activeColorIndex],
+                                                      "colors": pickedColors,
+                                                    });
+                                                  },
+                                                  child: Text(l10n.save),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         );
+
+                                        if (result != null &&
+                                            selectedBrand != null &&
+                                            selectedMaterial != null &&
+                                            selectedVariant != null) {
+                                          final colorName = result["name"]
+                                              ?.toString();
+                                          final Color pickedColor =
+                                              result["color"] as Color;
+                                          final List<Color> pickedColorList =
+                                              List<Color>.from(
+                                                result["colors"] as List,
+                                              );
+
+                                          final customHex = pickedColorList
+                                              .map(
+                                                (color) =>
+                                                    '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
+                                              )
+                                              .join('+');
+
+                                          if (colorName != null &&
+                                              colorName.isNotEmpty) {
+                                            // 🔥 Farbe im Catalog hinzufügen
+                                            FilamentCatalogService.addCustomColor(
+                                              selectedBrand!,
+                                              selectedMaterial!,
+                                              selectedVariant!,
+                                              colorName,
+                                              customHex,
+                                            );
+
+                                            await CustomColorService.saveCustomColor(
+                                              name: colorName,
+                                              hex: customHex,
+                                            );
+
+                                            await FilamentCatalogService.saveCustomColors();
+
+                                            // 🔥 Danach UI aktualisieren
+                                            setState(() {
+                                              // 🔥 Farben neu laden
+                                              colors =
+                                                  FilamentCatalogService.getColors(
+                                                    selectedBrand!,
+                                                    selectedMaterial!,
+                                                    selectedVariant!,
+                                                  );
+
+                                              // 🔥 preloadColorMap komplett neu aufbauen
+                                              preloadColorMap.clear();
+
+                                              for (var c in colors) {
+                                                final loadedColors =
+                                                    FilamentCatalogService.getColorsFromHex(
+                                                      selectedBrand!,
+                                                      selectedMaterial!,
+                                                      selectedVariant!,
+                                                      c,
+                                                    );
+
+                                                if (loadedColors.isNotEmpty) {
+                                                  final splitColors = c
+                                                      .split('+')
+                                                      .map((e) => e.trim())
+                                                      .toList();
+
+                                                  for (
+                                                    int i = 0;
+                                                    i < splitColors.length;
+                                                    i++
+                                                  ) {
+                                                    final colorName =
+                                                        splitColors[i];
+
+                                                    final key = buildColorKey(
+                                                      selectedBrand!,
+                                                      selectedMaterial!,
+                                                      selectedVariant!,
+                                                      colorName,
+                                                    );
+
+                                                    if (i <
+                                                        loadedColors.length) {
+                                                      preloadColorMap[key] =
+                                                          loadedColors[i];
+                                                    } else {
+                                                      preloadColorMap[key] =
+                                                          Colors.grey;
+                                                    }
+                                                  }
+                                                } else {
+                                                  preloadColorMap[c] =
+                                                      Colors.grey;
+                                                }
+                                              }
+
+                                              // 🔥 neue Farbe setzen
+                                              preloadColorMap[colorName] =
+                                                  pickedColor;
+
+                                              selectedColor = colorName;
+                                              selectedColorValue = pickedColor;
+                                            });
+                                          }
+                                        }
                                       },
-                                    );
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                              ],
+                            ),
+                          ),
+                        ),
 
-                                    if (result != null &&
-                                        result.isNotEmpty &&
-                                        selectedBrand != null &&
-                                        selectedMaterial != null) {
+                        const SizedBox(width: 24),
+
+                        Expanded(
+                          child: PrintSettingsSection(
+                            selectedDiameter: selectedDiameter,
+                            diameters: diameters,
+                            density: selectedDensity,
+                            nozzleTemp: nozzleTemp,
+                            bedTemp: bedTemp,
+                            onDiameterChanged: (value) {
+                              setState(() {
+                                selectedDiameter = value;
+                              });
+                            },
+                            onDensityChanged: (value) {
+                              setState(() {
+                                selectedDensity = value;
+                                densityManuallyEdited = true;
+                              });
+                            },
+                            onNozzleTempChanged: (value) {
+                              setState(() {
+                                nozzleTemp = value;
+                              });
+                            },
+                            onBedTempChanged: (value) {
+                              setState(() {
+                                bedTemp = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 24),
+                  ],
+                  if (isMobile)
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white.withValues(alpha: 0.06)
+                              : Colors.black.withValues(alpha: 0.05),
+                        ),
+                        boxShadow:
+                            Theme.of(context).brightness == Brightness.dark
+                            ? null
+                            : [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.03),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.filament,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownSearch<String>(
+                                  items: (filter, infiniteScrollProps) =>
+                                      brands,
+                                  selectedItem: selectedBrand,
+                                  popupProps: PopupProps.menu(
+                                    showSearchBox: true,
+                                    searchFieldProps: TextFieldProps(
+                                      controller: brandSearchController,
+                                      decoration: InputDecoration(
+                                        hintText: l10n.searchManufacturer,
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.clear),
+                                          onPressed: () {
+                                            brandSearchController.clear();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  decoratorProps: DropDownDecoratorProps(
+                                    decoration: InputDecoration(
+                                      hintText: l10n.manufacturer,
+                                      border: const OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      selectBrand(value);
+                                    }
+                                  },
+                                ),
+                              ),
+                              buildAlignedAddButton(onPressed: _addBrandDialog),
+                            ],
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownSearch<String>(
+                                  items: (filter, infiniteScrollProps) =>
+                                      materials,
+                                  selectedItem: selectedMaterial,
+                                  popupProps: PopupProps.menu(
+                                    showSearchBox: true,
+                                    searchFieldProps: TextFieldProps(
+                                      controller: materialSearchController,
+                                      decoration: InputDecoration(
+                                        hintText: l10n.searchMaterial,
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.clear),
+                                          onPressed: () {
+                                            materialSearchController.clear();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  decoratorProps: DropDownDecoratorProps(
+                                    decoration: InputDecoration(
+                                      hintText: l10n.material,
+                                      border: const OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      selectMaterial(value);
+                                    }
+                                  },
+                                ),
+                              ),
+
+                              buildAlignedAddButton(
+                                onPressed: _addMaterialDialog,
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownSearch<String>(
+                                  items: (filter, infiniteScrollProps) =>
+                                      variants,
+                                  selectedItem: selectedVariant,
+                                  popupProps: PopupProps.menu(
+                                    showSearchBox: true,
+                                    searchFieldProps: TextFieldProps(
+                                      controller: variantSearchController,
+                                      decoration: InputDecoration(
+                                        hintText: l10n.searchVariant,
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.clear),
+                                          onPressed: () {
+                                            variantSearchController.clear();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  decoratorProps: DropDownDecoratorProps(
+                                    decoration: InputDecoration(
+                                      hintText: l10n.variant,
+                                      border: const OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      selectVariant(value);
+                                    }
+                                  },
+                                ),
+                              ),
+
+                              buildAlignedAddButton(
+                                onPressed: () async {
+                                  final controller = TextEditingController();
+
+                                  final result = await showDialog<String>(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(l10n.newVariant),
+                                        content: TextField(
+                                          controller: controller,
+                                          decoration: InputDecoration(
+                                            hintText: l10n.variantName,
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(l10n.cancel),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(
+                                                context,
+                                                controller.text.trim(),
+                                              );
+                                            },
+                                            child: Text(l10n.save),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  if (result != null &&
+                                      result.isNotEmpty &&
+                                      selectedBrand != null &&
+                                      selectedMaterial != null) {
+                                    setState(() {
+                                      variants.add(result);
+
+                                      FilamentCatalogService.addCustomVariant(
+                                        selectedBrand!,
+                                        selectedMaterial!,
+                                        result,
+                                      );
+
+                                      variants = variants.toSet().toList();
+
+                                      variants.sort();
+
+                                      selectedVariant = result;
+
+                                      // Dichte für die neue Variante prüfen.
+                                      updateDensityFromCatalog();
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownSearch<String>(
+                                  items: (filter, infiniteScrollProps) =>
+                                      colors,
+                                  selectedItem: colors.contains(selectedColor)
+                                      ? selectedColor
+                                      : null,
+
+                                  dropdownBuilder: (context, item) {
+                                    if (item == null) {
+                                      return const Text('');
+                                    }
+                                    return buildColorItem(item);
+                                  },
+
+                                  popupProps: PopupProps.menu(
+                                    itemBuilder:
+                                        (
+                                          context,
+                                          item,
+                                          isDisabled,
+                                          isSelected,
+                                        ) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
+                                            child: buildColorItem(item),
+                                          );
+                                        },
+
+                                    showSearchBox: true,
+                                    searchFieldProps: TextFieldProps(
+                                      controller: colorSearchController,
+                                      decoration: InputDecoration(
+                                        hintText: l10n.searchColor,
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.clear),
+                                          onPressed: () {
+                                            colorSearchController.clear();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  decoratorProps: DropDownDecoratorProps(
+                                    decoration: InputDecoration(
+                                      labelText: l10n.color,
+                                      border: const OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  onChanged: (val) {
+                                    if (val != null) {
                                       setState(() {
-                                        variants.add(result);
+                                        selectedColor = val;
 
-                                        FilamentCatalogService.addCustomVariant(
-                                          selectedBrand!,
-                                          selectedMaterial!,
-                                          result,
-                                        );
+                                        selectedFilamentColors = [];
 
-                                        variants = variants.toSet().toList();
-                                        variants.sort();
-                                        selectedVariant = result;
+                                        final catalogColors =
+                                            FilamentCatalogService.getColors(
+                                              selectedBrand!,
+                                              selectedMaterial!,
+                                              selectedVariant!,
+                                            );
 
-                                        // Dichte für die neue Variante prüfen.
-                                        updateDensityFromCatalog();
+                                        final selectedCatalogColor =
+                                            catalogColors
+                                                .where(
+                                                  (catalogColor) =>
+                                                      catalogColor
+                                                          .split('|')
+                                                          .first
+                                                          .trim() ==
+                                                      val.trim(),
+                                                )
+                                                .toList();
+
+                                        if (selectedCatalogColor.isNotEmpty) {
+                                          final parts = selectedCatalogColor
+                                              .first
+                                              .split('|');
+
+                                          if (parts.length > 1) {
+                                            final hexParts = parts[1]
+                                                .split('+')
+                                                .map((hex) => hex.trim())
+                                                .where((hex) => hex.isNotEmpty)
+                                                .toList();
+
+                                            selectedFilamentColors = hexParts
+                                                .map(
+                                                  (hex) => FilamentColor(
+                                                    name: val.trim(),
+                                                    hex: hex.startsWith('#')
+                                                        ? hex
+                                                        : '#$hex',
+                                                    isCustom: false,
+                                                  ),
+                                                )
+                                                .toList();
+                                          }
+                                        }
                                       });
                                     }
                                   },
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
+                              ),
 
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: DropdownSearch<String>(
-                                    items: (filter, infiniteScrollProps) =>
-                                        colors,
-                                    selectedItem: colors.contains(selectedColor)
-                                        ? selectedColor
-                                        : null,
+                              buildAlignedAddButton(
+                                onPressed: () async {
+                                  final controller = TextEditingController();
 
-                                    dropdownBuilder: (context, item) {
-                                      if (item == null) {
-                                        return const Text('');
-                                      }
-                                      return buildColorItem(item);
-                                    },
+                                  final pickedColors = <Color>[
+                                    selectedColorValue ?? Colors.blue,
+                                  ];
 
-                                    popupProps: PopupProps.menu(
-                                      itemBuilder:
-                                          (
-                                            context,
-                                            item,
-                                            isDisabled,
-                                            isSelected,
-                                          ) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 12,
-                                                    vertical: 10,
-                                                  ),
-                                              child: buildColorItem(item),
-                                            );
-                                          },
+                                  int activeColorIndex = 0;
 
-                                      showSearchBox: true,
-                                      searchFieldProps: TextFieldProps(
-                                        controller: colorSearchController,
-                                        decoration: InputDecoration(
-                                          hintText: l10n.searchColor,
-                                          suffixIcon: IconButton(
-                                            icon: const Icon(Icons.clear),
-                                            onPressed: () {
-                                              colorSearchController.clear();
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    decoratorProps: DropDownDecoratorProps(
-                                      decoration: InputDecoration(
-                                        labelText: l10n.color,
-                                        border: const OutlineInputBorder(),
-                                      ),
-                                    ),
-                                    onChanged: (val) {
-                                      if (val != null) {
-                                        setState(() {
-                                          selectedColor = val;
-
-                                          selectedFilamentColors = [];
-
-                                          final catalogColors =
-                                              FilamentCatalogService.getColors(
-                                                selectedBrand!,
-                                                selectedMaterial!,
-                                                selectedVariant!,
-                                              );
-
-                                          final selectedCatalogColor =
-                                              catalogColors
-                                                  .where(
-                                                    (catalogColor) =>
-                                                        catalogColor
-                                                            .split('|')
-                                                            .first
-                                                            .trim() ==
-                                                        val.trim(),
-                                                  )
-                                                  .toList();
-
-                                          if (selectedCatalogColor.isNotEmpty) {
-                                            final parts = selectedCatalogColor
-                                                .first
-                                                .split('|');
-
-                                            if (parts.length > 1) {
-                                              final hexParts = parts[1]
-                                                  .split('+')
-                                                  .map((hex) => hex.trim())
-                                                  .where(
-                                                    (hex) => hex.isNotEmpty,
-                                                  )
-                                                  .toList();
-
-                                              selectedFilamentColors = hexParts
-                                                  .map(
-                                                    (hex) => FilamentColor(
-                                                      name: val.trim(),
-                                                      hex: hex.startsWith('#')
-                                                          ? hex
-                                                          : '#$hex',
-                                                      isCustom: false,
-                                                    ),
-                                                  )
-                                                  .toList();
-                                            }
-                                          }
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ),
-
-                                buildAlignedAddButton(
-                                  onPressed: () async {
-                                    final controller = TextEditingController();
-
-                                    final pickedColors = <Color>[
-                                      selectedColorValue ?? Colors.blue,
-                                    ];
-
-                                    int activeColorIndex = 0;
-
-                                    final result = await showDialog<Map<String, dynamic>>(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(l10n.newColor),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              TextField(
-                                                controller: controller,
-                                                decoration: InputDecoration(
-                                                  hintText: l10n.colorName,
-                                                ),
+                                  final result = await showDialog<Map<String, dynamic>>(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(l10n.newColor),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            TextField(
+                                              controller: controller,
+                                              decoration: InputDecoration(
+                                                hintText: l10n.colorName,
                                               ),
-
-                                              const SizedBox(height: 16),
-
-                                              // 🎨 Farbauswahl
-                                              StatefulBuilder(
-                                                builder: (context, setStateDialog) {
-                                                  return Column(
-                                                    children: [
-                                                      Wrap(
-                                                        spacing: 8,
-                                                        runSpacing: 8,
-                                                        alignment: WrapAlignment
-                                                            .center,
-                                                        children: [
-                                                          ...List.generate(pickedColors.length, (
-                                                            index,
-                                                          ) {
-                                                            final isActive =
-                                                                index ==
-                                                                activeColorIndex;
-
-                                                            return GestureDetector(
-                                                              onTap: () {
-                                                                setStateDialog(() {
-                                                                  activeColorIndex =
-                                                                      index;
-                                                                  selectedColorValue =
-                                                                      pickedColors[index];
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                width: 34,
-                                                                height: 34,
-                                                                decoration: BoxDecoration(
-                                                                  color:
-                                                                      pickedColors[index],
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border.all(
-                                                                    color:
-                                                                        isActive
-                                                                        ? Colors
-                                                                              .white
-                                                                        : Colors
-                                                                              .grey,
-                                                                    width:
-                                                                        isActive
-                                                                        ? 3
-                                                                        : 1,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }),
-                                                          if (pickedColors
-                                                                  .length <
-                                                              4)
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                setStateDialog(() {
-                                                                  pickedColors
-                                                                      .add(
-                                                                        Colors
-                                                                            .blue,
-                                                                      );
-                                                                  activeColorIndex =
-                                                                      pickedColors
-                                                                          .length -
-                                                                      1;
-                                                                  selectedColorValue =
-                                                                      pickedColors[activeColorIndex];
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                width: 34,
-                                                                height: 34,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border.all(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Icon(
-                                                                      Icons.add,
-                                                                      size: 20,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                        ],
-                                                      ),
-
-                                                      const SizedBox(
-                                                        height: 16,
-                                                      ),
-
-                                                      ColorPicker(
-                                                        pickerColor:
-                                                            pickedColors[activeColorIndex],
-                                                        onColorChanged: (color) {
-                                                          setStateDialog(() {
-                                                            selectedColorValue =
-                                                                color;
-                                                            pickedColors[activeColorIndex] =
-                                                                color;
-                                                          });
-                                                        },
-                                                        enableAlpha: false,
-                                                        displayThumbColor: true,
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(l10n.cancel),
                                             ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context, {
-                                                  "name": controller.text
-                                                      .trim(),
-                                                  "color":
-                                                      pickedColors[activeColorIndex],
-                                                  "colors": pickedColors,
-                                                });
-                                              },
-                                              child: Text(l10n.save),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
 
-                                    if (result != null &&
-                                        selectedBrand != null &&
-                                        selectedMaterial != null &&
-                                        selectedVariant != null) {
-                                      final colorName = result["name"]
-                                          ?.toString();
-                                      final Color pickedColor =
-                                          result["color"] as Color;
-                                      final List<Color> pickedColorList =
-                                          List<Color>.from(
-                                            result["colors"] as List,
-                                          );
+                                            const SizedBox(height: 16),
 
-                                      final customHex = pickedColorList
-                                          .map(
-                                            (color) =>
-                                                '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
-                                          )
-                                          .join('+');
-
-                                      if (colorName != null &&
-                                          colorName.isNotEmpty) {
-                                        // 🔥 Farbe im Catalog hinzufügen
-                                        FilamentCatalogService.addCustomColor(
-                                          selectedBrand!,
-                                          selectedMaterial!,
-                                          selectedVariant!,
-                                          colorName,
-                                          customHex,
-                                        );
-
-                                        await CustomColorService.saveCustomColor(
-                                          name: colorName,
-                                          hex: customHex,
-                                        );
-
-                                        await FilamentCatalogService.saveCustomColors();
-
-                                        // 🔥 Danach UI aktualisieren
-                                        setState(() {
-                                          // 🔥 Farben neu laden
-                                          colors =
-                                              FilamentCatalogService.getColors(
-                                                selectedBrand!,
-                                                selectedMaterial!,
-                                                selectedVariant!,
-                                              );
-
-                                          // 🔥 preloadColorMap komplett neu aufbauen
-                                          preloadColorMap.clear();
-
-                                          for (var c in colors) {
-                                            final loadedColors =
-                                                FilamentCatalogService.getColorsFromHex(
-                                                  selectedBrand!,
-                                                  selectedMaterial!,
-                                                  selectedVariant!,
-                                                  c,
-                                                );
-
-                                            if (loadedColors.isNotEmpty) {
-                                              final splitColors = c
-                                                  .split('+')
-                                                  .map((e) => e.trim())
-                                                  .toList();
-
-                                              for (
-                                                int i = 0;
-                                                i < splitColors.length;
-                                                i++
-                                              ) {
-                                                final colorName =
-                                                    splitColors[i];
-
-                                                final key = buildColorKey(
-                                                  selectedBrand!,
-                                                  selectedMaterial!,
-                                                  selectedVariant!,
-                                                  colorName,
-                                                );
-
-                                                if (i < loadedColors.length) {
-                                                  preloadColorMap[key] =
-                                                      loadedColors[i];
-                                                } else {
-                                                  preloadColorMap[key] =
-                                                      Colors.grey;
-                                                }
-                                              }
-                                            } else {
-                                              preloadColorMap[c] = Colors.grey;
-                                            }
-                                          }
-
-                                          // 🔥 neue Farbe setzen
-                                          preloadColorMap[colorName] =
-                                              pickedColor;
-
-                                          selectedColor = colorName;
-                                          selectedColorValue = pickedColor;
-                                        });
-                                      }
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 24),
-
-                    Expanded(
-                      child: PrintSettingsSection(
-                        selectedDiameter: selectedDiameter,
-                        diameters: diameters,
-                        density: selectedDensity,
-                        nozzleTemp: nozzleTemp,
-                        bedTemp: bedTemp,
-                        onDiameterChanged: (value) {
-                          setState(() {
-                            selectedDiameter = value;
-                          });
-                        },
-                        onDensityChanged: (value) {
-                          setState(() {
-                            selectedDensity = value;
-                            densityManuallyEdited = true;
-                          });
-                        },
-                        onNozzleTempChanged: (value) {
-                          setState(() {
-                            nozzleTemp = value;
-                          });
-                        },
-                        onBedTempChanged: (value) {
-                          setState(() {
-                            bedTemp = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
-              ],
-              if (isMobile)
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white.withValues(alpha: 0.06)
-                          : Colors.black.withValues(alpha: 0.05),
-                    ),
-                    boxShadow: Theme.of(context).brightness == Brightness.dark
-                        ? null
-                        : [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.03),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.filament,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DropdownSearch<String>(
-                              items: (filter, infiniteScrollProps) => brands,
-                              selectedItem: selectedBrand,
-                              popupProps: PopupProps.menu(
-                                showSearchBox: true,
-                                searchFieldProps: TextFieldProps(
-                                  controller: brandSearchController,
-                                  decoration: InputDecoration(
-                                    hintText: l10n.searchManufacturer,
-                                    suffixIcon: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        brandSearchController.clear();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              decoratorProps: DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  hintText: l10n.manufacturer,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                if (value != null) {
-                                  selectBrand(value);
-                                }
-                              },
-                            ),
-                          ),
-                          buildAlignedAddButton(onPressed: _addBrandDialog),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DropdownSearch<String>(
-                              items: (filter, infiniteScrollProps) => materials,
-                              selectedItem: selectedMaterial,
-                              popupProps: PopupProps.menu(
-                                showSearchBox: true,
-                                searchFieldProps: TextFieldProps(
-                                  controller: materialSearchController,
-                                  decoration: InputDecoration(
-                                    hintText: l10n.searchMaterial,
-                                    suffixIcon: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        materialSearchController.clear();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              decoratorProps: DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  hintText: l10n.material,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                if (value != null) {
-                                  selectMaterial(value);
-                                }
-                              },
-                            ),
-                          ),
-
-                          buildAlignedAddButton(onPressed: _addMaterialDialog),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DropdownSearch<String>(
-                              items: (filter, infiniteScrollProps) => variants,
-                              selectedItem: selectedVariant,
-                              popupProps: PopupProps.menu(
-                                showSearchBox: true,
-                                searchFieldProps: TextFieldProps(
-                                  controller: variantSearchController,
-                                  decoration: InputDecoration(
-                                    hintText: l10n.searchVariant,
-                                    suffixIcon: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        variantSearchController.clear();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              decoratorProps: DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  hintText: l10n.variant,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                if (value != null) {
-                                  selectVariant(value);
-                                }
-                              },
-                            ),
-                          ),
-
-                          buildAlignedAddButton(
-                            onPressed: () async {
-                              final controller = TextEditingController();
-
-                              final result = await showDialog<String>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(l10n.newVariant),
-                                    content: TextField(
-                                      controller: controller,
-                                      decoration: InputDecoration(
-                                        hintText: l10n.variantName,
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(l10n.cancel),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                            context,
-                                            controller.text.trim(),
-                                          );
-                                        },
-                                        child: Text(l10n.save),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-
-                              if (result != null &&
-                                  result.isNotEmpty &&
-                                  selectedBrand != null &&
-                                  selectedMaterial != null) {
-                                setState(() {
-                                  variants.add(result);
-
-                                  FilamentCatalogService.addCustomVariant(
-                                    selectedBrand!,
-                                    selectedMaterial!,
-                                    result,
-                                  );
-
-                                  variants = variants.toSet().toList();
-
-                                  variants.sort();
-
-                                  selectedVariant = result;
-
-                                  // Dichte für die neue Variante prüfen.
-                                  updateDensityFromCatalog();
-                                });
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DropdownSearch<String>(
-                              items: (filter, infiniteScrollProps) => colors,
-                              selectedItem: colors.contains(selectedColor)
-                                  ? selectedColor
-                                  : null,
-
-                              dropdownBuilder: (context, item) {
-                                if (item == null) {
-                                  return const Text('');
-                                }
-                                return buildColorItem(item);
-                              },
-
-                              popupProps: PopupProps.menu(
-                                itemBuilder:
-                                    (context, item, isDisabled, isSelected) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 10,
-                                        ),
-                                        child: buildColorItem(item),
-                                      );
-                                    },
-
-                                showSearchBox: true,
-                                searchFieldProps: TextFieldProps(
-                                  controller: colorSearchController,
-                                  decoration: InputDecoration(
-                                    hintText: l10n.searchColor,
-                                    suffixIcon: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        colorSearchController.clear();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              decoratorProps: DropDownDecoratorProps(
-                                decoration: InputDecoration(
-                                  labelText: l10n.color,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              onChanged: (val) {
-                                if (val != null) {
-                                  setState(() {
-                                    selectedColor = val;
-
-                                    selectedFilamentColors = [];
-
-                                    final catalogColors =
-                                        FilamentCatalogService.getColors(
-                                          selectedBrand!,
-                                          selectedMaterial!,
-                                          selectedVariant!,
-                                        );
-
-                                    final selectedCatalogColor = catalogColors
-                                        .where(
-                                          (catalogColor) =>
-                                              catalogColor
-                                                  .split('|')
-                                                  .first
-                                                  .trim() ==
-                                              val.trim(),
-                                        )
-                                        .toList();
-
-                                    if (selectedCatalogColor.isNotEmpty) {
-                                      final parts = selectedCatalogColor.first
-                                          .split('|');
-
-                                      if (parts.length > 1) {
-                                        final hexParts = parts[1]
-                                            .split('+')
-                                            .map((hex) => hex.trim())
-                                            .where((hex) => hex.isNotEmpty)
-                                            .toList();
-
-                                        selectedFilamentColors = hexParts
-                                            .map(
-                                              (hex) => FilamentColor(
-                                                name: val.trim(),
-                                                hex: hex.startsWith('#')
-                                                    ? hex
-                                                    : '#$hex',
-                                                isCustom: false,
-                                              ),
-                                            )
-                                            .toList();
-                                      }
-                                    }
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-
-                          buildAlignedAddButton(
-                            onPressed: () async {
-                              final controller = TextEditingController();
-
-                              final pickedColors = <Color>[
-                                selectedColorValue ?? Colors.blue,
-                              ];
-
-                              int activeColorIndex = 0;
-
-                              final result = await showDialog<Map<String, dynamic>>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(l10n.newColor),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        TextField(
-                                          controller: controller,
-                                          decoration: InputDecoration(
-                                            hintText: l10n.colorName,
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 16),
-
-                                        // 🎨 Farbauswahl
-                                        StatefulBuilder(
-                                          builder: (context, setStateDialog) {
-                                            return Column(
-                                              children: [
-                                                Wrap(
-                                                  spacing: 8,
-                                                  runSpacing: 8,
-                                                  alignment:
-                                                      WrapAlignment.center,
+                                            // 🎨 Farbauswahl
+                                            StatefulBuilder(
+                                              builder: (context, setStateDialog) {
+                                                return Column(
                                                   children: [
-                                                    ...List.generate(
-                                                      pickedColors.length,
-                                                      (index) {
-                                                        final isActive =
-                                                            index ==
-                                                            activeColorIndex;
+                                                    Wrap(
+                                                      spacing: 8,
+                                                      runSpacing: 8,
+                                                      alignment:
+                                                          WrapAlignment.center,
+                                                      children: [
+                                                        ...List.generate(pickedColors.length, (
+                                                          index,
+                                                        ) {
+                                                          final isActive =
+                                                              index ==
+                                                              activeColorIndex;
 
-                                                        return GestureDetector(
-                                                          onTap: () {
-                                                            setStateDialog(() {
-                                                              activeColorIndex =
-                                                                  index;
-                                                              selectedColorValue =
-                                                                  pickedColors[index];
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            width: 34,
-                                                            height: 34,
-                                                            decoration: BoxDecoration(
-                                                              color:
-                                                                  pickedColors[index],
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              border: Border.all(
-                                                                color: isActive
-                                                                    ? Colors
-                                                                          .white
-                                                                    : Colors
-                                                                          .grey,
-                                                                width: isActive
-                                                                    ? 3
-                                                                    : 1,
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              setStateDialog(() {
+                                                                activeColorIndex =
+                                                                    index;
+                                                                selectedColorValue =
+                                                                    pickedColors[index];
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              width: 34,
+                                                              height: 34,
+                                                              decoration: BoxDecoration(
+                                                                color:
+                                                                    pickedColors[index],
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                border: Border.all(
+                                                                  color:
+                                                                      isActive
+                                                                      ? Colors
+                                                                            .white
+                                                                      : Colors
+                                                                            .grey,
+                                                                  width:
+                                                                      isActive
+                                                                      ? 3
+                                                                      : 1,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                    if (pickedColors.length < 4)
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          setStateDialog(() {
-                                                            pickedColors.add(
-                                                              Colors.blue,
-                                                            );
-                                                            activeColorIndex =
+                                                          );
+                                                        }),
+                                                        if (pickedColors
+                                                                .length <
+                                                            4)
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              setStateDialog(() {
                                                                 pickedColors
-                                                                    .length -
-                                                                1;
-                                                            selectedColorValue =
-                                                                pickedColors[activeColorIndex];
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          width: 34,
-                                                          height: 34,
-                                                          decoration:
-                                                              BoxDecoration(
+                                                                    .add(
+                                                                      Colors
+                                                                          .blue,
+                                                                    );
+                                                                activeColorIndex =
+                                                                    pickedColors
+                                                                        .length -
+                                                                    1;
+                                                                selectedColorValue =
+                                                                    pickedColors[activeColorIndex];
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              width: 34,
+                                                              height: 34,
+                                                              decoration: BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
                                                                 border: Border.all(
@@ -1659,219 +1762,231 @@ class _AddFilamentPageState extends State<AddFilamentPage> {
                                                                       .grey,
                                                                 ),
                                                               ),
-                                                          child: const Icon(
-                                                            Icons.add,
-                                                            size: 20,
+                                                              child: const Icon(
+                                                                Icons.add,
+                                                                size: 20,
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
+                                                      ],
+                                                    ),
+
+                                                    const SizedBox(height: 16),
+
+                                                    ColorPicker(
+                                                      pickerColor:
+                                                          pickedColors[activeColorIndex],
+                                                      onColorChanged: (color) {
+                                                        setStateDialog(() {
+                                                          selectedColorValue =
+                                                              color;
+                                                          pickedColors[activeColorIndex] =
+                                                              color;
+                                                        });
+                                                      },
+                                                      enableAlpha: false,
+                                                      displayThumbColor: true,
+                                                    ),
                                                   ],
-                                                ),
-
-                                                const SizedBox(height: 16),
-
-                                                ColorPicker(
-                                                  pickerColor:
-                                                      pickedColors[activeColorIndex],
-                                                  onColorChanged: (color) {
-                                                    setStateDialog(() {
-                                                      selectedColorValue =
-                                                          color;
-                                                      pickedColors[activeColorIndex] =
-                                                          color;
-                                                    });
-                                                  },
-                                                  enableAlpha: false,
-                                                  displayThumbColor: true,
-                                                ),
-                                              ],
-                                            );
-                                          },
+                                                );
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(l10n.cancel),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, {
-                                            "name": controller.text.trim(),
-                                            "color":
-                                                pickedColors[activeColorIndex],
-                                            "colors": pickedColors,
-                                          });
-                                        },
-                                        child: Text(l10n.save),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-
-                              if (result != null &&
-                                  selectedBrand != null &&
-                                  selectedMaterial != null &&
-                                  selectedVariant != null) {
-                                final colorName = result["name"]?.toString();
-                                final Color pickedColor =
-                                    result["color"] as Color;
-                                final List<Color> pickedColorList =
-                                    List<Color>.from(result["colors"] as List);
-
-                                final customHex = pickedColorList
-                                    .map(
-                                      (color) =>
-                                          '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
-                                    )
-                                    .join('+');
-
-                                if (colorName != null && colorName.isNotEmpty) {
-                                  // 🔥 Farbe im Catalog hinzufügen
-                                  FilamentCatalogService.addCustomColor(
-                                    selectedBrand!,
-                                    selectedMaterial!,
-                                    selectedVariant!,
-                                    colorName,
-                                    customHex,
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(l10n.cancel),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, {
+                                                "name": controller.text.trim(),
+                                                "color":
+                                                    pickedColors[activeColorIndex],
+                                                "colors": pickedColors,
+                                              });
+                                            },
+                                            child: Text(l10n.save),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   );
 
-                                  await CustomColorService.saveCustomColor(
-                                    name: colorName,
-                                    hex: customHex,
-                                  );
+                                  if (result != null &&
+                                      selectedBrand != null &&
+                                      selectedMaterial != null &&
+                                      selectedVariant != null) {
+                                    final colorName = result["name"]
+                                        ?.toString();
+                                    final Color pickedColor =
+                                        result["color"] as Color;
+                                    final List<Color> pickedColorList =
+                                        List<Color>.from(
+                                          result["colors"] as List,
+                                        );
 
-                                  await FilamentCatalogService.saveCustomColors();
+                                    final customHex = pickedColorList
+                                        .map(
+                                          (color) =>
+                                              '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
+                                        )
+                                        .join('+');
 
-                                  // 🔥 Danach UI aktualisieren
-                                  setState(() {
-                                    // 🔥 Farben neu laden
-                                    colors = FilamentCatalogService.getColors(
-                                      selectedBrand!,
-                                      selectedMaterial!,
-                                      selectedVariant!,
-                                    );
+                                    if (colorName != null &&
+                                        colorName.isNotEmpty) {
+                                      // 🔥 Farbe im Catalog hinzufügen
+                                      FilamentCatalogService.addCustomColor(
+                                        selectedBrand!,
+                                        selectedMaterial!,
+                                        selectedVariant!,
+                                        colorName,
+                                        customHex,
+                                      );
 
-                                    // 🔥 preloadColorMap komplett neu aufbauen
-                                    preloadColorMap.clear();
+                                      await CustomColorService.saveCustomColor(
+                                        name: colorName,
+                                        hex: customHex,
+                                      );
 
-                                    for (var c in colors) {
-                                      final loadedColors =
-                                          FilamentCatalogService.getColorsFromHex(
-                                            selectedBrand!,
-                                            selectedMaterial!,
-                                            selectedVariant!,
-                                            c,
-                                          );
+                                      await FilamentCatalogService.saveCustomColors();
 
-                                      if (loadedColors.isNotEmpty) {
-                                        final splitColors = c
-                                            .split('+')
-                                            .map((e) => e.trim())
-                                            .toList();
+                                      // 🔥 Danach UI aktualisieren
+                                      setState(() {
+                                        // 🔥 Farben neu laden
+                                        colors =
+                                            FilamentCatalogService.getColors(
+                                              selectedBrand!,
+                                              selectedMaterial!,
+                                              selectedVariant!,
+                                            );
 
-                                        for (
-                                          int i = 0;
-                                          i < splitColors.length;
-                                          i++
-                                        ) {
-                                          final colorName = splitColors[i];
+                                        // 🔥 preloadColorMap komplett neu aufbauen
+                                        preloadColorMap.clear();
 
-                                          final key = buildColorKey(
-                                            selectedBrand!,
-                                            selectedMaterial!,
-                                            selectedVariant!,
-                                            colorName,
-                                          );
+                                        for (var c in colors) {
+                                          final loadedColors =
+                                              FilamentCatalogService.getColorsFromHex(
+                                                selectedBrand!,
+                                                selectedMaterial!,
+                                                selectedVariant!,
+                                                c,
+                                              );
 
-                                          if (i < loadedColors.length) {
-                                            preloadColorMap[key] =
-                                                loadedColors[i];
+                                          if (loadedColors.isNotEmpty) {
+                                            final splitColors = c
+                                                .split('+')
+                                                .map((e) => e.trim())
+                                                .toList();
+
+                                            for (
+                                              int i = 0;
+                                              i < splitColors.length;
+                                              i++
+                                            ) {
+                                              final colorName = splitColors[i];
+
+                                              final key = buildColorKey(
+                                                selectedBrand!,
+                                                selectedMaterial!,
+                                                selectedVariant!,
+                                                colorName,
+                                              );
+
+                                              if (i < loadedColors.length) {
+                                                preloadColorMap[key] =
+                                                    loadedColors[i];
+                                              } else {
+                                                preloadColorMap[key] =
+                                                    Colors.grey;
+                                              }
+                                            }
                                           } else {
-                                            preloadColorMap[key] = Colors.grey;
+                                            preloadColorMap[c] = Colors.grey;
                                           }
                                         }
-                                      } else {
-                                        preloadColorMap[c] = Colors.grey;
-                                      }
+
+                                        // 🔥 neue Farbe setzen
+                                        preloadColorMap[colorName] =
+                                            pickedColor;
+
+                                        selectedColor = colorName;
+                                        selectedColorValue = pickedColor;
+                                      });
                                     }
-
-                                    // 🔥 neue Farbe setzen
-                                    preloadColorMap[colorName] = pickedColor;
-
-                                    selectedColor = colorName;
-                                    selectedColorValue = pickedColor;
-                                  });
-                                }
-                              }
-                            },
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
+
+                  const SizedBox(height: 24),
+
+                  if (isMobile) ...[
+                    const SizedBox(height: 24),
+
+                    PrintSettingsSection(
+                      selectedDiameter: selectedDiameter,
+                      diameters: diameters,
+                      density: selectedDensity,
+                      nozzleTemp: nozzleTemp,
+                      bedTemp: bedTemp,
+                      onDiameterChanged: (value) {
+                        setState(() {
+                          selectedDiameter = value;
+                        });
+                      },
+                      onDensityChanged: (value) {
+                        setState(() {
+                          selectedDensity = value;
+                          densityManuallyEdited = true;
+                        });
+                      },
+                      onNozzleTempChanged: (value) {
+                        setState(() {
+                          nozzleTemp = value;
+                        });
+                      },
+                      onBedTempChanged: (value) {
+                        setState(() {
+                          bedTemp = value;
+                        });
+                      },
+                    ),
+
+                    const SizedBox(height: 24),
+                  ],
+
+                  InventoryCostSection(
+                    selectedSpoolWeight: selectedSpoolWeight,
+                    totalWeightController: totalWeightController,
+                    remainingWeightController: remainingWeightController,
+                    priceController: priceController,
+                    storageLocationController: storageLocationController,
+                    storagePositionController: storagePositionController,
+
+                    onSpoolWeightChanged: (value) {
+                      setState(() {
+                        selectedSpoolWeight = value;
+                      });
+                    },
+
+                    onAdditionalSpoolsChanged: (values) {
+                      additionalSpools = values;
+                    },
+                    onSave: saveFilament,
                   ),
-                ),
 
-              const SizedBox(height: 24),
-
-              if (isMobile) ...[
-                const SizedBox(height: 24),
-
-                PrintSettingsSection(
-                  selectedDiameter: selectedDiameter,
-                  diameters: diameters,
-                  density: selectedDensity,
-                  nozzleTemp: nozzleTemp,
-                  bedTemp: bedTemp,
-                  onDiameterChanged: (value) {
-                    setState(() {
-                      selectedDiameter = value;
-                    });
-                  },
-                  onDensityChanged: (value) {
-                    setState(() {
-                      selectedDensity = value;
-                      densityManuallyEdited = true;
-                    });
-                  },
-                  onNozzleTempChanged: (value) {
-                    setState(() {
-                      nozzleTemp = value;
-                    });
-                  },
-                  onBedTempChanged: (value) {
-                    setState(() {
-                      bedTemp = value;
-                    });
-                  },
-                ),
-
-                const SizedBox(height: 24),
-              ],
-
-              InventoryCostSection(
-                selectedSpoolWeight: selectedSpoolWeight,
-                totalWeightController: totalWeightController,
-                remainingWeightController: remainingWeightController,
-                priceController: priceController,
-                storageLocationController: storageLocationController,
-                storagePositionController: storagePositionController,
-
-                onSpoolWeightChanged: (value) {
-                  setState(() {
-                    selectedSpoolWeight = value;
-                  });
-                },
-
-                onSave: saveFilament,
+                  const SizedBox(height: 24),
+                ],
               ),
-
-              const SizedBox(height: 24),
-            ],
+            ),
           ),
         ],
       ),

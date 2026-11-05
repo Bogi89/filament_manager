@@ -36,6 +36,7 @@ class _CostPageState extends State<CostPage> {
   }
 
   Filament? selectedFilament;
+  String? selectedSpoolId;
   Printer? selectedPrinter;
 
   final projectController = TextEditingController();
@@ -141,6 +142,120 @@ class _CostPageState extends State<CostPage> {
     super.dispose();
   }
 
+  Future<void> _selectFilament(Filament filament) async {
+    setState(() {
+      selectedFilament = filament;
+      selectedSpoolId = filament.spools.length == 1
+          ? filament.spools.first.id
+          : null;
+      _calculationIsCurrent = false;
+      extendedResult = null;
+    });
+    _updateSelectedSpoolFields();
+    if (filament.spools.length > 1) {
+      await _chooseSpool();
+    }
+  }
+
+  void _updateSelectedSpoolFields() {
+    final filament = selectedFilament;
+    if (filament == null) return;
+    final matches = filament.spools.where((s) => s.id == selectedSpoolId);
+    if (matches.isEmpty) {
+      spoolWeightController.clear();
+      spoolPriceController.clear();
+      return;
+    }
+    final spool = matches.first;
+    // The calculation uses the purchased spool's nominal weight, not the
+    // remaining weight. The existing model only stores remaining weight;
+    // preserve the existing calculation convention for now.
+    spoolWeightController.text = spool.weight.toStringAsFixed(0);
+    spoolPriceController.text = spool
+        .effectivePrice(filament.price)
+        .toStringAsFixed(2);
+  }
+
+  Future<void> _chooseSpool() async {
+    final filament = selectedFilament;
+    if (filament == null || filament.spools.isEmpty) return;
+    if (filament.spools.length == 1) {
+      setState(() => selectedSpoolId = filament.spools.first.id);
+      _updateSelectedSpoolFields();
+      return;
+    }
+    final chosen = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(AppLocalizations.of(dialogContext)!.selectSpool),
+        content: SizedBox(
+          width: 440,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: filament.spools.length,
+            itemBuilder: (context, index) {
+              final spool = filament.spools[index];
+              final location = [
+                spool.storageLocation,
+                spool.storagePosition,
+              ].where((value) => value.trim().isNotEmpty).join(' / ');
+              return ListTile(
+                leading: Icon(
+                  selectedSpoolId == spool.id
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_unchecked,
+                ),
+                title: Text(
+                  '${AppLocalizations.of(dialogContext)!.spoolNumber(index + 1)} – '
+                  '${spool.weight.toStringAsFixed(0)} g',
+                ),
+                subtitle: Text(
+                  location.isEmpty
+                      ? '${spool.effectivePrice(filament.price).toStringAsFixed(2)} €'
+                      : '$location · ${spool.effectivePrice(filament.price).toStringAsFixed(2)} €',
+                ),
+                onTap: () => Navigator.of(dialogContext).pop(spool.id),
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(AppLocalizations.of(dialogContext)!.cancel),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || selectedFilament != filament || chosen == null) return;
+    setState(() {
+      selectedSpoolId = chosen;
+      _calculationIsCurrent = false;
+      extendedResult = null;
+    });
+    _updateSelectedSpoolFields();
+  }
+
+  Widget _spoolSelectionControl() {
+    final filament = selectedFilament;
+    if (filament == null || filament.spools.length <= 1) {
+      return const SizedBox.shrink();
+    }
+    final index = filament.spools.indexWhere((s) => s.id == selectedSpoolId);
+    final label = index < 0
+        ? AppLocalizations.of(context)!.selectSpoolRequired
+        : '${AppLocalizations.of(context)!.spoolNumber(index + 1)} – '
+              '${filament.spools[index].weight.toStringAsFixed(0)} g';
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: OutlinedButton.icon(
+        onPressed: _chooseSpool,
+        icon: const Icon(Icons.inventory_2_outlined),
+        label: Text(label),
+      ),
+    );
+  }
+
   void calculate() {
     if (selectedFilament == null) return;
 
@@ -240,6 +355,12 @@ class _CostPageState extends State<CostPage> {
     final l10n = AppLocalizations.of(context)!;
 
     if (selectedFilament == null) return;
+    if (subtractFromStock && selectedSpoolId == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.chooseSpoolFirst)));
+      return;
+    }
 
     final usedWeight =
         double.tryParse(objectWeightController.text.replaceAll(',', '.')) ?? 0;
@@ -281,6 +402,9 @@ class _CostPageState extends State<CostPage> {
       variant: selectedFilament!.variant,
       color: selectedFilament!.effectiveColors.first,
       weightUsed: usedWeight,
+      spoolUsage: subtractFromStock && selectedSpoolId != null
+          ? {selectedSpoolId!: usedWeight}
+          : <String, double>{},
       printMinutes: minutes,
       colors: selectedFilament!.effectiveColors,
       colorNames: selectedFilament!.effectiveColorNames,
@@ -694,19 +818,10 @@ class _CostPageState extends State<CostPage> {
                       onChanged: (val) {
                         if (val == null) return;
 
-                        setState(() {
-                          selectedFilament = val;
-                          _calculationIsCurrent = false;
-                        });
-
-                        spoolWeightController.text = val.remainingWeight
-                            .toStringAsFixed(0);
-
-                        spoolPriceController.text = val.price.toStringAsFixed(
-                          2,
-                        );
+                        _selectFilament(val);
                       },
                     ),
+                    _spoolSelectionControl(),
 
                     const SizedBox(height: 10),
 
@@ -950,18 +1065,10 @@ class _CostPageState extends State<CostPage> {
                             onChanged: (val) {
                               if (val == null) return;
 
-                              setState(() {
-                                selectedFilament = val;
-                                _calculationIsCurrent = false;
-                              });
-
-                              spoolWeightController.text = val.remainingWeight
-                                  .toStringAsFixed(0);
-
-                              spoolPriceController.text = val.price
-                                  .toStringAsFixed(2);
+                              _selectFilament(val);
                             },
                           ),
+                          _spoolSelectionControl(),
 
                           const SizedBox(height: 10),
 

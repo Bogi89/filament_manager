@@ -715,5 +715,11 @@
   "v12DeleteJobNoRefund": "Für diesen Druckauftrag ist keine sichere Rückbuchung möglich. Du kannst ihn ohne Bestandsänderung löschen.",
   "v12DeleteWithoutRefund": "Nur löschen",
   "v12DeleteAndRefund": "Löschen & zurückbuchen",
-  "v12StockRefundUnavailable": "Rückbuchung nicht möglich. Der Druckauftrag wurde nicht gelöscht."
+  "v12StockRefundUnavailable": "Rückbuchung nicht möglich. Der Druckauftrag wurde nicht gelöscht.",
+  "selectSpool": "Spule auswählen",
+  "selectSpoolRequired": "Spule auswählen (erforderlich)",
+  "chooseSpoolFirst": "Bitte zuerst eine Spule auswählen.",
+  "checkAllSpoolDetails": "Bitte die Angaben aller Spulen prüfen.",
+  "overallRemainingSpoolWeight": "Gesamtes Restgewicht",
+  "overallSpoolPurchasePrice": "Gesamter Kaufpreis"
 }

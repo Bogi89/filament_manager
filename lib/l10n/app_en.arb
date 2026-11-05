@@ -715,5 +715,11 @@
   "v12DeleteJobNoRefund": "A safe stock refund is unavailable for this print job. You can delete it without changing inventory.",
   "v12DeleteWithoutRefund": "Delete only",
   "v12DeleteAndRefund": "Delete & refund stock",
-  "v12StockRefundUnavailable": "Unable to refund stock. The print job was not deleted."
+  "v12StockRefundUnavailable": "Unable to refund stock. The print job was not deleted.",
+  "selectSpool": "Select spool",
+  "selectSpoolRequired": "Select spool (required)",
+  "chooseSpoolFirst": "Please select a spool first.",
+  "checkAllSpoolDetails": "Please check the details of all spools.",
+  "overallRemainingSpoolWeight": "Total remaining weight",
+  "overallSpoolPurchasePrice": "Total purchase price"
 }
