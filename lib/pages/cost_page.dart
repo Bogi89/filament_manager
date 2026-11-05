@@ -107,6 +107,40 @@ class _CostPageState extends State<CostPage> {
   /// 📅 NEU — Datum
   DateTime selectedDate = DateTime.now();
 
+  double _readNumber(TextEditingController controller) =>
+      double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
+
+  bool _calculationIsCurrent = false;
+
+  void _invalidateCalculation() {
+    if (!mounted) return;
+    setState(() {
+      _calculationIsCurrent = false;
+      extendedResult = null;
+      filamentCost = 0;
+      electricityCost = 0;
+      totalCost = 0;
+    });
+  }
+
+  @override
+  void dispose() {
+    for (final controller in [
+      projectController,
+      wattController,
+      objectWeightController,
+      printTimeController,
+      spoolWeightController,
+      spoolPriceController,
+      electricityPriceController,
+      newPrinterNameController,
+      newPrinterWattController,
+    ]) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   void calculate() {
     if (selectedFilament == null) return;
 
@@ -128,7 +162,21 @@ class _CostPageState extends State<CostPage> {
         double.tryParse(electricityPriceController.text.replaceAll(',', '.')) ??
         0;
 
-    if (spoolWeight == 0) return;
+    if (spoolWeight <= 0 ||
+        !spoolWeight.isFinite ||
+        !spoolPrice.isFinite ||
+        spoolPrice < 0 ||
+        !objectWeight.isFinite ||
+        objectWeight < 0 ||
+        !printTime.isFinite ||
+        printTime < 0 ||
+        !watt.isFinite ||
+        watt < 0 ||
+        !electricityPrice.isFinite ||
+        electricityPrice < 0) {
+      _invalidateCalculation();
+      return;
+    }
 
     filamentCost = (spoolPrice / spoolWeight) * objectWeight;
 
@@ -148,11 +196,13 @@ class _CostPageState extends State<CostPage> {
       setState(() {
         extendedResult = result;
         totalCost = result.productionCost;
+        _calculationIsCurrent = true;
       });
     } on ArgumentError {
       setState(() {
         extendedResult = null;
         totalCost = 0;
+        _calculationIsCurrent = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -197,14 +247,18 @@ class _CostPageState extends State<CostPage> {
     final minutes =
         double.tryParse(printTimeController.text.replaceAll(',', '.')) ?? 0;
 
-    if (usedWeight == 0 || totalCost == 0) return;
+    // Always recalculate using the latest field values before persisting.
+    calculate();
+    if (!_calculationIsCurrent || usedWeight <= 0 || !totalCost.isFinite) {
+      return;
+    }
 
     final result = extendedResult;
     final breakdown = <String, double>{
       'filamentCost': filamentCost,
       'electricityCost': electricityCost,
     };
-    if (extendedCosts.enabled && result != null) {
+    if (result != null) {
       for (final entry in result.additionalCosts.entries) {
         breakdown[entry.key.name] = entry.value;
       }
@@ -233,6 +287,12 @@ class _CostPageState extends State<CostPage> {
       totalCost: totalCost,
       extendedCosts: extendedCosts,
       costBreakdown: breakdown,
+      calculationInputs: {
+        'spoolWeightGrams': _readNumber(spoolWeightController),
+        'spoolPrice': _readNumber(spoolPriceController),
+        'printerWatt': _readNumber(wattController),
+        'electricityPricePerKwh': _readNumber(electricityPriceController),
+      },
       sellingPrice:
           extendedCosts.enabled &&
               result != null &&
@@ -498,6 +558,7 @@ class _CostPageState extends State<CostPage> {
       child: TextField(
         controller: controller,
         keyboardType: TextInputType.number,
+        onChanged: (_) => _invalidateCalculation(),
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
@@ -635,6 +696,7 @@ class _CostPageState extends State<CostPage> {
 
                         setState(() {
                           selectedFilament = val;
+                          _calculationIsCurrent = false;
                         });
 
                         spoolWeightController.text = val.remainingWeight
@@ -665,6 +727,7 @@ class _CostPageState extends State<CostPage> {
 
                         setState(() {
                           selectedPrinter = printer;
+                          _calculationIsCurrent = false;
                         });
 
                         wattController.text = printer.averageWatt
@@ -889,6 +952,7 @@ class _CostPageState extends State<CostPage> {
 
                               setState(() {
                                 selectedFilament = val;
+                                _calculationIsCurrent = false;
                               });
 
                               spoolWeightController.text = val.remainingWeight
@@ -1074,6 +1138,7 @@ class _CostPageState extends State<CostPage> {
 
                               setState(() {
                                 selectedPrinter = printer;
+                                _calculationIsCurrent = false;
                               });
 
                               wattController.text = printer.averageWatt

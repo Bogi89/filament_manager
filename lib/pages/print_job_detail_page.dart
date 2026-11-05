@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/print_job.dart';
+import '../services/print_job_cost_recalculator.dart';
 import '../utils/print_duration_formatter.dart';
 import '../widgets/common/page_header.dart';
 import '../widgets/common/filament_color_circle.dart';
@@ -348,6 +349,11 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
         ),
         const SizedBox(height: 8),
         for (final key in _productionKeys) _costRow(key),
+        if ((job.costBreakdown['manualAdjustment'] ?? 0).abs() > 0.000001)
+          _row(
+            AppLocalizations.of(context)!.v12Costs,
+            _money(job.costBreakdown['manualAdjustment']!),
+          ),
         const SizedBox(height: 12),
         _totalHighlight(
           AppLocalizations.of(context)!.v12TotalProductionCost,
@@ -450,9 +456,43 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
       text: job.totalCost.toStringAsFixed(2),
     );
     DateTime selectedDate = job.date;
+    bool manuallyEdited = false;
+    bool canAutoCalculate = false;
+    void refreshPrice() {
+      final weight = double.tryParse(
+        weightController.text.replaceAll(',', '.'),
+      );
+      final minutes = double.tryParse(timeController.text.replaceAll(',', '.'));
+      if (weight == null ||
+          minutes == null ||
+          !weight.isFinite ||
+          !minutes.isFinite ||
+          weight < 0 ||
+          minutes < 0) {
+        return;
+      }
+      try {
+        final computed = PrintJobCostRecalculator.recalculate(
+          job,
+          weight: weight,
+          minutes: minutes,
+        );
+        canAutoCalculate = computed != null;
+        if (computed != null) {
+          costController.text = computed.totalCost.toStringAsFixed(2);
+          manuallyEdited = false;
+        }
+      } on ArgumentError {
+        canAutoCalculate = false;
+      }
+    }
+
+    refreshPrice();
 
     try {
-      final updatedJob = await showDialog<PrintJob>(
+      // A popped dialog remains mounted during its exit animation.
+      // Wait for the route to finish before disposing its text controllers.
+      final dialogRoute = DialogRoute<PrintJob>(
         context: context,
         builder: (dialogContext) => StatefulBuilder(
           builder: (dialogContext, setDialogState) => AlertDialog(
@@ -470,6 +510,7 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: weightController,
+                    onChanged: (_) => refreshPrice(),
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
@@ -480,6 +521,7 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: timeController,
+                    onChanged: (_) => refreshPrice(),
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
@@ -490,6 +532,7 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: costController,
+                    onChanged: (_) => manuallyEdited = true,
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
@@ -545,12 +588,25 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
                       cost < 0) {
                     return;
                   }
+                  PrintJob? recalculated;
+                  try {
+                    recalculated = PrintJobCostRecalculator.recalculate(
+                      job,
+                      weight: weight,
+                      minutes: minutes,
+                      manualTotal: manuallyEdited || !canAutoCalculate
+                          ? cost
+                          : null,
+                    );
+                  } on ArgumentError {
+                    return;
+                  }
+                  if (recalculated == null) {
+                    return;
+                  }
                   Navigator.of(dialogContext).pop(
-                    job.copyWith(
+                    recalculated.copyWith(
                       projectName: projectController.text.trim(),
-                      weightUsed: weight,
-                      printMinutes: minutes,
-                      totalCost: cost,
                       date: selectedDate,
                     ),
                   );
@@ -561,6 +617,11 @@ class _PrintJobDetailPageState extends State<PrintJobDetailPage> {
           ),
         ),
       );
+      final updatedJob = await Navigator.of(
+        context,
+        rootNavigator: true,
+      ).push<PrintJob>(dialogRoute);
+      await dialogRoute.completed;
       if (updatedJob == null || !mounted) {
         return;
       }
