@@ -588,6 +588,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatsNew => 'What\'s New';
 
   @override
+  String get version12 => 'Version 1.2';
+
+  @override
+  String get version12Description => 'New features and improvements';
+
+  @override
+  String get whatsNewVersion120 => 'Version 1.2.0';
+
+  @override
+  String get whatsNewVersion120Content => '• Filament density is automatically loaded from the catalog and can be adjusted manually\n• Enhanced print cost calculator with additional cost options\n• Add multiple spools with individual weights and prices when creating a filament\n• Select a specific spool for print jobs when multiple spools are available\n• Filament and spool counts are displayed separately\n• Improved color display in the print cost calculator\n• Technical optimizations and improved Android compatibility';
+
+  @override
   String get version11 => 'Version 1.1';
 
   @override

@@ -1229,6 +1229,30 @@ abstract class AppLocalizations {
   /// **'What\'s New'**
   String get whatsNew;
 
+  /// No description provided for @version12.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.2'**
+  String get version12;
+
+  /// No description provided for @version12Description.
+  ///
+  /// In en, this message translates to:
+  /// **'New features and improvements'**
+  String get version12Description;
+
+  /// No description provided for @whatsNewVersion120.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.2.0'**
+  String get whatsNewVersion120;
+
+  /// No description provided for @whatsNewVersion120Content.
+  ///
+  /// In en, this message translates to:
+  /// **'• Filament density is automatically loaded from the catalog and can be adjusted manually\n• Enhanced print cost calculator with additional cost options\n• Add multiple spools with individual weights and prices when creating a filament\n• Select a specific spool for print jobs when multiple spools are available\n• Filament and spool counts are displayed separately\n• Improved color display in the print cost calculator\n• Technical optimizations and improved Android compatibility'**
+  String get whatsNewVersion120Content;
+
   /// No description provided for @version11.
   ///
   /// In en, this message translates to:

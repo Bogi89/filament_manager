@@ -588,6 +588,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get whatsNew => 'Was ist neu';
 
   @override
+  String get version12 => 'Version 1.2';
+
+  @override
+  String get version12Description => 'Neue Funktionen und Verbesserungen';
+
+  @override
+  String get whatsNewVersion120 => 'Version 1.2.0';
+
+  @override
+  String get whatsNewVersion120Content => '• Materialdichte wird automatisch aus dem Filamentkatalog übernommen und kann manuell angepasst werden\n• Erweiterter Druckkostenrechner mit zusätzlichen Kostenpositionen\n• Mehrere Spulen mit individuellen Gewichten und Preisen direkt beim Hinzufügen eines Filaments anlegen\n• Gezielte Spulenauswahl bei Druckaufträgen mit mehreren Spulen\n• Filament- und Spulenanzahl werden getrennt angezeigt\n• Verbesserte Farbdarstellung im Druckkostenrechner\n• Technische Optimierungen und Verbesserungen der Android-Kompatibilität';
+
+  @override
   String get version11 => 'Version 1.1';
 
   @override

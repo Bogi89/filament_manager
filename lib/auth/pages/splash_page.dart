@@ -1,7 +1,36 @@
-import 'package:flutter/material.dart';
 
-class SplashPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  String? _version;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+
+      if (!mounted) return;
+
+      setState(() {
+        _version = packageInfo.version;
+      });
+    } catch (error) {
+      debugPrint('SplashPage: App-Version konnte nicht geladen werden: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +74,18 @@ class SplashPage extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                Text(
-                  'Version 1.0.0',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                  ),
+                SizedBox(
+                  height: 24,
+                  child: _version == null
+                      ? const SizedBox.shrink()
+                      : Text(
+                          'Version $_version',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.6,
+                            ),
+                          ),
+                        ),
                 ),
 
                 const SizedBox(height: 40),

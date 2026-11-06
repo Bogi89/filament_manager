@@ -61,6 +61,7 @@ dependencies:
   in_app_purchase_android: ^0.5.3
   crypto: ^3.0.7
   google_sign_in_android: 7.2.10
+  package_info_plus: ^9.0.1
 
 dev_dependencies:
   flutter_test:
